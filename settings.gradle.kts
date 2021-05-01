@@ -6,12 +6,10 @@ pluginManagement {
         mavenCentral()
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
-    
 }
-rootProject.name = "mastodon-client"
 
+rootProject.name = "mastodon-client"
 
 include(":android")
 include(":desktop")
 include(":common")
-

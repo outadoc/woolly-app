@@ -4,7 +4,6 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version "0.3.1"
     id("com.android.library")
-    id("kotlin-android-extensions")
 }
 
 group = "fr.outadoc.mastodonk"
@@ -16,11 +15,13 @@ repositories {
 
 kotlin {
     android()
+
     jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
     }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -29,6 +30,7 @@ kotlin {
                 api(compose.material)
             }
         }
+
         val commonTest by getting
         val androidMain by getting {
             dependencies {
@@ -36,11 +38,13 @@ kotlin {
                 api("androidx.core:core-ktx:1.3.1")
             }
         }
+
         val androidTest by getting {
             dependencies {
                 implementation("junit:junit:4.13")
             }
         }
+
         val desktopMain by getting
         val desktopTest by getting
     }

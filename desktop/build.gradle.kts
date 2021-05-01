@@ -15,6 +15,7 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
+
     sourceSets {
         val jvmMain by getting {
             dependencies {
@@ -22,6 +23,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
             }
         }
+
         val jvmTest by getting
     }
 }

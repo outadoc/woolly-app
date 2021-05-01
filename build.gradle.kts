@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
         google()
         mavenCentral()
     }
@@ -17,8 +16,8 @@ version = "0.1-alpha01"
 
 allprojects {
     repositories {
-        jcenter()
         mavenCentral()
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        maven { url = uri("https://nexus.outadoc.fr/repository/public") }
     }
 }

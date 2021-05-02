@@ -23,13 +23,6 @@ kotlin {
     }
 
     sourceSets {
-        val jvmMain by creating {
-            dependencies {
-                implementation(libs.mastodonk.paging)
-            }
-        }
-        val jvmTest by creating
-
         val commonMain by getting {
             dependencies {
                 api(compose.runtime)
@@ -41,6 +34,16 @@ kotlin {
         }
         val commonTest by getting
 
+        val jvmMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.mastodonk.paging)
+            }
+        }
+        val jvmTest by creating {
+            dependsOn(commonTest)
+        }
+
         val androidMain by getting {
             dependsOn(jvmMain)
             dependencies {
@@ -49,6 +52,7 @@ kotlin {
             }
         }
         val androidTest by getting {
+            dependsOn(jvmTest)
             dependencies {
                 implementation(libs.junit)
             }
@@ -57,7 +61,9 @@ kotlin {
         val desktopMain by getting {
             dependsOn(jvmMain)
         }
-        val desktopTest by getting
+        val desktopTest by getting {
+            dependsOn(jvmTest)
+        }
     }
 }
 

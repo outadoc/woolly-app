@@ -9,10 +9,6 @@ plugins {
 group = "fr.outadoc.mastodonk"
 version = "0.1-alpha01"
 
-repositories {
-    google()
-}
-
 kotlin {
     android()
 
@@ -30,18 +26,20 @@ kotlin {
                 api(compose.material)
 
                 implementation(libs.mastodonk.core)
+                implementation(libs.mastodonk.paging)
+                implementation(libs.androidx.paging.compose)
             }
         }
         val commonTest by getting
 
         val jvmMain by creating {
             dependsOn(commonMain)
-            dependencies {
-                implementation(libs.mastodonk.paging)
-            }
         }
         val jvmTest by creating {
             dependsOn(commonTest)
+            dependencies {
+                implementation(libs.junit)
+            }
         }
 
         val androidMain by getting {
@@ -53,9 +51,6 @@ kotlin {
         }
         val androidTest by getting {
             dependsOn(jvmTest)
-            dependencies {
-                implementation(libs.junit)
-            }
         }
 
         val desktopMain by getting {

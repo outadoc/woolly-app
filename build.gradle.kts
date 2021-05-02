@@ -1,3 +1,9 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
+
+plugins {
+    id("com.diffplug.spotless") version "5.12.4"
+}
+
 buildscript {
     repositories {
         gradlePluginPortal()
@@ -19,5 +25,20 @@ allprojects {
         mavenCentral()
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
         maven { url = uri("https://nexus.outadoc.fr/repository/public") }
+    }
+}
+
+configure<SpotlessExtension> {
+    format("misc") {
+        target(
+            "**/*.kt",
+            "**/*.kts",
+            "**/*.md",
+            "**/.gitignore"
+        )
+
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
     }
 }

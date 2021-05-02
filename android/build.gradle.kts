@@ -12,12 +12,13 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":common"))
-    implementation("androidx.activity:activity-compose:1.3.0-alpha03")
+    implementation(projects.common)
+    implementation(libs.androidx.activity.compose)
 }
 
 android {
     compileSdkVersion(29)
+
     defaultConfig {
         applicationId = "fr.outadoc.mastodonk.android"
         minSdkVersion(24)
@@ -25,6 +26,7 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false

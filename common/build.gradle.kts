@@ -25,7 +25,7 @@ kotlin {
     sourceSets {
         val jvmMain by creating {
             dependencies {
-                implementation("fr.outadoc.mastodonk:mastodonk-paging:0.1-alpha10")
+                implementation(libs.mastodonk.paging)
             }
         }
         val jvmTest by creating
@@ -36,7 +36,7 @@ kotlin {
                 api(compose.foundation)
                 api(compose.material)
 
-                implementation("fr.outadoc.mastodonk:mastodonk-core:0.1-alpha10")
+                implementation(libs.mastodonk.core)
             }
         }
         val commonTest by getting
@@ -44,13 +44,13 @@ kotlin {
         val androidMain by getting {
             dependsOn(jvmMain)
             dependencies {
-                api("androidx.appcompat:appcompat:1.2.0")
-                api("androidx.core:core-ktx:1.3.1")
+                api(libs.androidx.appcompat)
+                api(libs.androidx.core)
             }
         }
         val androidTest by getting {
             dependencies {
-                implementation("junit:junit:4.13")
+                implementation(libs.junit)
             }
         }
 

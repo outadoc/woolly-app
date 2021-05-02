@@ -15,7 +15,7 @@ fun App() {
 
     MaterialTheme {
         Button(onClick = {
-            text = "Hello, ${getPlatformName()}"
+            text = "Hello"
         }) {
             Text(text)
         }

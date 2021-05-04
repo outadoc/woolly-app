@@ -17,13 +17,17 @@ kotlin {
     }
 
     sourceSets {
-        val jvmMain by getting {
+        val commonMain by getting {
             dependencies {
                 implementation(projects.common)
-                implementation(compose.desktop.currentOs)
             }
         }
 
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
         val jvmTest by getting
     }
 }

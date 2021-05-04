@@ -26,8 +26,6 @@ kotlin {
                 api(compose.material)
 
                 implementation(libs.mastodonk.core)
-                implementation(libs.mastodonk.paging)
-                implementation(libs.androidx.paging.compose)
             }
         }
         val commonTest by getting

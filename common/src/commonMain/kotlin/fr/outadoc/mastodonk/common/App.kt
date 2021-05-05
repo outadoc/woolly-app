@@ -17,6 +17,6 @@ val timelineViewModel = TimelineViewModel(
 @Composable
 fun App() {
     MaterialTheme {
-        PublicTimeline(timelineViewModel)
+        TimelineScreen(timelineViewModel)
     }
 }

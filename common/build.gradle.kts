@@ -25,13 +25,16 @@ kotlin {
                 api(compose.foundation)
                 api(compose.material)
 
-                implementation(libs.mastodonk.core)
+                implementation(libs.mastodonk.core.common)
             }
         }
         val commonTest by getting
 
         val jvmMain by creating {
             dependsOn(commonMain)
+            dependencies {
+                implementation(libs.mastodonk.core.jvm)
+            }
         }
         val jvmTest by creating {
             dependsOn(commonTest)

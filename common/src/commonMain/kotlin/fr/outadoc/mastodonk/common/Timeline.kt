@@ -15,10 +15,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -32,7 +36,10 @@ import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun TimelineScreen(viewModel: TimelineViewModel) {
+fun TimelineScreen(
+    viewModel: TimelineViewModel,
+    toggleDarkMode: () -> Unit
+) {
     val currentState = viewModel.state.collectAsState()
 
     Scaffold(
@@ -40,6 +47,13 @@ fun TimelineScreen(viewModel: TimelineViewModel) {
             TopAppBar(
                 title = {
                     Text(text = "Public Timeline")
+                },
+                actions = {
+                    IconButton(onClick = {
+                        toggleDarkMode()
+                    }) {
+                        Icon(Icons.Default.LightMode, "Toggle dark theme")
+                    }
                 }
             )
         },

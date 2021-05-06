@@ -20,11 +20,16 @@ actual class HtmlParser {
         return element.childNodes()
             .mapNotNull { node: Node ->
                 when (node) {
-                    is TextNode ->
-                        listOf(FlatTextNode(node.text()))
+                    is TextNode -> listOf(FlatTextNode(node.text()))
                     is Element -> {
-                        when (node.tagName()) {
-                            "a" -> listOf(FlatLinkNode(href = node.attr("href"), text = node.text()))
+                        if (node.hasClass("invisible")) emptyList()
+                        else when (node.tagName()) {
+                            "a" -> listOf(
+                                FlatLinkNode(
+                                    href = node.attr("href"),
+                                    children = flattenElementsToList(node)
+                                )
+                            )
                             "p" -> listOf(FlatParagraph(children = flattenElementsToList(node)))
                             "br" -> listOf(FlatTextNode(text = "\n"))
                             else -> flattenElementsToList(node)

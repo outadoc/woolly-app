@@ -1,6 +1,5 @@
 package fr.outadoc.compose.htmltext
 
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,11 +26,10 @@ fun HtmlText(
     text: String,
     style: TextStyle = TextStyle.Default,
     linkColor: Color = Color(0xff64B5F6),
-    uriHandler: UriHandler = LocalUriHandler.current,
-    uriTitleProvider: (String) -> String? = { it }
+    uriHandler: UriHandler = LocalUriHandler.current
 ) {
     val annotatedString = buildAnnotatedString {
-        annotate(parser.parse(text), linkColor, uriTitleProvider)
+        appendNodes(parser.parse(text), linkColor)
     }
 
     MaterialClickableText(
@@ -49,11 +47,7 @@ fun HtmlText(
     )
 }
 
-private fun AnnotatedString.Builder.annotate(
-    nodes: List<FlatNode>,
-    linkColor: Color,
-    uriTitleProvider: (String) -> String?
-) {
+private fun AnnotatedString.Builder.appendNodes(nodes: List<FlatNode>, linkColor: Color) {
     nodes.forEach { node ->
         when (node) {
             is FlatLinkNode -> {
@@ -67,14 +61,14 @@ private fun AnnotatedString.Builder.annotate(
                     tag = urlTag,
                     annotation = node.href
                 )
-                append(uriTitleProvider(node.href) ?: node.text)
+                appendNodes(node.children, linkColor)
                 pop()
                 pop()
             }
 
             is FlatParagraph -> {
                 withStyle(ParagraphStyle()) {
-                    annotate(node.children, linkColor, uriTitleProvider)
+                    appendNodes(node.children, linkColor)
                 }
             }
 

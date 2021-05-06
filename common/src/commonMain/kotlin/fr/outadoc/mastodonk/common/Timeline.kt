@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import fr.outadoc.compose.htmltext.HtmlText
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import io.kamel.image.KamelImage
@@ -109,10 +111,12 @@ fun Status(status: Status) {
                 modifier = Modifier.padding(bottom = 6.dp),
                 status = status
             )
-            Text(
-                text = status.content,
-                style = MaterialTheme.typography.body2
-            )
+            SelectionContainer {
+                HtmlText(
+                    text = status.content,
+                    style = MaterialTheme.typography.body2
+                )
+            }
         }
     }
 }

@@ -4,12 +4,15 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import fr.outadoc.compose.htmltext.model.FlatLinkNode
 import fr.outadoc.compose.htmltext.model.FlatNode
 import fr.outadoc.compose.htmltext.model.FlatParagraph
@@ -21,22 +24,25 @@ private val parser = HtmlParser()
 @Composable
 fun HtmlText(
     modifier: Modifier = Modifier,
-    html: String,
+    text: String,
+    style: TextStyle = TextStyle.Default,
     linkColor: Color = Color(0xff64B5F6),
-    uriHandler: UriHandler
+    uriHandler: UriHandler = LocalUriHandler.current,
+    uriTitleProvider: (String) -> String? = { it }
 ) {
-    val nodes = parser.parse(html)
     val annotatedString = buildAnnotatedString {
-        annotate(nodes, linkColor)
+        annotate(parser.parse(text), linkColor, uriTitleProvider)
     }
 
     ClickableText(
         modifier = modifier,
         text = annotatedString,
-        onClick = {
+        style = style,
+        onClick = { index ->
             annotatedString
-                .getStringAnnotations(urlTag, it, it)
-                .firstOrNull()?.let { stringAnnotation ->
+                .getStringAnnotations(urlTag, index, index)
+                .firstOrNull()
+                ?.let { stringAnnotation ->
                     uriHandler.openUri(stringAnnotation.item)
                 }
         }
@@ -45,7 +51,8 @@ fun HtmlText(
 
 private fun AnnotatedString.Builder.annotate(
     nodes: List<FlatNode>,
-    linkColor: Color
+    linkColor: Color,
+    uriTitleProvider: (String) -> String?
 ) {
     nodes.forEach { node ->
         when (node) {
@@ -56,16 +63,19 @@ private fun AnnotatedString.Builder.annotate(
                         textDecoration = TextDecoration.Underline
                     )
                 )
-                pushStringAnnotation(tag = urlTag, annotation = node.href)
-                append(node.text)
+                pushStringAnnotation(
+                    tag = urlTag,
+                    annotation = node.href
+                )
+                append(uriTitleProvider(node.href) ?: node.text)
                 pop()
                 pop()
             }
 
             is FlatParagraph -> {
-                pushStyle(ParagraphStyle())
-                annotate(node.children, linkColor)
-                pop()
+                withStyle(ParagraphStyle()) {
+                    annotate(node.children, linkColor, uriTitleProvider)
+                }
             }
 
             is FlatTextNode -> {

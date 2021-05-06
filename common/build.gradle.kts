@@ -18,6 +18,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(projects.libHtmltext)
+
                 api(compose.foundation)
                 api(compose.runtime)
                 api(compose.material)

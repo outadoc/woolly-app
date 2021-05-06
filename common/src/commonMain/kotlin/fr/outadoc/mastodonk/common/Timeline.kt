@@ -39,7 +39,7 @@ fun TimelineScreen(viewModel: TimelineViewModel) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Timeline")
+                    Text(text = "Public Timeline")
                 }
             )
         },

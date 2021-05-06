@@ -23,7 +23,12 @@ kotlin {
                 api(compose.runtime)
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
 
         val jvmMain by getting {
             dependencies {
@@ -32,7 +37,7 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                implementation(libs.junit)
+                implementation(kotlin("test-junit"))
             }
         }
     }

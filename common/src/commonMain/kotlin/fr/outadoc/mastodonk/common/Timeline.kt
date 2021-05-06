@@ -144,19 +144,18 @@ fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
 
 @Composable
 fun StatusHeader(modifier: Modifier = Modifier, status: Status) {
-    Row(modifier = modifier) {
+    Column(modifier = modifier) {
+        if (status.account.displayName.isNotBlank()) {
+            Text(
+                text = status.account.displayName,
+                style = MaterialTheme.typography.subtitle1,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
         Text(
-            modifier = Modifier.alignByBaseline(),
             text = "@${status.account.username}",
-            style = MaterialTheme.typography.subtitle1,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-        Text(
-            modifier = Modifier
-                .alignByBaseline()
-                .padding(start = 8.dp),
-            text = status.account.displayName,
             style = MaterialTheme.typography.subtitle2,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis

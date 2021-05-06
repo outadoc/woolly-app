@@ -34,7 +34,7 @@ fun HtmlText(
         annotate(parser.parse(text), linkColor, uriTitleProvider)
     }
 
-    ClickableText(
+    MaterialClickableText(
         modifier = modifier,
         text = annotatedString,
         style = style,

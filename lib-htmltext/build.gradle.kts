@@ -22,6 +22,7 @@ kotlin {
                 api(compose.foundation)
                 api(compose.runtime)
                 api(compose.ui)
+                api(compose.material)
             }
         }
         val commonTest by getting {

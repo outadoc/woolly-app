@@ -4,7 +4,7 @@ import fr.outadoc.mastodonk.common.App
 
 fun main() = Window(
     title = "Mastodon Compose",
-    size = IntSize(width = 500, height = 700)
+    size = IntSize(width = 500, height = 750)
 ) {
     App()
 }

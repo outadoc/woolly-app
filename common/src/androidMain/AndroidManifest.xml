@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="fr.outadoc.mastodonk.common"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.outadoc.mastodonk.common">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

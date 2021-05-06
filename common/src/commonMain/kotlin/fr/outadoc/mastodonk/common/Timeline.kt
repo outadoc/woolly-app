@@ -57,7 +57,7 @@ fun Timeline(modifier: Modifier = Modifier, state: ListState) {
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
-                CircularProgressIndicator(progress = 0.5f)
+                CircularProgressIndicator()
             }
 
         is ListState.Content ->

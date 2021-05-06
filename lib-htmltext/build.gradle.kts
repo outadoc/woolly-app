@@ -21,6 +21,7 @@ kotlin {
             dependencies {
                 api(compose.foundation)
                 api(compose.runtime)
+                api(compose.ui)
             }
         }
         val commonTest by getting {

@@ -24,11 +24,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
-import io.kamel.core.Resource
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
@@ -102,10 +100,9 @@ fun Status(status: Status) {
 
 @Composable
 fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
-    val avatarResource: Resource<ImageBitmap> =
-        lazyImageResource(account.avatarStaticUrl) {
-            dispatcher = Dispatchers.IO
-        }
+    val avatarResource = lazyImageResource(account.avatarStaticUrl) {
+        dispatcher = Dispatchers.IO
+    }
 
     Box(
         modifier = modifier

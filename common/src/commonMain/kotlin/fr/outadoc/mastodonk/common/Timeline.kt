@@ -29,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.compose.htmltext.HtmlText
 import fr.outadoc.mastodonk.api.entity.Account
@@ -129,7 +130,7 @@ fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
 
     Box(
         modifier = modifier
-            .size(64.dp)
+            .size(48.dp)
             .clip(CircleShape)
     ) {
         KamelImage(
@@ -147,14 +148,18 @@ fun StatusHeader(modifier: Modifier = Modifier, status: Status) {
         Text(
             modifier = Modifier.alignByBaseline(),
             text = "@${status.account.username}",
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Text(
             modifier = Modifier
                 .alignByBaseline()
                 .padding(start = 8.dp),
             text = status.account.displayName,
-            style = MaterialTheme.typography.subtitle2
+            style = MaterialTheme.typography.subtitle2,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

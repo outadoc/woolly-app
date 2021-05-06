@@ -67,33 +67,38 @@ fun Timeline(modifier: Modifier = Modifier, state: ListState) {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.page.contents) { item ->
-                    Status(item)
+                    StatusCard(item)
                 }
             }
     }
 }
 
 @Composable
-fun Status(status: Status) {
+fun StatusCard(status: Status) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = 2.dp
     ) {
-        Row(modifier = Modifier.padding(16.dp)) {
-            ProfilePicture(
-                modifier = Modifier.padding(end = 16.dp),
-                account = status.account
+        Status(status)
+    }
+}
+
+@Composable
+fun Status(status: Status) {
+    Row(modifier = Modifier.padding(16.dp)) {
+        ProfilePicture(
+            modifier = Modifier.padding(end = 16.dp),
+            account = status.account
+        )
+        Column(modifier = Modifier.fillMaxWidth()) {
+            StatusHeader(
+                modifier = Modifier.padding(bottom = 6.dp),
+                status = status
             )
-            Column(modifier = Modifier.fillMaxWidth()) {
-                StatusHeader(
-                    modifier = Modifier.padding(bottom = 6.dp),
-                    status = status
-                )
-                Text(
-                    text = status.content,
-                    style = MaterialTheme.typography.body2
-                )
-            }
+            Text(
+                text = status.content,
+                style = MaterialTheme.typography.body2
+            )
         }
     }
 }

@@ -1,12 +1,15 @@
 package fr.outadoc.mastodonk.common
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
@@ -19,8 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
+import io.kamel.core.Resource
+import io.kamel.image.KamelImage
+import io.kamel.image.lazyImageResource
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun TimelineScreen(viewModel: TimelineViewModel) {
@@ -66,17 +75,60 @@ fun Timeline(modifier: Modifier = Modifier, state: ListState) {
 
 @Composable
 fun Status(status: Status) {
-    Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "@${status.account.username}",
-                style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.padding(bottom = 6.dp)
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = 2.dp
+    ) {
+        Row(modifier = Modifier.padding(16.dp)) {
+            ProfilePicture(
+                modifier = Modifier.padding(end = 16.dp),
+                account = status.account
             )
-            Text(
-                text = status.content,
-                style = MaterialTheme.typography.body2
-            )
+            Column(modifier = Modifier.fillMaxWidth()) {
+                StatusHeader(
+                    modifier = Modifier.padding(bottom = 6.dp),
+                    status = status
+                )
+                Text(
+                    text = status.content,
+                    style = MaterialTheme.typography.body2
+                )
+            }
         }
+    }
+}
+
+@Composable
+fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
+    val avatarResource: Resource<ImageBitmap> =
+        lazyImageResource(account.avatarUrl) {
+            dispatcher = Dispatchers.IO
+        }
+
+    Box(modifier = modifier.size(64.dp)) {
+        KamelImage(
+            resource = avatarResource,
+            contentDescription = "${account.displayName}'s profile picture",
+            crossfade = true,
+            animationSpec = tween()
+        )
+    }
+}
+
+@Composable
+fun StatusHeader(modifier: Modifier = Modifier, status: Status) {
+    Row(modifier = modifier) {
+        Text(
+            modifier = Modifier.alignByBaseline(),
+            text = "@${status.account.username}",
+            style = MaterialTheme.typography.subtitle1
+        )
+        Text(
+            modifier = Modifier
+                .alignByBaseline()
+                .padding(start = 8.dp),
+            text = status.account.displayName,
+            style = MaterialTheme.typography.subtitle2
+        )
     }
 }

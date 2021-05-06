@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ComposeBuildConfig
 import org.jetbrains.compose.compose
 
 plugins {
@@ -25,8 +26,10 @@ kotlin {
                 api(compose.foundation)
                 api(compose.material)
                 api(compose.ui)
+                api("androidx.compose.ui:ui-graphics:${ComposeBuildConfig.composeVersion}")
 
                 implementation(libs.mastodonk.core.common)
+                implementation(libs.kamel)
             }
         }
         val commonTest by getting

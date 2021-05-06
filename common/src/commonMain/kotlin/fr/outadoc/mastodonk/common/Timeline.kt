@@ -48,14 +48,13 @@ fun TimelineScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(text = "Public Timeline")
-                },
+                title = { Text(text = "Public Timeline") },
                 actions = {
-                    IconButton(onClick = {
-                        toggleDarkMode()
-                    }) {
-                        Icon(Icons.Default.LightMode, "Toggle dark theme")
+                    IconButton(onClick = { toggleDarkMode() }) {
+                        Icon(
+                            imageVector = Icons.Default.LightMode,
+                            contentDescription = "Toggle dark theme"
+                        )
                     }
                 }
             )

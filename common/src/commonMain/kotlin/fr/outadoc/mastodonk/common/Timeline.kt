@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
@@ -101,11 +103,15 @@ fun Status(status: Status) {
 @Composable
 fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
     val avatarResource: Resource<ImageBitmap> =
-        lazyImageResource(account.avatarUrl) {
+        lazyImageResource(account.avatarStaticUrl) {
             dispatcher = Dispatchers.IO
         }
 
-    Box(modifier = modifier.size(64.dp)) {
+    Box(
+        modifier = modifier
+            .size(64.dp)
+            .clip(CircleShape)
+    ) {
         KamelImage(
             resource = avatarResource,
             contentDescription = "${account.displayName}'s profile picture",

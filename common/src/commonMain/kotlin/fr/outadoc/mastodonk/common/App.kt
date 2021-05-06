@@ -33,10 +33,13 @@ fun AppTheme(
 
 @Composable
 fun App() {
-    var isDarkModeEnabled by remember { mutableStateOf(false) }
+    var isDarkModeEnabled by remember { mutableStateOf(true) }
     AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
-        TimelineScreen(timelineViewModel, toggleDarkMode = {
-            isDarkModeEnabled = !isDarkModeEnabled
-        })
+        TimelineScreen(
+            viewModel = timelineViewModel,
+            toggleDarkMode = {
+                isDarkModeEnabled = !isDarkModeEnabled
+            }
+        )
     }
 }

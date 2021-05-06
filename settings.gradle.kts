@@ -12,6 +12,7 @@ rootProject.name = "mastodon-client"
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include(":android")
-include(":desktop")
-include(":common")
+include("android")
+include("desktop")
+include("common")
+include("lib-htmltext")

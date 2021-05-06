@@ -4,9 +4,6 @@ plugins {
     kotlin("android")
 }
 
-group = "fr.outadoc.mastodonk"
-version = "0.1-alpha01"
-
 repositories {
     google()
 }

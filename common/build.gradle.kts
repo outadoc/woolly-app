@@ -6,9 +6,6 @@ plugins {
     id("com.android.library")
 }
 
-group = "fr.outadoc.mastodonk"
-version = "0.1-alpha01"
-
 kotlin {
     android()
 
@@ -21,8 +18,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.runtime)
                 api(compose.foundation)
+                api(compose.runtime)
                 api(compose.material)
                 api(compose.ui)
                 api(compose.materialIconsExtended)

@@ -17,10 +17,10 @@ buildscript {
     }
 }
 
-group = "fr.outadoc.mastodonk"
-version = "0.1-alpha01"
-
 allprojects {
+    group = "fr.outadoc.mastodonk"
+    version = "0.1-alpha01"
+
     repositories {
         mavenCentral()
         google()

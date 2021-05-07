@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -42,29 +43,32 @@ import org.kodein.di.instance
 
 @Composable
 fun Screen(screen: AppScreen, toggleDarkMode: () -> Unit) {
-    when (screen) {
-        AppScreen.PublicTimeline -> PublicTimelineScreen(toggleDarkMode = toggleDarkMode)
-        AppScreen.LocalTimeline -> TODO()
-    }
-}
-
-@Composable
-fun PublicTimelineScreen(toggleDarkMode: () -> Unit) {
     val di = LocalDI.current
-    val viewModel: TimelineViewModel by di.instance()
+    val res: AppScreenResources by di.instance()
 
     Scaffold(
         topBar = {
             MainTopAppBar(
-                title = "Public Timeline",
+                title = res.getScreenTitle(screen),
                 toggleDarkMode = toggleDarkMode
             )
         },
         content = {
-            val currentState = viewModel.state.collectAsState()
-            Timeline(state = currentState.value)
+            when (screen) {
+                AppScreen.PublicTimeline -> PublicTimelineScreen()
+                AppScreen.LocalTimeline -> TODO()
+            }
         }
     )
+}
+
+@Composable
+fun PublicTimelineScreen() {
+    val di = LocalDI.current
+    val viewModel: TimelineViewModel by di.instance()
+    val currentState = viewModel.state.collectAsState()
+
+    Timeline(state = currentState.value)
 }
 
 @Composable

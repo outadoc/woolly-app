@@ -22,6 +22,8 @@ val di = DI {
         }
     }
 
+    bindSingleton { AppScreenResources() }
+
     bindSingleton {
         TimelineViewModel(
             scope = GlobalScope,

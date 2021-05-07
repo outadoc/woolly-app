@@ -2,7 +2,7 @@ package fr.outadoc.mastodonk.common.ui
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import fr.outadoc.mastodonk.common.PublicTimelineScreen
+import fr.outadoc.mastodonk.common.feature.publictimeline.PublicTimelineScreen
 import fr.outadoc.mastodonk.common.screen.AppScreen
 import fr.outadoc.mastodonk.common.screen.AppScreenResources
 import org.kodein.di.compose.LocalDI

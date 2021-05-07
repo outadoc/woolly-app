@@ -1,8 +1,8 @@
 package fr.outadoc.mastodonk.common.feature.publictimeline
 
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.mastodonk.api.entity.paging.Page
 import fr.outadoc.mastodonk.client.MastodonClient
+import fr.outadoc.mastodonk.common.PageState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,16 +12,11 @@ class TimelineViewModel(
     scope: CoroutineScope,
     private val mastodonClient: MastodonClient
 ) {
-    sealed class ListState {
-        object Loading : ListState()
-        data class Content(val page: Page<List<Status>>) : ListState()
-    }
-
-    val state = MutableStateFlow<ListState>(ListState.Loading)
+    val state = MutableStateFlow<PageState<List<Status>>>(PageState.Loading())
 
     init {
         scope.launch(Dispatchers.IO) {
-            val nextState = ListState.Content(
+            val nextState = PageState.Content(
                 mastodonClient.timelines.getPublicTimeline()
             )
             state.emit(nextState)

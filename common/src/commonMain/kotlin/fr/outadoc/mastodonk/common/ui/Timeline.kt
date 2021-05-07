@@ -1,4 +1,4 @@
-package fr.outadoc.mastodonk.common
+package fr.outadoc.mastodonk.common.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,13 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import fr.outadoc.mastodonk.common.ui.StatusCard
-import fr.outadoc.mastodonk.common.feature.publictimeline.ListState
+import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.mastodonk.common.PageState
 
 @Composable
-fun Timeline(modifier: Modifier = Modifier, state: ListState) {
+fun Timeline(modifier: Modifier = Modifier, state: PageState<List<Status>>) {
     when (state) {
-        ListState.Loading ->
+        is PageState.Loading ->
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
@@ -25,7 +25,7 @@ fun Timeline(modifier: Modifier = Modifier, state: ListState) {
                 CircularProgressIndicator()
             }
 
-        is ListState.Content ->
+        is PageState.Content ->
             LazyColumn(
                 modifier = modifier,
                 contentPadding = PaddingValues(16.dp),

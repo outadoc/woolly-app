@@ -9,6 +9,7 @@ import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.mastodonk.common.screen.AppScreen
 import fr.outadoc.mastodonk.common.screen.AppScreenResources
 import fr.outadoc.mastodonk.common.feature.publictimeline.TimelineViewModel
+import fr.outadoc.mastodonk.common.ui.Screen
 import kotlinx.coroutines.GlobalScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton

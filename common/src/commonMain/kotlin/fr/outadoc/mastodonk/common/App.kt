@@ -17,7 +17,7 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
 import org.kodein.di.instance
 
-val di = DI {
+private val di = DI {
     bindSingleton {
         MastodonClient {
             baseUrl = "https://mastodon.social"

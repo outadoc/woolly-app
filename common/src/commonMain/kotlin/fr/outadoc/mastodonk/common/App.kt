@@ -10,15 +10,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import fr.outadoc.mastodonk.client.MastodonClient
 import kotlinx.coroutines.GlobalScope
+import org.kodein.di.DI
+import org.kodein.di.bindSingleton
+import org.kodein.di.compose.withDI
+import org.kodein.di.instance
 
-val mastodonClient = MastodonClient {
-    baseUrl = "https://mastodon.social"
+val di = DI {
+    bindSingleton {
+        MastodonClient {
+            baseUrl = "https://mastodon.social"
+        }
+    }
+
+    bindSingleton {
+        TimelineViewModel(
+            scope = GlobalScope,
+            mastodonClient = instance()
+        )
+    }
 }
-
-val timelineViewModel = TimelineViewModel(
-    scope = GlobalScope,
-    mastodonClient = mastodonClient
-)
 
 @Composable
 fun AppTheme(
@@ -32,11 +42,11 @@ fun AppTheme(
 }
 
 @Composable
-fun App() {
+fun App() = withDI(di) {
     var isDarkModeEnabled by remember { mutableStateOf(true) }
     AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
-        TimelineScreen(
-            viewModel = timelineViewModel,
+        Screen(
+            screen = AppScreen.PublicTimeline,
             toggleDarkMode = {
                 isDarkModeEnabled = !isDarkModeEnabled
             }

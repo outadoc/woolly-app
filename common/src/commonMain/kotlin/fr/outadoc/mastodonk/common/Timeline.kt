@@ -37,30 +37,47 @@ import fr.outadoc.mastodonk.api.entity.Status
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
+import org.kodein.di.compose.LocalDI
+import org.kodein.di.instance
 
 @Composable
-fun TimelineScreen(
-    viewModel: TimelineViewModel,
-    toggleDarkMode: () -> Unit
-) {
-    val currentState = viewModel.state.collectAsState()
+fun Screen(screen: AppScreen, toggleDarkMode: () -> Unit) {
+    when (screen) {
+        AppScreen.PublicTimeline -> PublicTimelineScreen(toggleDarkMode = toggleDarkMode)
+        AppScreen.LocalTimeline -> TODO()
+    }
+}
+
+@Composable
+fun PublicTimelineScreen(toggleDarkMode: () -> Unit) {
+    val di = LocalDI.current
+    val viewModel: TimelineViewModel by di.instance()
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "Public Timeline") },
-                actions = {
-                    IconButton(onClick = { toggleDarkMode() }) {
-                        Icon(
-                            imageVector = Icons.Default.LightMode,
-                            contentDescription = "Toggle dark theme"
-                        )
-                    }
-                }
+            MainTopAppBar(
+                title = "Public Timeline",
+                toggleDarkMode = toggleDarkMode
             )
         },
         content = {
+            val currentState = viewModel.state.collectAsState()
             Timeline(state = currentState.value)
+        }
+    )
+}
+
+@Composable
+fun MainTopAppBar(title: String, toggleDarkMode: () -> Unit) {
+    TopAppBar(
+        title = { Text(text = title) },
+        actions = {
+            IconButton(onClick = { toggleDarkMode() }) {
+                Icon(
+                    imageVector = Icons.Default.LightMode,
+                    contentDescription = "Toggle dark theme"
+                )
+            }
         }
     )
 }

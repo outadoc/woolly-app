@@ -36,11 +36,16 @@ val di = DI {
 @Composable
 fun App() = withDI(di) {
     var isDarkModeEnabled by remember { mutableStateOf(true) }
+    var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.PublicTimeline) }
+
     AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
         Screen(
-            screen = AppScreen.PublicTimeline,
+            currentScreen = currentScreen,
             toggleDarkMode = {
                 isDarkModeEnabled = !isDarkModeEnabled
+            },
+            onScreenSelected = { screen ->
+                currentScreen = screen
             }
         )
     }

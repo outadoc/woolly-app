@@ -1,33 +1,18 @@
-package fr.outadoc.mastodonk.common
+package fr.outadoc.mastodonk.common.ui
 
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,77 +23,6 @@ import fr.outadoc.mastodonk.api.entity.Status
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
-
-@Composable
-fun Screen(screen: AppScreen, toggleDarkMode: () -> Unit) {
-    val di = LocalDI.current
-    val res: AppScreenResources by di.instance()
-
-    Scaffold(
-        topBar = {
-            MainTopAppBar(
-                title = res.getScreenTitle(screen),
-                toggleDarkMode = toggleDarkMode
-            )
-        },
-        content = {
-            when (screen) {
-                AppScreen.PublicTimeline -> PublicTimelineScreen()
-                AppScreen.LocalTimeline -> TODO()
-            }
-        }
-    )
-}
-
-@Composable
-fun PublicTimelineScreen() {
-    val di = LocalDI.current
-    val viewModel: TimelineViewModel by di.instance()
-    val currentState = viewModel.state.collectAsState()
-
-    Timeline(state = currentState.value)
-}
-
-@Composable
-fun MainTopAppBar(title: String, toggleDarkMode: () -> Unit) {
-    TopAppBar(
-        title = { Text(text = title) },
-        actions = {
-            IconButton(onClick = { toggleDarkMode() }) {
-                Icon(
-                    imageVector = Icons.Default.LightMode,
-                    contentDescription = "Toggle dark theme"
-                )
-            }
-        }
-    )
-}
-
-@Composable
-fun Timeline(modifier: Modifier = Modifier, state: ListState) {
-    when (state) {
-        ListState.Loading ->
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator()
-            }
-
-        is ListState.Content ->
-            LazyColumn(
-                modifier = modifier,
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(state.page.contents) { item ->
-                    StatusCard(item)
-                }
-            }
-    }
-}
 
 @Composable
 fun StatusCard(status: Status) {

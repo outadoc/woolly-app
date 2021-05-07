@@ -1,4 +1,4 @@
-package fr.outadoc.mastodonk.common
+package fr.outadoc.mastodonk.common.screen
 
 class AppScreenResources {
 

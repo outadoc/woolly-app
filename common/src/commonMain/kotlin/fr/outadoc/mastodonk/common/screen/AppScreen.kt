@@ -1,4 +1,4 @@
-package fr.outadoc.mastodonk.common
+package fr.outadoc.mastodonk.common.screen
 
 sealed class AppScreen {
     object PublicTimeline : AppScreen()

@@ -28,7 +28,7 @@ kotlin {
 
                 implementation(libs.mastodonk.core.common)
                 implementation(libs.kamel)
-                implementation("org.kodein.di:kodein-di-framework-compose:7.5.0")
+                implementation(libs.kodein)
             }
         }
         val commonTest by getting

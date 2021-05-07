@@ -1,14 +1,14 @@
 package fr.outadoc.mastodonk.common
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import fr.outadoc.mastodonk.client.MastodonClient
+import fr.outadoc.mastodonk.common.screen.AppScreen
+import fr.outadoc.mastodonk.common.screen.AppScreenResources
+import fr.outadoc.mastodonk.common.feature.publictimeline.TimelineViewModel
 import kotlinx.coroutines.GlobalScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -30,17 +30,6 @@ val di = DI {
             mastodonClient = instance()
         )
     }
-}
-
-@Composable
-fun AppTheme(
-    isDarkModeEnabled: Boolean,
-    content: @Composable () -> Unit
-) {
-    MaterialTheme(
-        colors = if (isDarkModeEnabled) darkColors() else lightColors(),
-        content = content
-    )
 }
 
 @Composable

@@ -25,17 +25,13 @@ fun Navigator(
                 toggleDarkMode = toggleDarkMode
             )
         },
-        content = {
-            when (currentScreen) {
-                AppScreen.GlobalTimeline -> GlobalTimelineScreen()
-                AppScreen.LocalTimeline -> LocalTimelineScreen()
-            }
-        },
         bottomBar = {
-            MainBottomNavigation(
-                currentScreen = currentScreen,
-                onScreenSelected = onScreenSelected
-            )
+            MainBottomNavigation(currentScreen, onScreenSelected)
         }
-    )
+    ) { insets ->
+        when (currentScreen) {
+            AppScreen.GlobalTimeline -> GlobalTimelineScreen(insets)
+            AppScreen.LocalTimeline -> LocalTimelineScreen(insets)
+        }
+    }
 }

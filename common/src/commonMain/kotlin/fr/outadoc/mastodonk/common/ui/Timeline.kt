@@ -10,12 +10,18 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.common.PageState
+import fr.outadoc.mastodonk.common.plus
 
 @Composable
-fun Timeline(modifier: Modifier = Modifier, state: PageState<List<Status>>) {
+fun Timeline(
+    modifier: Modifier = Modifier,
+    insets: PaddingValues,
+    state: PageState<List<Status>>
+) {
     when (state) {
         is PageState.Loading ->
             Box(
@@ -28,7 +34,7 @@ fun Timeline(modifier: Modifier = Modifier, state: PageState<List<Status>>) {
         is PageState.Content ->
             LazyColumn(
                 modifier = modifier,
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = insets + 16.dp,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.page.contents) { item ->

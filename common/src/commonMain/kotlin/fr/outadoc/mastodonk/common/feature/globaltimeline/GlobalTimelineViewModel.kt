@@ -1,4 +1,4 @@
-package fr.outadoc.mastodonk.common.feature.publictimeline
+package fr.outadoc.mastodonk.common.feature.globaltimeline
 
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.client.MastodonClient
@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class TimelineViewModel(
+class GlobalTimelineViewModel(
     scope: CoroutineScope,
     private val mastodonClient: MastodonClient
 ) {

@@ -8,8 +8,9 @@ import androidx.compose.runtime.setValue
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.mastodonk.common.screen.AppScreen
 import fr.outadoc.mastodonk.common.screen.AppScreenResources
-import fr.outadoc.mastodonk.common.feature.publictimeline.TimelineViewModel
-import fr.outadoc.mastodonk.common.ui.Screen
+import fr.outadoc.mastodonk.common.feature.globaltimeline.GlobalTimelineViewModel
+import fr.outadoc.mastodonk.common.feature.localtimeline.LocalTimelineViewModel
+import fr.outadoc.mastodonk.common.ui.Navigator
 import kotlinx.coroutines.GlobalScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -25,21 +26,17 @@ val di = DI {
 
     bindSingleton { AppScreenResources() }
 
-    bindSingleton {
-        TimelineViewModel(
-            scope = GlobalScope,
-            mastodonClient = instance()
-        )
-    }
+    bindSingleton { GlobalTimelineViewModel(GlobalScope, instance()) }
+    bindSingleton { LocalTimelineViewModel(GlobalScope, instance()) }
 }
 
 @Composable
 fun App() = withDI(di) {
     var isDarkModeEnabled by remember { mutableStateOf(true) }
-    var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.PublicTimeline) }
+    var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.GlobalTimeline) }
 
     AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
-        Screen(
+        Navigator(
             currentScreen = currentScreen,
             toggleDarkMode = {
                 isDarkModeEnabled = !isDarkModeEnabled

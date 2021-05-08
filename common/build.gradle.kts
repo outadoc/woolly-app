@@ -31,6 +31,7 @@ kotlin {
                 implementation(libs.mastodonk.paging.common)
                 implementation(libs.kamel)
                 implementation(libs.kodein)
+                implementation(libs.kotlinx.datetime)
             }
         }
         val commonTest by getting

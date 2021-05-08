@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.ui
 
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,6 +28,7 @@ import fr.outadoc.woolly.htmltext.NodeText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.datetime.Clock
 
 @Composable
 fun StatusCard(status: AnnotatedStatus) {
@@ -86,13 +89,31 @@ fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
 
 @Composable
 fun StatusHeader(modifier: Modifier = Modifier, status: Status) {
+    val currentTime = remember { Clock.System.now() }
+
     Column(modifier = modifier) {
-        if (status.account.displayName.isNotBlank()) {
-            Text(
-                text = status.account.displayName,
-                style = MaterialTheme.typography.subtitle1,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            if (status.account.displayName.isNotBlank()) {
+                Text(
+                    modifier = Modifier.alignByBaseline().fillMaxWidth(0.8f),
+                    text = status.account.displayName,
+                    style = MaterialTheme.typography.subtitle1,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            RelativeTime(
+                modifier = Modifier.alignByBaseline(),
+                currentTime = currentTime,
+                time = status.createdAt,
+                style = MaterialTheme.typography.subtitle2,
+                maxLines = 1
             )
         }
 

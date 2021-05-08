@@ -32,7 +32,7 @@ import org.kodein.di.instance
 fun Timeline(
     modifier: Modifier = Modifier,
     insets: PaddingValues,
-    source: PagingSource<PageInfo, Status>
+    pagingSourceFactory: () -> PagingSource<PageInfo, Status>
 ) {
     val di = LocalDI.current
     val annotateStatusUseCase by di.instance<AnnotateStatusUseCase>()
@@ -43,8 +43,9 @@ fun Timeline(
                 pageSize = 30,
                 enablePlaceholders = true,
                 maxSize = 200
-            )
-        ) { source }
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        )
     }
 
     val lazyPagingItems = pager.flow.map { pagingData ->

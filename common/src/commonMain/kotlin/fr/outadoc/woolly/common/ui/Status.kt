@@ -15,15 +15,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.timeline.AnnotatedStatus
-import fr.outadoc.woolly.htmltext.MaterialClickableText
-import fr.outadoc.woolly.htmltext.URL_TAG
+import fr.outadoc.woolly.htmltext.NodeText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
@@ -39,10 +36,7 @@ fun StatusCard(status: AnnotatedStatus) {
 }
 
 @Composable
-fun Status(
-    status: AnnotatedStatus,
-    uriHandler: UriHandler = LocalUriHandler.current
-) {
+fun Status(status: AnnotatedStatus) {
     Row(modifier = Modifier.padding(16.dp)) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
@@ -54,17 +48,9 @@ fun Status(
                 status = status.original
             )
             SelectionContainer {
-                MaterialClickableText(
-                    text = status.annotatedContent,
-                    style = MaterialTheme.typography.body2,
-                    onClick = { index ->
-                        status.annotatedContent
-                            .getStringAnnotations(URL_TAG, index, index)
-                            .firstOrNull()
-                            ?.let { stringAnnotation ->
-                                uriHandler.openUri(stringAnnotation.item)
-                            }
-                    }
+                NodeText(
+                    textNodes = status.contentNodes,
+                    style = MaterialTheme.typography.body2
                 )
             }
         }

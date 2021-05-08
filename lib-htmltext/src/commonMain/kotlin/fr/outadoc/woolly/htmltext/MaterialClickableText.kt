@@ -13,7 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
-fun MaterialClickableText(
+internal fun MaterialClickableText(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
     style: TextStyle = TextStyle.Default,

@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.common.feature.timeline.global
 
-import androidx.compose.ui.graphics.Color
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.timeline.AnnotatedStatus
 import fr.outadoc.woolly.common.feature.timeline.PageState
@@ -15,14 +14,14 @@ class GlobalTimelineViewModel(
 ) {
     val state = MutableStateFlow<PageState<List<AnnotatedStatus>>>(PageState.Loading())
 
-    suspend fun onPageOpen(linkColor: Color) {
+    suspend fun onPageOpen() {
         withContext(Dispatchers.IO) {
             val res = mastodonClient.timelines.getPublicTimeline()
             withContext(Dispatchers.Default) {
                 state.emit(
                     PageState.Content(
                         res.contents.map { status ->
-                            statusAnnotator.annotateStatus(status, linkColor)
+                            statusAnnotator.annotateStatus(status)
                         }
                     )
                 )

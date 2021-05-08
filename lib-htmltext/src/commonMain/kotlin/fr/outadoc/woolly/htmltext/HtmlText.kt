@@ -1,9 +1,15 @@
 package fr.outadoc.woolly.htmltext
 
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
@@ -14,10 +20,31 @@ import fr.outadoc.woolly.htmltext.model.FlatTextNode
 
 const val URL_TAG = "URL"
 
-fun HtmlParser.parseToAnnotatedString(htmlText: String, linkColor: Color): AnnotatedString {
-    return buildAnnotatedString {
-        appendNodes(parse(htmlText), linkColor)
+@Composable
+fun NodeText(
+    modifier: Modifier = Modifier,
+    textNodes: List<FlatNode>,
+    style: TextStyle = TextStyle.Default,
+    linkColor: Color = MaterialTheme.colors.secondary,
+    uriHandler: UriHandler = LocalUriHandler.current
+) {
+    val annotatedString = buildAnnotatedString {
+        appendNodes(textNodes, linkColor)
     }
+
+    MaterialClickableText(
+        modifier = modifier,
+        text = annotatedString,
+        style = style,
+        onClick = { index ->
+            annotatedString
+                .getStringAnnotations(URL_TAG, index, index)
+                .firstOrNull()
+                ?.let { stringAnnotation ->
+                    uriHandler.openUri(stringAnnotation.item)
+                }
+        }
+    )
 }
 
 private fun AnnotatedString.Builder.appendNodes(nodes: List<FlatNode>, linkColor: Color) {

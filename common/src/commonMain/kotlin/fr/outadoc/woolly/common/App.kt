@@ -14,7 +14,6 @@ import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
 import fr.outadoc.woolly.common.ui.Navigator
 import fr.outadoc.woolly.htmltext.HtmlParser
-import kotlinx.coroutines.GlobalScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
@@ -32,8 +31,8 @@ private val di = DI {
     bindSingleton { HtmlParser() }
     bindSingleton { StatusAnnotator(instance()) }
 
-    bindSingleton { GlobalTimelineViewModel(GlobalScope, instance(), instance()) }
-    bindSingleton { LocalTimelineViewModel(GlobalScope, instance(), instance()) }
+    bindSingleton { GlobalTimelineViewModel(instance(), instance()) }
+    bindSingleton { LocalTimelineViewModel(instance(), instance()) }
 }
 
 @Composable

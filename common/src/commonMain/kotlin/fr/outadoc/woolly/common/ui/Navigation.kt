@@ -70,6 +70,7 @@ private fun RowScope.Item(
         },
         selected = currentScreen == screen,
         onClick = { onScreenSelected(screen) },
+        alwaysShowLabel = false,
         icon = {
             Icon(
                 imageVector = icon,

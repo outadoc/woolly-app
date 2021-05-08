@@ -2,8 +2,8 @@ package fr.outadoc.woolly.common.ui
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import fr.outadoc.woolly.common.feature.globaltimeline.GlobalTimelineScreen
-import fr.outadoc.woolly.common.feature.localtimeline.LocalTimelineScreen
+import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineScreen
+import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineScreen
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import org.kodein.di.compose.LocalDI

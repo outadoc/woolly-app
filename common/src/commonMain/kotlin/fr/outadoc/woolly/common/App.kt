@@ -6,12 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import fr.outadoc.mastodonk.client.MastodonClient
-import fr.outadoc.woolly.common.feature.globaltimeline.GlobalTimelineViewModel
-import fr.outadoc.woolly.common.feature.localtimeline.LocalTimelineViewModel
+import fr.outadoc.woolly.common.feature.timeline.StatusAnnotator
+import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineViewModel
+import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineViewModel
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
 import fr.outadoc.woolly.common.ui.Navigator
+import fr.outadoc.woolly.htmltext.HtmlParser
 import kotlinx.coroutines.GlobalScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -27,8 +29,11 @@ private val di = DI {
 
     bindSingleton { AppScreenResources() }
 
-    bindSingleton { GlobalTimelineViewModel(GlobalScope, instance()) }
-    bindSingleton { LocalTimelineViewModel(GlobalScope, instance()) }
+    bindSingleton { HtmlParser() }
+    bindSingleton { StatusAnnotator(instance()) }
+
+    bindSingleton { GlobalTimelineViewModel(GlobalScope, instance(), instance()) }
+    bindSingleton { LocalTimelineViewModel(GlobalScope, instance(), instance()) }
 }
 
 @Composable

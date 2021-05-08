@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.globaltimeline
+package fr.outadoc.woolly.common.feature.timeline.global
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable

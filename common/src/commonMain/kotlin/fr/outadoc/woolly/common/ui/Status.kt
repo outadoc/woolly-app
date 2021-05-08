@@ -15,17 +15,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.htmltext.HtmlText
+import fr.outadoc.woolly.common.feature.timeline.AnnotatedStatus
+import fr.outadoc.woolly.htmltext.MaterialClickableText
+import fr.outadoc.woolly.htmltext.URL_TAG
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
 
 @Composable
-fun StatusCard(status: Status) {
+fun StatusCard(status: AnnotatedStatus) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = 2.dp
@@ -35,21 +39,32 @@ fun StatusCard(status: Status) {
 }
 
 @Composable
-fun Status(status: Status) {
+fun Status(
+    status: AnnotatedStatus,
+    uriHandler: UriHandler = LocalUriHandler.current
+) {
     Row(modifier = Modifier.padding(16.dp)) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
-            account = status.account
+            account = status.original.account
         )
         Column(modifier = Modifier.fillMaxWidth()) {
             StatusHeader(
                 modifier = Modifier.padding(bottom = 6.dp),
-                status = status
+                status = status.original
             )
             SelectionContainer {
-                HtmlText(
-                    text = status.content,
-                    style = MaterialTheme.typography.body2
+                MaterialClickableText(
+                    text = status.annotatedContent,
+                    style = MaterialTheme.typography.body2,
+                    onClick = { index ->
+                        status.annotatedContent
+                            .getStringAnnotations(URL_TAG, index, index)
+                            .firstOrNull()
+                            ?.let { stringAnnotation ->
+                                uriHandler.openUri(stringAnnotation.item)
+                            }
+                    }
                 )
             }
         }

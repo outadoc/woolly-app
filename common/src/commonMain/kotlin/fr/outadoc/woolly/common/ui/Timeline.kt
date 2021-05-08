@@ -11,15 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.common.PageState
+import fr.outadoc.woolly.common.feature.timeline.AnnotatedStatus
+import fr.outadoc.woolly.common.feature.timeline.PageState
 import fr.outadoc.woolly.common.plus
 
 @Composable
 fun Timeline(
     modifier: Modifier = Modifier,
     insets: PaddingValues,
-    state: PageState<List<Status>>
+    state: PageState<List<AnnotatedStatus>>
 ) {
     when (state) {
         is PageState.Loading ->
@@ -36,7 +36,7 @@ fun Timeline(
                 contentPadding = insets + 16.dp,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(state.page.contents) { item ->
+                items(state.page) { item ->
                     StatusCard(item)
                 }
             }

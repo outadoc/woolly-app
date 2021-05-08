@@ -72,9 +72,11 @@ fun Timeline(
             }
         }
 
-        itemsIndexed(lazyPagingItems) { index, item ->
+        itemsIndexed(lazyPagingItems) { _, item ->
             if (item != null) {
                 StatusCard(item)
+            } else {
+                StatusPlaceholder()
             }
         }
 

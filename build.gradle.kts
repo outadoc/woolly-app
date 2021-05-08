@@ -18,7 +18,7 @@ buildscript {
 }
 
 allprojects {
-    group = "fr.outadoc.mastodonk"
+    group = "fr.outadoc.woolly"
     version = "0.1-alpha01"
 
     repositories {

@@ -6,9 +6,6 @@ plugins {
     id("org.jetbrains.compose") version "0.3.2"
 }
 
-group = "fr.outadoc.mastodonk"
-version = "0.1-alpha01"
-
 kotlin {
     jvm {
         compilations.all {

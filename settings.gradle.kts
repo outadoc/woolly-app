@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "mastodon-client"
+rootProject.name = "woolly"
 
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

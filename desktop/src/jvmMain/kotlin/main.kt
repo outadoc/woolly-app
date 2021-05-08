@@ -1,6 +1,6 @@
 import androidx.compose.desktop.Window
 import androidx.compose.ui.unit.IntSize
-import fr.outadoc.mastodonk.common.App
+import fr.outadoc.woolly.common.App
 
 fun main() = Window(
     title = "Mastodon Compose",

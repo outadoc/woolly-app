@@ -17,7 +17,7 @@ android {
     compileSdkVersion(30)
 
     defaultConfig {
-        applicationId = "fr.outadoc.mastodonk.android"
+        applicationId = "fr.outadoc.woolly.android"
         minSdkVersion(24)
         targetSdkVersion(30)
         versionCode = 1

@@ -26,7 +26,9 @@ kotlin {
                 api(compose.ui)
                 api(compose.materialIconsExtended)
 
+                implementation(libs.androidx.paging)
                 implementation(libs.mastodonk.core.common)
+                implementation(libs.mastodonk.paging.common)
                 implementation(libs.kamel)
                 implementation(libs.kodein)
             }
@@ -37,6 +39,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(libs.mastodonk.core.jvm)
+                implementation(libs.mastodonk.paging.jvm)
             }
         }
         val jvmTest by creating {

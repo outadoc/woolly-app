@@ -32,5 +32,6 @@ android {
 
     packagingOptions {
         pickFirst("META-INF/mastodonk-core.kotlin_module")
+        pickFirst("META-INF/mastodonk-paging.kotlin_module")
     }
 }

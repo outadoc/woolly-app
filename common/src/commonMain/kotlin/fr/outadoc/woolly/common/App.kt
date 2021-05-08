@@ -9,7 +9,6 @@ import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineViewModel
 import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineViewModel
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
-import fr.outadoc.woolly.common.feature.timeline.usecase.GetStatusListUseCase
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
@@ -31,7 +30,6 @@ private val di = DI {
 
     bindSingleton { HtmlParser() }
     bindSingleton { AnnotateStatusUseCase(instance()) }
-    bindSingleton { GetStatusListUseCase(instance(), instance()) }
 
     bindSingleton { GlobalTimelineViewModel(instance()) }
     bindSingleton { LocalTimelineViewModel(instance()) }

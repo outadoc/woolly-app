@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import fr.outadoc.mastodonk.client.MastodonClient
-import fr.outadoc.woolly.common.feature.timeline.StatusAnnotator
+import fr.outadoc.woolly.common.feature.timeline.AnnotateStatusUseCase
 import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineViewModel
 import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineViewModel
 import fr.outadoc.woolly.common.screen.AppScreen
@@ -29,7 +29,7 @@ private val di = DI {
     bindSingleton { AppScreenResources() }
 
     bindSingleton { HtmlParser() }
-    bindSingleton { StatusAnnotator(instance()) }
+    bindSingleton { AnnotateStatusUseCase(instance()) }
 
     bindSingleton { GlobalTimelineViewModel(instance(), instance()) }
     bindSingleton { LocalTimelineViewModel(instance(), instance()) }

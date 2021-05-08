@@ -3,7 +3,7 @@ import androidx.compose.ui.unit.IntSize
 import fr.outadoc.woolly.common.App
 
 fun main() = Window(
-    title = "Mastodon Compose",
+    title = "Woolly",
     size = IntSize(width = 500, height = 750)
 ) {
     App()

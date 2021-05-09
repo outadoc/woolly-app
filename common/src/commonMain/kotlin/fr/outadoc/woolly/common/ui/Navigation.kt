@@ -9,10 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LightMode
-import androidx.compose.material.icons.filled.LocalLibrary
-import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import org.kodein.di.compose.LocalDI
@@ -39,14 +36,12 @@ fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen)
         Item(
             currentScreen = currentScreen,
             screen = AppScreen.GlobalTimeline,
-            icon = Icons.Default.Public,
             onScreenSelected = onScreenSelected
         )
 
         Item(
             currentScreen = currentScreen,
             screen = AppScreen.LocalTimeline,
-            icon = Icons.Default.LocalLibrary,
             onScreenSelected = onScreenSelected
         )
     }
@@ -56,7 +51,6 @@ fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen)
 private fun RowScope.Item(
     currentScreen: AppScreen,
     screen: AppScreen,
-    icon: ImageVector,
     onScreenSelected: (AppScreen) -> Unit
 ) {
     val di = LocalDI.current
@@ -73,7 +67,7 @@ private fun RowScope.Item(
         alwaysShowLabel = false,
         icon = {
             Icon(
-                imageVector = icon,
+                imageVector = res.getScreenIcon(screen),
                 contentDescription = itemTitle
             )
         }

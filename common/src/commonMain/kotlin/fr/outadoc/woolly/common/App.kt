@@ -8,7 +8,6 @@ import androidx.compose.runtime.setValue
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
 import fr.outadoc.woolly.common.repository.StatusRepository
-import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
 import fr.outadoc.woolly.common.ui.Navigator
@@ -36,17 +35,9 @@ private val di = DI {
 @Composable
 fun App() = withDI(di) {
     var isDarkModeEnabled by remember { mutableStateOf(true) }
-    var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.GlobalTimeline) }
-
     AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
-        Navigator(
-            currentScreen = currentScreen,
-            toggleDarkMode = {
-                isDarkModeEnabled = !isDarkModeEnabled
-            },
-            onScreenSelected = { screen ->
-                currentScreen = screen
-            }
-        )
+        Navigator {
+            isDarkModeEnabled = !isDarkModeEnabled
+        }
     }
 }

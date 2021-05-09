@@ -49,7 +49,7 @@ fun Timeline(
     var currentTime by remember { mutableStateOf(Clock.System.now()) }
     rememberCoroutineScope().launch(Dispatchers.Default) {
         while (isActive) {
-            delay(10_000)
+            delay(1_000)
             currentTime = Clock.System.now()
         }
     }
@@ -57,7 +57,7 @@ fun Timeline(
     val pager: Pager<PageInfo, Status> = remember {
         Pager(
             PagingConfig(
-                pageSize = 30,
+                pageSize = 20,
                 enablePlaceholders = true,
                 maxSize = 200
             ),

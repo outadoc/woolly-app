@@ -100,18 +100,20 @@ fun StatusHeader(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 4.dp),
+                .padding(bottom = 2.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if (status.account.displayName.isNotBlank()) {
-                Text(
-                    modifier = Modifier.alignByBaseline().fillMaxWidth(0.8f),
-                    text = status.account.displayName,
-                    style = MaterialTheme.typography.subtitle1,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            Text(
+                modifier = Modifier.alignByBaseline().fillMaxWidth(0.8f),
+                text = if (status.account.displayName.isNotBlank()) {
+                    status.account.displayName
+                } else {
+                    "@${status.account.username}"
+                },
+                style = MaterialTheme.typography.subtitle1,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
 
             RelativeTime(
                 modifier = Modifier.alignByBaseline(),
@@ -122,11 +124,13 @@ fun StatusHeader(
             )
         }
 
-        Text(
-            text = "@${status.account.username}",
-            style = MaterialTheme.typography.subtitle2,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
+        if (status.account.displayName.isNotBlank()) {
+            Text(
+                text = "@${status.account.username}",
+                style = MaterialTheme.typography.subtitle2,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }

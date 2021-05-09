@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,8 +27,12 @@ import fr.outadoc.mastodonk.api.entity.paging.PageInfo
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
 import fr.outadoc.woolly.common.plus
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -36,6 +44,15 @@ fun Timeline(
 ) {
     val di = LocalDI.current
     val annotateStatusUseCase by di.instance<AnnotateStatusUseCase>()
+
+    // Periodically refresh timestamps
+    var currentTime by remember { mutableStateOf(Clock.System.now()) }
+    rememberCoroutineScope().launch(Dispatchers.Default) {
+        while (isActive) {
+            delay(10_000)
+            currentTime = Clock.System.now()
+        }
+    }
 
     val pager: Pager<PageInfo, Status> = remember {
         Pager(
@@ -61,7 +78,6 @@ fun Timeline(
         contentPadding = insets + 16.dp,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
         if (lazyPagingItems.loadState.refresh == LoadState.Loading) {
             item {
                 CircularProgressIndicator(
@@ -74,7 +90,10 @@ fun Timeline(
 
         itemsIndexed(lazyPagingItems) { _, item ->
             if (item != null) {
-                StatusCard(item)
+                StatusCard(
+                    status = item,
+                    currentTime = currentTime
+                )
             } else {
                 StatusPlaceholder()
             }

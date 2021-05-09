@@ -16,7 +16,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,15 +27,18 @@ import fr.outadoc.woolly.htmltext.NodeText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 @Composable
-fun StatusCard(status: AnnotatedStatus) {
+fun StatusCard(status: AnnotatedStatus, currentTime: Instant) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = 2.dp
     ) {
-        Status(status)
+        Status(
+            status = status,
+            currentTime = currentTime
+        )
     }
 }
 
@@ -46,7 +48,7 @@ fun StatusPlaceholder() {
 }
 
 @Composable
-fun Status(status: AnnotatedStatus) {
+fun Status(status: AnnotatedStatus, currentTime: Instant) {
     Row(modifier = Modifier.padding(16.dp)) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
@@ -55,7 +57,8 @@ fun Status(status: AnnotatedStatus) {
         Column(modifier = Modifier.fillMaxWidth()) {
             StatusHeader(
                 modifier = Modifier.padding(bottom = 6.dp),
-                status = status.original
+                status = status.original,
+                currentTime = currentTime
             )
             SelectionContainer {
                 NodeText(
@@ -88,9 +91,11 @@ fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
 }
 
 @Composable
-fun StatusHeader(modifier: Modifier = Modifier, status: Status) {
-    val currentTime = remember { Clock.System.now() }
-
+fun StatusHeader(
+    modifier: Modifier = Modifier,
+    status: Status,
+    currentTime: Instant
+) {
     Column(modifier = modifier) {
         Row(
             modifier = Modifier

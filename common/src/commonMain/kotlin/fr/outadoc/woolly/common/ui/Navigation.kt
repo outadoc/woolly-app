@@ -18,7 +18,7 @@ import org.kodein.di.instance
 @Composable
 fun MainTopAppBar(title: String, toggleDarkMode: () -> Unit) {
     TopAppBar(
-        title = { Text(text = title) },
+        title = { Text(title) },
         actions = {
             IconButton(onClick = { toggleDarkMode() }) {
                 Icon(
@@ -32,18 +32,20 @@ fun MainTopAppBar(title: String, toggleDarkMode: () -> Unit) {
 
 @Composable
 fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen) -> Unit) {
-    BottomNavigation {
-        Item(
-            currentScreen = currentScreen,
-            screen = AppScreen.GlobalTimeline,
-            onScreenSelected = onScreenSelected
-        )
+    val screens = listOf(
+        AppScreen.GlobalTimeline,
+        AppScreen.LocalTimeline,
+        AppScreen.Search
+    )
 
-        Item(
-            currentScreen = currentScreen,
-            screen = AppScreen.LocalTimeline,
-            onScreenSelected = onScreenSelected
-        )
+    BottomNavigation {
+        screens.forEach { screen ->
+            Item(
+                currentScreen = currentScreen,
+                screen = screen,
+                onScreenSelected = onScreenSelected
+            )
+        }
     }
 }
 
@@ -59,12 +61,8 @@ private fun RowScope.Item(
     val itemTitle = res.getScreenTitle(screen)
 
     BottomNavigationItem(
-        label = {
-            Text(text = itemTitle)
-        },
         selected = currentScreen == screen,
         onClick = { onScreenSelected(screen) },
-        alwaysShowLabel = false,
         icon = {
             Icon(
                 imageVector = res.getScreenIcon(screen),

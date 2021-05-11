@@ -1,9 +1,8 @@
 package fr.outadoc.woolly.common.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -78,13 +77,26 @@ fun Timeline(
         contentPadding = insets + 16.dp,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        if (lazyPagingItems.loadState.refresh == LoadState.Loading) {
-            item {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.CenterHorizontally)
-                )
+        when (val state = lazyPagingItems.loadState.refresh) {
+            LoadState.Loading -> {
+                item {
+                    Column(
+                        modifier = Modifier.fillParentMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            }
+
+            is LoadState.Error -> {
+                item {
+                    CenteredErrorMessage(
+                        error = state.error,
+                        onRetry = lazyPagingItems::retry
+                    )
+                }
             }
         }
 
@@ -101,11 +113,13 @@ fun Timeline(
 
         if (lazyPagingItems.loadState.append == LoadState.Loading) {
             item {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.CenterHorizontally)
-                )
+                Column(
+                    modifier = Modifier.fillParentMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                }
             }
         }
     }

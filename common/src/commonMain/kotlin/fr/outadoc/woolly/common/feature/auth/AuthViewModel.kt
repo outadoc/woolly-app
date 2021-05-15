@@ -11,7 +11,7 @@ class AuthViewModel(
     private val authProxyRepository: AuthProxyRepository,
     private val preferenceRepository: PreferenceRepository
 ) {
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Disconnected)
+    private val _authState = MutableStateFlow<AuthState>(AuthState.Disconnected())
     val authState: StateFlow<AuthState> = _authState
 
     suspend fun onDomainSelected(domain: String) {

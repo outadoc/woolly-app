@@ -2,7 +2,7 @@ package fr.outadoc.woolly.common.feature.timeline.local
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import fr.outadoc.woolly.common.repository.StatusRepository
+import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.MainBottomNavigation

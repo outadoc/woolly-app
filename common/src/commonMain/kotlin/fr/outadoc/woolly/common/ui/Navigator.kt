@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import fr.outadoc.woolly.common.feature.search.SearchScreen
+import fr.outadoc.woolly.common.feature.search.ui.SearchScreen
 import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineScreen
 import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineScreen
 import fr.outadoc.woolly.common.screen.AppScreen

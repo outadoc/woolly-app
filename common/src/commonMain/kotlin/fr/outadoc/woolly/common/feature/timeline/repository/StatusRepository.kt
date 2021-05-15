@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.repository
+package fr.outadoc.woolly.common.feature.timeline.repository
 
 import androidx.paging.PagingSource
 import fr.outadoc.mastodonk.api.entity.Status

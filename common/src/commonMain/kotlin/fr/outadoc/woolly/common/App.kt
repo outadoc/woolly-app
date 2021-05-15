@@ -7,9 +7,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
+import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
+import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
-import fr.outadoc.woolly.common.repository.SearchRepository
-import fr.outadoc.woolly.common.repository.StatusRepository
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
 import fr.outadoc.woolly.common.ui.Navigator

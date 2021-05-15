@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.search
+package fr.outadoc.woolly.common.feature.search.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +17,6 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
@@ -30,6 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import fr.outadoc.woolly.common.feature.search.SearchScreenResources
+import fr.outadoc.woolly.common.feature.search.SubSearchScreen
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.ui.MainBottomNavigation
 import org.kodein.di.compose.LocalDI

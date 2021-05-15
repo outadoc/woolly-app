@@ -29,7 +29,7 @@ class DesktopPreferenceRepositoryImpl(
 
     init {
         scope.launch {
-            authInfo.collect {
+            authInfo.collect { authInfo ->
                 prefs.put(KEY_AUTH_INFO, json.encodeToString(authInfo))
             }
         }

@@ -8,6 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import fr.outadoc.woolly.common.App
 import fr.outadoc.woolly.common.feature.preference.AndroidPreferenceRepositoryImpl
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.json.Json
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 
@@ -24,10 +26,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private val di = DI {
+
+        bindSingleton { Json {} }
+        bindSingleton<CoroutineScope> { lifecycleScope }
+
         bindSingleton<PreferenceRepository> {
             AndroidPreferenceRepositoryImpl(
-                scope = lifecycleScope,
                 context = this@MainActivity,
+                scope = instance(),
                 json = instance()
             )
         }

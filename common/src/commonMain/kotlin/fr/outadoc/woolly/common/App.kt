@@ -26,8 +26,6 @@ import org.kodein.di.instance
 
 private val di = fun DI.MainBuilder.() {
 
-    bindSingleton { kotlinx.serialization.json.Json {} }
-
     bindSingleton {
         HttpClient {
             install(JsonFeature) {
@@ -46,7 +44,7 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { SearchRepository(instance()) }
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
 
-    bindSingleton { AuthViewModel(instance(), instance()) }
+    bindSingleton { AuthViewModel(instance(), instance(), instance()) }
 }
 
 @Composable

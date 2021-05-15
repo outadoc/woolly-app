@@ -4,7 +4,9 @@ import androidx.compose.ui.unit.IntSize
 import fr.outadoc.woolly.common.App
 import fr.outadoc.woolly.common.feature.preference.DesktopPreferenceRepositoryImpl
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
+import kotlinx.serialization.json.Json
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
@@ -23,7 +25,11 @@ private fun DesktopApp() = withDI(di) {
 }
 
 private val di = DI {
+
+    bindSingleton { Json {} }
+    bindSingleton<CoroutineScope> { GlobalScope }
+
     bindSingleton<PreferenceRepository> {
-        DesktopPreferenceRepositoryImpl(scope = GlobalScope, json = instance())
+        DesktopPreferenceRepositoryImpl(instance(), instance())
     }
 }

@@ -1,25 +1,22 @@
 package fr.outadoc.woolly.common.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import fr.outadoc.woolly.common.feature.search.ui.SearchScreen
-import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineScreen
-import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineScreen
-import fr.outadoc.woolly.common.screen.AppScreen
+import fr.outadoc.woolly.common.feature.auth.AuthRouter
+import fr.outadoc.woolly.common.feature.auth.AuthState
+import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import org.kodein.di.compose.LocalDI
+import org.kodein.di.instance
 
 @Composable
 fun Router(toggleDarkMode: () -> Unit) {
-    var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.GlobalTimeline) }
-    val onScreenSelected = { screen: AppScreen ->
-        currentScreen = screen
-    }
+    val di = LocalDI.current
+    val vm by di.instance<AuthViewModel>()
+    val authState by vm.authState.collectAsState()
 
-    when (currentScreen) {
-        AppScreen.GlobalTimeline -> GlobalTimelineScreen(toggleDarkMode, onScreenSelected)
-        AppScreen.LocalTimeline -> LocalTimelineScreen(toggleDarkMode, onScreenSelected)
-        AppScreen.Search -> SearchScreen(onScreenSelected)
+    when (authState) {
+        is AuthState.Authenticated -> MainRouter(toggleDarkMode)
+        else -> AuthRouter()
     }
 }

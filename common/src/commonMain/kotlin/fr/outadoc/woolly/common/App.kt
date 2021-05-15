@@ -14,6 +14,9 @@ import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
 import fr.outadoc.woolly.common.ui.Navigator
 import fr.outadoc.woolly.htmltext.HtmlParser
+import io.ktor.client.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
@@ -23,6 +26,14 @@ private val di = DI {
     bindSingleton {
         MastodonClient {
             domain = "mastodon.social"
+        }
+    }
+
+    bindSingleton {
+        HttpClient {
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(json = json)
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 [versions]
 mastodonk = "0.1-alpha15"
+ktor = "1.5.3"
 
 [libraries]
 mastodonk-core-common = { module = "fr.outadoc.mastodonk:mastodonk-core", version.ref = "mastodonk" }
@@ -14,3 +15,6 @@ junit = "junit:junit:4.13"
 kamel = "com.alialbaali.kamel:kamel-image:0.2.0"
 kodein = "org.kodein.di:kodein-di-framework-compose:7.5.0"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.2.0"
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-engine-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }

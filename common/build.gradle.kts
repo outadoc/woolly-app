@@ -32,6 +32,8 @@ kotlin {
                 implementation(libs.kamel)
                 implementation(libs.kodein)
                 implementation(libs.kotlinx.datetime)
+                implementation(libs.ktor.core)
+                implementation(libs.ktor.serialization)
             }
         }
         val commonTest by getting
@@ -41,6 +43,7 @@ kotlin {
             dependencies {
                 implementation(libs.mastodonk.core.jvm)
                 implementation(libs.mastodonk.paging.jvm)
+                implementation(libs.ktor.engine.cio)
             }
         }
         val jvmTest by creating {

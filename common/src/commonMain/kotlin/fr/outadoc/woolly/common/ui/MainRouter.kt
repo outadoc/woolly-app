@@ -11,7 +11,7 @@ import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineScreen
 import fr.outadoc.woolly.common.screen.AppScreen
 
 @Composable
-fun Navigator(toggleDarkMode: () -> Unit) {
+fun MainRouter(toggleDarkMode: () -> Unit) {
     var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.GlobalTimeline) }
     val onScreenSelected = { screen: AppScreen ->
         currentScreen = screen

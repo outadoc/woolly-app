@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
+import org.kodein.di.instance
 
 class MainActivity : ComponentActivity() {
 

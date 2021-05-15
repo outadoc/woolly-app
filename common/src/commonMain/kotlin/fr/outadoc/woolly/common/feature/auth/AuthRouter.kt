@@ -30,10 +30,8 @@ fun AuthRouter() {
     ) {
         Box(modifier = Modifier.padding(16.dp)) {
             when (val state = authState) {
-                is AuthState.Disconnected -> DomainSelectScreen(
-                    state.loading
-                )
-                is AuthState.InstanceSelected -> CodeInputScreen(state.error)
+                is AuthState.Disconnected -> DomainSelectScreen(state)
+                is AuthState.InstanceSelected -> CodeInputScreen(state)
                 is AuthState.Authenticated -> Unit
             }
         }

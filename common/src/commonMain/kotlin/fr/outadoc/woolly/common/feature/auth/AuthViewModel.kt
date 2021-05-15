@@ -18,6 +18,8 @@ class AuthViewModel(
 
     fun onDomainSelected(domain: String) {
         val currentState = authState.value as? AuthState.Disconnected ?: return
+        if (currentState.loading) return
+
         val client = MastodonClient {
             this.domain = domain.trim()
         }
@@ -27,22 +29,26 @@ class AuthViewModel(
         scope.launch(Dispatchers.IO) {
             _authState.value = try {
                 client.instance.getInstanceInfo()
-                AuthState.InstanceSelected(domain.trim())
+                AuthState.InstanceSelected(
+                    domain = domain.trim(),
+                    authorizeUrl = authProxyRepository.getAuthorizeUrl(domain.trim())
+                )
             } catch (e: Throwable) {
                 currentState.copy(loading = false, error = e)
             }
         }
     }
 
-    fun onAuthCodeReceived(domain: String, code: String) {
+    fun onAuthCodeReceived(code: String) {
         val currentState = authState.value as? AuthState.InstanceSelected ?: return
+        if (currentState.loading) return
 
         _authState.value = currentState.copy(loading = true)
 
         scope.launch(Dispatchers.IO) {
             _authState.value = try {
-                val token = authProxyRepository.getToken(domain.trim(), code)
-                val authInfo = AuthInfo(domain.trim(), token)
+                val token = authProxyRepository.getToken(currentState.domain, code)
+                val authInfo = AuthInfo(currentState.domain, token)
 
                 // Save auth info to disk
                 preferenceRepository.authInfo.value = authInfo

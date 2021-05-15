@@ -1,5 +1,7 @@
 import androidx.compose.desktop.Window
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.IntSize
 import fr.outadoc.woolly.common.App
 import fr.outadoc.woolly.common.feature.preference.DesktopPreferenceRepositoryImpl
@@ -21,7 +23,9 @@ fun main() = Window(
 
 @Composable
 private fun DesktopApp() = withDI(di) {
-    App()
+    CompositionLocalProvider(LocalUriHandler provides DesktopUriHandler()) {
+        App()
+    }
 }
 
 private val di = DI {

@@ -21,22 +21,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import fr.outadoc.woolly.common.feature.auth.AuthState
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.ui.ErrorScreen
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
-fun DomainSelectScreen(
-    loading: Boolean = false,
-    error: Throwable? = null
-) {
+fun DomainSelectScreen(state: AuthState.Disconnected) {
     val di = LocalDI.current
     val vm by di.instance<AuthViewModel>()
 
     var domain by remember { mutableStateOf("") }
 
-    if (loading) {
+    if (state.loading) {
         Column(
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -50,29 +50,23 @@ fun DomainSelectScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
-            label = {
-                Text("Instance domain")
-            }, placeholder = {
-                Text("mastodon.example")
-            },
+            label = { Text("Instance domain") },
+            placeholder = { Text("mastodon.example") },
             value = domain,
-            onValueChange = { value ->
-                domain = value
-            },
+            onValueChange = { value -> domain = value },
             keyboardActions = KeyboardActions(
-                onDone = {
-                    vm.onDomainSelected(domain)
-                }
+                onDone = { vm.onDomainSelected(domain) }
             ),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Uri
-            )
+            ),
+            singleLine = true
         )
 
-        if (error != null) {
+        if (state.error != null) {
             Text(
-                text = error.localizedMessage,
+                text = state.error.message ?: "Error while fetching instance details.",
                 modifier = Modifier.padding(top = 16.dp),
                 style = MaterialTheme.typography.body1,
                 color = MaterialTheme.colors.error

@@ -12,7 +12,7 @@ import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
-import fr.outadoc.woolly.common.ui.Navigator
+import fr.outadoc.woolly.common.ui.Router
 import fr.outadoc.woolly.htmltext.HtmlParser
 import io.ktor.client.*
 import io.ktor.client.features.json.*
@@ -53,7 +53,7 @@ private val di = fun DI.MainBuilder.() {
 fun App() = subDI(diBuilder = di) {
     var isDarkModeEnabled by remember { mutableStateOf(true) }
     AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
-        Navigator {
+        Router {
             isDarkModeEnabled = !isDarkModeEnabled
         }
     }

@@ -5,7 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import fr.outadoc.mastodonk.client.MastodonClient
+import fr.outadoc.woolly.common.feature.auth.AuthProxyRepository
+import fr.outadoc.woolly.common.feature.auth.AuthProxyRepositoryImpl
+import fr.outadoc.woolly.common.feature.auth.AuthViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
@@ -23,11 +25,6 @@ import org.kodein.di.compose.subDI
 import org.kodein.di.instance
 
 private val di = fun DI.MainBuilder.() {
-    bindSingleton {
-        MastodonClient {
-            domain = "mastodon.social"
-        }
-    }
 
     bindSingleton { kotlinx.serialization.json.Json {} }
 
@@ -47,6 +44,9 @@ private val di = fun DI.MainBuilder.() {
 
     bindSingleton { StatusRepository(instance()) }
     bindSingleton { SearchRepository(instance()) }
+    bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
+
+    bindSingleton { AuthViewModel(instance(), instance()) }
 }
 
 @Composable

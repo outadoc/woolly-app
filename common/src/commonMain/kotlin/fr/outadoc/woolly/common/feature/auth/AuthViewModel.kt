@@ -24,7 +24,7 @@ class AuthViewModel(
                 client.instance.getInstanceInfo()
                 AuthState.InstanceSelected(domain.trim())
             } catch (e: Throwable) {
-                AuthState.Error(e)
+                AuthState.Disconnected(e)
             }
         }
     }
@@ -41,7 +41,7 @@ class AuthViewModel(
                 // We're authenticated!
                 AuthState.Authenticated(authInfo)
             } catch (e: Throwable) {
-                AuthState.Error(e)
+                AuthState.InstanceSelected(domain, e)
             }
         }
     }

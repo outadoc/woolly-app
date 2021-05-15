@@ -14,10 +14,10 @@ import kotlinx.serialization.json.Json
 
 class AndroidPreferenceRepositoryImpl(
     scope: CoroutineScope,
-    context: Context
+    context: Context,
+    private val json: Json
 ) : PreferenceRepository {
 
-    private val json = Json {}
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     companion object {

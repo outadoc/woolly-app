@@ -19,20 +19,22 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
-import org.kodein.di.compose.withDI
+import org.kodein.di.compose.subDI
 import org.kodein.di.instance
 
-private val di = DI {
+private val di = fun DI.MainBuilder.() {
     bindSingleton {
         MastodonClient {
             domain = "mastodon.social"
         }
     }
 
+    bindSingleton { kotlinx.serialization.json.Json {} }
+
     bindSingleton {
         HttpClient {
             install(JsonFeature) {
-                serializer = KotlinxSerializer(json = json)
+                serializer = KotlinxSerializer(json = instance())
             }
         }
     }
@@ -48,7 +50,7 @@ private val di = DI {
 }
 
 @Composable
-fun App() = withDI(di) {
+fun App() = subDI(diBuilder = di) {
     var isDarkModeEnabled by remember { mutableStateOf(true) }
     AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
         Navigator {

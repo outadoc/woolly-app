@@ -27,14 +27,15 @@ kotlin {
                 api(compose.ui)
                 api(compose.materialIconsExtended)
 
+                api(libs.kodein)
+                api(libs.ktor.serialization)
+
                 implementation(libs.androidx.paging)
                 implementation(libs.mastodonk.core.common)
                 implementation(libs.mastodonk.paging.common)
                 implementation(libs.kamel)
-                implementation(libs.kodein)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.core)
-                implementation(libs.ktor.serialization)
             }
         }
         val commonTest by getting

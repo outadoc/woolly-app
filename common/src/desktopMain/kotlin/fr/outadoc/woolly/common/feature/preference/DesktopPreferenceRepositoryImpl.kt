@@ -10,9 +10,11 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.prefs.Preferences
 
-class DesktopPreferenceRepositoryImpl(scope: CoroutineScope) : PreferenceRepository {
+class DesktopPreferenceRepositoryImpl(
+    scope: CoroutineScope,
+    private val json: Json
+) : PreferenceRepository {
 
-    private val json = Json {}
     private val prefs = Preferences.userNodeForPackage(PreferenceRepository::class.java)
 
     companion object {

@@ -30,7 +30,9 @@ class AuthViewModel(private val authProxyRepository: AuthProxyRepository) {
         withContext(Dispatchers.IO) {
             _authState.value = try {
                 val token = authProxyRepository.getToken(domain.trim(), code)
-                AuthState.Authenticated(domain.trim(), token)
+                AuthState.Authenticated(
+                    AuthInfo(domain.trim(), token)
+                )
             } catch (e: Throwable) {
                 AuthState.Error(e)
             }

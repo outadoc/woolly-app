@@ -31,11 +31,13 @@ class AuthProxyRepositoryImpl(private val httpClient: HttpClient) : AuthProxyRep
             }.build()
 
             httpClient.post(url) {
-                formData {
-                    append("redirect_uri", redirectUri)
-                    append("scope", scope)
-                    append("code", code)
-                }
+                body = FormDataContent(
+                    Parameters.build {
+                        append("redirect_uri", redirectUri)
+                        append("scope", scope)
+                        append("code", code)
+                    }
+                )
             }
         }
     }

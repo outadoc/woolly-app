@@ -13,7 +13,9 @@ class AuthViewModel(
     private val authProxyRepository: AuthProxyRepository,
     private val preferenceRepository: PreferenceRepository
 ) {
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Disconnected())
+    private val _authState = MutableStateFlow(
+        preferenceRepository.authInfo.value.toAuthState()
+    )
     val authState: StateFlow<AuthState> = _authState
 
     fun onDomainSelected(domain: String) {
@@ -59,5 +61,10 @@ class AuthViewModel(
                 currentState.copy(error = e)
             }
         }
+    }
+
+    private fun AuthInfo?.toAuthState(): AuthState {
+        return if (this == null) AuthState.Disconnected()
+        else AuthState.Authenticated(this)
     }
 }

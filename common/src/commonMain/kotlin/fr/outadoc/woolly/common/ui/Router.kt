@@ -3,6 +3,8 @@ package fr.outadoc.woolly.common.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import fr.outadoc.mastodonk.auth.AuthToken
+import fr.outadoc.mastodonk.auth.AuthTokenProvider
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.auth.AuthRouter
 import fr.outadoc.woolly.common.feature.auth.AuthState
@@ -24,6 +26,14 @@ fun Router(toggleDarkMode: () -> Unit) {
                 bindSingleton {
                     MastodonClient {
                         domain = state.authInfo.domain
+                        authTokenProvider = AuthTokenProvider {
+                            with(state.authInfo.token) {
+                                AuthToken(
+                                    type = tokenType,
+                                    accessToken = accessToken
+                                )
+                            }
+                        }
                     }
                 }
             }) {

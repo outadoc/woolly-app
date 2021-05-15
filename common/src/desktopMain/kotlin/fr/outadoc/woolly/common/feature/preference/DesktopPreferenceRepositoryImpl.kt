@@ -15,7 +15,7 @@ class DesktopPreferenceRepositoryImpl(
     private val json: Json
 ) : PreferenceRepository {
 
-    private val prefs = Preferences.userNodeForPackage(PreferenceRepository::class.java)
+    private val prefs = Preferences.userRoot()
 
     companion object {
         private const val KEY_AUTH_INFO = "auth_info"

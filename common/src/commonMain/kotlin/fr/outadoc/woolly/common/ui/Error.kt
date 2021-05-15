@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import fr.outadoc.mastodonk.api.entity.Error
+import fr.outadoc.mastodonk.client.MastodonApiException
 
 @Composable
 fun LazyItemScope.CenteredErrorMessage(error: Throwable? = null, onRetry: () -> Unit = {}) {
@@ -20,7 +22,7 @@ fun LazyItemScope.CenteredErrorMessage(error: Throwable? = null, onRetry: () -> 
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ErrorMessage(
+        ErrorScreen(
             error = error,
             onRetry = onRetry
         )
@@ -28,21 +30,14 @@ fun LazyItemScope.CenteredErrorMessage(error: Throwable? = null, onRetry: () -> 
 }
 
 @Composable
-fun ErrorMessage(error: Throwable? = null, onRetry: () -> Unit = {}) {
+fun ErrorScreen(error: Throwable? = null, onRetry: () -> Unit = {}) {
     Text(
         "An error happened while loading.",
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.h5
     )
 
-    error?.message?.let { errorMessage ->
-        Text(
-            errorMessage,
-            modifier = Modifier.padding(top = 8.dp),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.body1
-        )
-    }
+    ExceptionErrorMessage(error)
 
     Button(
         modifier = Modifier.padding(top = 16.dp),
@@ -50,4 +45,47 @@ fun ErrorMessage(error: Throwable? = null, onRetry: () -> Unit = {}) {
     ) {
         Text("Retry")
     }
+}
+
+@Composable
+fun ExceptionErrorMessage(error: Throwable?) {
+    val genericErrorMessage = error?.message
+    val apiError = (error as? MastodonApiException)?.apiError
+
+    if (apiError != null) {
+        MastodonErrorMessage(apiError)
+    } else if (genericErrorMessage != null) {
+        GenericErrorMessage(genericErrorMessage)
+    }
+
+}
+
+@Composable
+fun MastodonErrorMessage(apiError: Error) {
+    Text(
+        apiError.error,
+        modifier = Modifier.padding(top = 8.dp),
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.body1
+    )
+
+    val description = apiError.errorDescription
+    if (description != null) {
+        Text(
+            description,
+            modifier = Modifier.padding(top = 8.dp),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body2
+        )
+    }
+}
+
+@Composable
+fun GenericErrorMessage(message: String) {
+    Text(
+        message,
+        modifier = Modifier.padding(top = 8.dp),
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.body1
+    )
 }

@@ -22,7 +22,7 @@ import org.kodein.di.instance
 private val di = DI {
     bindSingleton {
         MastodonClient {
-            baseUrl = "https://mastodon.social"
+            domain = "mastodon.social"
         }
     }
 

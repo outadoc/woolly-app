@@ -1,5 +1,5 @@
 [versions]
-mastodonk = "0.1-alpha13"
+mastodonk = "0.1-alpha15"
 
 [libraries]
 mastodonk-core-common = { module = "fr.outadoc.mastodonk:mastodonk-core", version.ref = "mastodonk" }

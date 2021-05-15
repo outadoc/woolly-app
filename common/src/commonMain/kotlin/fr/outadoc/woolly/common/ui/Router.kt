@@ -9,6 +9,8 @@ import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.auth.AuthRouter
 import fr.outadoc.woolly.common.feature.auth.AuthState
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
+import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.subDI
@@ -23,6 +25,8 @@ fun Router(toggleDarkMode: () -> Unit) {
     when (val state = authState) {
         is AuthState.Authenticated -> {
             subDI(diBuilder = {
+                bindSingleton { StatusRepository(instance()) }
+                bindSingleton { SearchRepository(instance()) }
                 bindSingleton {
                     MastodonClient {
                         domain = state.authInfo.domain

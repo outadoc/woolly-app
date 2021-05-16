@@ -23,7 +23,7 @@ fun RelativeTime(
         duration.inSeconds < 5.0 -> "Now"
         duration.inMinutes < 1.0 -> "${truncate(duration.inSeconds).toInt()} s"
         duration.inHours < 1.0 -> "${truncate(duration.inMinutes).toInt()} m"
-        duration.inDays < 1.0 -> "${truncate(duration.inDays).toInt()} h"
+        duration.inDays < 1.0 -> "${truncate(duration.inHours).toInt()} h"
         else -> "${truncate(duration.inDays).toInt()} d"
     }
 

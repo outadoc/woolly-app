@@ -21,14 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.auth.AuthState
-import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
 import fr.outadoc.woolly.common.plus
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
-fun DomainSelectScreen(state: AuthState.Disconnected) {
+fun DomainSelectScreen(state: AuthViewModel.State.Disconnected) {
     val di = LocalDI.current
     val vm by di.instance<AuthViewModel>()
 

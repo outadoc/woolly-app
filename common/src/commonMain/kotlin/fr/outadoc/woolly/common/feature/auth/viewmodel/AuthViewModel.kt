@@ -1,9 +1,10 @@
-package fr.outadoc.woolly.common.feature.auth
+package fr.outadoc.woolly.common.feature.auth.viewmodel
 
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.auth.info.AuthInfo
 import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSubscriber
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
+import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,16 +16,34 @@ class AuthViewModel(
     private val authProxyRepository: AuthProxyRepository,
     private val authInfoSubscriber: AuthInfoSubscriber
 ) {
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Disconnected())
-    val authState: StateFlow<AuthState> = _authState
+    sealed class State {
+
+        data class Disconnected(
+            val error: Throwable? = null,
+            val loading: Boolean = false,
+            val domain: String = ""
+        ) : State()
+
+        data class InstanceSelected(
+            val domain: String,
+            val authorizeUrl: Url,
+            val error: Throwable? = null,
+            val loading: Boolean = false
+        ) : State()
+
+        data class Authenticated(val authInfo: AuthInfo) : State()
+    }
+
+    private val _state = MutableStateFlow<State>(State.Disconnected())
+    val state: StateFlow<State> = _state
 
     fun onDomainTextChanged(domain: String) {
-        val currentState = authState.value as? AuthState.Disconnected ?: return
-        _authState.value = currentState.copy(domain = domain)
+        val currentState = state.value as? State.Disconnected ?: return
+        _state.value = currentState.copy(domain = domain)
     }
 
     fun onSubmitDomain() {
-        val currentState = authState.value as? AuthState.Disconnected ?: return
+        val currentState = state.value as? State.Disconnected ?: return
         if (currentState.loading) return
 
         val domain = currentState.domain.trim()
@@ -33,12 +52,12 @@ class AuthViewModel(
             this.domain = domain
         }
 
-        _authState.value = currentState.copy(loading = true)
+        _state.value = currentState.copy(loading = true)
 
         scope.launch(Dispatchers.IO) {
-            _authState.value = try {
+            _state.value = try {
                 client.instance.getInstanceInfo()
-                AuthState.InstanceSelected(
+                State.InstanceSelected(
                     domain = domain,
                     authorizeUrl = authProxyRepository.getAuthorizeUrl(domain)
                 )
@@ -49,19 +68,19 @@ class AuthViewModel(
     }
 
     fun onAuthCodeReceived(code: String) {
-        val currentState = authState.value as? AuthState.InstanceSelected ?: return
+        val currentState = state.value as? State.InstanceSelected ?: return
         if (currentState.loading) return
 
-        _authState.value = currentState.copy(loading = true)
+        _state.value = currentState.copy(loading = true)
 
         scope.launch(Dispatchers.IO) {
-            _authState.value = try {
+            _state.value = try {
                 val token = authProxyRepository.getToken(currentState.domain, code)
                 val authInfo = AuthInfo(currentState.domain, token)
 
                 // We're authenticated!
                 authInfoSubscriber.publish(authInfo)
-                AuthState.Authenticated(authInfo)
+                State.Authenticated(authInfo)
             } catch (e: Throwable) {
                 currentState.copy(error = e)
             }
@@ -69,7 +88,7 @@ class AuthViewModel(
     }
 
     fun onBackPressed() {
-        val currentState = authState.value as? AuthState.InstanceSelected ?: return
-        _authState.value = AuthState.Disconnected(domain = currentState.domain)
+        val currentState = state.value as? State.InstanceSelected ?: return
+        _state.value = State.Disconnected(domain = currentState.domain)
     }
 }

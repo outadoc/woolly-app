@@ -32,14 +32,13 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.auth.AuthState
-import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
 import fr.outadoc.woolly.common.plus
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
-fun CodeInputScreen(state: AuthState.InstanceSelected) {
+fun CodeInputScreen(state: AuthViewModel.State.InstanceSelected) {
     val di = LocalDI.current
     val vm by di.instance<AuthViewModel>()
 

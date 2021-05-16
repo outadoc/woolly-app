@@ -10,9 +10,9 @@ import fr.outadoc.woolly.common.feature.auth.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
+import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
-import fr.outadoc.woolly.common.ui.Router
 import fr.outadoc.woolly.htmltext.HtmlParser
 import io.ktor.client.*
 import io.ktor.client.features.json.*

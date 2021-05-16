@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

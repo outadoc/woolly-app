@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.navigation
 
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar

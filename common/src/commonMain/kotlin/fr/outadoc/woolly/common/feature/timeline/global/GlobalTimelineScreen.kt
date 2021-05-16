@@ -4,16 +4,16 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
+import fr.outadoc.woolly.common.navigation.MainTopAppBar
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
-import fr.outadoc.woolly.common.ui.MainTopAppBar
 import fr.outadoc.woolly.common.ui.Timeline
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
 fun GlobalTimelineScreen(
-    drawer: @Composable (ColumnScope.() -> Unit),
+    drawer: @Composable ColumnScope.() -> Unit,
     bottomBar: @Composable () -> Unit
 ) {
     val di = LocalDI.current

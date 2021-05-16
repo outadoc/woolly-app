@@ -2,6 +2,7 @@ package fr.outadoc.woolly.common.feature.timeline.local
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.navigation.MainTopAppBar
@@ -13,6 +14,7 @@ import org.kodein.di.instance
 
 @Composable
 fun LocalTimelineScreen(
+    scaffoldState: ScaffoldState,
     drawer: @Composable ColumnScope.() -> Unit,
     bottomBar: @Composable () -> Unit
 ) {
@@ -21,7 +23,8 @@ fun LocalTimelineScreen(
     val res by di.instance<AppScreenResources>()
 
     Scaffold(
-        topBar = { MainTopAppBar(title = res.getScreenTitle(AppScreen.LocalTimeline)) },
+        scaffoldState = scaffoldState,
+        topBar = { MainTopAppBar(title = res.getScreenTitle(AppScreen.LocalTimeline), scaffoldState) },
         bottomBar = { bottomBar() },
         drawerContent = { drawer() }
     ) { insets ->

@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.navigation
 
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,21 +13,26 @@ import fr.outadoc.woolly.common.screen.AppScreen
 
 @Composable
 fun MainRouter(toggleDarkMode: () -> Unit) {
+    val scaffoldState = rememberScaffoldState()
     var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.GlobalTimeline) }
+
     val onScreenSelected = { screen: AppScreen ->
         currentScreen = screen
     }
 
     when (currentScreen) {
         AppScreen.GlobalTimeline -> GlobalTimelineScreen(
+            scaffoldState = scaffoldState,
             drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
         AppScreen.LocalTimeline -> LocalTimelineScreen(
+            scaffoldState = scaffoldState,
             drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
         AppScreen.Search -> SearchScreen(
+            scaffoldState = scaffoldState,
             drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )

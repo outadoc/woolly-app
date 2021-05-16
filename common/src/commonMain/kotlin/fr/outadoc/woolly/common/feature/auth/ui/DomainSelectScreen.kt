@@ -16,10 +16,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -35,8 +31,6 @@ import org.kodein.di.instance
 fun DomainSelectScreen(state: AuthState.Disconnected) {
     val di = LocalDI.current
     val vm by di.instance<AuthViewModel>()
-
-    var domain by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -62,10 +56,10 @@ fun DomainSelectScreen(state: AuthState.Disconnected) {
                         .padding(top = 24.dp),
                     label = { Text("Instance domain") },
                     placeholder = { Text("mastodon.example") },
-                    value = domain,
-                    onValueChange = { value -> domain = value },
+                    value = state.domain,
+                    onValueChange = { domain -> vm.onDomainTextChanged(domain) },
                     keyboardActions = KeyboardActions(
-                        onDone = { vm.onDomainSelected(domain) }
+                        onDone = { vm.onSubmitDomain() }
                     ),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
@@ -92,9 +86,7 @@ fun DomainSelectScreen(state: AuthState.Disconnected) {
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .fillMaxWidth(),
-                    onClick = {
-                        vm.onDomainSelected(domain)
-                    }
+                    onClick = { vm.onSubmitDomain() }
                 ) {
                     Text("Continue")
                 }

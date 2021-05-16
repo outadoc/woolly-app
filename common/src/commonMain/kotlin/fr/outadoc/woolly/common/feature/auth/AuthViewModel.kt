@@ -18,12 +18,19 @@ class AuthViewModel(
     )
     val authState: StateFlow<AuthState> = _authState
 
-    fun onDomainSelected(domain: String) {
+    fun onDomainTextChanged(domain: String) {
+        val currentState = authState.value as? AuthState.Disconnected ?: return
+        _authState.value = currentState.copy(domain = domain)
+    }
+
+    fun onSubmitDomain() {
         val currentState = authState.value as? AuthState.Disconnected ?: return
         if (currentState.loading) return
 
+        val domain = currentState.domain.trim()
+
         val client = MastodonClient {
-            this.domain = domain.trim()
+            this.domain = domain
         }
 
         _authState.value = currentState.copy(loading = true)
@@ -32,8 +39,8 @@ class AuthViewModel(
             _authState.value = try {
                 client.instance.getInstanceInfo()
                 AuthState.InstanceSelected(
-                    domain = domain.trim(),
-                    authorizeUrl = authProxyRepository.getAuthorizeUrl(domain.trim())
+                    domain = domain,
+                    authorizeUrl = authProxyRepository.getAuthorizeUrl(domain)
                 )
             } catch (e: Throwable) {
                 currentState.copy(loading = false, error = e)
@@ -64,9 +71,8 @@ class AuthViewModel(
     }
 
     fun onBackPressed() {
-        if (authState.value is AuthState.InstanceSelected) {
-            _authState.value = AuthState.Disconnected()
-        }
+        val currentState = authState.value as? AuthState.InstanceSelected ?: return
+        _authState.value = AuthState.Disconnected(domain = currentState.domain)
     }
 
     fun logout() {

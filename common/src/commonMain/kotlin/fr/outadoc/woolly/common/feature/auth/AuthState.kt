@@ -6,7 +6,8 @@ sealed class AuthState {
 
     data class Disconnected(
         val error: Throwable? = null,
-        val loading: Boolean = false
+        val loading: Boolean = false,
+        val domain: String = ""
     ) : AuthState()
 
     data class InstanceSelected(

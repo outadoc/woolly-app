@@ -7,9 +7,11 @@ import fr.outadoc.woolly.htmltext.HtmlParser
 class AnnotateStatusUseCase(private val parser: HtmlParser) {
 
     operator fun invoke(status: Status): AnnotatedStatus {
+        val original = status.boostedStatus ?: status
         return AnnotatedStatus(
-            status,
-            parser.parse(status.content)
+            original = original,
+            boostedBy = if (status.boostedStatus != null) status.account else null,
+            contentNodes = parser.parse(original.content)
         )
     }
 }

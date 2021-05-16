@@ -1,8 +1,10 @@
 package fr.outadoc.woolly.common.ui
 
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import kotlinx.datetime.Instant
 import kotlin.math.truncate
@@ -15,6 +17,7 @@ fun RelativeTime(
     time: Instant,
     currentTime: Instant,
     style: TextStyle,
+    color: Color = LocalContentColor.current,
     maxLines: Int
 ) {
     val duration = currentTime - time
@@ -31,6 +34,7 @@ fun RelativeTime(
         stringDuration,
         modifier = modifier,
         style = style,
+        color = color,
         maxLines = maxLines
     )
 }

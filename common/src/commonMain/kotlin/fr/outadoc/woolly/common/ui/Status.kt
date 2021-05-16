@@ -13,9 +13,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,16 +59,52 @@ fun Status(status: AnnotatedStatus, currentTime: Instant) {
             modifier = Modifier.padding(end = 16.dp),
             account = status.original.account
         )
+
         Column(modifier = Modifier.fillMaxWidth()) {
             StatusHeader(
-                modifier = Modifier.padding(bottom = 6.dp),
+                modifier = Modifier.padding(bottom = 8.dp),
                 status = status.original,
                 currentTime = currentTime
             )
+
             SelectionContainer {
                 NodeText(
                     textNodes = status.contentNodes,
                     style = MaterialTheme.typography.body2
+                )
+            }
+
+            StatusFooter(
+                modifier = Modifier.padding(top = 8.dp),
+                status = status
+            )
+        }
+    }
+}
+
+@Composable
+fun StatusFooter(
+    modifier: Modifier = Modifier,
+    status: AnnotatedStatus
+) {
+    Column(modifier = modifier) {
+        status.boostedBy?.let { boostedBy ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(end = 8.dp),
+                    imageVector = Icons.Default.Repeat,
+                    contentDescription = "Boosted",
+                    tint = LocalContentColor.current.copy(alpha = 0.7f)
+                )
+
+                Text(
+                    "${boostedBy.displayNameOrAcct} boosted",
+                    style = MaterialTheme.typography.subtitle2,
+                    maxLines = 1,
+                    color = LocalContentColor.current.copy(alpha = 0.7f),
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -105,11 +146,7 @@ fun StatusHeader(
         ) {
             Text(
                 modifier = Modifier.alignByBaseline().fillMaxWidth(0.8f),
-                text = if (status.account.displayName.isNotBlank()) {
-                    status.account.displayName
-                } else {
-                    "@${status.account.acct}"
-                },
+                text = status.account.displayNameOrAcct,
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -120,6 +157,7 @@ fun StatusHeader(
                 currentTime = currentTime,
                 time = status.createdAt,
                 style = MaterialTheme.typography.subtitle2,
+                color = LocalContentColor.current.copy(alpha = 0.7f),
                 maxLines = 1
             )
         }
@@ -128,9 +166,13 @@ fun StatusHeader(
             Text(
                 text = "@${status.account.acct}",
                 style = MaterialTheme.typography.subtitle2,
+                color = LocalContentColor.current.copy(alpha = 0.7f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
     }
 }
+
+private val Account.displayNameOrAcct: String
+    get() = if (displayName.isNotBlank()) displayName else "@$acct"

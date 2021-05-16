@@ -16,7 +16,7 @@ import org.kodein.di.instance
 
 fun main() = Window(
     title = "Woolly",
-    size = IntSize(width = 750, height = 750)
+    size = IntSize(width = 850, height = 750)
 ) {
     DesktopApp()
 }

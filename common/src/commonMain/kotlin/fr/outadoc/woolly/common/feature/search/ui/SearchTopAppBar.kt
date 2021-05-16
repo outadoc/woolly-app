@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ContentAlpha
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
@@ -13,6 +13,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Surface
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
@@ -42,21 +43,27 @@ fun SearchTopAppBar(
     disposition: Disposition
 ) {
     val textStyle = LocalTextStyle.current
-    Column {
-        TopAppBarWithMenu(
-            modifier = Modifier.height(64.dp),
-            backgroundColor = MaterialTheme.colors.primarySurface,
-            title = {
-                ProvideTextStyle(value = textStyle) {
-                    SearchTextField(searchTerm, onSearchTermChanged)
-                }
-            },
-            disposition = disposition,
-            scaffoldState = scaffoldState
-        )
+    Surface(
+        color = MaterialTheme.colors.primarySurface,
+        elevation = AppBarDefaults.TopAppBarElevation
+    ) {
+        Column {
+            TopAppBarWithMenu(
+                modifier = Modifier.height(64.dp),
+                backgroundColor = MaterialTheme.colors.primarySurface,
+                title = {
+                    ProvideTextStyle(value = textStyle) {
+                        SearchTextField(searchTerm, onSearchTermChanged)
+                    }
+                },
+                disposition = disposition,
+                scaffoldState = scaffoldState,
+                elevation = 0.dp
+            )
 
-        if (searchTerm.isNotEmpty()) {
-            SearchTabRow(currentSubScreen, onCurrentSubScreenChanged)
+            if (searchTerm.isNotEmpty()) {
+                SearchTabRow(currentSubScreen, onCurrentSubScreenChanged)
+            }
         }
     }
 }
@@ -75,10 +82,7 @@ fun SearchTabRow(
         SubSearchScreen.Hashtags,
     )
 
-    TabRow(
-        selectedTabIndex = tabs.indexOf(currentSubScreen),
-        backgroundColor = MaterialTheme.colors.primarySurface
-    ) {
+    TabRow(selectedTabIndex = tabs.indexOf(currentSubScreen)) {
         tabs.forEach { screen ->
             Tab(
                 modifier = Modifier.height(48.dp),
@@ -121,7 +125,7 @@ fun SearchTextField(
             leadingIconColor = LocalContentColor.current,
             placeholderColor = LocalContentColor.current,
             trailingIconColor = LocalContentColor.current,
-            focusedBorderColor = LocalContentColor.current.copy(ContentAlpha.medium),
+            focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent
         )
     )

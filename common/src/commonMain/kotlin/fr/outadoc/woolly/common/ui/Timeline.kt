@@ -53,16 +53,14 @@ fun Timeline(
         }
     }
 
-    val pager: Pager<PageInfo, Status> = remember {
-        Pager(
-            PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = true,
-                maxSize = 200
-            ),
-            pagingSourceFactory = pagingSourceFactory
-        )
-    }
+    val pager: Pager<PageInfo, Status> = Pager(
+        PagingConfig(
+            pageSize = 20,
+            enablePlaceholders = true,
+            maxSize = 200
+        ),
+        pagingSourceFactory = pagingSourceFactory
+    )
 
     val lazyPagingItems = pager.flow.map { pagingData ->
         withContext(Dispatchers.Default) {

@@ -12,10 +12,10 @@ fun StatusSearchResults(term: String, insets: PaddingValues) {
     val di = LocalDI.current
     val repo by di.instance<SearchRepository>()
 
+    val source = repo.getStatusSearchResultsSource(term)
+
     Timeline(
         insets = insets,
-        pagingSourceFactory = {
-            repo.getStatusSearchResultsSource(term)
-        }
+        pagingSourceFactory = { source }
     )
 }

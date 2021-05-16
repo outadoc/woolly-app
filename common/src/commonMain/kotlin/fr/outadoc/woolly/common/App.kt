@@ -10,9 +10,10 @@ import fr.outadoc.woolly.common.feature.auth.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
+import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
-import fr.outadoc.woolly.common.ui.Router
+import fr.outadoc.woolly.common.ui.ColorScheme
 import fr.outadoc.woolly.htmltext.HtmlParser
 import io.ktor.client.*
 import io.ktor.client.features.json.*
@@ -45,10 +46,11 @@ private val di = fun DI.MainBuilder.() {
 
 @Composable
 fun App() = subDI(diBuilder = di) {
-    var isDarkModeEnabled by remember { mutableStateOf(true) }
-    AppTheme(isDarkModeEnabled = isDarkModeEnabled) {
-        Router {
-            isDarkModeEnabled = !isDarkModeEnabled
-        }
+    var colorScheme by remember { mutableStateOf(ColorScheme.Dark) }
+    AppTheme(isDarkMode = colorScheme == ColorScheme.Dark) {
+        Router(
+            colorScheme = colorScheme,
+            onColorSchemeChanged = { colorScheme = it }
+        )
     }
 }

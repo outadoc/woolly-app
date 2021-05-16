@@ -1,37 +1,39 @@
 package fr.outadoc.woolly.common.feature.timeline.local
 
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
+import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
-import fr.outadoc.woolly.common.ui.MainBottomNavigation
-import fr.outadoc.woolly.common.ui.MainTopAppBar
+import fr.outadoc.woolly.common.ui.ResponsiveScaffold
 import fr.outadoc.woolly.common.ui.Timeline
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
 fun LocalTimelineScreen(
-    toggleDarkMode: () -> Unit,
-    onScreenSelected: (AppScreen) -> Unit
+    scaffoldState: ScaffoldState,
+    drawer: @Composable ColumnScope.() -> Unit,
+    bottomBar: @Composable () -> Unit
 ) {
     val di = LocalDI.current
     val repo by di.instance<StatusRepository>()
     val res by di.instance<AppScreenResources>()
 
-    val currentScreen = AppScreen.LocalTimeline
-
-    Scaffold(
-        topBar = {
-            MainTopAppBar(
-                title = res.getScreenTitle(currentScreen),
-                toggleDarkMode = toggleDarkMode
+    ResponsiveScaffold(
+        scaffoldState = scaffoldState,
+        topBar = { disposition ->
+            TopAppBarWithMenu(
+                title = { Text(res.getScreenTitle(AppScreen.LocalTimeline)) },
+                scaffoldState = scaffoldState,
+                disposition = disposition
             )
         },
-        bottomBar = {
-            MainBottomNavigation(currentScreen, onScreenSelected)
-        }
+        bottomBar = { bottomBar() },
+        drawerContent = { drawer() }
     ) { insets ->
         Timeline(
             insets = insets,

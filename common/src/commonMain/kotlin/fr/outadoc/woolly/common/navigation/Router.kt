@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,13 +11,17 @@ import fr.outadoc.woolly.common.feature.auth.AuthState
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
 import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
+import fr.outadoc.woolly.common.ui.ColorScheme
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.subDI
 import org.kodein.di.instance
 
 @Composable
-fun Router(toggleDarkMode: () -> Unit) {
+fun Router(
+    colorScheme: ColorScheme,
+    onColorSchemeChanged: (ColorScheme) -> Unit
+) {
     val di = LocalDI.current
     val vm by di.instance<AuthViewModel>()
     val authState by vm.authState.collectAsState()
@@ -41,7 +45,7 @@ fun Router(toggleDarkMode: () -> Unit) {
                     }
                 }
             }) {
-                MainRouter(toggleDarkMode)
+                MainRouter(colorScheme, onColorSchemeChanged)
             }
         }
         else -> AuthRouter()

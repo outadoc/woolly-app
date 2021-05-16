@@ -11,10 +11,16 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +34,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.AuthState
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.plus
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -39,72 +46,87 @@ fun CodeInputScreen(state: AuthState.InstanceSelected) {
     var authCode by remember { mutableStateOf("") }
     val uriHandler = LocalUriHandler.current
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Column(modifier = Modifier.fillMaxWidth(0.7f)) {
-            Text(
-                "Enter your authorization code",
-                style = MaterialTheme.typography.h4
-            )
-
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp),
-                label = { Text("Authorization code") },
-                value = authCode,
-                onValueChange = { value -> authCode = value },
-                keyboardActions = KeyboardActions(
-                    onDone = { vm.onAuthCodeReceived(authCode) }
-                ),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Password
-                ),
-                trailingIcon = {
-                    if (state.loading) {
-                        CircularProgressIndicator(modifier = Modifier.size(24.dp))
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Welcome to Woolly") },
+                navigationIcon = {
+                    IconButton(onClick = { vm.onBackPressed() }) {
+                        Icon(Icons.Default.ArrowBack, "Go back")
                     }
-                },
-                singleLine = true
+                }
             )
-
-            if (state.error != null) {
+        }
+    ) { insets ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(insets + 16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Column(modifier = Modifier.fillMaxWidth(0.7f)) {
                 Text(
-                    text = state.error.message ?: "Error while authenticating.",
-                    modifier = Modifier.padding(top = 16.dp),
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.error
+                    "Enter your authorization code",
+                    style = MaterialTheme.typography.h4
                 )
-            }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                TextButton(
-                    modifier = Modifier.padding(top = 16.dp),
-                    onClick = {
-                        uriHandler.openUri(
-                            state.authorizeUrl.toString()
-                        )
-                    }
-                ) {
-                    Text("Get a new code")
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp),
+                    label = { Text("Authorization code") },
+                    value = authCode,
+                    onValueChange = { value -> authCode = value },
+                    keyboardActions = KeyboardActions(
+                        onDone = { vm.onAuthCodeReceived(authCode) }
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Password
+                    ),
+                    trailingIcon = {
+                        if (state.loading) {
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                        }
+                    },
+                    singleLine = true
+                )
+
+                if (state.error != null) {
+                    Text(
+                        text = state.error.message ?: "Error while authenticating.",
+                        modifier = Modifier.padding(top = 16.dp),
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.error
+                    )
                 }
 
-                Button(
-                    modifier = Modifier
-                        .padding(top = 16.dp, start = 32.dp)
-                        .fillMaxWidth(),
-                    onClick = {
-                        vm.onAuthCodeReceived(authCode)
-                    }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Submit")
+                    TextButton(
+                        modifier = Modifier.padding(top = 16.dp),
+                        onClick = {
+                            uriHandler.openUri(
+                                state.authorizeUrl.toString()
+                            )
+                        }
+                    ) {
+                        Text("Get a new code")
+                    }
+
+                    Button(
+                        modifier = Modifier
+                            .padding(top = 16.dp, start = 32.dp)
+                            .fillMaxWidth(),
+                        onClick = {
+                            vm.onAuthCodeReceived(authCode)
+                        }
+                    ) {
+                        Text("Submit")
+                    }
                 }
             }
         }

@@ -63,6 +63,12 @@ class AuthViewModel(
         }
     }
 
+    fun onBackPressed() {
+        if (authState.value is AuthState.InstanceSelected) {
+            _authState.value = AuthState.Disconnected()
+        }
+    }
+
     fun logout() {
         preferenceRepository.authInfo.value = null
         _authState.value = AuthState.Disconnected()

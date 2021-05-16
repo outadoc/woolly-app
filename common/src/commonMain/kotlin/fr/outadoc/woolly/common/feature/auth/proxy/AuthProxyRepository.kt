@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.auth
+package fr.outadoc.woolly.common.feature.auth.proxy
 
 import fr.outadoc.mastodonk.api.entity.Token
 import io.ktor.http.*

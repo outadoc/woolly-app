@@ -34,6 +34,6 @@ private val di = DI {
     bindSingleton<CoroutineScope> { GlobalScope }
 
     bindSingleton<PreferenceRepository> {
-        DesktopPreferenceRepositoryImpl(instance(), instance())
+        DesktopPreferenceRepositoryImpl(instance())
     }
 }

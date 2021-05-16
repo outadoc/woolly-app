@@ -36,7 +36,7 @@ private fun RowScope.Item(
     onScreenSelected: (AppScreen) -> Unit
 ) {
     val di = LocalDI.current
-    val res: AppScreenResources by di.instance()
+    val res by di.instance<AppScreenResources>()
 
     val itemTitle = res.getScreenTitle(screen)
 

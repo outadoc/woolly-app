@@ -5,9 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import fr.outadoc.woolly.common.feature.auth.AuthProxyRepository
-import fr.outadoc.woolly.common.feature.auth.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoPublisher
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoRepository
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSubscriber
+import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
+import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
 import fr.outadoc.woolly.common.navigation.Router
@@ -40,6 +43,10 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { AnnotateStatusUseCase(instance()) }
 
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
+
+    bindSingleton { AuthInfoRepository(instance()) }
+    bindSingleton<AuthInfoPublisher> { instance<AuthInfoRepository>() }
+    bindSingleton<AuthInfoSubscriber> { instance<AuthInfoRepository>() }
 
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
 }

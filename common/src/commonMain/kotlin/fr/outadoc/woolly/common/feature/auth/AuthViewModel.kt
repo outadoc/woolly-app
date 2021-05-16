@@ -1,7 +1,9 @@
 package fr.outadoc.woolly.common.feature.auth
 
 import fr.outadoc.mastodonk.client.MastodonClient
-import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfo
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSubscriber
+import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,11 +13,9 @@ import kotlinx.coroutines.launch
 class AuthViewModel(
     private val scope: CoroutineScope,
     private val authProxyRepository: AuthProxyRepository,
-    private val preferenceRepository: PreferenceRepository
+    private val authInfoSubscriber: AuthInfoSubscriber
 ) {
-    private val _authState = MutableStateFlow(
-        preferenceRepository.authInfo.value.toAuthState()
-    )
+    private val _authState = MutableStateFlow<AuthState>(AuthState.Disconnected())
     val authState: StateFlow<AuthState> = _authState
 
     fun onDomainTextChanged(domain: String) {
@@ -59,10 +59,8 @@ class AuthViewModel(
                 val token = authProxyRepository.getToken(currentState.domain, code)
                 val authInfo = AuthInfo(currentState.domain, token)
 
-                // Save auth info to disk
-                preferenceRepository.authInfo.value = authInfo
-
                 // We're authenticated!
+                authInfoSubscriber.publish(authInfo)
                 AuthState.Authenticated(authInfo)
             } catch (e: Throwable) {
                 currentState.copy(error = e)
@@ -73,15 +71,5 @@ class AuthViewModel(
     fun onBackPressed() {
         val currentState = authState.value as? AuthState.InstanceSelected ?: return
         _authState.value = AuthState.Disconnected(domain = currentState.domain)
-    }
-
-    fun logout() {
-        preferenceRepository.authInfo.value = null
-        _authState.value = AuthState.Disconnected()
-    }
-
-    private fun AuthInfo?.toAuthState(): AuthState {
-        return if (this == null) AuthState.Disconnected()
-        else AuthState.Authenticated(this)
     }
 }

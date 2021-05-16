@@ -16,15 +16,13 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSubscriber
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
@@ -39,8 +37,8 @@ fun MainAppDrawer(
     onScreenSelected: (AppScreen) -> Unit
 ) {
     val di = LocalDI.current
-    val res: AppScreenResources by di.instance()
-    val authViewModel: AuthViewModel by di.instance()
+    val res by di.instance<AppScreenResources>()
+    val authInfoSubscriber by di.instance<AuthInfoSubscriber>()
 
     val screens = listOf(
         AppScreen.GlobalTimeline,
@@ -75,7 +73,7 @@ fun MainAppDrawer(
             DrawerItem(
                 title = { Text("Log out") },
                 icon = { Icon(Icons.Default.Logout, "Log out") },
-                onClick = { authViewModel.logout() }
+                onClick = { authInfoSubscriber.publish(null) }
             )
 
             when (colorScheme) {

@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.auth
 
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfo
 import io.ktor.http.*
 
 sealed class AuthState {

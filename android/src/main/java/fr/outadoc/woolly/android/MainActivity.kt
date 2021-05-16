@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
         bindSingleton<PreferenceRepository> {
             AndroidPreferenceRepositoryImpl(
                 context = this@MainActivity,
-                scope = instance(),
                 json = instance()
             )
         }

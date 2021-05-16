@@ -7,8 +7,7 @@ import fr.outadoc.mastodonk.auth.AuthToken
 import fr.outadoc.mastodonk.auth.AuthTokenProvider
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.auth.AuthRouter
-import fr.outadoc.woolly.common.feature.auth.AuthState
-import fr.outadoc.woolly.common.feature.auth.AuthViewModel
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoPublisher
 import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.ui.ColorScheme
@@ -23,24 +22,23 @@ fun Router(
     onColorSchemeChanged: (ColorScheme) -> Unit
 ) {
     val di = LocalDI.current
-    val vm by di.instance<AuthViewModel>()
-    val authState by vm.authState.collectAsState()
+    val authInfoPublisher by di.instance<AuthInfoPublisher>()
+    val authInfo by authInfoPublisher.authInfo.collectAsState()
 
-    when (val state = authState) {
-        is AuthState.Authenticated -> {
+    when (val state = authInfo) {
+        null -> AuthRouter()
+        else -> {
             subDI(diBuilder = {
                 bindSingleton { StatusRepository(instance()) }
                 bindSingleton { SearchRepository(instance()) }
                 bindSingleton {
                     MastodonClient {
-                        domain = state.authInfo.domain
+                        domain = state.domain
                         authTokenProvider = AuthTokenProvider {
-                            with(state.authInfo.token) {
-                                AuthToken(
-                                    type = tokenType,
-                                    accessToken = accessToken
-                                )
-                            }
+                            AuthToken(
+                                type = state.token.tokenType,
+                                accessToken = state.token.accessToken
+                            )
                         }
                     }
                 }
@@ -48,6 +46,5 @@ fun Router(
                 MainRouter(colorScheme, onColorSchemeChanged)
             }
         }
-        else -> AuthRouter()
     }
 }

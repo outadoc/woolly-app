@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.auth
+package fr.outadoc.woolly.common.feature.auth.info
 
 import fr.outadoc.mastodonk.api.entity.Token
 import kotlinx.serialization.Serializable

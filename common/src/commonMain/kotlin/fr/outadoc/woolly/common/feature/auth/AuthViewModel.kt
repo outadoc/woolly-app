@@ -63,6 +63,11 @@ class AuthViewModel(
         }
     }
 
+    fun logout() {
+        preferenceRepository.authInfo.value = null
+        _authState.value = AuthState.Disconnected()
+    }
+
     private fun AuthInfo?.toAuthState(): AuthState {
         return if (this == null) AuthState.Disconnected()
         else AuthState.Authenticated(this)

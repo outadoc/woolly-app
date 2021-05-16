@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.DrawerDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -54,7 +55,8 @@ fun WideScaffold(
     Row {
         Surface(
             modifier = Modifier.width(280.dp),
-            color = MaterialTheme.colors.background
+            color = MaterialTheme.colors.background,
+            elevation = DrawerDefaults.Elevation
         ) {
             Column(modifier = Modifier.padding(start = 8.dp)) {
                 drawerContent()

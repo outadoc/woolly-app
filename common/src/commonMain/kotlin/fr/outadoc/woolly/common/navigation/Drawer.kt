@@ -38,8 +38,8 @@ fun MainAppDrawer(
     val res: AppScreenResources by di.instance()
 
     val screens = listOf(
-        AppScreen.LocalTimeline,
         AppScreen.GlobalTimeline,
+        AppScreen.LocalTimeline,
         AppScreen.Search
     )
 

@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.common.feature.search.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -21,17 +20,16 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SubSearchScreen
-import kotlinx.coroutines.launch
+import fr.outadoc.woolly.common.ui.Disposition
+import fr.outadoc.woolly.common.ui.DrawerMenuButton
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -41,11 +39,10 @@ fun SearchTopAppBar(
     onSearchTermChanged: (String) -> Unit,
     currentSubScreen: SubSearchScreen,
     onCurrentSubScreenChanged: (SubSearchScreen) -> Unit,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    disposition: Disposition
 ) {
     val textStyle = LocalTextStyle.current
-    val scope = rememberCoroutineScope()
-
     Column {
         TopAppBar(
             modifier = Modifier.height(64.dp),
@@ -56,19 +53,9 @@ fun SearchTopAppBar(
                 }
             },
             navigationIcon = {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Open drawer menu",
-                    modifier = Modifier.clickable(
-                        onClick = {
-                            scope.launch {
-                                scaffoldState.drawerState.let {
-                                    if (it.isClosed) it.open() else it.close()
-                                }
-                            }
-                        }
-                    )
-                )
+                if (disposition == Disposition.Standard) {
+                    DrawerMenuButton(scaffoldState)
+                }
             },
         )
 

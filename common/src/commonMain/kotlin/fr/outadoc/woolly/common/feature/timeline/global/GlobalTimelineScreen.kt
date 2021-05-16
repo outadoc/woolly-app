@@ -24,7 +24,13 @@ fun GlobalTimelineScreen(
 
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
-        topBar = { MainTopAppBar(res.getScreenTitle(AppScreen.GlobalTimeline), scaffoldState) },
+        topBar = { disposition ->
+            MainTopAppBar(
+                title = res.getScreenTitle(AppScreen.GlobalTimeline),
+                scaffoldState = scaffoldState,
+                disposition = disposition
+            )
+        },
         bottomBar = { bottomBar() },
         drawerContent = { drawer() }
     ) { insets ->

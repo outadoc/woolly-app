@@ -24,7 +24,13 @@ fun LocalTimelineScreen(
 
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
-        topBar = { MainTopAppBar(title = res.getScreenTitle(AppScreen.LocalTimeline), scaffoldState) },
+        topBar = { disposition ->
+            MainTopAppBar(
+                title = res.getScreenTitle(AppScreen.LocalTimeline),
+                scaffoldState = scaffoldState,
+                disposition = disposition
+            )
+        },
         bottomBar = { bottomBar() },
         drawerContent = { drawer() }
     ) { insets ->

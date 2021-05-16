@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ResponsiveScaffold(
     scaffoldState: ScaffoldState,
-    topBar: @Composable () -> Unit,
+    topBar: @Composable (Disposition) -> Unit,
     bottomBar: @Composable () -> Unit,
     drawerContent: @Composable ColumnScope.() -> Unit,
     content: @Composable (PaddingValues) -> Unit
@@ -28,7 +28,7 @@ fun ResponsiveScaffold(
         if (constraints.maxWidth < with(LocalDensity.current) { 720.dp.toPx() }) {
             Scaffold(
                 scaffoldState = scaffoldState,
-                topBar = topBar,
+                topBar = { topBar(Disposition.Standard) },
                 bottomBar = bottomBar,
                 drawerContent = drawerContent,
                 content = content
@@ -36,7 +36,7 @@ fun ResponsiveScaffold(
         } else {
             WideScaffold(
                 scaffoldState = scaffoldState,
-                topBar = topBar,
+                topBar = { topBar(Disposition.Wide) },
                 drawerContent = drawerContent,
                 content = content
             )

@@ -23,13 +23,14 @@ fun SearchScreen(
 
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
-        topBar = {
+        topBar = { disposition ->
             SearchTopAppBar(
                 searchTerm = searchTerm,
                 onSearchTermChanged = { searchTerm = it },
                 scaffoldState = scaffoldState,
                 currentSubScreen = currentSubScreen,
-                onCurrentSubScreenChanged = { currentSubScreen = it }
+                onCurrentSubScreenChanged = { currentSubScreen = it },
+                disposition = disposition
             )
         },
         bottomBar = { bottomBar() },

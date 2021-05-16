@@ -108,7 +108,7 @@ fun StatusHeader(
                 text = if (status.account.displayName.isNotBlank()) {
                     status.account.displayName
                 } else {
-                    "@${status.account.username}"
+                    "@${status.account.acct}"
                 },
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,
@@ -126,7 +126,7 @@ fun StatusHeader(
 
         if (status.account.displayName.isNotBlank()) {
             Text(
-                text = "@${status.account.username}",
+                text = "@${status.account.acct}",
                 style = MaterialTheme.typography.subtitle2,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

@@ -4,11 +4,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
@@ -16,17 +13,9 @@ import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
-fun MainTopAppBar(title: String, toggleDarkMode: () -> Unit) {
+fun MainTopAppBar(title: String) {
     TopAppBar(
-        title = { Text(title) },
-        actions = {
-            IconButton(onClick = { toggleDarkMode() }) {
-                Icon(
-                    imageVector = Icons.Default.LightMode,
-                    contentDescription = "Toggle dark theme"
-                )
-            }
-        }
+        title = { Text(title) }
     )
 }
 

@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.search.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,13 +32,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SubSearchScreen
-import fr.outadoc.woolly.common.screen.AppScreen
-import fr.outadoc.woolly.common.ui.MainBottomNavigation
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
-fun SearchScreen(onScreenSelected: (AppScreen) -> Unit) {
+fun SearchScreen(
+    drawer: @Composable ColumnScope.() -> Unit,
+    bottomBar: @Composable () -> Unit
+) {
     val di = LocalDI.current
     val searchRes by di.instance<SearchScreenResources>()
 
@@ -46,7 +48,6 @@ fun SearchScreen(onScreenSelected: (AppScreen) -> Unit) {
         mutableStateOf<SubSearchScreen>(SubSearchScreen.Statuses)
     }
 
-    val currentScreen = AppScreen.Search
     val tabs = listOf(
         SubSearchScreen.Statuses,
         SubSearchScreen.Accounts,
@@ -111,9 +112,8 @@ fun SearchScreen(onScreenSelected: (AppScreen) -> Unit) {
                 }
             }
         },
-        bottomBar = {
-            MainBottomNavigation(currentScreen, onScreenSelected)
-        }
+        bottomBar = { bottomBar() },
+        drawerContent = { drawer() }
     ) { insets ->
         if (searchTerm.isEmpty()) {
             TrendingScreen()

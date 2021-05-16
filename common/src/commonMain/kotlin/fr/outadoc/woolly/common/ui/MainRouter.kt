@@ -19,15 +19,15 @@ fun MainRouter(toggleDarkMode: () -> Unit) {
 
     when (currentScreen) {
         AppScreen.GlobalTimeline -> GlobalTimelineScreen(
-            drawer = { AppDrawer(toggleDarkMode) },
+            drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
         AppScreen.LocalTimeline -> LocalTimelineScreen(
-            drawer = { AppDrawer(toggleDarkMode) },
+            drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
         AppScreen.Search -> SearchScreen(
-            drawer = { AppDrawer(toggleDarkMode) },
+            drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
     }

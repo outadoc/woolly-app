@@ -4,20 +4,11 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
-
-@Composable
-fun MainTopAppBar(title: String) {
-    TopAppBar(
-        title = { Text(title) }
-    )
-}
 
 @Composable
 fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen) -> Unit) {

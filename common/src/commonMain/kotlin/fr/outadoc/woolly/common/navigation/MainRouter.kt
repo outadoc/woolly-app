@@ -10,9 +10,13 @@ import fr.outadoc.woolly.common.feature.search.ui.SearchScreen
 import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineScreen
 import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineScreen
 import fr.outadoc.woolly.common.screen.AppScreen
+import fr.outadoc.woolly.common.ui.ColorScheme
 
 @Composable
-fun MainRouter(toggleDarkMode: () -> Unit) {
+fun MainRouter(
+    colorScheme: ColorScheme,
+    onColorSchemeChanged: (ColorScheme) -> Unit
+) {
     val scaffoldState = rememberScaffoldState()
     var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.GlobalTimeline) }
 
@@ -23,17 +27,17 @@ fun MainRouter(toggleDarkMode: () -> Unit) {
     when (currentScreen) {
         AppScreen.GlobalTimeline -> GlobalTimelineScreen(
             scaffoldState = scaffoldState,
-            drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
+            drawer = { MainAppDrawer(colorScheme, onColorSchemeChanged, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
         AppScreen.LocalTimeline -> LocalTimelineScreen(
             scaffoldState = scaffoldState,
-            drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
+            drawer = { MainAppDrawer(colorScheme, onColorSchemeChanged, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
         AppScreen.Search -> SearchScreen(
             scaffoldState = scaffoldState,
-            drawer = { MainAppDrawer(toggleDarkMode, currentScreen, onScreenSelected) },
+            drawer = { MainAppDrawer(colorScheme, onColorSchemeChanged, currentScreen, onScreenSelected) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
     }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.ListItem
@@ -11,20 +12,25 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ModeNight
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
+import fr.outadoc.woolly.common.ui.ColorScheme
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
 fun MainAppDrawer(
-    toggleDarkMode: () -> Unit,
+    colorScheme: ColorScheme,
+    onColorSchemeChanged: (ColorScheme) -> Unit,
     currentScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit
 ) {
@@ -38,7 +44,9 @@ fun MainAppDrawer(
     )
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.Start
     ) {
@@ -59,11 +67,22 @@ fun MainAppDrawer(
         }
 
         Column {
-            DrawerItem(
-                title = { Text("Toggle dark mode") },
-                icon = { Icon(Icons.Default.ModeNight, "Toggle dark mode") },
-                onClick = toggleDarkMode
-            )
+            when (colorScheme) {
+                ColorScheme.Light -> {
+                    DrawerItem(
+                        title = { Text("Switch to dark mode") },
+                        icon = { Icon(Icons.Default.LightMode, "Light mode") },
+                        onClick = { onColorSchemeChanged(ColorScheme.Dark) }
+                    )
+                }
+                ColorScheme.Dark -> {
+                    DrawerItem(
+                        title = { Text("Switch to light mode") },
+                        icon = { Icon(Icons.Default.DarkMode, "Dark mode") },
+                        onClick = { onColorSchemeChanged(ColorScheme.Light) }
+                    )
+                }
+            }
         }
     }
 }
@@ -77,6 +96,9 @@ fun DrawerItem(
     selected: Boolean = false
 ) {
     Surface(
+        modifier = Modifier
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .clip(MaterialTheme.shapes.small),
         color = if (selected) {
             MaterialTheme.colors.primary.copy(alpha = 0.12f)
         } else {

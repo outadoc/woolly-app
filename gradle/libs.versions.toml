@@ -1,5 +1,5 @@
 [versions]
-mastodonk = "0.1-alpha17"
+mastodonk = "0.1-alpha18"
 ktor = "1.5.3"
 
 [libraries]

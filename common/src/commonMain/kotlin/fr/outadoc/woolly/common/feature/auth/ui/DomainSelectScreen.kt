@@ -3,7 +3,9 @@ package fr.outadoc.woolly.common.feature.auth.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -23,7 +25,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.AuthState
 import fr.outadoc.woolly.common.feature.auth.AuthViewModel
-import fr.outadoc.woolly.common.ui.ErrorScreen
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -34,52 +35,59 @@ fun DomainSelectScreen(state: AuthState.Disconnected) {
 
     var domain by remember { mutableStateOf("") }
 
-    if (state.loading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator()
-        }
-    }
-
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextField(
-            label = { Text("Instance domain") },
-            placeholder = { Text("mastodon.example") },
-            value = domain,
-            onValueChange = { value -> domain = value },
-            keyboardActions = KeyboardActions(
-                onDone = { vm.onDomainSelected(domain) }
-            ),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Uri
-            ),
-            singleLine = true
-        )
-
-        if (state.error != null) {
+        Column(modifier = Modifier.fillMaxWidth(0.7f)) {
             Text(
-                text = state.error.message ?: "Error while fetching instance details.",
-                modifier = Modifier.padding(top = 16.dp),
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.error
+                "Choose your Mastodon instance",
+                style = MaterialTheme.typography.h4
             )
-        }
 
-        Button(
-            modifier = Modifier.padding(top = 16.dp),
-            onClick = {
-                vm.onDomainSelected(domain)
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                label = { Text("Instance domain") },
+                placeholder = { Text("mastodon.example") },
+                value = domain,
+                onValueChange = { value -> domain = value },
+                keyboardActions = KeyboardActions(
+                    onDone = { vm.onDomainSelected(domain) }
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Uri
+                ),
+                trailingIcon = {
+                    if (state.loading) {
+                        CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                    }
+                },
+                singleLine = true
+            )
+
+            if (state.error != null) {
+                Text(
+                    text = state.error.message ?: "Error while fetching instance details.",
+                    modifier = Modifier.padding(top = 16.dp),
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.error
+                )
             }
-        ) {
-            Text("Submit")
+
+            Button(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(),
+                onClick = {
+                    vm.onDomainSelected(domain)
+                }
+            ) {
+                Text("Continue")
+            }
         }
     }
 }

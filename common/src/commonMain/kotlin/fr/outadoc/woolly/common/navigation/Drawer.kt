@@ -41,6 +41,7 @@ fun MainAppDrawer(
     val authInfoSubscriber by di.instance<AuthInfoSubscriber>()
 
     val screens = listOf(
+        AppScreen.HomeTimeline,
         AppScreen.GlobalTimeline,
         AppScreen.LocalTimeline,
         AppScreen.Search

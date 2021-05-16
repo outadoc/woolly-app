@@ -13,6 +13,7 @@ import org.kodein.di.instance
 @Composable
 fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen) -> Unit) {
     val screens = listOf(
+        AppScreen.HomeTimeline,
         AppScreen.GlobalTimeline,
         AppScreen.LocalTimeline,
         AppScreen.Search

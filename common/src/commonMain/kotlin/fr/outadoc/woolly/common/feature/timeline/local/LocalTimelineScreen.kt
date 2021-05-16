@@ -2,9 +2,10 @@ package fr.outadoc.woolly.common.feature.timeline.local
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
-import fr.outadoc.woolly.common.navigation.MainTopAppBar
+import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ResponsiveScaffold
@@ -25,8 +26,8 @@ fun LocalTimelineScreen(
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
         topBar = { disposition ->
-            MainTopAppBar(
-                title = res.getScreenTitle(AppScreen.LocalTimeline),
+            TopAppBarWithMenu(
+                title = { Text(res.getScreenTitle(AppScreen.LocalTimeline)) },
                 scaffoldState = scaffoldState,
                 disposition = disposition
             )

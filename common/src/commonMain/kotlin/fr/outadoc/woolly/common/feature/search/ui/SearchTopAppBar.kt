@@ -17,7 +17,6 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
@@ -28,8 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SubSearchScreen
+import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import fr.outadoc.woolly.common.ui.Disposition
-import fr.outadoc.woolly.common.ui.DrawerMenuButton
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -44,7 +43,7 @@ fun SearchTopAppBar(
 ) {
     val textStyle = LocalTextStyle.current
     Column {
-        TopAppBar(
+        TopAppBarWithMenu(
             modifier = Modifier.height(64.dp),
             backgroundColor = MaterialTheme.colors.primarySurface,
             title = {
@@ -52,11 +51,8 @@ fun SearchTopAppBar(
                     SearchTextField(searchTerm, onSearchTermChanged)
                 }
             },
-            navigationIcon = {
-                if (disposition == Disposition.Standard) {
-                    DrawerMenuButton(scaffoldState)
-                }
-            },
+            disposition = disposition,
+            scaffoldState = scaffoldState
         )
 
         if (searchTerm.isNotEmpty()) {

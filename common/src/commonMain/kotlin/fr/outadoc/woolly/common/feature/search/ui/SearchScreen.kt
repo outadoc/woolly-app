@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.common.feature.search.ui
 
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import fr.outadoc.woolly.common.feature.search.SubSearchScreen
+import fr.outadoc.woolly.common.ui.ResponsiveScaffold
 
 @Composable
 fun SearchScreen(
@@ -21,7 +21,7 @@ fun SearchScreen(
         mutableStateOf<SubSearchScreen>(SubSearchScreen.Statuses)
     }
 
-    Scaffold(
+    ResponsiveScaffold(
         scaffoldState = scaffoldState,
         topBar = {
             SearchTopAppBar(

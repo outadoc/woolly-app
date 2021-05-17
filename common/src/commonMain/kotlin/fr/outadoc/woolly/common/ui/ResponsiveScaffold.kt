@@ -30,11 +30,9 @@ fun ResponsiveScaffold(
 ) {
     BoxWithConstraints {
         val breakpointWidthPx = with(LocalDensity.current) { breakpointWidthDp.toPx() }
-        val disposition = if (constraints.maxWidth >= breakpointWidthPx) {
-            Disposition.Wide
-        } else {
-            Disposition.Standard
-        }
+        val disposition =
+            if (constraints.maxWidth >= breakpointWidthPx) Disposition.Wide
+            else Disposition.Standard
 
         Row {
             if (disposition == Disposition.Wide) {
@@ -53,15 +51,12 @@ fun ResponsiveScaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
                     topBar(
-                        if (disposition == Disposition.Standard) {
-                            scaffoldState.drawerState
-                        } else null
+                        if (disposition == Disposition.Standard) scaffoldState.drawerState
+                        else null
                     )
                 },
                 bottomBar = {
-                    if (disposition == Disposition.Standard) {
-                        bottomBar()
-                    }
+                    if (disposition == Disposition.Standard) bottomBar()
                 },
                 drawerContent = if (disposition == Disposition.Standard) {
                     @Composable { drawerContent(scaffoldState.drawerState) }

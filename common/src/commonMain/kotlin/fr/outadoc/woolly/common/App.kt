@@ -3,11 +3,11 @@ package fr.outadoc.woolly.common
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSupplier
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoRepository
 import fr.outadoc.woolly.common.feature.auth.info.AuthInfoConsumer
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoRepository
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSupplier
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
@@ -51,7 +51,7 @@ private val di = fun DI.MainBuilder.() {
 
 @Composable
 fun App() = subDI(diBuilder = di) {
-    var colorScheme by remember { mutableStateOf(ColorScheme.Dark) }
+    var colorScheme by rememberSaveable { mutableStateOf(ColorScheme.Dark) }
     AppTheme(isDarkMode = colorScheme == ColorScheme.Dark) {
         Router(
             colorScheme = colorScheme,

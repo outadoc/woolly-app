@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DrawerState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -26,36 +24,30 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSupplier
+import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.info.AuthInfoConsumer
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
-import kotlinx.coroutines.launch
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextOverflow
-import fr.outadoc.mastodonk.api.entity.Account
-import fr.outadoc.mastodonk.client.MastodonClient
-import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.ui.ProfilePicture
 import fr.outadoc.woolly.common.ui.displayNameOrAcct
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.kodein.di.compose.LocalDI
+import org.kodein.di.instance
 
 @Composable
 fun MainAppDrawer(
@@ -86,33 +78,33 @@ fun MainAppDrawer(
         Column {
             AppDrawerHeader()
 
-            Column(modifier = Modifier.padding(vertical = 16.dp)) {
-                screens.forEach { screen ->
-                    DrawerItem(
-                        title = { Text(res.getScreenTitle(screen)) },
-                        icon = {
-                            Icon(
-                                imageVector = res.getScreenIcon(screen),
-                                contentDescription = res.getScreenTitle(screen)
-                            )
-                        },
-                        onClick = {
-                            scope.launch { drawerState?.close() }
-                            onScreenSelected(screen)
-                        },
-                        selected = currentScreen == screen
-                    )
-                }
-            }
-        }
-
-        Column(modifier = Modifier.padding(vertical = 16.dp)) {
             DrawerItem(
                 title = { Text("Log out") },
                 icon = { Icon(Icons.Default.Logout, "Log out") },
                 onClick = { authInfoSubscriber.publish(null) }
             )
+        }
 
+        Column(modifier = Modifier.padding(vertical = 16.dp)) {
+            screens.forEach { screen ->
+                DrawerItem(
+                    title = { Text(res.getScreenTitle(screen)) },
+                    icon = {
+                        Icon(
+                            imageVector = res.getScreenIcon(screen),
+                            contentDescription = res.getScreenTitle(screen)
+                        )
+                    },
+                    onClick = {
+                        scope.launch { drawerState?.close() }
+                        onScreenSelected(screen)
+                    },
+                    selected = currentScreen == screen
+                )
+            }
+        }
+
+        Column(modifier = Modifier.padding(vertical = 16.dp)) {
             when (colorScheme) {
                 ColorScheme.Light -> {
                     DrawerItem(
@@ -134,17 +126,19 @@ fun MainAppDrawer(
 }
 
 @Composable
-fun AppDrawerHeader() {
+fun AppDrawerHeader(modifier: Modifier = Modifier) {
     val di = LocalDI.current
     val repo by di.instance<AccountRepository>()
     val account by repo.currentAccount.collectAsState()
-    account?.let { ProfileHeader(it) }
+    account?.let {
+        ProfileHeader(modifier = modifier, account = it)
+    }
 }
 
 @Composable
-fun ProfileHeader(account: Account) {
+fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .aspectRatio(4f)
     ) {

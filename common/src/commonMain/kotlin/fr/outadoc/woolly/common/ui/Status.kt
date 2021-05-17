@@ -188,5 +188,5 @@ fun StatusHeader(
     }
 }
 
-private val Account.displayNameOrAcct: String
+val Account.displayNameOrAcct: String
     get() = if (displayName.isNotBlank()) displayName else "@$acct"

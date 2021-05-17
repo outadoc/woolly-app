@@ -1,5 +1,5 @@
 package fr.outadoc.woolly.common.feature.auth.info
 
-interface AuthInfoSubscriber {
+interface AuthInfoConsumer {
     fun publish(authInfo: AuthInfo?)
 }

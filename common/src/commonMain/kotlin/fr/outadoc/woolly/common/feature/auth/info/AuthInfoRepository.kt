@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class AuthInfoRepository(
     private val prefs: PreferenceRepository
-) : AuthInfoPublisher, AuthInfoSubscriber {
+) : AuthInfoSupplier, AuthInfoConsumer {
 
     override val authInfo = MutableStateFlow(prefs.savedAuthInfo)
 

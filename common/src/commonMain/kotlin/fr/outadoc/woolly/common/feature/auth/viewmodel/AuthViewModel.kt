@@ -2,7 +2,7 @@ package fr.outadoc.woolly.common.feature.auth.viewmodel
 
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.auth.info.AuthInfo
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSubscriber
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoConsumer
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class AuthViewModel(
     private val scope: CoroutineScope,
     private val authProxyRepository: AuthProxyRepository,
-    private val authInfoSubscriber: AuthInfoSubscriber
+    private val authInfoConsumer: AuthInfoConsumer
 ) {
     sealed class State {
 
@@ -79,7 +79,7 @@ class AuthViewModel(
                 val authInfo = AuthInfo(currentState.domain, token)
 
                 // We're authenticated!
-                authInfoSubscriber.publish(authInfo)
+                authInfoConsumer.publish(authInfo)
                 State.Authenticated(authInfo)
             } catch (e: Throwable) {
                 currentState.copy(error = e)

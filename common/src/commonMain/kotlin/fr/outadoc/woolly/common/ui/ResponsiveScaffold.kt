@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DrawerDefaults
 import androidx.compose.material.DrawerState
@@ -41,7 +40,7 @@ fun ResponsiveScaffold(
                     color = MaterialTheme.colors.background,
                     elevation = DrawerDefaults.Elevation
                 ) {
-                    Column(modifier = Modifier.padding(start = 8.dp)) {
+                    Column {
                         drawerContent(null)
                     }
                 }

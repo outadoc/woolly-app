@@ -5,9 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoPublisher
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSupplier
 import fr.outadoc.woolly.common.feature.auth.info.AuthInfoRepository
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSubscriber
+import fr.outadoc.woolly.common.feature.auth.info.AuthInfoConsumer
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
@@ -43,8 +43,8 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
 
     bindSingleton { AuthInfoRepository(instance()) }
-    bindSingleton<AuthInfoPublisher> { instance<AuthInfoRepository>() }
-    bindSingleton<AuthInfoSubscriber> { instance<AuthInfoRepository>() }
+    bindSingleton<AuthInfoSupplier> { instance<AuthInfoRepository>() }
+    bindSingleton<AuthInfoConsumer> { instance<AuthInfoRepository>() }
 
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
 }

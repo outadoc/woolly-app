@@ -2,6 +2,6 @@ package fr.outadoc.woolly.common.feature.auth.info
 
 import kotlinx.coroutines.flow.StateFlow
 
-interface AuthInfoPublisher {
+interface AuthInfoSupplier {
     val authInfo: StateFlow<AuthInfo?>
 }

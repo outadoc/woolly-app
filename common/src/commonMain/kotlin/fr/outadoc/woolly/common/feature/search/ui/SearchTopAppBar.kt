@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -120,6 +121,10 @@ fun SearchTextField(
             }
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
+            cursorColor = LocalContentColor.current,
+            leadingIconColor = LocalContentColor.current,
+            placeholderColor = LocalContentColor.current,
+            trailingIconColor = LocalContentColor.current,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent
         )

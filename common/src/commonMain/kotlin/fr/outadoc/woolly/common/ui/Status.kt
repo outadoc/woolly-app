@@ -20,6 +20,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,20 +28,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.common.feature.timeline.AnnotatedStatus
+import fr.outadoc.woolly.htmltext.HtmlParser
 import fr.outadoc.woolly.htmltext.NodeText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Instant
+import org.kodein.di.compose.LocalDI
+import org.kodein.di.instance
 
 @Composable
-fun StatusCard(status: AnnotatedStatus, currentTime: Instant) {
+fun StatusCard(status: Status, currentTime: Instant) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = 2.dp
     ) {
-        Status(
+        StatusOrBoost(
             status = status,
             currentTime = currentTime
         )
@@ -53,42 +56,53 @@ fun StatusPlaceholder() {
 }
 
 @Composable
-fun Status(status: AnnotatedStatus, currentTime: Instant) {
+fun StatusOrBoost(status: Status, currentTime: Instant) {
+    val original = status.boostedStatus ?: status
+    val boostedBy = if (status.boostedStatus != null) status.account else null
+    Status(original, boostedBy, currentTime)
+}
+
+@Composable
+fun Status(status: Status, boostedBy: Account?, currentTime: Instant) {
+    val di = LocalDI.current
+    val parser by di.instance<HtmlParser>()
+
+    val formattedText = remember(status.content) {
+        parser.parse(status.content)
+    }
+
     Row(modifier = Modifier.padding(16.dp)) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
-            account = status.original.account
+            account = status.account
         )
 
         Column(modifier = Modifier.fillMaxWidth()) {
             StatusHeader(
                 modifier = Modifier.padding(bottom = 8.dp),
-                status = status.original,
+                status = status,
                 currentTime = currentTime
             )
 
             SelectionContainer {
                 NodeText(
-                    textNodes = status.contentNodes,
+                    textNodes = formattedText,
                     style = MaterialTheme.typography.body2
                 )
             }
 
             StatusFooter(
                 modifier = Modifier.padding(top = 8.dp),
-                status = status
+                boostedBy = boostedBy
             )
         }
     }
 }
 
 @Composable
-fun StatusFooter(
-    modifier: Modifier = Modifier,
-    status: AnnotatedStatus
-) {
+fun StatusFooter(modifier: Modifier = Modifier, boostedBy: Account?) {
     Column(modifier = modifier) {
-        status.boostedBy?.let { boostedBy ->
+        boostedBy?.let { boostedBy ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     modifier = Modifier
@@ -124,7 +138,7 @@ fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
     ) {
         KamelImage(
             resource = avatarResource,
-            contentDescription = "${account.displayName}'s profile picture",
+            contentDescription = "${account.displayNameOrAcct}'s profile picture",
             crossfade = true,
             animationSpec = tween()
         )

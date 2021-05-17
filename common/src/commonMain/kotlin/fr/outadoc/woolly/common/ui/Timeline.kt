@@ -20,20 +20,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import androidx.paging.map
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.paging.PageInfo
-import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
 import fr.outadoc.woolly.common.plus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
 
 @Composable
 fun Timeline(
@@ -41,9 +35,6 @@ fun Timeline(
     insets: PaddingValues,
     pagingSourceFactory: () -> PagingSource<PageInfo, Status>
 ) {
-    val di = LocalDI.current
-    val annotateStatusUseCase by di.instance<AnnotateStatusUseCase>()
-
     // Periodically refresh timestamps
     var currentTime by remember { mutableStateOf(Clock.System.now()) }
     rememberCoroutineScope().launch(Dispatchers.Default) {
@@ -62,13 +53,7 @@ fun Timeline(
         pagingSourceFactory = pagingSourceFactory
     )
 
-    val lazyPagingItems = pager.flow.map { pagingData ->
-        withContext(Dispatchers.Default) {
-            pagingData.map { status ->
-                annotateStatusUseCase(status)
-            }
-        }
-    }.collectAsLazyPagingItems()
+    val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
     LazyColumn(
         modifier = modifier,

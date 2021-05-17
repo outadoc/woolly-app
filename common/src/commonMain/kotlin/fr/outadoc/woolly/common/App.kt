@@ -12,7 +12,6 @@ import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
-import fr.outadoc.woolly.common.feature.timeline.usecase.AnnotateStatusUseCase
 import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
@@ -40,7 +39,6 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { SearchScreenResources() }
 
     bindSingleton { HtmlParser() }
-    bindSingleton { AnnotateStatusUseCase(instance()) }
 
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
 

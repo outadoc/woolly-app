@@ -1,6 +1,6 @@
 package fr.outadoc.woolly.common.navigation
 
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,63 +18,44 @@ fun MainRouter(
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit
 ) {
-    val scaffoldState = rememberScaffoldState()
     var currentScreen: AppScreen by remember { mutableStateOf(AppScreen.HomeTimeline) }
 
     val onScreenSelected = { screen: AppScreen ->
         currentScreen = screen
     }
 
+    @Composable
+    fun Drawer(
+        currentScreen: AppScreen,
+        drawerState: DrawerState?
+    ) {
+        MainAppDrawer(
+            drawerState = drawerState,
+            colorScheme = colorScheme,
+            onColorSchemeChanged = onColorSchemeChanged,
+            currentScreen = currentScreen,
+            onScreenSelected = onScreenSelected
+        )
+    }
+
     when (currentScreen) {
         AppScreen.HomeTimeline -> HomeTimelineScreen(
-            scaffoldState = scaffoldState,
-            drawer = {
-                MainAppDrawer(
-                    colorScheme,
-                    onColorSchemeChanged,
-                    currentScreen,
-                    onScreenSelected
-                )
-            },
+            drawer = { drawerState -> Drawer(currentScreen, drawerState) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
 
         AppScreen.GlobalTimeline -> GlobalTimelineScreen(
-            scaffoldState = scaffoldState,
-            drawer = {
-                MainAppDrawer(
-                    colorScheme,
-                    onColorSchemeChanged,
-                    currentScreen,
-                    onScreenSelected
-                )
-            },
+            drawer = { drawerState -> Drawer(currentScreen, drawerState) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
 
         AppScreen.LocalTimeline -> LocalTimelineScreen(
-            scaffoldState = scaffoldState,
-            drawer = {
-                MainAppDrawer(
-                    colorScheme,
-                    onColorSchemeChanged,
-                    currentScreen,
-                    onScreenSelected
-                )
-            },
+            drawer = { drawerState -> Drawer(currentScreen, drawerState) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
 
         AppScreen.Search -> SearchScreen(
-            scaffoldState = scaffoldState,
-            drawer = {
-                MainAppDrawer(
-                    colorScheme,
-                    onColorSchemeChanged,
-                    currentScreen,
-                    onScreenSelected
-                )
-            },
+            drawer = { drawerState -> Drawer(currentScreen, drawerState) },
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
     }

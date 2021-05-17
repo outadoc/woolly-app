@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DrawerState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.ListItem
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,11 +28,13 @@ import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSubscriber
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
 fun MainAppDrawer(
+    drawerState: DrawerState?,
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit,
     currentScreen: AppScreen,
@@ -46,6 +50,8 @@ fun MainAppDrawer(
         AppScreen.LocalTimeline,
         AppScreen.Search
     )
+
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -64,7 +70,10 @@ fun MainAppDrawer(
                             contentDescription = res.getScreenTitle(screen)
                         )
                     },
-                    onClick = { onScreenSelected(screen) },
+                    onClick = {
+                        scope.launch { drawerState?.close() }
+                        onScreenSelected(screen)
+                    },
                     selected = currentScreen == screen
                 )
             }

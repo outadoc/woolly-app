@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.DrawerState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
@@ -12,7 +13,6 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.ProvideTextStyle
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SubSearchScreen
 import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
-import fr.outadoc.woolly.common.ui.Disposition
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -39,8 +38,7 @@ fun SearchTopAppBar(
     onSearchTermChanged: (String) -> Unit,
     currentSubScreen: SubSearchScreen,
     onCurrentSubScreenChanged: (SubSearchScreen) -> Unit,
-    scaffoldState: ScaffoldState,
-    disposition: Disposition
+    drawerState: DrawerState?
 ) {
     val textStyle = LocalTextStyle.current
     Surface(
@@ -56,8 +54,7 @@ fun SearchTopAppBar(
                         SearchTextField(searchTerm, onSearchTermChanged)
                     }
                 },
-                disposition = disposition,
-                scaffoldState = scaffoldState,
+                drawerState = drawerState,
                 elevation = 0.dp
             )
 

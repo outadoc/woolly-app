@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,13 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.mastodonk.api.entity.paging.PageInfo
 import fr.outadoc.woolly.common.plus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -33,7 +30,8 @@ import kotlinx.datetime.Clock
 fun Timeline(
     modifier: Modifier = Modifier,
     insets: PaddingValues,
-    pagingSourceFactory: () -> PagingSource<PageInfo, Status>
+    lazyPagingItems: LazyPagingItems<Status>,
+    lazyListState: LazyListState
 ) {
     // Periodically refresh timestamps
     var currentTime by remember { mutableStateOf(Clock.System.now()) }
@@ -44,44 +42,28 @@ fun Timeline(
         }
     }
 
-    val pager: Pager<PageInfo, Status> = remember(pagingSourceFactory) {
-        Pager(
-            PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = true,
-                maxSize = 200
-            ),
-            pagingSourceFactory = pagingSourceFactory
-        )
-    }
-
-    val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
-
     LazyColumn(
         modifier = modifier,
+        state = lazyListState,
         contentPadding = insets + 16.dp,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         when (val state = lazyPagingItems.loadState.refresh) {
-            LoadState.Loading -> {
-                item {
-                    Column(
-                        modifier = Modifier.fillParentMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator()
-                    }
+            LoadState.Loading -> item {
+                Column(
+                    modifier = Modifier.fillParentMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
                 }
             }
 
-            is LoadState.Error -> {
-                item {
-                    CenteredErrorMessage(
-                        error = state.error,
-                        onRetry = lazyPagingItems::retry
-                    )
-                }
+            is LoadState.Error -> item {
+                CenteredErrorMessage(
+                    error = state.error,
+                    onRetry = lazyPagingItems::retry
+                )
             }
         }
 

@@ -1,11 +1,13 @@
 package fr.outadoc.woolly.common.feature.timeline.ui
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.DrawerState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
+import androidx.paging.compose.LazyPagingItems
+import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
@@ -16,11 +18,12 @@ import org.kodein.di.instance
 
 @Composable
 fun HomeTimelineScreen(
+    pagingItems: LazyPagingItems<Status>,
+    listState: LazyListState,
     drawer: @Composable ColumnScope.(DrawerState?) -> Unit,
     bottomBar: @Composable () -> Unit
 ) {
     val di = LocalDI.current
-    val repo by di.instance<StatusRepository>()
     val res by di.instance<AppScreenResources>()
 
     val scaffoldState = rememberScaffoldState()
@@ -38,7 +41,8 @@ fun HomeTimelineScreen(
     ) { insets ->
         Timeline(
             insets = insets,
-            pagingSourceFactory = repo::getHomeTimelineSource
+            lazyPagingItems = pagingItems,
+            lazyListState = listState
         )
     }
 }

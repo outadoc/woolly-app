@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -43,6 +43,7 @@ import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
 import fr.outadoc.woolly.common.ui.ProfilePicture
+import fr.outadoc.woolly.common.ui.WoollyDefaults
 import fr.outadoc.woolly.common.ui.displayNameOrAcct
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
@@ -148,18 +149,19 @@ fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(4f)
+            .height(WoollyDefaults.AppBarHeight)
     ) {
         val headerResource = lazyImageResource(account.headerStaticUrl) {
             dispatcher = Dispatchers.IO
         }
 
         KamelImage(
+            modifier = Modifier.fillMaxSize(),
             resource = headerResource,
             contentDescription = "Your profile header",
             crossfade = true,
             animationSpec = tween(),
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.Crop
         )
 
         Surface(

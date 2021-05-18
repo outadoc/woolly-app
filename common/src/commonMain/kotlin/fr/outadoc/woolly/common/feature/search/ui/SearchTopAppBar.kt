@@ -47,7 +47,6 @@ fun SearchTopAppBar(
     ) {
         Column {
             TopAppBarWithMenu(
-                modifier = Modifier.height(64.dp),
                 backgroundColor = MaterialTheme.colors.primarySurface,
                 title = {
                     ProvideTextStyle(value = textStyle) {

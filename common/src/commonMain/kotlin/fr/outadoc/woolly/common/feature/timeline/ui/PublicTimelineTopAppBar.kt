@@ -19,7 +19,6 @@ import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
-
 @Composable
 fun PublicTimelineTopAppBar(
     title: @Composable () -> Unit,
@@ -33,7 +32,6 @@ fun PublicTimelineTopAppBar(
     ) {
         Column {
             TopAppBarWithMenu(
-                modifier = Modifier.height(64.dp),
                 backgroundColor = MaterialTheme.colors.primarySurface,
                 title = title,
                 drawerState = drawerState,

@@ -5,13 +5,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import fr.outadoc.woolly.common.feature.account.AccountRepository
+import fr.outadoc.woolly.common.feature.account.AccountRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateSupplier
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
+import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
+import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
+import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
+import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
@@ -45,6 +51,12 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { AuthenticationStateRepository(instance()) }
     bindSingleton<AuthenticationStateSupplier> { instance<AuthenticationStateRepository>() }
     bindSingleton<AuthenticationStateConsumer> { instance<AuthenticationStateRepository>() }
+
+    bindSingleton<MastodonClientProvider> { MastodonClientProviderImpl(instance(), instance()) }
+    bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
+
+    bindSingleton { StatusRepository(instance()) }
+    bindSingleton { SearchRepository(instance()) }
 
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
 }

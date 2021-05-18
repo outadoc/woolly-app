@@ -14,11 +14,11 @@ class AccountRepositoryImpl(
 ) : AccountRepository {
 
     override val currentAccount: StateFlow<Account?> =
-        clientProvider.mastodonClient.map { client ->
-            client?.accounts?.verifyCredentials()
-        }.stateIn(
-            scope,
-            initialValue = null,
-            started = SharingStarted.WhileSubscribed()
-        )
+        clientProvider.mastodonClient
+            .map { client -> client?.accounts?.verifyCredentials() }
+            .stateIn(
+                scope,
+                initialValue = null,
+                started = SharingStarted.WhileSubscribed()
+            )
 }

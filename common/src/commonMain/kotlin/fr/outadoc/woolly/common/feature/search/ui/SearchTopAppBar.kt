@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
-import fr.outadoc.woolly.common.feature.search.SubSearchScreen
+import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
@@ -36,8 +36,8 @@ import org.kodein.di.instance
 fun SearchTopAppBar(
     searchTerm: String,
     onSearchTermChanged: (String) -> Unit,
-    currentSubScreen: SubSearchScreen,
-    onCurrentSubScreenChanged: (SubSearchScreen) -> Unit,
+    currentSubScreen: SearchSubScreen,
+    onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
     drawerState: DrawerState?
 ) {
     val textStyle = LocalTextStyle.current
@@ -67,16 +67,16 @@ fun SearchTopAppBar(
 
 @Composable
 fun SearchTabRow(
-    currentSubScreen: SubSearchScreen,
-    onCurrentSubScreenChanged: (SubSearchScreen) -> Unit,
+    currentSubScreen: SearchSubScreen,
+    onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
 ) {
     val di = LocalDI.current
     val searchRes by di.instance<SearchScreenResources>()
 
     val tabs = listOf(
-        SubSearchScreen.Statuses,
-        SubSearchScreen.Accounts,
-        SubSearchScreen.Hashtags,
+        SearchSubScreen.Statuses,
+        SearchSubScreen.Accounts,
+        SearchSubScreen.Hashtags
     )
 
     TabRow(selectedTabIndex = tabs.indexOf(currentSubScreen)) {

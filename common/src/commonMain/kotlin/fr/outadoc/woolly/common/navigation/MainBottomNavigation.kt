@@ -14,8 +14,7 @@ import org.kodein.di.instance
 fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen) -> Unit) {
     val screens = listOf(
         AppScreen.HomeTimeline,
-        AppScreen.GlobalTimeline,
-        AppScreen.LocalTimeline,
+        AppScreen.PublicTimeline,
         AppScreen.Search,
         AppScreen.Account
     )

@@ -17,6 +17,7 @@ import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
+import fr.outadoc.woolly.common.feature.timeline.PublicTimelineScreenResources
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
@@ -42,6 +43,7 @@ private val di = fun DI.MainBuilder.() {
 
     bindSingleton { AppScreenResources() }
     bindSingleton { SearchScreenResources() }
+    bindSingleton { PublicTimelineScreenResources() }
 
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
 

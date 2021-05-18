@@ -7,9 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.search.ui.SearchScreen
-import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineScreen
-import fr.outadoc.woolly.common.feature.timeline.home.HomeTimelineScreen
-import fr.outadoc.woolly.common.feature.timeline.local.LocalTimelineScreen
+import fr.outadoc.woolly.common.feature.timeline.ui.HomeTimelineScreen
+import fr.outadoc.woolly.common.feature.timeline.ui.PublicTimelineScreen
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.ui.ColorScheme
 
@@ -38,20 +37,7 @@ fun MainRouter(
             bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
         )
 
-        AppScreen.GlobalTimeline -> GlobalTimelineScreen(
-            drawer = { drawerState ->
-                MainAppDrawer(
-                    drawerState = drawerState,
-                    colorScheme = colorScheme,
-                    onColorSchemeChanged = onColorSchemeChanged,
-                    currentScreen = currentScreen,
-                    onScreenSelected = onScreenSelected
-                )
-            },
-            bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
-        )
-
-        AppScreen.LocalTimeline -> LocalTimelineScreen(
+        AppScreen.PublicTimeline -> PublicTimelineScreen(
             drawer = { drawerState ->
                 MainAppDrawer(
                     drawerState = drawerState,

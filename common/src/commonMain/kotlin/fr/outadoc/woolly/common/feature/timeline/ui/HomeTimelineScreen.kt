@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.timeline.local
+package fr.outadoc.woolly.common.feature.timeline.ui
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.DrawerState
@@ -15,7 +15,7 @@ import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
-fun LocalTimelineScreen(
+fun HomeTimelineScreen(
     drawer: @Composable ColumnScope.(DrawerState?) -> Unit,
     bottomBar: @Composable () -> Unit
 ) {
@@ -29,7 +29,7 @@ fun LocalTimelineScreen(
         scaffoldState = scaffoldState,
         topBar = { drawerState ->
             TopAppBarWithMenu(
-                title = { Text(res.getScreenTitle(AppScreen.LocalTimeline)) },
+                title = { Text(res.getScreenTitle(AppScreen.HomeTimeline)) },
                 drawerState = drawerState
             )
         },
@@ -38,7 +38,7 @@ fun LocalTimelineScreen(
     ) { insets ->
         Timeline(
             insets = insets,
-            pagingSourceFactory = repo::getPublicLocalTimelineSource
+            pagingSourceFactory = repo::getHomeTimelineSource
         )
     }
 }

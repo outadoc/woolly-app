@@ -1,9 +1,9 @@
 package fr.outadoc.woolly.common.feature.auth.viewmodel
 
 import fr.outadoc.mastodonk.client.MastodonClient
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfo
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoConsumer
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
+import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
+import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class AuthViewModel(
     private val scope: CoroutineScope,
     private val authProxyRepository: AuthProxyRepository,
-    private val authInfoConsumer: AuthInfoConsumer
+    private val authenticationStateConsumer: AuthenticationStateConsumer
 ) {
     sealed class State {
 
@@ -31,7 +31,7 @@ class AuthViewModel(
             val loading: Boolean = false
         ) : State()
 
-        data class Authenticated(val authInfo: AuthInfo) : State()
+        data class Authenticated(val addedCredentials: UserCredentials) : State()
     }
 
     private val _state = MutableStateFlow<State>(State.Disconnected())
@@ -76,11 +76,12 @@ class AuthViewModel(
         scope.launch(Dispatchers.IO) {
             _state.value = try {
                 val token = authProxyRepository.getToken(currentState.domain, code)
-                val authInfo = AuthInfo(currentState.domain, token)
 
                 // We're authenticated!
-                authInfoConsumer.publish(authInfo)
-                State.Authenticated(authInfo)
+                val addedCredentials = UserCredentials(currentState.domain, token)
+                authenticationStateConsumer.appendCredentials(addedCredentials)
+                State.Authenticated(addedCredentials)
+
             } catch (e: Throwable) {
                 currentState.copy(error = e)
             }

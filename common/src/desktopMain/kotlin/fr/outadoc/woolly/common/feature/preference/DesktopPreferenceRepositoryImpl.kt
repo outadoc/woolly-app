@@ -1,6 +1,6 @@
 package fr.outadoc.woolly.common.feature.preference
 
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfo
+import fr.outadoc.woolly.common.feature.auth.state.AuthenticationState
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -10,15 +10,16 @@ class DesktopPreferenceRepositoryImpl(private val json: Json) : PreferenceReposi
 
     private val prefs = Preferences.userRoot()
 
+
     companion object {
-        private const val KEY_AUTH_INFO = "auth_info"
+        private const val KEY_AUTH_STATE = "auth_state"
     }
 
-    override var savedAuthInfo: AuthInfo?
-        get() = prefs.get(KEY_AUTH_INFO, null)?.let { authInfo ->
-            json.decodeFromString(authInfo)
-        }
+    override var savedAuthenticationState: AuthenticationState
+        get() = prefs.get(KEY_AUTH_STATE, null)
+            ?.let { state -> json.decodeFromString(state) }
+            ?: AuthenticationState(emptyList())
         set(value) {
-            prefs.put(KEY_AUTH_INFO, json.encodeToString(value))
+            prefs.put(KEY_AUTH_STATE, json.encodeToString(value))
         }
 }

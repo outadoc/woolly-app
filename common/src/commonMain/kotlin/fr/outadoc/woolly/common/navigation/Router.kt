@@ -9,7 +9,7 @@ import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.account.AccountRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.AuthRouter
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSupplier
+import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateSupplier
 import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.ui.ColorScheme
@@ -24,10 +24,10 @@ fun Router(
     onColorSchemeChanged: (ColorScheme) -> Unit
 ) {
     val di = LocalDI.current
-    val authInfoSupplier by di.instance<AuthInfoSupplier>()
-    val authInfo by authInfoSupplier.authInfo.collectAsState()
+    val authenticationStateSupplier by di.instance<AuthenticationStateSupplier>()
+    val authenticationState by authenticationStateSupplier.state.collectAsState()
 
-    when (val state = authInfo) {
+    when (val state = authenticationState.activeAccount) {
         null -> AuthRouter()
         else -> {
             subDI(diBuilder = {

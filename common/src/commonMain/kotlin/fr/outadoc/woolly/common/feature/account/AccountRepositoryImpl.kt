@@ -2,7 +2,6 @@ package fr.outadoc.woolly.common.feature.account
 
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.client.MastodonClient
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoSupplier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

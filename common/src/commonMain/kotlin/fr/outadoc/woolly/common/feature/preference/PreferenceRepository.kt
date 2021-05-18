@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.common.feature.preference
 
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfo
+import fr.outadoc.woolly.common.feature.auth.state.AuthenticationState
 
 interface PreferenceRepository {
-    var savedAuthInfo: AuthInfo?
+    var savedAuthenticationState: AuthenticationState
 }

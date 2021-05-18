@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.feature.account.AccountRepository
-import fr.outadoc.woolly.common.feature.auth.info.AuthInfoConsumer
+import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
@@ -59,7 +59,7 @@ fun MainAppDrawer(
 ) {
     val di = LocalDI.current
     val res by di.instance<AppScreenResources>()
-    val authInfoSubscriber by di.instance<AuthInfoConsumer>()
+    val authenticationStateConsumer by di.instance<AuthenticationStateConsumer>()
 
     val screens = listOf(
         AppScreen.HomeTimeline,
@@ -81,7 +81,7 @@ fun MainAppDrawer(
             DrawerItem(
                 title = { Text("Log out") },
                 icon = { Icon(Icons.Default.Logout, "Log out") },
-                onClick = { authInfoSubscriber.publish(null) }
+                onClick = { authenticationStateConsumer.logoutAll() }
             )
         }
 

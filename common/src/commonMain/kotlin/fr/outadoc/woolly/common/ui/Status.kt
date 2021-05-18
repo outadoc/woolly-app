@@ -1,8 +1,6 @@
 package fr.outadoc.woolly.common.ui
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -20,22 +17,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.htmltext.HtmlParser
-import fr.outadoc.woolly.htmltext.NodeText
-import io.kamel.image.KamelImage
-import io.kamel.image.lazyImageResource
-import kotlinx.coroutines.Dispatchers
+import fr.outadoc.woolly.htmltext.HtmlText
 import kotlinx.datetime.Instant
 import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
 
 @Composable
 fun StatusCard(status: Status, currentTime: Instant) {
@@ -65,11 +55,6 @@ fun StatusOrBoost(status: Status, currentTime: Instant) {
 @Composable
 fun Status(status: Status, boostedBy: Account?, currentTime: Instant) {
     val di = LocalDI.current
-    val parser by di.instance<HtmlParser>()
-
-    val formattedText = remember(status.content) {
-        parser.parse(status.content)
-    }
 
     Row(modifier = Modifier.padding(16.dp)) {
         ProfilePicture(
@@ -85,8 +70,8 @@ fun Status(status: Status, boostedBy: Account?, currentTime: Instant) {
             )
 
             SelectionContainer {
-                NodeText(
-                    textNodes = formattedText,
+                HtmlText(
+                    html = status.content,
                     style = MaterialTheme.typography.body2
                 )
             }
@@ -122,26 +107,6 @@ fun StatusFooter(modifier: Modifier = Modifier, boostedBy: Account?) {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun ProfilePicture(modifier: Modifier = Modifier, account: Account) {
-    val avatarResource = lazyImageResource(account.avatarStaticUrl) {
-        dispatcher = Dispatchers.IO
-    }
-
-    Box(
-        modifier = modifier
-            .size(48.dp)
-            .clip(CircleShape)
-    ) {
-        KamelImage(
-            resource = avatarResource,
-            contentDescription = "${account.displayNameOrAcct}'s profile picture",
-            crossfade = true,
-            animationSpec = tween()
-        )
     }
 }
 

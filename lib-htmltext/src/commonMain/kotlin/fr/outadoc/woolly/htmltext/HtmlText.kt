@@ -2,6 +2,7 @@ package fr.outadoc.woolly.htmltext
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
@@ -19,6 +20,23 @@ import fr.outadoc.woolly.htmltext.model.FlatParagraph
 import fr.outadoc.woolly.htmltext.model.FlatTextNode
 
 const val URL_TAG = "URL"
+
+private val htmlParser = HtmlParser()
+
+@Composable
+fun HtmlText(
+    modifier: Modifier = Modifier,
+    html: String,
+    style: TextStyle = TextStyle.Default,
+    linkColor: Color = MaterialTheme.colors.secondary,
+    uriHandler: UriHandler = LocalUriHandler.current
+) {
+    val textNodes = remember(html) {
+        htmlParser.parse(html)
+    }
+
+    NodeText(modifier, textNodes, style, linkColor, uriHandler)
+}
 
 @Composable
 fun NodeText(

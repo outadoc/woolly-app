@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.search.ui.SearchScreen
 import fr.outadoc.woolly.common.feature.timeline.global.GlobalTimelineScreen
 import fr.outadoc.woolly.common.feature.timeline.home.HomeTimelineScreen
@@ -64,6 +65,19 @@ fun MainRouter(
         )
 
         AppScreen.Search -> SearchScreen(
+            drawer = { drawerState ->
+                MainAppDrawer(
+                    drawerState = drawerState,
+                    colorScheme = colorScheme,
+                    onColorSchemeChanged = onColorSchemeChanged,
+                    currentScreen = currentScreen,
+                    onScreenSelected = onScreenSelected
+                )
+            },
+            bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
+        )
+
+        AppScreen.Account -> AccountScreen(
             drawer = { drawerState ->
                 MainAppDrawer(
                     drawerState = drawerState,

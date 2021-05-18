@@ -16,7 +16,8 @@ fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen)
         AppScreen.HomeTimeline,
         AppScreen.GlobalTimeline,
         AppScreen.LocalTimeline,
-        AppScreen.Search
+        AppScreen.Search,
+        AppScreen.Account
     )
 
     BottomNavigation {

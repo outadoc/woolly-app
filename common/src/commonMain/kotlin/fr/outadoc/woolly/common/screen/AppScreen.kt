@@ -5,4 +5,5 @@ sealed class AppScreen {
     object GlobalTimeline : AppScreen()
     object LocalTimeline : AppScreen()
     object Search : AppScreen()
+    object Account : AppScreen()
 }

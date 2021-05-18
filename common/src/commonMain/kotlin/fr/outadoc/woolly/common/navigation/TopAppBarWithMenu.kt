@@ -19,21 +19,15 @@ fun TopAppBarWithMenu(
     drawerState: DrawerState?,
     elevation: Dp = AppBarDefaults.TopAppBarElevation
 ) {
-    when (drawerState) {
-        null -> TopAppBar(
-            modifier = modifier,
-            title = title,
-            backgroundColor = backgroundColor,
-            elevation = elevation
-        )
-        else -> TopAppBar(
-            modifier = modifier,
-            title = title,
-            backgroundColor = backgroundColor,
-            elevation = elevation,
-            navigationIcon = {
+    TopAppBar(
+        modifier = modifier,
+        title = title,
+        backgroundColor = backgroundColor,
+        elevation = elevation,
+        navigationIcon = drawerState?.let {
+            @Composable {
                 DrawerMenuButton(drawerState)
             }
-        )
-    }
+        }
+    )
 }

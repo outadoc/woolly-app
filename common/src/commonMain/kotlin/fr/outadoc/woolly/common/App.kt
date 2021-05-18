@@ -22,7 +22,6 @@ import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
 import fr.outadoc.woolly.common.ui.ColorScheme
-import fr.outadoc.woolly.htmltext.HtmlParser
 import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
@@ -43,8 +42,6 @@ private val di = fun DI.MainBuilder.() {
 
     bindSingleton { AppScreenResources() }
     bindSingleton { SearchScreenResources() }
-
-    bindSingleton { HtmlParser() }
 
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
 

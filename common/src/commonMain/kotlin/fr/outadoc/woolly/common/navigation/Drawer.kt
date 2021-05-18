@@ -67,7 +67,8 @@ fun MainAppDrawer(
         AppScreen.HomeTimeline,
         AppScreen.GlobalTimeline,
         AppScreen.LocalTimeline,
-        AppScreen.Search
+        AppScreen.Search,
+        AppScreen.Account
     )
 
     val scope = rememberCoroutineScope()

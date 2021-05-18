@@ -6,10 +6,6 @@ import androidx.compose.material.DrawerState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import fr.outadoc.woolly.common.feature.timeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.screen.AppScreen
@@ -21,15 +17,13 @@ import org.kodein.di.instance
 
 @Composable
 fun PublicTimelineScreen(
+    currentSubScreen: PublicTimelineSubScreen,
+    onCurrentSubScreenChanged: (PublicTimelineSubScreen) -> Unit,
     drawer: @Composable ColumnScope.(DrawerState?) -> Unit,
     bottomBar: @Composable () -> Unit
 ) {
     val di = LocalDI.current
     val res by di.instance<AppScreenResources>()
-    var currentSubScreen by remember {
-        mutableStateOf<PublicTimelineSubScreen>(PublicTimelineSubScreen.Local)
-    }
-
     val scaffoldState = rememberScaffoldState()
 
     ResponsiveScaffold(
@@ -39,7 +33,7 @@ fun PublicTimelineScreen(
                 title = { Text(res.getScreenTitle(AppScreen.PublicTimeline)) },
                 drawerState = drawerState,
                 currentSubScreen = currentSubScreen,
-                onCurrentSubScreenChanged = { currentSubScreen = it }
+                onCurrentSubScreenChanged = onCurrentSubScreenChanged
             )
         },
         bottomBar = { bottomBar() },

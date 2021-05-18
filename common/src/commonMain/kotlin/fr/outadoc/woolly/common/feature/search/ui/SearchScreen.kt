@@ -4,34 +4,28 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.DrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.ui.ResponsiveScaffold
 
 @Composable
 fun SearchScreen(
+    searchTerm: String,
+    onSearchTermChanged: (String) -> Unit,
+    currentSubScreen: SearchSubScreen,
+    onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
     drawer: @Composable ColumnScope.(DrawerState?) -> Unit,
     bottomBar: @Composable () -> Unit
 ) {
-    var searchTerm by remember { mutableStateOf("") }
-    var currentSubScreen by remember {
-        mutableStateOf<SearchSubScreen>(SearchSubScreen.Statuses)
-    }
-
     val scaffoldState = rememberScaffoldState()
-
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
         topBar = { drawerState ->
             SearchTopAppBar(
                 searchTerm = searchTerm,
-                onSearchTermChanged = { searchTerm = it },
+                onSearchTermChanged = onSearchTermChanged,
                 drawerState = drawerState,
                 currentSubScreen = currentSubScreen,
-                onCurrentSubScreenChanged = { currentSubScreen = it }
+                onCurrentSubScreenChanged = onCurrentSubScreenChanged
             )
         },
         bottomBar = { bottomBar() },

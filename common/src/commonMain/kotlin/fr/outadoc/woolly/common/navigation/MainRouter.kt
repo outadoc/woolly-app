@@ -1,10 +1,12 @@
 package fr.outadoc.woolly.common.navigation
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -19,6 +21,7 @@ import fr.outadoc.woolly.common.feature.timeline.ui.HomeTimelineScreen
 import fr.outadoc.woolly.common.feature.timeline.ui.PublicTimelineScreen
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.ui.ColorScheme
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -31,8 +34,13 @@ fun MainRouter(
         mutableStateOf(AppScreen.HomeTimeline)
     }
 
-    val onScreenSelected = { screen: AppScreen ->
-        currentScreen = screen
+    val scope = rememberCoroutineScope()
+    val onScreenSelected = { screen: AppScreen -> currentScreen = screen }
+    fun onScreenSelected(screen: AppScreen, listState: LazyListState) {
+        if (screen == currentScreen) {
+            scope.launch { listState.animateScrollToItem(0) }
+        }
+        onScreenSelected(screen)
     }
 
     val pagingConfig = PagingConfig(
@@ -100,7 +108,11 @@ fun MainRouter(
                     onScreenSelected = onScreenSelected
                 )
             }
-        ) { MainBottomNavigation(currentScreen, onScreenSelected) }
+        ) {
+            MainBottomNavigation(currentScreen) { screen ->
+                onScreenSelected(screen, homeListState)
+            }
+        }
 
         AppScreen.PublicTimeline -> PublicTimelineScreen(
             currentSubScreen = currentPublicTimelineScreen,
@@ -118,7 +130,9 @@ fun MainRouter(
                     onScreenSelected = onScreenSelected
                 )
             }
-        ) { MainBottomNavigation(currentScreen, onScreenSelected) }
+        ) {
+            MainBottomNavigation(currentScreen, onScreenSelected)
+        }
 
         AppScreen.Search -> SearchScreen(
             searchTerm = searchTerm,
@@ -140,7 +154,9 @@ fun MainRouter(
                     onScreenSelected = onScreenSelected
                 )
             },
-            bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
+            bottomBar = {
+                MainBottomNavigation(currentScreen, onScreenSelected)
+            }
         )
 
         AppScreen.Account -> AccountScreen(
@@ -153,7 +169,9 @@ fun MainRouter(
                     onScreenSelected = onScreenSelected
                 )
             },
-            bottomBar = { MainBottomNavigation(currentScreen, onScreenSelected) }
+            bottomBar = {
+                MainBottomNavigation(currentScreen, onScreenSelected)
+            }
         )
     }
 }

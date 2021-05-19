@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.common.navigation
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -42,13 +41,6 @@ fun MainRouter(
     }
 
     val scope = rememberCoroutineScope()
-    val onScreenSelected = { screen: AppScreen -> currentScreen = screen }
-    fun onScreenSelected(screen: AppScreen, listState: LazyListState) {
-        if (screen == currentScreen) {
-            scope.launch { listState.animateScrollToItem(0) }
-        }
-        onScreenSelected(screen)
-    }
 
     val pagingConfig = PagingConfig(
         pageSize = 20,
@@ -102,6 +94,25 @@ fun MainRouter(
         Pager(pagingConfig) { statusRepo.getPublicGlobalTimelineSource() }
     }.flow.collectAsLazyPagingItems()
 
+    fun onScreenSelected(selectedScreen: AppScreen) {
+        if (selectedScreen != currentScreen) currentScreen = selectedScreen
+        else when (selectedScreen) {
+            AppScreen.HomeTimeline -> homeListState
+            AppScreen.PublicTimeline -> when (currentPublicTimelineScreen) {
+                PublicTimelineSubScreen.Global -> publicGlobalListState
+                PublicTimelineSubScreen.Local -> publicLocalListState
+            }
+            AppScreen.Search -> when (currentSearchScreen) {
+                SearchSubScreen.Statuses -> searchStatusesListState
+                SearchSubScreen.Accounts -> searchAccountsListState
+                SearchSubScreen.Hashtags -> searchHashtagsListState
+            }
+            AppScreen.Account -> null
+        }?.let { listState ->
+            scope.launch { listState.animateScrollToItem(0) }
+        }
+    }
+
     val res by di.instance<AppScreenResources>()
     val scaffoldState = rememberScaffoldState()
 
@@ -131,9 +142,10 @@ fun MainRouter(
             }
         },
         bottomBar = {
-            MainBottomNavigation(currentScreen) { screen ->
-                onScreenSelected(screen)
-            }
+            MainBottomNavigation(
+                currentScreen = currentScreen,
+                onScreenSelected = { screen -> onScreenSelected(screen) }
+            )
         },
         drawerContent = { drawerState ->
             MainAppDrawer(
@@ -141,7 +153,7 @@ fun MainRouter(
                 colorScheme = colorScheme,
                 onColorSchemeChanged = onColorSchemeChanged,
                 currentScreen = currentScreen,
-                onScreenSelected = onScreenSelected
+                onScreenSelected = { screen -> onScreenSelected(screen) }
             )
         }
     ) { insets ->

@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.common.ui
 
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -23,17 +23,17 @@ fun ProfilePicture(
         dispatcher = Dispatchers.IO
     }
 
-    Box(
+    KamelImage(
+        resource = avatarResource,
+        contentDescription = "${account.displayNameOrAcct}'s profile picture",
+        contentScale = ContentScale.FillWidth,
+        crossfade = true,
         modifier = modifier
             .size(48.dp)
-            .clip(CircleShape)
-    ) {
-        KamelImage(
-            resource = avatarResource,
-            contentDescription = "${account.displayNameOrAcct}'s profile picture",
-            contentScale = ContentScale.Inside,
-            crossfade = true,
-            animationSpec = tween()
-        )
-    }
+            .clip(CircleShape),
+        onLoading = {
+            Spacer(modifier = modifier.size(48.dp))
+        },
+        animationSpec = tween()
+    )
 }

@@ -25,7 +25,6 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.htmltext.HtmlText
 import kotlinx.datetime.Instant
-import org.kodein.di.compose.LocalDI
 
 @Composable
 fun StatusCard(status: Status, currentTime: Instant) {
@@ -54,8 +53,6 @@ fun StatusOrBoost(status: Status, currentTime: Instant) {
 
 @Composable
 fun Status(status: Status, boostedBy: Account?, currentTime: Instant) {
-    val di = LocalDI.current
-
     Row(modifier = Modifier.padding(16.dp)) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),

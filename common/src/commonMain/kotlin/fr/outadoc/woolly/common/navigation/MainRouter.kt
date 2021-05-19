@@ -1,7 +1,10 @@
 package fr.outadoc.woolly.common.navigation
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,12 +18,16 @@ import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
 import fr.outadoc.woolly.common.feature.search.ui.SearchScreen
+import fr.outadoc.woolly.common.feature.search.ui.SearchTopAppBar
 import fr.outadoc.woolly.common.feature.timeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
 import fr.outadoc.woolly.common.feature.timeline.ui.HomeTimelineScreen
 import fr.outadoc.woolly.common.feature.timeline.ui.PublicTimelineScreen
+import fr.outadoc.woolly.common.feature.timeline.ui.PublicTimelineTopAppBar
 import fr.outadoc.woolly.common.screen.AppScreen
+import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
+import fr.outadoc.woolly.common.ui.ResponsiveScaffold
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
@@ -95,83 +102,80 @@ fun MainRouter(
         Pager(pagingConfig) { statusRepo.getPublicGlobalTimelineSource() }
     }.flow.collectAsLazyPagingItems()
 
-    when (currentScreen) {
-        AppScreen.HomeTimeline -> HomeTimelineScreen(
-            pagingItems = homePagingItems,
-            listState = homeListState,
-            drawer = { drawerState ->
-                MainAppDrawer(
+    val res by di.instance<AppScreenResources>()
+    val scaffoldState = rememberScaffoldState()
+
+    ResponsiveScaffold(
+        scaffoldState = scaffoldState,
+        topBar = { drawerState ->
+            when (currentScreen) {
+                AppScreen.PublicTimeline -> PublicTimelineTopAppBar(
+                    title = { Text(res.getScreenTitle(AppScreen.PublicTimeline)) },
                     drawerState = drawerState,
-                    colorScheme = colorScheme,
-                    onColorSchemeChanged = onColorSchemeChanged,
-                    currentScreen = currentScreen,
-                    onScreenSelected = onScreenSelected
+                    currentSubScreen = currentPublicTimelineScreen,
+                    onCurrentSubScreenChanged = { currentPublicTimelineScreen = it }
+                )
+
+                AppScreen.Search -> SearchTopAppBar(
+                    searchTerm = searchTerm,
+                    onSearchTermChanged = { searchTerm = it },
+                    drawerState = drawerState,
+                    currentSubScreen = currentSearchScreen,
+                    onCurrentSubScreenChanged = { currentSearchScreen = it }
+                )
+
+                else -> TopAppBarWithMenu(
+                    title = { Text(res.getScreenTitle(currentScreen)) },
+                    drawerState = drawerState
                 )
             }
-        ) {
+        },
+        bottomBar = {
             MainBottomNavigation(currentScreen) { screen ->
-                onScreenSelected(screen, homeListState)
+                onScreenSelected(screen)
+            }
+        },
+        drawerContent = { drawerState ->
+            MainAppDrawer(
+                drawerState = drawerState,
+                colorScheme = colorScheme,
+                onColorSchemeChanged = onColorSchemeChanged,
+                currentScreen = currentScreen,
+                onScreenSelected = onScreenSelected
+            )
+        }
+    ) { insets ->
+        Crossfade(targetState = currentScreen) { screen ->
+            when (screen) {
+                AppScreen.HomeTimeline -> HomeTimelineScreen(
+                    insets = insets,
+                    pagingItems = homePagingItems,
+                    listState = homeListState,
+                )
+
+                AppScreen.PublicTimeline -> PublicTimelineScreen(
+                    insets = insets,
+                    currentSubScreen = currentPublicTimelineScreen,
+                    localPagingItems = publicLocalPagingItems,
+                    localListState = publicLocalListState,
+                    globalPagingItems = publicGlobalPagingItems,
+                    globalListState = publicGlobalListState
+                )
+
+                AppScreen.Search -> SearchScreen(
+                    insets = insets,
+                    searchTerm = searchTerm,
+                    currentSubScreen = currentSearchScreen,
+                    statusPagingItems = searchStatusPagingItems,
+                    statusListState = searchStatusesListState,
+                    accountsPagingItems = searchAccountsPagingItems,
+                    accountsListState = searchAccountsListState,
+                    hashtagsPagingItems = searchHashtagsPagingItems,
+                    hashtagsListState = searchHashtagsListState
+                )
+
+                AppScreen.Account -> AccountScreen(insets = insets)
             }
         }
-
-        AppScreen.PublicTimeline -> PublicTimelineScreen(
-            currentSubScreen = currentPublicTimelineScreen,
-            onCurrentSubScreenChanged = { currentPublicTimelineScreen = it },
-            localPagingItems = publicLocalPagingItems,
-            localListState = publicLocalListState,
-            globalPagingItems = publicGlobalPagingItems,
-            globalListState = publicGlobalListState,
-            drawer = { drawerState ->
-                MainAppDrawer(
-                    drawerState = drawerState,
-                    colorScheme = colorScheme,
-                    onColorSchemeChanged = onColorSchemeChanged,
-                    currentScreen = currentScreen,
-                    onScreenSelected = onScreenSelected
-                )
-            }
-        ) {
-            MainBottomNavigation(currentScreen, onScreenSelected)
-        }
-
-        AppScreen.Search -> SearchScreen(
-            searchTerm = searchTerm,
-            onSearchTermChanged = { searchTerm = it },
-            currentSubScreen = currentSearchScreen,
-            onCurrentSubScreenChanged = { currentSearchScreen = it },
-            statusPagingItems = searchStatusPagingItems,
-            statusListState = searchStatusesListState,
-            accountsPagingItems = searchAccountsPagingItems,
-            accountsListState = searchAccountsListState,
-            hashtagsPagingItems = searchHashtagsPagingItems,
-            hashtagsListState = searchHashtagsListState,
-            drawer = { drawerState ->
-                MainAppDrawer(
-                    drawerState = drawerState,
-                    colorScheme = colorScheme,
-                    onColorSchemeChanged = onColorSchemeChanged,
-                    currentScreen = currentScreen,
-                    onScreenSelected = onScreenSelected
-                )
-            },
-            bottomBar = {
-                MainBottomNavigation(currentScreen, onScreenSelected)
-            }
-        )
-
-        AppScreen.Account -> AccountScreen(
-            drawer = { drawerState ->
-                MainAppDrawer(
-                    drawerState = drawerState,
-                    colorScheme = colorScheme,
-                    onColorSchemeChanged = onColorSchemeChanged,
-                    currentScreen = currentScreen,
-                    onScreenSelected = onScreenSelected
-                )
-            },
-            bottomBar = {
-                MainBottomNavigation(currentScreen, onScreenSelected)
-            }
-        )
     }
 }

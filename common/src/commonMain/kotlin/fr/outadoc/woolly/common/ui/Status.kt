@@ -210,7 +210,7 @@ fun StatusActions(
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         Row(
-            modifier = Modifier.requiredWidth(min(maxWidth, 300.dp)),
+            modifier = Modifier.requiredWidth(min(maxWidth, 250.dp)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

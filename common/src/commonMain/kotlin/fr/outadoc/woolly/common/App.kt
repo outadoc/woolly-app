@@ -22,8 +22,8 @@ import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
-import fr.outadoc.woolly.common.ui.AppTheme
 import fr.outadoc.woolly.common.ui.ColorScheme
+import fr.outadoc.woolly.common.ui.WoollyTheme
 import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
@@ -64,7 +64,7 @@ private val di = fun DI.MainBuilder.() {
 @Composable
 fun App() = subDI(diBuilder = di) {
     var colorScheme by rememberSaveable { mutableStateOf(ColorScheme.Dark) }
-    AppTheme(isDarkMode = colorScheme == ColorScheme.Dark) {
+    WoollyTheme(isDarkMode = colorScheme == ColorScheme.Dark) {
         Router(
             colorScheme = colorScheme,
             onColorSchemeChanged = { colorScheme = it }

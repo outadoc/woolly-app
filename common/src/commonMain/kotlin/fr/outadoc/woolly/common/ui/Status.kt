@@ -23,7 +23,9 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
@@ -235,6 +237,7 @@ fun StatusActions(
         StatusAction(
             modifier = Modifier.padding(start = 16.dp),
             checked = status.isBoosted == true,
+            checkedColor = WoollyTheme.BoostColor,
             icon = Icons.Default.Repeat,
             contentDescription = if (status.isBoosted == true) "Undo boost" else "Boost",
             counter = status.boostsCount,
@@ -246,10 +249,10 @@ fun StatusActions(
             }
         )
 
-
         StatusAction(
             modifier = Modifier.padding(start = 16.dp),
             checked = status.isFavourited == true,
+            checkedColor = WoollyTheme.FavouriteColor,
             icon = Icons.Default.Star,
             contentDescription = if (status.isBoosted == true) "Remove from favourites" else "Add to favourites",
             counter = status.favouritesCount,
@@ -267,11 +270,16 @@ fun StatusActions(
 private fun StatusAction(
     modifier: Modifier = Modifier,
     checked: Boolean,
+    checkedColor: Color = LocalContentColor.current,
     icon: ImageVector,
     contentDescription: String,
     counter: Long,
     onCheckedChange: (Boolean) -> Unit
 ) {
+    val color =
+        if (checked) checkedColor
+        else LocalContentColor.current.copy(alpha = 0.7f)
+
     IconToggleButton(
         modifier = modifier,
         checked = checked,
@@ -281,7 +289,7 @@ private fun StatusAction(
             icon,
             modifier = Modifier.size(24.dp),
             contentDescription = contentDescription,
-            tint = LocalContentColor.current.copy(alpha = 0.7f)
+            tint = color
         )
     }
 
@@ -289,6 +297,7 @@ private fun StatusAction(
         text = counter.toString(),
         maxLines = 1,
         style = MaterialTheme.typography.caption,
-        color = LocalContentColor.current.copy(alpha = 0.7f)
+        fontWeight = FontWeight.Bold,
+        color = color
     )
 }

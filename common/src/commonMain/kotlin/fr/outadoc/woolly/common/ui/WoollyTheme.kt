@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.Dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun AppTheme(
+fun WoollyTheme(
     isDarkMode: Boolean,
     content: @Composable () -> Unit
 ) {
@@ -45,4 +45,9 @@ private fun Color.elevated(elevation: Dp): Color {
     } else {
         this
     }
+}
+
+object WoollyTheme {
+    val BoostColor = Color(0xff2b90d9)
+    val FavouriteColor = Color(0xffca8f04)
 }

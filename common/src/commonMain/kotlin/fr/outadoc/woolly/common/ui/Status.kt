@@ -6,16 +6,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.Reply
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.htmltext.HtmlText
 import kotlinx.datetime.Instant
 
@@ -45,39 +50,92 @@ fun StatusPlaceholder() {
 }
 
 @Composable
-fun StatusOrBoost(status: Status, currentTime: Instant) {
+fun StatusOrBoost(
+    modifier: Modifier = Modifier,
+    status: Status,
+    currentTime: Instant
+) {
     val original = status.boostedStatus ?: status
     val boostedBy = if (status.boostedStatus != null) status.account else null
-    Status(original, boostedBy, currentTime)
+    StatusBodyWithPicture(modifier, original, boostedBy, currentTime)
 }
 
 @Composable
-fun Status(status: Status, boostedBy: Account?, currentTime: Instant) {
-    Row(modifier = Modifier.padding(16.dp)) {
+fun StatusBodyWithPicture(
+    modifier: Modifier = Modifier,
+    status: Status,
+    boostedBy: Account?,
+    currentTime: Instant
+) {
+    Row(
+        modifier = modifier.padding(
+            top = 16.dp,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 8.dp
+        )
+    ) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
             account = status.account
         )
 
-        Column(modifier = Modifier.fillMaxWidth()) {
-            StatusHeader(
-                modifier = Modifier.padding(bottom = 8.dp),
-                status = status,
-                currentTime = currentTime
-            )
+        StatusBodyWithActions(
+            status = status,
+            boostedBy = boostedBy,
+            currentTime = currentTime
+        )
+    }
+}
 
-            SelectionContainer {
-                HtmlText(
-                    html = status.content,
-                    style = MaterialTheme.typography.body2
-                )
-            }
+@Composable
+fun StatusBodyWithActions(
+    modifier: Modifier = Modifier,
+    status: Status,
+    boostedBy: Account?,
+    currentTime: Instant
+) {
+    Column(modifier = modifier) {
+        StatusBody(
+            status = status,
+            boostedBy = boostedBy,
+            currentTime = currentTime
+        )
 
-            StatusFooter(
-                modifier = Modifier.padding(top = 8.dp),
-                boostedBy = boostedBy
+        StatusActions(
+            modifier = Modifier.offset(x = (-16).dp),
+            status = status
+        ) { action ->
+
+        }
+    }
+}
+
+@Composable
+fun StatusBody(
+    modifier: Modifier = Modifier,
+    status: Status,
+    boostedBy: Account?,
+    currentTime: Instant
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        StatusHeader(
+            modifier = Modifier.padding(bottom = 8.dp),
+            status = status,
+            currentTime = currentTime
+        )
+
+        SelectionContainer {
+            HtmlText(
+                html = status.content,
+                style = MaterialTheme.typography.body2
             )
         }
+
+        StatusFooter(
+            modifier = Modifier.padding(top = 8.dp),
+            boostedBy = boostedBy
+        )
     }
 }
 
@@ -121,7 +179,9 @@ fun StatusHeader(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                modifier = Modifier.alignByBaseline().fillMaxWidth(0.8f),
+                modifier = Modifier
+                    .alignByBaseline()
+                    .fillMaxWidth(0.8f),
                 text = status.account.displayNameOrAcct,
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,
@@ -150,5 +210,63 @@ fun StatusHeader(
     }
 }
 
-val Account.displayNameOrAcct: String
-    get() = if (displayName.isNotBlank()) displayName else "@$acct"
+@Composable
+fun StatusActions(
+    modifier: Modifier = Modifier,
+    status: Status,
+    onStatusAction: (StatusAction) -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        IconButton(onClick = { onStatusAction(StatusAction.Reply) }) {
+            Icon(Icons.Default.Reply, contentDescription = "Reply")
+        }
+
+        Text(text = status.repliesCount.toString())
+
+        IconButton(
+            modifier = Modifier.padding(start = 16.dp),
+            onClick = {
+                onStatusAction(
+                    if (status.isBoosted == true) StatusAction.UndoBoost
+                    else StatusAction.Boost
+                )
+            }
+        ) {
+            Icon(
+                Icons.Default.Repeat,
+                contentDescription = if (status.isBoosted == true) {
+                    "Undo boost"
+                } else {
+                    "Boost"
+                }
+            )
+        }
+
+        Text(text = status.boostsCount.toString())
+
+        IconButton(
+            modifier = Modifier.padding(start = 16.dp),
+            onClick = {
+                onStatusAction(
+                    if (status.isFavourited == true) StatusAction.UndoFavourite
+                    else StatusAction.Favourite
+                )
+            }
+        ) {
+            Icon(
+                Icons.Default.Star,
+                contentDescription = if (status.isFavourited == true) {
+                    "Remove from favourites"
+                } else {
+                    "Add to favourites"
+                }
+            )
+        }
+
+        Text(text = status.favouritesCount.toString())
+    }
+}

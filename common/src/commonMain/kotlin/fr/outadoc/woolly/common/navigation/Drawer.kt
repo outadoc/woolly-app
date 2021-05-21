@@ -37,6 +37,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.screen.AppScreen
@@ -44,7 +45,6 @@ import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
 import fr.outadoc.woolly.common.ui.ProfilePicture
 import fr.outadoc.woolly.common.ui.WoollyDefaults
-import fr.outadoc.woolly.common.ui.displayNameOrAcct
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers

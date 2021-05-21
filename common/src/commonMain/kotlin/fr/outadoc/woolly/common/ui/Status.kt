@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentColor
@@ -33,19 +32,6 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.htmltext.HtmlText
 import kotlinx.datetime.Instant
-
-@Composable
-fun StatusCard(status: Status, currentTime: Instant) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = 2.dp
-    ) {
-        StatusOrBoost(
-            status = status,
-            currentTime = currentTime
-        )
-    }
-}
 
 @Composable
 fun StatusPlaceholder() {

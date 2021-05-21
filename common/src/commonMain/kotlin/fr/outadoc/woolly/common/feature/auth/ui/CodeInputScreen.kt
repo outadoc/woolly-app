@@ -33,7 +33,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
-import fr.outadoc.woolly.common.plus
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -60,7 +59,8 @@ fun CodeInputScreen(state: AuthViewModel.State.InstanceSelected) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(insets + 16.dp),
+                .padding(insets)
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

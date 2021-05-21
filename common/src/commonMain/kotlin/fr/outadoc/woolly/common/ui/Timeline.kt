@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,8 +50,8 @@ fun Timeline(
     LazyColumn(
         modifier = modifier,
         state = lazyListState,
-        contentPadding = insets + 16.dp,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        contentPadding = insets + PaddingValues(top = 8.dp, bottom = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         when (val state = lazyPagingItems.loadState.refresh) {
             LoadState.Loading -> item {
@@ -72,13 +73,19 @@ fun Timeline(
         }
 
         itemsIndexed(lazyPagingItems) { _, item ->
-            if (item != null) {
-                StatusCard(
-                    status = item,
-                    currentTime = currentTime
+            Column {
+                if (item != null) {
+                    StatusOrBoost(
+                        status = item,
+                        currentTime = currentTime
+                    )
+                } else {
+                    StatusPlaceholder()
+                }
+
+                Divider(
+                    thickness = 1.dp
                 )
-            } else {
-                StatusPlaceholder()
             }
         }
 

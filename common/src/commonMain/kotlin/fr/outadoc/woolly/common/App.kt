@@ -15,10 +15,11 @@ import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateSupplier
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
+import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
+import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
+import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
-import fr.outadoc.woolly.common.feature.search.repository.SearchRepository
-import fr.outadoc.woolly.common.feature.timeline.PublicTimelineScreenResources
-import fr.outadoc.woolly.common.feature.timeline.repository.StatusRepository
+import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.AppTheme
@@ -54,10 +55,10 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton<MastodonClientProvider> { MastodonClientProviderImpl(instance(), instance()) }
     bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
 
-    bindSingleton { StatusRepository(instance()) }
-    bindSingleton { SearchRepository(instance()) }
-
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
+    bindSingleton { HomeTimelineViewModel(instance(), instance()) }
+    bindSingleton { PublicTimelineViewModel(instance(), instance()) }
+    bindSingleton { SearchViewModel(instance(), instance()) }
 }
 
 @Composable

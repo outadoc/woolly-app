@@ -1,31 +1,33 @@
-package fr.outadoc.woolly.common.feature.timeline.ui
+package fr.outadoc.woolly.common.feature.publictimeline.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.paging.compose.LazyPagingItems
-import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.common.feature.timeline.PublicTimelineSubScreen
+import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
+import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.ui.Timeline
+import org.kodein.di.compose.LocalDI
+import org.kodein.di.instance
 
 @Composable
 fun PublicTimelineScreen(
     insets: PaddingValues,
     currentSubScreen: PublicTimelineSubScreen,
-    localPagingItems: LazyPagingItems<Status>,
     localListState: LazyListState,
-    globalPagingItems: LazyPagingItems<Status>,
     globalListState: LazyListState
 ) {
+    val di = LocalDI.current
+    val vm by di.instance<PublicTimelineViewModel>()
+
     when (currentSubScreen) {
         is PublicTimelineSubScreen.Local -> Timeline(
             insets = insets,
-            lazyPagingItems = localPagingItems,
+            statusFlow = vm.localPagingItems,
             lazyListState = localListState
         )
         is PublicTimelineSubScreen.Global -> Timeline(
             insets = insets,
-            lazyPagingItems = globalPagingItems,
+            statusFlow = vm.globalPagingItems,
             lazyListState = globalListState
         )
     }

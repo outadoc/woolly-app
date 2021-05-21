@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.timeline.ui
+package fr.outadoc.woolly.common.feature.publictimeline.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -13,8 +13,8 @@ import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.timeline.PublicTimelineScreenResources
-import fr.outadoc.woolly.common.feature.timeline.PublicTimelineSubScreen
+import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
+import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance

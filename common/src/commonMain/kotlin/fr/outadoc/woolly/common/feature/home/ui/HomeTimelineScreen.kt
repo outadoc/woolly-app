@@ -1,21 +1,24 @@
-package fr.outadoc.woolly.common.feature.timeline.ui
+package fr.outadoc.woolly.common.feature.home.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.paging.compose.LazyPagingItems
-import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
 import fr.outadoc.woolly.common.ui.Timeline
+import org.kodein.di.compose.LocalDI
+import org.kodein.di.instance
 
 @Composable
 fun HomeTimelineScreen(
     insets: PaddingValues,
-    pagingItems: LazyPagingItems<Status>,
     listState: LazyListState
 ) {
+    val di = LocalDI.current
+    val vm by di.instance<HomeTimelineViewModel>()
+
     Timeline(
         insets = insets,
-        lazyPagingItems = pagingItems,
+        statusFlow = vm.homePagingItems,
         lazyListState = listState
     )
 }

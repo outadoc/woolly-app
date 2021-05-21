@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.timeline
+package fr.outadoc.woolly.common.feature.publictimeline
 
 sealed class PublicTimelineSubScreen {
     object Global : PublicTimelineSubScreen()

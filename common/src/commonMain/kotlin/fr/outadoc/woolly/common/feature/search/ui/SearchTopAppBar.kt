@@ -23,24 +23,30 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
+import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.navigation.TopAppBarWithMenu
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
 @Composable
 fun SearchTopAppBar(
-    searchTerm: String,
-    onSearchTermChanged: (String) -> Unit,
     currentSubScreen: SearchSubScreen,
     onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
     drawerState: DrawerState?
 ) {
+    val di = LocalDI.current
+    val vm by di.instance<SearchViewModel>()
+    val state by vm.state.collectAsState()
+
     val textStyle = LocalTextStyle.current
+
     Surface(
         color = MaterialTheme.colors.primarySurface,
         elevation = AppBarDefaults.TopAppBarElevation
@@ -50,14 +56,19 @@ fun SearchTopAppBar(
                 backgroundColor = MaterialTheme.colors.primarySurface,
                 title = {
                     ProvideTextStyle(value = textStyle) {
-                        SearchTextField(searchTerm, onSearchTermChanged)
+                        SearchTextField(
+                            searchTerm = state.query,
+                            onSearchTermChanged = {
+                                vm.onSearchTermChanged(it)
+                            }
+                        )
                     }
                 },
                 drawerState = drawerState,
                 elevation = 0.dp
             )
 
-            if (searchTerm.isNotEmpty()) {
+            if (state.query.isNotEmpty()) {
                 SearchTabRow(currentSubScreen, onCurrentSubScreenChanged)
             }
         }

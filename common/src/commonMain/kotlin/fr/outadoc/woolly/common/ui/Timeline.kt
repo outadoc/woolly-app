@@ -16,12 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.plus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -30,7 +32,7 @@ import kotlinx.datetime.Clock
 fun Timeline(
     modifier: Modifier = Modifier,
     insets: PaddingValues,
-    lazyPagingItems: LazyPagingItems<Status>,
+    statusFlow: Flow<PagingData<Status>>,
     lazyListState: LazyListState
 ) {
     // Periodically refresh timestamps
@@ -41,6 +43,8 @@ fun Timeline(
             currentTime = Clock.System.now()
         }
     }
+
+    val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
     LazyColumn(
         modifier = modifier,

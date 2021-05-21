@@ -3,32 +3,33 @@ package fr.outadoc.woolly.common.feature.search.ui
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.paging.compose.LazyPagingItems
-import fr.outadoc.mastodonk.api.entity.Account
-import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.mastodonk.api.entity.Tag
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
+import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.ui.Timeline
+import org.kodein.di.compose.LocalDI
+import org.kodein.di.instance
 
 @Composable
 fun SearchScreen(
     insets: PaddingValues,
-    searchTerm: String,
     currentSubScreen: SearchSubScreen,
-    statusPagingItems: LazyPagingItems<Status>,
     statusListState: LazyListState,
-    accountsPagingItems: LazyPagingItems<Account>,
     accountsListState: LazyListState,
-    hashtagsPagingItems: LazyPagingItems<Tag>,
     hashtagsListState: LazyListState
 ) {
-    if (searchTerm.isEmpty()) {
+    val di = LocalDI.current
+    val vm by di.instance<SearchViewModel>()
+    val state by vm.state.collectAsState()
+
+    if (state.query.isEmpty()) {
         TrendingScreen()
     } else {
         when (currentSubScreen) {
             is SearchSubScreen.Statuses -> Timeline(
                 insets = insets,
-                lazyPagingItems = statusPagingItems,
+                statusFlow = vm.statusPagingItems,
                 lazyListState = statusListState
             )
             is SearchSubScreen.Accounts -> Unit

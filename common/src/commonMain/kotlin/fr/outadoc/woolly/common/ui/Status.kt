@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
@@ -221,52 +222,73 @@ fun StatusActions(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        IconButton(onClick = { onStatusAction(StatusAction.Reply) }) {
-            Icon(Icons.Default.Reply, contentDescription = "Reply")
-        }
+        StatusAction(
+            icon = Icons.Default.Reply,
+            checked = false,
+            contentDescription = "Reply",
+            counter = status.repliesCount,
+            onCheckedChange = {
+                onStatusAction(StatusAction.Reply)
+            }
+        )
 
-        Text(text = status.repliesCount.toString())
-
-        IconButton(
+        StatusAction(
             modifier = Modifier.padding(start = 16.dp),
-            onClick = {
+            checked = status.isBoosted == true,
+            icon = Icons.Default.Repeat,
+            contentDescription = if (status.isBoosted == true) "Undo boost" else "Boost",
+            counter = status.boostsCount,
+            onCheckedChange = { boosted ->
                 onStatusAction(
-                    if (status.isBoosted == true) StatusAction.UndoBoost
-                    else StatusAction.Boost
+                    if (boosted) StatusAction.Boost
+                    else StatusAction.UndoBoost
                 )
             }
-        ) {
-            Icon(
-                Icons.Default.Repeat,
-                contentDescription = if (status.isBoosted == true) {
-                    "Undo boost"
-                } else {
-                    "Boost"
-                }
-            )
-        }
+        )
 
-        Text(text = status.boostsCount.toString())
 
-        IconButton(
+        StatusAction(
             modifier = Modifier.padding(start = 16.dp),
-            onClick = {
+            checked = status.isFavourited == true,
+            icon = Icons.Default.Star,
+            contentDescription = if (status.isBoosted == true) "Remove from favourites" else "Add to favourites",
+            counter = status.favouritesCount,
+            onCheckedChange = { favourited ->
                 onStatusAction(
-                    if (status.isFavourited == true) StatusAction.UndoFavourite
-                    else StatusAction.Favourite
+                    if (favourited) StatusAction.Favourite
+                    else StatusAction.UndoFavourite
                 )
             }
-        ) {
-            Icon(
-                Icons.Default.Star,
-                contentDescription = if (status.isFavourited == true) {
-                    "Remove from favourites"
-                } else {
-                    "Add to favourites"
-                }
-            )
-        }
-
-        Text(text = status.favouritesCount.toString())
+        )
     }
+}
+
+@Composable
+private fun StatusAction(
+    modifier: Modifier = Modifier,
+    checked: Boolean,
+    icon: ImageVector,
+    contentDescription: String,
+    counter: Long,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    IconToggleButton(
+        modifier = modifier,
+        checked = checked,
+        onCheckedChange = onCheckedChange
+    ) {
+        Icon(
+            icon,
+            modifier = Modifier.size(24.dp),
+            contentDescription = contentDescription,
+            tint = LocalContentColor.current.copy(alpha = 0.7f)
+        )
+    }
+
+    Text(
+        text = counter.toString(),
+        maxLines = 1,
+        style = MaterialTheme.typography.caption,
+        color = LocalContentColor.current.copy(alpha = 0.7f)
+    )
 }

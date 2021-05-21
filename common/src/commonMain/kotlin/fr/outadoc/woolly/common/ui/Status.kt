@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
@@ -27,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
@@ -205,50 +208,52 @@ fun StatusActions(
     status: Status,
     onStatusAction: (StatusAction) -> Unit
 ) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
-        StatusAction(
-            icon = Icons.Default.Reply,
-            checked = false,
-            contentDescription = "Reply",
-            counter = status.repliesCount,
-            onCheckedChange = {
-                onStatusAction(StatusAction.Reply)
-            }
-        )
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.requiredWidth(min(maxWidth, 300.dp)),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            StatusAction(
+                icon = Icons.Default.Reply,
+                checked = false,
+                contentDescription = "Reply",
+                counter = status.repliesCount,
+                onCheckedChange = {
+                    onStatusAction(StatusAction.Reply)
+                }
+            )
 
-        StatusAction(
-            modifier = Modifier.padding(start = 16.dp),
-            checked = status.isBoosted == true,
-            checkedColor = WoollyTheme.BoostColor,
-            icon = Icons.Default.Repeat,
-            contentDescription = if (status.isBoosted == true) "Undo boost" else "Boost",
-            counter = status.boostsCount,
-            onCheckedChange = { boosted ->
-                onStatusAction(
-                    if (boosted) StatusAction.Boost
-                    else StatusAction.UndoBoost
-                )
-            }
-        )
+            StatusAction(
+                modifier = Modifier.padding(start = 16.dp),
+                checked = status.isBoosted == true,
+                checkedColor = WoollyTheme.BoostColor,
+                icon = Icons.Default.Repeat,
+                contentDescription = if (status.isBoosted == true) "Undo boost" else "Boost",
+                counter = status.boostsCount,
+                onCheckedChange = { boosted ->
+                    onStatusAction(
+                        if (boosted) StatusAction.Boost
+                        else StatusAction.UndoBoost
+                    )
+                }
+            )
 
-        StatusAction(
-            modifier = Modifier.padding(start = 16.dp),
-            checked = status.isFavourited == true,
-            checkedColor = WoollyTheme.FavouriteColor,
-            icon = Icons.Default.Star,
-            contentDescription = if (status.isBoosted == true) "Remove from favourites" else "Add to favourites",
-            counter = status.favouritesCount,
-            onCheckedChange = { favourited ->
-                onStatusAction(
-                    if (favourited) StatusAction.Favourite
-                    else StatusAction.UndoFavourite
-                )
-            }
-        )
+            StatusAction(
+                modifier = Modifier.padding(start = 16.dp),
+                checked = status.isFavourited == true,
+                checkedColor = WoollyTheme.FavouriteColor,
+                icon = Icons.Default.Star,
+                contentDescription = if (status.isBoosted == true) "Remove from favourites" else "Add to favourites",
+                counter = status.favouritesCount,
+                onCheckedChange = { favourited ->
+                    onStatusAction(
+                        if (favourited) StatusAction.Favourite
+                        else StatusAction.UndoFavourite
+                    )
+                }
+            )
+        }
     }
 }
 
@@ -266,24 +271,26 @@ private fun StatusAction(
         if (checked) checkedColor
         else LocalContentColor.current.copy(alpha = 0.7f)
 
-    IconToggleButton(
-        modifier = modifier,
-        checked = checked,
-        onCheckedChange = onCheckedChange
-    ) {
-        Icon(
-            icon,
-            modifier = Modifier.size(24.dp),
-            contentDescription = contentDescription,
-            tint = color
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        IconToggleButton(
+            modifier = modifier,
+            checked = checked,
+            onCheckedChange = onCheckedChange
+        ) {
+            Icon(
+                icon,
+                modifier = Modifier.size(24.dp),
+                contentDescription = contentDescription,
+                tint = color
+            )
+        }
+
+        Text(
+            text = counter.toString(),
+            maxLines = 1,
+            style = MaterialTheme.typography.caption,
+            fontWeight = FontWeight.Bold,
+            color = color
         )
     }
-
-    Text(
-        text = counter.toString(),
-        maxLines = 1,
-        style = MaterialTheme.typography.caption,
-        fontWeight = FontWeight.Bold,
-        color = color
-    )
 }

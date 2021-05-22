@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.home.viewmodel
 
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import fr.outadoc.mastodonk.api.entity.Status
@@ -16,27 +17,28 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeTimelineViewModel(
     private val viewModelScope: CoroutineScope,
-    clientProvider: MastodonClientProvider
+    clientProvider: MastodonClientProvider,
+    pagingConfig: PagingConfig
 ) {
-    private val pagingWrapper: StatusPagingRepository =
-        StatusPagingRepository(clientProvider) { client ->
+    private val pagingRepository: StatusPagingRepository =
+        StatusPagingRepository(pagingConfig, clientProvider) { client ->
             client.timelines.getHomeTimelineSource()
         }
 
     val homePagingItems: Flow<PagingData<Status>> =
-        pagingWrapper
+        pagingRepository
             .pagingData
             .cachedIn(viewModelScope)
 
     fun onStatusAction(action: StatusAction) {
         viewModelScope.launch {
-            pagingWrapper.onStatusAction(action)
+            pagingRepository.onStatusAction(action)
         }
     }
 
     init {
         viewModelScope.launch {
-            pagingWrapper.actionObserver.collect()
+            pagingRepository.actionObserver.collect()
         }
     }
 }

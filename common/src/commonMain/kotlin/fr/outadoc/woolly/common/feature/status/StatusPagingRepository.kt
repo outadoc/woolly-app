@@ -18,15 +18,10 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 
 class StatusPagingRepository(
+    pagingConfig: PagingConfig,
     private val clientProvider: MastodonClientProvider,
     private val pagingSourceFactory: (MastodonClient) -> PagingSource<PageInfo, Status>
 ) {
-    private val pagingConfig = PagingConfig(
-        pageSize = 20,
-        enablePlaceholders = true,
-        maxSize = 200
-    )
-
     private var _latestPagingSource: PagingSource<PageInfo, Status>? = null
     private val pagingSource: PagingSource<PageInfo, Status>
         get() = clientProvider

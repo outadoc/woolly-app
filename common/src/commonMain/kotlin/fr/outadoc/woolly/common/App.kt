@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.paging.PagingConfig
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.account.AccountRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
@@ -42,6 +43,14 @@ private val di = fun DI.MainBuilder.() {
         }
     }
 
+    bindSingleton {
+        PagingConfig(
+            pageSize = 20,
+            enablePlaceholders = true,
+            maxSize = 200
+        )
+    }
+
     bindSingleton { AppScreenResources() }
     bindSingleton { SearchScreenResources() }
     bindSingleton { PublicTimelineScreenResources() }
@@ -56,9 +65,9 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
 
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
-    bindSingleton { HomeTimelineViewModel(instance(), instance()) }
+    bindSingleton { HomeTimelineViewModel(instance(), instance(), instance()) }
     bindSingleton { PublicTimelineViewModel(instance(), instance()) }
-    bindSingleton { SearchViewModel(instance(), instance()) }
+    bindSingleton { SearchViewModel(instance(), instance(), instance()) }
 }
 
 @Composable

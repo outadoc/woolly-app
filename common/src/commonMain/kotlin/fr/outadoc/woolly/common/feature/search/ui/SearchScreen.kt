@@ -30,7 +30,8 @@ fun SearchScreen(
             is SearchSubScreen.Statuses -> Timeline(
                 insets = insets,
                 statusFlow = vm.statusPagingItems,
-                lazyListState = statusListState
+                lazyListState = statusListState,
+                onStatusAction = vm::onStatusAction
             )
             is SearchSubScreen.Accounts -> Unit
             is SearchSubScreen.Hashtags -> Unit

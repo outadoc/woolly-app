@@ -20,6 +20,6 @@ fun HomeTimelineScreen(
         insets = insets,
         statusFlow = vm.homePagingItems,
         lazyListState = listState,
-        onStatusAction = { vm.onStatusAction(it) }
+        onStatusAction = vm::onStatusAction
     )
 }

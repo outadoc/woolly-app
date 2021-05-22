@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +9,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,6 +23,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.plus
+import fr.outadoc.woolly.common.ui.StatusAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +36,8 @@ fun Timeline(
     modifier: Modifier = Modifier,
     insets: PaddingValues,
     statusFlow: Flow<PagingData<Status>>,
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    onStatusAction: (StatusAction) -> Unit = {}
 ) {
     // Periodically refresh timestamps
     var currentTime by remember { mutableStateOf(Clock.System.now()) }
@@ -72,20 +75,21 @@ fun Timeline(
             }
         }
 
-        itemsIndexed(lazyPagingItems) { _, item ->
+        itemsIndexed(lazyPagingItems) { _, status ->
             Column {
-                if (item != null) {
-                    StatusOrBoost(
-                        status = item,
-                        currentTime = currentTime
-                    )
+                if (status != null) {
+                    key(status.statusId) {
+                        StatusOrBoost(
+                            status = status,
+                            currentTime = currentTime,
+                            onStatusAction = onStatusAction
+                        )
+                    }
                 } else {
                     StatusPlaceholder()
                 }
 
-                Divider(
-                    thickness = 1.dp
-                )
+                Divider(thickness = 1.dp)
             }
         }
 

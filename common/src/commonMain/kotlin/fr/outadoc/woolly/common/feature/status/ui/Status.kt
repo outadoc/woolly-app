@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.min
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.common.ui.StatusAction
+import fr.outadoc.woolly.common.ui.WoollyTheme
 import fr.outadoc.woolly.htmltext.HtmlText
 import kotlinx.datetime.Instant
 
@@ -45,11 +47,18 @@ fun StatusPlaceholder() {
 fun StatusOrBoost(
     modifier: Modifier = Modifier,
     status: Status,
-    currentTime: Instant
+    currentTime: Instant,
+    onStatusAction: (StatusAction) -> Unit
 ) {
     val original = status.boostedStatus ?: status
     val boostedBy = if (status.boostedStatus != null) status.account else null
-    StatusBodyWithPicture(modifier, original, boostedBy, currentTime)
+    StatusBodyWithPicture(
+        modifier = modifier,
+        status = original,
+        boostedBy = boostedBy,
+        currentTime = currentTime,
+        onStatusAction = onStatusAction
+    )
 }
 
 @Composable
@@ -57,7 +66,8 @@ fun StatusBodyWithPicture(
     modifier: Modifier = Modifier,
     status: Status,
     boostedBy: Account?,
-    currentTime: Instant
+    currentTime: Instant,
+    onStatusAction: (StatusAction) -> Unit
 ) {
     Row(
         modifier = modifier.padding(
@@ -75,7 +85,8 @@ fun StatusBodyWithPicture(
         StatusBodyWithActions(
             status = status,
             boostedBy = boostedBy,
-            currentTime = currentTime
+            currentTime = currentTime,
+            onStatusAction = onStatusAction
         )
     }
 }
@@ -85,7 +96,8 @@ fun StatusBodyWithActions(
     modifier: Modifier = Modifier,
     status: Status,
     boostedBy: Account?,
-    currentTime: Instant
+    currentTime: Instant,
+    onStatusAction: (StatusAction) -> Unit
 ) {
     Column(modifier = modifier) {
         StatusBody(
@@ -96,10 +108,9 @@ fun StatusBodyWithActions(
 
         StatusActions(
             modifier = Modifier.offset(x = (-16).dp),
-            status = status
-        ) { action ->
-
-        }
+            status = status,
+            onStatusAction = onStatusAction
+        )
     }
 }
 
@@ -219,9 +230,7 @@ fun StatusActions(
                 checked = false,
                 contentDescription = "Reply",
                 counter = status.repliesCount,
-                onCheckedChange = {
-                    onStatusAction(StatusAction.Reply)
-                }
+                onCheckedChange = {}
             )
 
             StatusAction(
@@ -233,8 +242,8 @@ fun StatusActions(
                 counter = status.boostsCount,
                 onCheckedChange = { boosted ->
                     onStatusAction(
-                        if (boosted) StatusAction.Boost
-                        else StatusAction.UndoBoost
+                        if (boosted) StatusAction.Boost(status)
+                        else StatusAction.UndoBoost(status)
                     )
                 }
             )
@@ -248,8 +257,8 @@ fun StatusActions(
                 counter = status.favouritesCount,
                 onCheckedChange = { favourited ->
                     onStatusAction(
-                        if (favourited) StatusAction.Favourite
-                        else StatusAction.UndoFavourite
+                        if (favourited) StatusAction.Favourite(status)
+                        else StatusAction.UndoFavourite(status)
                     )
                 }
             )

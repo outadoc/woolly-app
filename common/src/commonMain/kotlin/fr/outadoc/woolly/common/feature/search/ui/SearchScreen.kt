@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
-import fr.outadoc.woolly.common.ui.Timeline
+import fr.outadoc.woolly.common.feature.status.ui.Timeline
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 

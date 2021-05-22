@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text

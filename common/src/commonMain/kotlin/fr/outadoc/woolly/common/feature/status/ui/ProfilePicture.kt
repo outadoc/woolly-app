@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Spacer

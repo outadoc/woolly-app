@@ -43,7 +43,7 @@ import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
-import fr.outadoc.woolly.common.ui.ProfilePicture
+import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
 import fr.outadoc.woolly.common.ui.WoollyDefaults
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource

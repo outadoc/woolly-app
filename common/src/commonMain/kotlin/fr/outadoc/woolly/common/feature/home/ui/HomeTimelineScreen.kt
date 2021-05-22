@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
-import fr.outadoc.woolly.common.ui.Timeline
+import fr.outadoc.woolly.common.feature.status.ui.Timeline
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -19,6 +19,7 @@ fun HomeTimelineScreen(
     Timeline(
         insets = insets,
         statusFlow = vm.homePagingItems,
-        lazyListState = listState
+        lazyListState = listState,
+        onStatusAction = { vm.onStatusAction(it) }
     )
 }

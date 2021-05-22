@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
-import fr.outadoc.woolly.common.ui.Timeline
+import fr.outadoc.woolly.common.feature.status.ui.Timeline
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 

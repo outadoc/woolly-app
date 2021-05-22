@@ -2,6 +2,7 @@ package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import com.wolt.blurhashkt.BlurHashDecoder
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.AttachmentType
@@ -371,7 +374,25 @@ fun StatusImage(modifier: Modifier = Modifier, media: Attachment) {
             dispatcher = Dispatchers.IO
         },
         onLoading = {
-            Spacer(modifier = modifier)
+            val blurHash = remember(media.blurHash) {
+                BlurHashDecoder.decode(
+                    media.blurHash,
+                    height = 32,
+                    width = 32,
+                    // remember() should be good enough
+                    useCache = false
+                )
+            }
+
+            when (blurHash) {
+                null -> Spacer(modifier = modifier)
+                else -> Image(
+                    modifier = modifier,
+                    bitmap = blurHash,
+                    contentDescription = media.description,
+                    contentScale = ContentScale.FillWidth
+                )
+            }
         },
         contentDescription = media.description,
         crossfade = true,

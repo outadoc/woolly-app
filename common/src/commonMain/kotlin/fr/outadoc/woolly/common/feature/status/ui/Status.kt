@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -335,11 +336,18 @@ fun StatusMedia(
     Column(modifier = modifier.fillMaxWidth()) {
         rows.forEach { rowMedia ->
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 rowMedia.forEach { item ->
                     when (item.type) {
-                        AttachmentType.Image -> StatusImage(media = item)
+                        AttachmentType.Image -> {
+                            StatusImage(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .aspectRatio(16 / 9f),
+                                media = item
+                            )
+                        }
                         else -> {
                             Text(
                                 text = "${item.type} attachments are not supported yet",
@@ -356,13 +364,14 @@ fun StatusMedia(
 }
 
 @Composable
-fun StatusImage(media: Attachment) {
+fun StatusImage(modifier: Modifier = Modifier, media: Attachment) {
     KamelImage(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.medium),
+        modifier = modifier.clip(MaterialTheme.shapes.medium),
         resource = lazyImageResource(media.previewUrl ?: media.url) {
             dispatcher = Dispatchers.IO
+        },
+        onLoading = {
+            Spacer(modifier = modifier)
         },
         contentDescription = media.description,
         crossfade = true,

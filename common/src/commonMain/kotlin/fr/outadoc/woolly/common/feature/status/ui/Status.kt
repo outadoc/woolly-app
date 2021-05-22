@@ -1,5 +1,7 @@
 package fr.outadoc.woolly.common.feature.status.ui
 
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentColor
@@ -24,18 +27,26 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Attachment
+import fr.outadoc.mastodonk.api.entity.AttachmentType
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyTheme
 import fr.outadoc.woolly.htmltext.HtmlText
+import io.kamel.image.KamelImage
+import io.kamel.image.lazyImageResource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Instant
 
 @Composable
@@ -102,8 +113,22 @@ fun StatusBodyWithActions(
     Column(modifier = modifier) {
         StatusBody(
             status = status,
-            boostedBy = boostedBy,
             currentTime = currentTime
+        )
+
+        if (status.mediaAttachments.isNotEmpty()) {
+            StatusMedia(
+                modifier = Modifier.padding(
+                    top = 16.dp,
+                    bottom = 8.dp
+                ),
+                media = status.mediaAttachments
+            )
+        }
+
+        StatusFooter(
+            modifier = Modifier.padding(top = 8.dp),
+            boostedBy = boostedBy
         )
 
         StatusActions(
@@ -118,7 +143,6 @@ fun StatusBodyWithActions(
 fun StatusBody(
     modifier: Modifier = Modifier,
     status: Status,
-    boostedBy: Account?,
     currentTime: Instant
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -134,11 +158,6 @@ fun StatusBody(
                 style = MaterialTheme.typography.body2
             )
         }
-
-        StatusFooter(
-            modifier = Modifier.padding(top = 8.dp),
-            boostedBy = boostedBy
-        )
     }
 }
 
@@ -302,4 +321,52 @@ private fun StatusAction(
             color = color
         )
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun StatusMedia(
+    modifier: Modifier = Modifier,
+    media: List<Attachment>
+) {
+    // Display max 2 items per row
+    val rows = media.chunked(2)
+
+    Column(modifier = modifier.fillMaxWidth()) {
+        rows.forEach { rowMedia ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                rowMedia.forEach { item ->
+                    when (item.type) {
+                        AttachmentType.Image -> StatusImage(media = item)
+                        else -> {
+                            Text(
+                                text = "${item.type} attachments are not supported yet",
+                                style = MaterialTheme.typography.caption,
+                                fontStyle = FontStyle.Italic,
+                                color = LocalContentColor.current.copy(alpha = ContentAlpha.disabled)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun StatusImage(media: Attachment) {
+    KamelImage(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium),
+        resource = lazyImageResource(media.previewUrl ?: media.url) {
+            dispatcher = Dispatchers.IO
+        },
+        contentDescription = media.description,
+        crossfade = true,
+        animationSpec = tween(),
+        contentScale = ContentScale.FillWidth
+    )
 }

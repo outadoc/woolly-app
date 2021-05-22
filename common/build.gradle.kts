@@ -29,6 +29,7 @@ kotlin {
 
                 api(libs.kodein)
                 api(libs.ktor.serialization)
+                api(libs.kotlinx.coroutines)
 
                 implementation(libs.androidx.paging)
                 implementation(libs.mastodonk.core.common)

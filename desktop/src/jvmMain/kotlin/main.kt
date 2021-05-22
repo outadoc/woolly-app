@@ -7,6 +7,7 @@ import fr.outadoc.woolly.common.App
 import fr.outadoc.woolly.common.feature.preference.DesktopPreferenceRepositoryImpl
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.serialization.json.Json
 import org.kodein.di.DI
@@ -28,6 +29,7 @@ private fun DesktopApp() = withDI(di) {
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 private val di = DI {
 
     bindSingleton { Json {} }

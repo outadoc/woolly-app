@@ -9,12 +9,10 @@ import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.ui.StatusAction
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class PublicTimelineViewModel(
     pagingConfig: PagingConfig,
     private val viewModelScope: CoroutineScope,

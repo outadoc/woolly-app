@@ -3,7 +3,10 @@ package fr.outadoc.woolly.common.feature.status.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TabRowDefaults.Divider
@@ -68,11 +71,21 @@ fun Timeline(
             }
 
             is LoadState.Error -> item {
-                CenteredErrorMessage(
+                ErrorScreen(
+                    modifier = Modifier
+                        .fillParentMaxSize()
+                        .padding(16.dp),
                     error = state.error,
                     onRetry = lazyPagingItems::retry
                 )
             }
+        }
+
+        item {
+            ListExtremityState(
+                state = lazyPagingItems.loadState.prepend,
+                onRetry = lazyPagingItems::retry
+            )
         }
 
         itemsIndexed(lazyPagingItems) { _, status ->
@@ -93,16 +106,36 @@ fun Timeline(
             }
         }
 
-        if (lazyPagingItems.loadState.append == LoadState.Loading) {
-            item {
-                Column(
-                    modifier = Modifier.fillParentMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CircularProgressIndicator()
-                }
+        item {
+            ListExtremityState(
+                state = lazyPagingItems.loadState.append,
+                onRetry = lazyPagingItems::retry
+            )
+        }
+    }
+}
+
+@Composable
+fun LazyItemScope.ListExtremityState(state: LoadState, onRetry: () -> Unit) {
+    when (state) {
+        is LoadState.Loading -> {
+            Column(
+                modifier = Modifier.fillParentMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
             }
+        }
+
+        is LoadState.Error -> {
+            ErrorScreen(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                error = state.error,
+                onRetry = onRetry
+            )
         }
     }
 }

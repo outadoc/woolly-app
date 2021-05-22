@@ -3,7 +3,6 @@ package fr.outadoc.woolly.common.feature.status.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,34 +15,30 @@ import fr.outadoc.mastodonk.api.entity.Error
 import fr.outadoc.mastodonk.client.MastodonApiException
 
 @Composable
-fun LazyItemScope.CenteredErrorMessage(error: Throwable? = null, onRetry: () -> Unit = {}) {
+fun ErrorScreen(
+    modifier: Modifier = Modifier,
+    error: Throwable? = null,
+    onRetry: () -> Unit = {}
+) {
     Column(
-        modifier = Modifier.fillParentMaxSize().padding(16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ErrorScreen(
-            error = error,
-            onRetry = onRetry
+        Text(
+            "An error happened while loading.",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.h5
         )
-    }
-}
 
-@Composable
-fun ErrorScreen(error: Throwable? = null, onRetry: () -> Unit = {}) {
-    Text(
-        "An error happened while loading.",
-        textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.h5
-    )
+        ExceptionErrorMessage(error)
 
-    ExceptionErrorMessage(error)
-
-    Button(
-        modifier = Modifier.padding(top = 16.dp),
-        onClick = { onRetry() }
-    ) {
-        Text("Retry")
+        Button(
+            modifier = Modifier.padding(top = 16.dp),
+            onClick = { onRetry() }
+        ) {
+            Text("Retry")
+        }
     }
 }
 

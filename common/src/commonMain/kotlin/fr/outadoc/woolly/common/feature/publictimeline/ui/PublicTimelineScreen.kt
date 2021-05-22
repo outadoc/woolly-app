@@ -23,12 +23,14 @@ fun PublicTimelineScreen(
         is PublicTimelineSubScreen.Local -> Timeline(
             insets = insets,
             statusFlow = vm.localPagingItems,
-            lazyListState = localListState
+            lazyListState = localListState,
+            onStatusAction = vm::onLocalStatusAction
         )
         is PublicTimelineSubScreen.Global -> Timeline(
             insets = insets,
             statusFlow = vm.globalPagingItems,
-            lazyListState = globalListState
+            lazyListState = globalListState,
+            onStatusAction = vm::onGlobalStatusAction
         )
     }
 }

@@ -66,7 +66,7 @@ private val di = fun DI.MainBuilder.() {
 
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
     bindSingleton { HomeTimelineViewModel(instance(), instance(), instance()) }
-    bindSingleton { PublicTimelineViewModel(instance(), instance()) }
+    bindSingleton { PublicTimelineViewModel(instance(), instance(), instance()) }
     bindSingleton { SearchViewModel(instance(), instance(), instance()) }
 }
 

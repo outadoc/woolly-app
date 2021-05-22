@@ -21,6 +21,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -84,6 +85,12 @@ class SearchViewModel(
     fun onStatusAction(action: StatusAction) {
         viewModelScope.launch {
             statusPagingRepository.onStatusAction(action)
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            statusPagingRepository.actionObserver.collect()
         }
     }
 }

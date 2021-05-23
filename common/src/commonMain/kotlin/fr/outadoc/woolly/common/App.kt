@@ -17,6 +17,7 @@ import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
 import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
+import fr.outadoc.woolly.common.feature.notifications.viewmodel.NotificationsViewModel
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
@@ -70,6 +71,7 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { PublicTimelineViewModel(instance(), instance(), instance()) }
     bindSingleton { SearchViewModel(instance(), instance(), instance()) }
     bindSingleton { TrendingViewModel(instance()) }
+    bindSingleton { NotificationsViewModel(instance(), instance(), instance()) }
 }
 
 @Composable

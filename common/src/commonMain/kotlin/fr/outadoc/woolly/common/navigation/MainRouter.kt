@@ -69,7 +69,13 @@ fun MainRouter(
             }
             AppScreen.Account -> null
         }?.let { listState ->
-            scope.launch { listState.animateScrollToItem(0) }
+            scope.launch {
+                try {
+                    listState.animateScrollToItem(0)
+                } catch (e: NoSuchElementException) {
+                    // List was empty
+                }
+            }
         }
     }
 

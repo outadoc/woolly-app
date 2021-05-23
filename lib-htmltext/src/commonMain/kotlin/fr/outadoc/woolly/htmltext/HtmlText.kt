@@ -12,7 +12,6 @@ import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import fr.outadoc.woolly.htmltext.model.FlatLinkNode
 import fr.outadoc.woolly.htmltext.model.FlatNode
@@ -69,19 +68,11 @@ private fun AnnotatedString.Builder.appendNodes(nodes: List<FlatNode>, linkColor
     nodes.forEach { node ->
         when (node) {
             is FlatLinkNode -> {
-                pushStyle(
-                    SpanStyle(
-                        color = linkColor,
-                        textDecoration = TextDecoration.Underline
-                    )
-                )
-                pushStringAnnotation(
-                    tag = URL_TAG,
-                    annotation = node.href
-                )
-                appendNodes(node.children, linkColor)
-                pop()
-                pop()
+                withStyle(SpanStyle(color = linkColor)) {
+                    withAnnotation(URL_TAG, node.href) {
+                        appendNodes(node.children, linkColor)
+                    }
+                }
             }
 
             is FlatParagraph -> {
@@ -95,4 +86,14 @@ private fun AnnotatedString.Builder.appendNodes(nodes: List<FlatNode>, linkColor
             }
         }
     }
+}
+
+private inline fun AnnotatedString.Builder.withAnnotation(
+    tag: String,
+    annotation: String,
+    crossinline block: AnnotatedString.Builder.() -> Unit
+) {
+    pushStringAnnotation(tag, annotation)
+    this.block()
+    pop()
 }

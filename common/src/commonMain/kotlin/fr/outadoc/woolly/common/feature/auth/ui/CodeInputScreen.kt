@@ -3,7 +3,7 @@ package fr.outadoc.woolly.common.feature.auth.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -58,7 +58,8 @@ fun CodeInputScreen(state: AuthViewModel.State.InstanceSelected) {
     ) { insets ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f)
                 .padding(insets)
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center,

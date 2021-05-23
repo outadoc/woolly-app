@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentColor
@@ -36,6 +35,7 @@ import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -135,7 +135,8 @@ fun StatusBodyWithActions(
                     top = 16.dp,
                     bottom = 8.dp
                 ),
-                media = status.mediaAttachments
+                media = status.mediaAttachments,
+                isSensitive = status.isSensitive
             )
         }
 
@@ -340,25 +341,21 @@ private fun StatusAction(
 @Composable
 fun StatusMediaList(
     modifier: Modifier = Modifier,
-    media: List<Attachment>
+    media: List<Attachment>,
+    isSensitive: Boolean
 ) {
-    // Display max 2 items per row
-    val rows = media.chunked(2)
-
     Column(modifier = modifier.fillMaxWidth()) {
-        rows.forEach { rowMedia ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                rowMedia.forEach { item ->
-                    if (item.previewUrl != null) {
-                        StatusMediaPreview(media = item)
-                    } else {
-                        Card {
-                            Text(text = "Media with no preview: ${item.type}")
-                        }
-                    }
-                }
+        val displayableMedia = media.filter { it.previewUrl != null }
+        displayableMedia.forEachIndexed { i, item ->
+            key(item.attachmentId) {
+                StatusMediaPreview(
+                    media = item,
+                    isSensitive = isSensitive
+                )
+            }
+
+            if (i < displayableMedia.size - 1) {
+                Spacer(modifier = Modifier.padding(bottom = 8.dp))
             }
         }
     }
@@ -367,7 +364,8 @@ fun StatusMediaList(
 @Composable
 fun StatusMediaPreview(
     modifier: Modifier = Modifier,
-    media: Attachment
+    media: Attachment,
+    isSensitive: Boolean
 ) {
     val uriHandler = LocalUriHandler.current
     val icon = when (media.type) {
@@ -385,11 +383,13 @@ fun StatusMediaPreview(
         StatusImage(
             modifier = modifier
                 .fillMaxWidth()
-                .aspectRatio(16 / 9f),
+                .aspectRatio(16 / 9f)
+                .clip(MaterialTheme.shapes.medium)
+                .clickable { uriHandler.openUri(media.url) },
             previewUrl = media.previewUrl ?: media.url,
             contentDescription = media.description,
             blurHash = media.blurHash,
-            onClick = { uriHandler.openUri(media.url) }
+            isSensitive = isSensitive
         )
     }
 }
@@ -429,39 +429,52 @@ fun StatusImage(
     previewUrl: String,
     contentDescription: String?,
     blurHash: String?,
-    onClick: () -> Unit = {}
+    isSensitive: Boolean
 ) {
-    KamelImage(
-        modifier = modifier
-            .clip(MaterialTheme.shapes.medium)
-            .clickable { onClick() },
-        resource = lazyImageResource(previewUrl) {
-            dispatcher = Dispatchers.IO
-        },
-        onLoading = {
-            val blurHashBitmap = remember(blurHash) {
-                BlurHashDecoder.decode(
-                    blurHash,
-                    height = 32,
-                    width = 32,
-                    // remember() should be good enough
-                    useCache = false
-                )
-            }
-
-            when (blurHashBitmap) {
-                null -> Spacer(modifier = modifier)
-                else -> Image(
+    if (!isSensitive) {
+        KamelImage(
+            modifier = modifier,
+            resource = lazyImageResource(previewUrl) {
+                dispatcher = Dispatchers.IO
+            },
+            onLoading = {
+                BlurHashImage(
                     modifier = modifier,
-                    bitmap = blurHashBitmap,
-                    contentDescription = contentDescription,
-                    contentScale = ContentScale.FillWidth
+                    blurHash = blurHash,
+                    contentDescription = contentDescription
                 )
-            }
-        },
-        contentDescription = contentDescription,
-        crossfade = true,
-        animationSpec = tween(),
-        contentScale = ContentScale.FillWidth
-    )
+            },
+            contentDescription = contentDescription,
+            crossfade = true,
+            animationSpec = tween(),
+            contentScale = ContentScale.FillWidth
+        )
+    } else {
+        BlurHashImage(
+            modifier = modifier,
+            blurHash = blurHash,
+            contentDescription = contentDescription
+        )
+    }
+}
+
+@Composable
+fun BlurHashImage(
+    modifier: Modifier = Modifier,
+    blurHash: String?,
+    contentDescription: String?
+) {
+    val blurHashBitmap = remember(blurHash) {
+        BlurHashDecoder.decode(blurHash, height = 32, width = 32)
+    }
+
+    when (blurHashBitmap) {
+        null -> Spacer(modifier = modifier)
+        else -> Image(
+            modifier = modifier,
+            bitmap = blurHashBitmap,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.FillWidth
+        )
+    }
 }

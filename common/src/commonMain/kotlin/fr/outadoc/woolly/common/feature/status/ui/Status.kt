@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentColor
@@ -64,7 +63,7 @@ import kotlinx.datetime.Instant
 
 @Composable
 fun StatusPlaceholder() {
-    Spacer(modifier = Modifier.height(64.dp))
+    Spacer(modifier = Modifier.height(128.dp))
 }
 
 @Composable
@@ -93,13 +92,17 @@ fun StatusBodyWithPicture(
     currentTime: Instant,
     onStatusAction: (StatusAction) -> Unit
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Row(
-        modifier = modifier.padding(
-            top = 16.dp,
-            start = 16.dp,
-            end = 16.dp,
-            bottom = 8.dp
-        )
+        modifier = modifier
+            .clickable { status.url?.let { uriHandler.openUri(it) } }
+            .padding(
+                top = 16.dp,
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 8.dp
+            )
     ) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
@@ -166,12 +169,10 @@ fun StatusBody(
             currentTime = currentTime
         )
 
-        SelectionContainer {
-            HtmlText(
-                html = status.content,
-                style = MaterialTheme.typography.body2
-            )
-        }
+        HtmlText(
+            html = status.content,
+            style = MaterialTheme.typography.body2
+        )
     }
 }
 

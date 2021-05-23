@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
-import fr.outadoc.woolly.common.feature.status.ui.Timeline
+import fr.outadoc.woolly.common.feature.status.ui.StatusList
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -20,13 +20,13 @@ fun PublicTimelineScreen(
     val vm by di.instance<PublicTimelineViewModel>()
 
     when (currentSubScreen) {
-        PublicTimelineSubScreen.Local -> Timeline(
+        PublicTimelineSubScreen.Local -> StatusList(
             insets = insets,
             statusFlow = vm.localPagingItems,
             lazyListState = localListState,
             onStatusAction = vm::onLocalStatusAction
         )
-        PublicTimelineSubScreen.Global -> Timeline(
+        PublicTimelineSubScreen.Global -> StatusList(
             insets = insets,
             statusFlow = vm.globalPagingItems,
             lazyListState = globalListState,

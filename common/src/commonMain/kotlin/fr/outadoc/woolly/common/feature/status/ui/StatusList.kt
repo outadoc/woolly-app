@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 
 @Composable
-fun Timeline(
+fun StatusList(
     modifier: Modifier = Modifier,
     insets: PaddingValues,
     statusFlow: Flow<PagingData<Status>>,

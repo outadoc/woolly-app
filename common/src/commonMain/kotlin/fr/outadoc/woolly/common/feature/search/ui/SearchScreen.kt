@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
-import fr.outadoc.woolly.common.feature.status.ui.Timeline
+import fr.outadoc.woolly.common.feature.status.ui.StatusList
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -27,7 +27,7 @@ fun SearchScreen(
         TrendingScreen(insets = insets)
     } else {
         when (currentSubScreen) {
-            SearchSubScreen.Statuses -> Timeline(
+            SearchSubScreen.Statuses -> StatusList(
                 insets = insets,
                 statusFlow = vm.statusPagingItems,
                 lazyListState = statusListState,

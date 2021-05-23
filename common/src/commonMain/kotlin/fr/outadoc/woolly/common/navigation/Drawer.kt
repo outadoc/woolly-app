@@ -63,6 +63,7 @@ fun MainAppDrawer(
     val screens = listOf(
         AppScreen.HomeTimeline,
         AppScreen.PublicTimeline,
+        AppScreen.Notifications,
         AppScreen.Search,
         AppScreen.Account
     )

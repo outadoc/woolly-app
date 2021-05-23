@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.home.ui.HomeTimelineScreen
+import fr.outadoc.woolly.common.feature.notifications.NotificationsScreen
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.publictimeline.ui.PublicTimelineScreen
 import fr.outadoc.woolly.common.feature.publictimeline.ui.PublicTimelineTopAppBar
@@ -38,6 +39,7 @@ fun MainRouter(
     val homeListState = rememberLazyListState()
     val publicLocalListState = rememberLazyListState()
     val publicGlobalListState = rememberLazyListState()
+    val notificationsListState = rememberLazyListState()
     val searchStatusesListState = rememberLazyListState()
     val searchAccountsListState = rememberLazyListState()
     val searchHashtagsListState = rememberLazyListState()
@@ -59,6 +61,7 @@ fun MainRouter(
                 PublicTimelineSubScreen.Global -> publicGlobalListState
                 PublicTimelineSubScreen.Local -> publicLocalListState
             }
+            AppScreen.Notifications -> notificationsListState
             AppScreen.Search -> when (currentSearchScreen) {
                 SearchSubScreen.Statuses -> searchStatusesListState
                 SearchSubScreen.Accounts -> searchAccountsListState
@@ -125,6 +128,11 @@ fun MainRouter(
                     currentSubScreen = currentPublicTimelineScreen,
                     localListState = publicLocalListState,
                     globalListState = publicGlobalListState
+                )
+
+                AppScreen.Notifications -> NotificationsScreen(
+                    insets = insets,
+                    listState = notificationsListState
                 )
 
                 AppScreen.Search -> SearchScreen(

@@ -15,6 +15,7 @@ fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen)
     val screens = listOf(
         AppScreen.HomeTimeline,
         AppScreen.PublicTimeline,
+        AppScreen.Notifications,
         AppScreen.Search,
         AppScreen.Account
     )

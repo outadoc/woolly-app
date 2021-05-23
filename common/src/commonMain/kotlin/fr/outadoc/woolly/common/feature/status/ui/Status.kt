@@ -3,26 +3,35 @@ package fr.outadoc.woolly.common.feature.status.ui
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Gif
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Star
@@ -34,7 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -121,7 +130,7 @@ fun StatusBodyWithActions(
         )
 
         if (status.mediaAttachments.isNotEmpty()) {
-            StatusMedia(
+            StatusMediaList(
                 modifier = Modifier.padding(
                     top = 16.dp,
                     bottom = 8.dp
@@ -329,7 +338,7 @@ private fun StatusAction(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun StatusMedia(
+fun StatusMediaList(
     modifier: Modifier = Modifier,
     media: List<Attachment>
 ) {
@@ -342,22 +351,11 @@ fun StatusMedia(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 rowMedia.forEach { item ->
-                    when (item.type) {
-                        AttachmentType.Image -> {
-                            StatusImage(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .aspectRatio(16 / 9f),
-                                media = item
-                            )
-                        }
-                        else -> {
-                            Text(
-                                text = "${item.type} attachments are not supported yet",
-                                style = MaterialTheme.typography.caption,
-                                fontStyle = FontStyle.Italic,
-                                color = LocalContentColor.current.copy(alpha = ContentAlpha.disabled)
-                            )
+                    if (item.previewUrl != null) {
+                        StatusMediaPreview(media = item)
+                    } else {
+                        Card {
+                            Text(text = "Media with no preview: ${item.type}")
                         }
                     }
                 }
@@ -367,16 +365,83 @@ fun StatusMedia(
 }
 
 @Composable
-fun StatusImage(modifier: Modifier = Modifier, media: Attachment) {
+fun StatusMediaPreview(
+    modifier: Modifier = Modifier,
+    media: Attachment
+) {
+    val uriHandler = LocalUriHandler.current
+    val icon = when (media.type) {
+        AttachmentType.Image -> null
+        AttachmentType.Gifv -> Icons.Default.Gif
+        AttachmentType.Video -> Icons.Default.PlayCircle
+        AttachmentType.Audio -> Icons.Default.Mic
+        AttachmentType.Unknown -> Icons.Default.Help
+    }
+
+    StatusMediaOverlay(
+        icon = icon,
+        contentDescription = media.description
+    ) {
+        StatusImage(
+            modifier = modifier
+                .fillMaxWidth()
+                .aspectRatio(16 / 9f),
+            previewUrl = media.previewUrl ?: media.url,
+            contentDescription = media.description,
+            blurHash = media.blurHash,
+            onClick = { uriHandler.openUri(media.url) }
+        )
+    }
+}
+
+@Composable
+fun StatusMediaOverlay(
+    modifier: Modifier = Modifier,
+    icon: ImageVector?,
+    contentDescription: String?,
+    content: @Composable () -> Unit
+) {
+    Box(modifier.fillMaxSize()) {
+        content()
+
+        if (icon != null) {
+            Surface(
+                shape = CircleShape,
+                color = Color.Black.copy(alpha = 0.7f),
+                modifier = Modifier
+                    .size(48.dp)
+                    .align(Alignment.Center)
+            ) {
+                Icon(
+                    modifier = Modifier.padding(8.dp),
+                    imageVector = icon,
+                    contentDescription = contentDescription,
+                    tint = Color.White
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun StatusImage(
+    modifier: Modifier = Modifier,
+    previewUrl: String,
+    contentDescription: String?,
+    blurHash: String?,
+    onClick: () -> Unit = {}
+) {
     KamelImage(
-        modifier = modifier.clip(MaterialTheme.shapes.medium),
-        resource = lazyImageResource(media.previewUrl ?: media.url) {
+        modifier = modifier
+            .clip(MaterialTheme.shapes.medium)
+            .clickable { onClick() },
+        resource = lazyImageResource(previewUrl) {
             dispatcher = Dispatchers.IO
         },
         onLoading = {
-            val blurHash = remember(media.blurHash) {
+            val blurHashBitmap = remember(blurHash) {
                 BlurHashDecoder.decode(
-                    media.blurHash,
+                    blurHash,
                     height = 32,
                     width = 32,
                     // remember() should be good enough
@@ -384,17 +449,17 @@ fun StatusImage(modifier: Modifier = Modifier, media: Attachment) {
                 )
             }
 
-            when (blurHash) {
+            when (blurHashBitmap) {
                 null -> Spacer(modifier = modifier)
                 else -> Image(
                     modifier = modifier,
-                    bitmap = blurHash,
-                    contentDescription = media.description,
+                    bitmap = blurHashBitmap,
+                    contentDescription = contentDescription,
                     contentScale = ContentScale.FillWidth
                 )
             }
         },
-        contentDescription = media.description,
+        contentDescription = contentDescription,
         crossfade = true,
         animationSpec = tween(),
         contentScale = ContentScale.FillWidth

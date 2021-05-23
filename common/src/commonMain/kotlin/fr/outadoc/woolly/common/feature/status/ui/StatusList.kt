@@ -95,9 +95,8 @@ fun StatusList(
                         StatusOrBoost(
                             modifier = Modifier
                                 .clickable {
-                                    status.url?.let {
-                                        uriHandler.openUri(it)
-                                    }
+                                    val url = status.boostedStatus?.url ?: status.url
+                                    url?.let { uriHandler.openUri(it) }
                                 }
                                 .padding(
                                     top = 16.dp,

@@ -24,7 +24,7 @@ fun SearchScreen(
     val state by vm.state.collectAsState()
 
     if (state.query.isEmpty()) {
-        TrendingScreen()
+        TrendingScreen(insets = insets)
     } else {
         when (currentSubScreen) {
             is SearchSubScreen.Statuses -> Timeline(

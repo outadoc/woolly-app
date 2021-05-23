@@ -21,6 +21,7 @@ import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResou
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
+import fr.outadoc.woolly.common.feature.search.viewmodel.TrendingViewModel
 import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
@@ -68,6 +69,7 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { HomeTimelineViewModel(instance(), instance(), instance()) }
     bindSingleton { PublicTimelineViewModel(instance(), instance(), instance()) }
     bindSingleton { SearchViewModel(instance(), instance(), instance()) }
+    bindSingleton { TrendingViewModel(instance()) }
 }
 
 @Composable

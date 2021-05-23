@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.common.navigation
 
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,9 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.DrawerState
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.ListItem
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -30,21 +27,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
+import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
-import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
 import fr.outadoc.woolly.common.ui.WoollyDefaults
+import fr.outadoc.woolly.common.ui.WoollyListItem
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
@@ -81,7 +77,7 @@ fun MainAppDrawer(
         Column {
             AppDrawerHeader()
 
-            DrawerItem(
+            WoollyListItem(
                 title = { Text("Log out") },
                 icon = { Icon(Icons.Default.Logout, "Log out") },
                 onClick = { authenticationStateConsumer.logoutAll() }
@@ -96,7 +92,7 @@ fun MainAppDrawer(
                 .verticalScroll(scrollState)
         ) {
             screens.forEach { screen ->
-                DrawerItem(
+                WoollyListItem(
                     title = { Text(res.getScreenTitle(screen)) },
                     icon = {
                         Icon(
@@ -116,14 +112,14 @@ fun MainAppDrawer(
         Column(modifier = Modifier.padding(vertical = 16.dp)) {
             when (colorScheme) {
                 ColorScheme.Light -> {
-                    DrawerItem(
+                    WoollyListItem(
                         title = { Text("Switch to dark mode") },
                         icon = { Icon(Icons.Default.LightMode, "Light mode") },
                         onClick = { onColorSchemeChanged(ColorScheme.Dark) }
                     )
                 }
                 ColorScheme.Dark -> {
-                    DrawerItem(
+                    WoollyListItem(
                         title = { Text("Switch to light mode") },
                         icon = { Icon(Icons.Default.DarkMode, "Dark mode") },
                         onClick = { onColorSchemeChanged(ColorScheme.Light) }
@@ -199,41 +195,6 @@ fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
                     }
                 }
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun DrawerItem(
-    icon: @Composable () -> Unit,
-    title: @Composable () -> Unit,
-    onClick: () -> Unit,
-    selected: Boolean = false
-) {
-    Surface(
-        modifier = Modifier
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clip(MaterialTheme.shapes.small),
-        color = if (selected) {
-            MaterialTheme.colors.primary.copy(alpha = 0.12f)
-        } else {
-            Color.Transparent
-        },
-        contentColor = if (selected) {
-            MaterialTheme.colors.primary
-        } else {
-            MaterialTheme.colors.onSurface
-        }
-    ) {
-        ListItem(
-            modifier = Modifier.clickable(
-                role = Role.Button,
-                onClick = onClick
-            ),
-            icon = icon
-        ) {
-            title()
         }
     }
 }

@@ -1,3 +1,5 @@
+package fr.outadoc.woolly.desktop
+
 import androidx.compose.desktop.Window
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -24,7 +26,9 @@ fun main() = Window(
 
 @Composable
 private fun DesktopApp() = withDI(di) {
-    CompositionLocalProvider(LocalUriHandler provides DesktopUriHandler()) {
+    CompositionLocalProvider(
+        LocalUriHandler provides DesktopUriHandler()
+    ) {
         App()
     }
 }

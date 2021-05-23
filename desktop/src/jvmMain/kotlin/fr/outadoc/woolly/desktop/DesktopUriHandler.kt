@@ -1,3 +1,5 @@
+package fr.outadoc.woolly.desktop
+
 import androidx.compose.ui.platform.UriHandler
 import java.awt.Desktop
 import java.net.URI

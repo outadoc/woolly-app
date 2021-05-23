@@ -11,6 +11,7 @@ repositories {
 dependencies {
     implementation(projects.common)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.browser)
 }
 
 android {

@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.lifecycleScope
 import fr.outadoc.woolly.common.App
 import fr.outadoc.woolly.common.feature.preference.AndroidPreferenceRepositoryImpl
@@ -24,7 +27,12 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun AndroidApp() = withDI(di) {
-        App()
+        val context = LocalContext.current
+        CompositionLocalProvider(
+            LocalUriHandler provides CustomTabUriHandler(context)
+        ) {
+            App()
+        }
     }
 
     private val di = DI {

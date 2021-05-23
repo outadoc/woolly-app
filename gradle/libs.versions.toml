@@ -9,6 +9,7 @@ mastodonk-paging-common = { module = "fr.outadoc.mastodonk:mastodonk-paging", ve
 mastodonk-paging-jvm = { module = "fr.outadoc.mastodonk:mastodonk-paging-jvm", version.ref = "mastodonk" }
 androidx-activity-compose = "androidx.activity:activity-compose:1.3.0-alpha03"
 androidx-appcompat = "androidx.appcompat:appcompat:1.3.0-rc01"
+androidx-browser = "androidx.browser:browser:1.3.0"
 androidx-core = "androidx.core:core-ktx:1.3.1"
 androidx-paging = "androidx.paging:paging-common:3.0.0"
 androidx-preference = "androidx.preference:preference-ktx:1.1.1"

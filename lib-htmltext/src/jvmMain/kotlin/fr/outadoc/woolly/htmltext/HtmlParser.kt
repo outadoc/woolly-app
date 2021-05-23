@@ -22,8 +22,9 @@ actual class HtmlParser {
                 when (node) {
                     is TextNode -> listOf(FlatTextNode(node.text()))
                     is Element -> {
-                        if (node.hasClass("invisible")) emptyList()
-                        else when (node.tagName()) {
+                        if (node.hasClass("invisible")) {
+                            listOf(FlatTextNode(text = "…"))
+                        } else when (node.tagName()) {
                             "a" -> listOf(
                                 FlatLinkNode(
                                     href = node.attr("href"),

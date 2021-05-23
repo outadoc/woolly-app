@@ -18,9 +18,8 @@ import fr.outadoc.woolly.htmltext.model.FlatNode
 import fr.outadoc.woolly.htmltext.model.FlatParagraph
 import fr.outadoc.woolly.htmltext.model.FlatTextNode
 
-const val URL_TAG = "URL"
-
 private val htmlParser = HtmlParser()
+private const val ClickableTag = "clickable"
 
 @Composable
 fun HtmlText(
@@ -53,12 +52,18 @@ fun NodeText(
         modifier = modifier,
         text = annotatedString,
         style = style,
+        isClickableIndex = { index ->
+            annotatedString
+                .getStringAnnotations(ClickableTag, index, index)
+                .any()
+        },
         onClick = { index ->
             annotatedString
-                .getStringAnnotations(URL_TAG, index, index)
+                .getStringAnnotations(ClickableTag, index, index)
                 .firstOrNull()
-                ?.let { stringAnnotation ->
-                    uriHandler.openUri(stringAnnotation.item)
+                ?.item
+                ?.let { url ->
+                    uriHandler.openUri(url)
                 }
         }
     )
@@ -69,7 +74,7 @@ private fun AnnotatedString.Builder.appendNodes(nodes: List<FlatNode>, linkColor
         when (node) {
             is FlatLinkNode -> {
                 withStyle(SpanStyle(color = linkColor)) {
-                    withAnnotation(URL_TAG, node.href) {
+                    withAnnotation(ClickableTag, node.href) {
                         appendNodes(node.children, linkColor)
                     }
                 }

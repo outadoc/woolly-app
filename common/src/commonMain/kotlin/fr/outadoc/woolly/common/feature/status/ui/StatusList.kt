@@ -94,7 +94,11 @@ fun StatusList(
                     key(status.statusId) {
                         StatusOrBoost(
                             modifier = Modifier
-                                .clickable { status.url?.let { uriHandler.openUri(it) } }
+                                .clickable {
+                                    status.url?.let {
+                                        uriHandler.openUri(it)
+                                    }
+                                }
                                 .padding(
                                     top = 16.dp,
                                     start = 16.dp,

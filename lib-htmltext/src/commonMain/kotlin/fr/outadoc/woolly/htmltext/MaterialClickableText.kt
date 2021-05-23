@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.consumeDownChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.AnnotatedString
@@ -34,28 +33,25 @@ internal fun MaterialClickableText(
     val pressIndicator = Modifier.pointerInput(onClick) {
         forEachGesture {
             coroutineScope {
-                val down = awaitPointerEventScope {
-                    awaitFirstDown().also {
-                        layoutResult.value?.let { layoutResult ->
-                            if (isClickableIndex(layoutResult.getOffsetForPosition(it.position))) {
-                                it.consumeDownChange()
+                awaitPointerEventScope {
+                    // Wait for tap
+                    awaitFirstDown().also { down ->
+                        // Check that text has been laid out (it should be)
+                        val layoutRes = layoutResult.value ?: return@also
+
+                        // Only consume the event if we're actually clicking on a link
+                        if (isClickableIndex(layoutRes.getOffsetForPosition(down.position))) {
+                            // Prevent parent components from getting the event,
+                            // we're dealing with it
+                            down.consumeDownChange()
+
+                            // Wait for the user to stop clicking
+                            waitForUpOrCancellation()?.also { up ->
+                                // Tap on a link was successful, call onClick
+                                up.consumeDownChange()
+                                onClick(layoutRes.getOffsetForPosition(up.position))
                             }
                         }
-                    }
-                }
-
-                var up: PointerInputChange? = null
-                // wait for first tap up or long press
-                up = awaitPointerEventScope {
-                    waitForUpOrCancellation()?.also {
-                        it.consumeDownChange()
-                    }
-                }
-
-                if (up != null) {
-                    // tap was successful.
-                    layoutResult.value?.let { layoutResult ->
-                        onClick(layoutResult.getOffsetForPosition(up.position))
                     }
                 }
             }

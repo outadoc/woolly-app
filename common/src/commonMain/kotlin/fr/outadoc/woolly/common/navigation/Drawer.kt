@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.navigation
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -70,13 +72,29 @@ fun MainAppDrawer(
 
     val scope = rememberCoroutineScope()
 
+    val accountRepository by di.instance<AccountRepository>()
+    val account by accountRepository.currentAccount.collectAsState()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.Start
     ) {
-        Column {
-            AppDrawerHeader()
+        val alpha: Float by animateFloatAsState(if (account == null) 0f else 1f)
+
+        Column(modifier = Modifier.alpha(alpha)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(WoollyDefaults.AppBarHeight)
+            ) {
+                account?.let {
+                    AppDrawerHeader(
+                        modifier = Modifier.fillMaxSize(),
+                        account = it
+                    )
+                }
+            }
 
             WoollyListItem(
                 title = { Text("Log out") },
@@ -132,22 +150,18 @@ fun MainAppDrawer(
 }
 
 @Composable
-fun AppDrawerHeader(modifier: Modifier = Modifier) {
-    val di = LocalDI.current
-    val repo by di.instance<AccountRepository>()
-    val account by repo.currentAccount.collectAsState()
-    account?.let {
-        ProfileHeader(modifier = modifier, account = it)
+fun AppDrawerHeader(
+    modifier: Modifier = Modifier,
+    account: Account
+) {
+    Box(modifier = modifier) {
+        ProfileHeader(account = account)
     }
 }
 
 @Composable
 fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(WoollyDefaults.AppBarHeight)
-    ) {
+    Box(modifier) {
         val headerResource = lazyImageResource(account.headerStaticUrl) {
             dispatcher = Dispatchers.IO
         }

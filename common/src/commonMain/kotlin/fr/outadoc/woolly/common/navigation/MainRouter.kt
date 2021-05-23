@@ -7,8 +7,8 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.home.ui.HomeTimelineScreen
@@ -31,7 +31,7 @@ fun MainRouter(
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit
 ) {
-    var currentScreen: AppScreen by remember {
+    var currentScreen: AppScreen by rememberSaveable {
         mutableStateOf(AppScreen.HomeTimeline)
     }
 
@@ -42,11 +42,11 @@ fun MainRouter(
     val searchAccountsListState = rememberLazyListState()
     val searchHashtagsListState = rememberLazyListState()
 
-    var currentSearchScreen: SearchSubScreen by remember {
+    var currentSearchScreen: SearchSubScreen by rememberSaveable {
         mutableStateOf(SearchSubScreen.Statuses)
     }
 
-    var currentPublicTimelineScreen: PublicTimelineSubScreen by remember {
+    var currentPublicTimelineScreen: PublicTimelineSubScreen by rememberSaveable {
         mutableStateOf(PublicTimelineSubScreen.Local)
     }
 

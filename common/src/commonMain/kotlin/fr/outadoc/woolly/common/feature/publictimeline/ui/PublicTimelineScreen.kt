@@ -20,13 +20,13 @@ fun PublicTimelineScreen(
     val vm by di.instance<PublicTimelineViewModel>()
 
     when (currentSubScreen) {
-        is PublicTimelineSubScreen.Local -> Timeline(
+        PublicTimelineSubScreen.Local -> Timeline(
             insets = insets,
             statusFlow = vm.localPagingItems,
             lazyListState = localListState,
             onStatusAction = vm::onLocalStatusAction
         )
-        is PublicTimelineSubScreen.Global -> Timeline(
+        PublicTimelineSubScreen.Global -> Timeline(
             insets = insets,
             statusFlow = vm.globalPagingItems,
             lazyListState = globalListState,

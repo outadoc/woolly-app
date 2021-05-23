@@ -27,14 +27,14 @@ fun SearchScreen(
         TrendingScreen(insets = insets)
     } else {
         when (currentSubScreen) {
-            is SearchSubScreen.Statuses -> Timeline(
+            SearchSubScreen.Statuses -> Timeline(
                 insets = insets,
                 statusFlow = vm.statusPagingItems,
                 lazyListState = statusListState,
                 onStatusAction = vm::onStatusAction
             )
-            is SearchSubScreen.Accounts -> Unit
-            is SearchSubScreen.Hashtags -> Unit
+            SearchSubScreen.Accounts -> Unit
+            SearchSubScreen.Hashtags -> Unit
         }
     }
 }

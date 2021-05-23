@@ -56,8 +56,7 @@ fun Timeline(
     LazyColumn(
         modifier = modifier,
         state = lazyListState,
-        contentPadding = insets + PaddingValues(top = 8.dp, bottom = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        contentPadding = insets + PaddingValues(top = 8.dp, bottom = 8.dp)
     ) {
         when (val state = lazyPagingItems.loadState.refresh) {
             LoadState.Loading -> item {

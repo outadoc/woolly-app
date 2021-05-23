@@ -3,10 +3,8 @@ package fr.outadoc.woolly.common.feature.status.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TabRowDefaults.Divider
@@ -26,6 +24,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.plus
+import fr.outadoc.woolly.common.ui.ListExtremityState
 import fr.outadoc.woolly.common.ui.StatusAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -109,31 +108,6 @@ fun StatusList(
             ListExtremityState(
                 state = lazyPagingItems.loadState.append,
                 onRetry = lazyPagingItems::retry
-            )
-        }
-    }
-}
-
-@Composable
-fun LazyItemScope.ListExtremityState(state: LoadState, onRetry: () -> Unit) {
-    when (state) {
-        is LoadState.Loading -> {
-            Column(
-                modifier = Modifier.fillParentMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-
-        is LoadState.Error -> {
-            ErrorScreen(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                error = state.error,
-                onRetry = onRetry
             )
         }
     }

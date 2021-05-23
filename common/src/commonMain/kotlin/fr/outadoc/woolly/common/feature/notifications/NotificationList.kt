@@ -42,7 +42,6 @@ import fr.outadoc.woolly.common.feature.account.ui.Account
 import fr.outadoc.woolly.common.feature.status.ui.ErrorScreen
 import fr.outadoc.woolly.common.feature.status.ui.RelativeTime
 import fr.outadoc.woolly.common.feature.status.ui.Status
-import fr.outadoc.woolly.common.plus
 import fr.outadoc.woolly.common.ui.ListExtremityState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -73,7 +72,7 @@ fun NotificationList(
     LazyColumn(
         modifier = modifier,
         state = lazyListState,
-        contentPadding = insets + PaddingValues(top = 8.dp, bottom = 8.dp)
+        contentPadding = insets
     ) {
         when (val state = lazyPagingItems.loadState.refresh) {
             LoadState.Loading -> item {

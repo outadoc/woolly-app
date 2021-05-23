@@ -25,7 +25,6 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.common.plus
 import fr.outadoc.woolly.common.ui.ListExtremityState
 import fr.outadoc.woolly.common.ui.StatusAction
 import kotlinx.coroutines.Dispatchers
@@ -58,7 +57,7 @@ fun StatusList(
     LazyColumn(
         modifier = modifier,
         state = lazyListState,
-        contentPadding = insets + PaddingValues(top = 8.dp, bottom = 8.dp)
+        contentPadding = insets
     ) {
         when (val state = lazyPagingItems.loadState.refresh) {
             LoadState.Loading -> item {

@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.status.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -50,6 +52,7 @@ fun StatusList(
         }
     }
 
+    val uriHandler = LocalUriHandler.current
     val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
     LazyColumn(
@@ -91,6 +94,14 @@ fun StatusList(
                 if (status != null) {
                     key(status.statusId) {
                         StatusOrBoost(
+                            modifier = Modifier
+                                .clickable { status.url?.let { uriHandler.openUri(it) } }
+                                .padding(
+                                    top = 16.dp,
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    bottom = 8.dp
+                                ),
                             status = status,
                             currentTime = currentTime,
                             onStatusAction = onStatusAction

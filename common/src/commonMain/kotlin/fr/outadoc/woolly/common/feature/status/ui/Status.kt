@@ -75,7 +75,8 @@ fun StatusOrBoost(
 ) {
     val original = status.boostedStatus ?: status
     val boostedBy = if (status.boostedStatus != null) status.account else null
-    StatusBodyWithPicture(
+
+    Status(
         modifier = modifier,
         status = original,
         boostedBy = boostedBy,
@@ -85,31 +86,20 @@ fun StatusOrBoost(
 }
 
 @Composable
-fun StatusBodyWithPicture(
+fun Status(
     modifier: Modifier = Modifier,
     status: Status,
-    boostedBy: Account?,
-    currentTime: Instant,
-    onStatusAction: (StatusAction) -> Unit
+    boostedBy: Account? = null,
+    currentTime: Instant? = null,
+    onStatusAction: ((StatusAction) -> Unit)? = null
 ) {
-    val uriHandler = LocalUriHandler.current
-
-    Row(
-        modifier = modifier
-            .clickable { status.url?.let { uriHandler.openUri(it) } }
-            .padding(
-                top = 16.dp,
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 8.dp
-            )
-    ) {
+    Row(modifier = modifier) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
             account = status.account
         )
 
-        StatusBodyWithActions(
+        StatusWithActions(
             status = status,
             boostedBy = boostedBy,
             currentTime = currentTime,
@@ -119,18 +109,21 @@ fun StatusBodyWithPicture(
 }
 
 @Composable
-fun StatusBodyWithActions(
+fun StatusWithActions(
     modifier: Modifier = Modifier,
     status: Status,
     boostedBy: Account?,
-    currentTime: Instant,
-    onStatusAction: (StatusAction) -> Unit
+    currentTime: Instant?,
+    onStatusAction: ((StatusAction) -> Unit)?
 ) {
-    Column(modifier = modifier) {
-        StatusBody(
+    Column(modifier = modifier.fillMaxWidth()) {
+        StatusHeader(
+            modifier = Modifier.padding(bottom = 8.dp),
             status = status,
             currentTime = currentTime
         )
+
+        StatusBody(status = status)
 
         if (status.mediaAttachments.isNotEmpty()) {
             StatusMediaList(
@@ -143,61 +136,55 @@ fun StatusBodyWithActions(
             )
         }
 
-        StatusFooter(
-            modifier = Modifier.padding(top = 8.dp),
-            boostedBy = boostedBy
-        )
+        boostedBy?.let { boostedBy ->
+            StatusBoostedByMention(
+                modifier = Modifier.padding(top = 8.dp),
+                boostedBy = boostedBy
+            )
+        }
 
-        StatusActions(
-            modifier = Modifier.offset(x = (-16).dp),
-            status = status,
-            onStatusAction = onStatusAction
-        )
+        onStatusAction?.let {
+            StatusActions(
+                modifier = Modifier.offset(x = (-16).dp),
+                status = status,
+                onStatusAction = onStatusAction
+            )
+        }
     }
 }
 
 @Composable
 fun StatusBody(
     modifier: Modifier = Modifier,
-    status: Status,
-    currentTime: Instant
+    status: Status
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        StatusHeader(
-            modifier = Modifier.padding(bottom = 8.dp),
-            status = status,
-            currentTime = currentTime
-        )
-
-        HtmlText(
-            html = status.content,
-            style = MaterialTheme.typography.body2
-        )
-    }
+    HtmlText(
+        modifier = modifier,
+        html = status.content,
+        style = MaterialTheme.typography.body2
+    )
 }
 
 @Composable
-fun StatusFooter(modifier: Modifier = Modifier, boostedBy: Account?) {
+fun StatusBoostedByMention(modifier: Modifier = Modifier, boostedBy: Account) {
     Column(modifier = modifier) {
-        boostedBy?.let { boostedBy ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(end = 8.dp),
-                    imageVector = Icons.Default.Repeat,
-                    contentDescription = "Boosted",
-                    tint = LocalContentColor.current.copy(alpha = 0.7f)
-                )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                modifier = Modifier
+                    .size(24.dp)
+                    .padding(end = 8.dp),
+                imageVector = Icons.Default.Repeat,
+                contentDescription = "Boosted",
+                tint = LocalContentColor.current.copy(alpha = 0.7f)
+            )
 
-                Text(
-                    "${boostedBy.displayNameOrAcct} boosted",
-                    style = MaterialTheme.typography.subtitle2,
-                    maxLines = 1,
-                    color = LocalContentColor.current.copy(alpha = 0.7f),
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            Text(
+                "${boostedBy.displayNameOrAcct} boosted",
+                style = MaterialTheme.typography.subtitle2,
+                maxLines = 1,
+                color = LocalContentColor.current.copy(alpha = 0.7f),
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }
@@ -206,7 +193,7 @@ fun StatusFooter(modifier: Modifier = Modifier, boostedBy: Account?) {
 fun StatusHeader(
     modifier: Modifier = Modifier,
     status: Status,
-    currentTime: Instant
+    currentTime: Instant?
 ) {
     Column(modifier = modifier) {
         Row(
@@ -225,14 +212,16 @@ fun StatusHeader(
                 overflow = TextOverflow.Ellipsis
             )
 
-            RelativeTime(
-                modifier = Modifier.alignByBaseline(),
-                currentTime = currentTime,
-                time = status.createdAt,
-                style = MaterialTheme.typography.subtitle2,
-                color = LocalContentColor.current.copy(alpha = 0.7f),
-                maxLines = 1
-            )
+            currentTime?.let {
+                RelativeTime(
+                    modifier = Modifier.alignByBaseline(),
+                    currentTime = currentTime,
+                    time = status.createdAt,
+                    style = MaterialTheme.typography.subtitle2,
+                    color = LocalContentColor.current.copy(alpha = 0.7f),
+                    maxLines = 1
+                )
+            }
         }
 
         if (status.account.displayName.isNotBlank()) {

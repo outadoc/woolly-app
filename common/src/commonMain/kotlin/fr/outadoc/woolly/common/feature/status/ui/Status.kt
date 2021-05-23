@@ -447,7 +447,7 @@ fun StatusImage(
             contentDescription = contentDescription,
             crossfade = true,
             animationSpec = tween(),
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.Crop
         )
     } else {
         BlurHashImage(
@@ -474,7 +474,7 @@ fun BlurHashImage(
             modifier = modifier,
             bitmap = blurHashBitmap,
             contentDescription = contentDescription,
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.Crop
         )
     }
 }

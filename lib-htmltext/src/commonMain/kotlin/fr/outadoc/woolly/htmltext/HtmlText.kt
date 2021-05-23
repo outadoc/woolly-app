@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -70,7 +69,7 @@ fun NodeText(
 }
 
 private fun AnnotatedString.Builder.appendNodes(nodes: List<FlatNode>, linkColor: Color) {
-    nodes.forEach { node ->
+    nodes.forEachIndexed { index, node ->
         when (node) {
             is FlatLinkNode -> {
                 withStyle(SpanStyle(color = linkColor)) {
@@ -81,8 +80,10 @@ private fun AnnotatedString.Builder.appendNodes(nodes: List<FlatNode>, linkColor
             }
 
             is FlatParagraph -> {
-                withStyle(ParagraphStyle()) {
-                    appendNodes(node.children, linkColor)
+                appendNodes(node.children, linkColor)
+
+                if (index < nodes.size - 1) {
+                    append("\n\n")
                 }
             }
 

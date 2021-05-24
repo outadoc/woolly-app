@@ -1,8 +1,10 @@
 package fr.outadoc.woolly.common.feature.tags.ui
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -35,10 +37,24 @@ fun TrendingTagListItem(
             )
         },
         title = {
-            Text(
-                text = tag.name,
-                style = MaterialTheme.typography.body1
-            )
+            Column {
+                Text(
+                    text = tag.name,
+                    style = MaterialTheme.typography.body1
+                )
+
+                val lastDayUsage = tag.history
+                    ?.maxBy { it.day }
+                    ?.accountCount
+
+                if (lastDayUsage != null) {
+                    Text(
+                        text = "$lastDayUsage people talking",
+                        style = MaterialTheme.typography.body2,
+                        color = LocalContentColor.current.copy(alpha = 0.7f)
+                    )
+                }
+            }
         },
         onClick = onClick
     )

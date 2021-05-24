@@ -9,6 +9,7 @@ import fr.outadoc.woolly.common.feature.account.ui.AccountList
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.feature.status.ui.StatusList
+import fr.outadoc.woolly.common.feature.tags.ui.TagList
 import fr.outadoc.woolly.common.feature.tags.ui.TrendingScreen
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
@@ -35,12 +36,18 @@ fun SearchScreen(
                 lazyListState = statusListState,
                 onStatusAction = vm::onStatusAction
             )
+
             SearchSubScreen.Accounts -> AccountList(
                 insets = insets,
                 accountFlow = vm.accountsPagingItems,
                 lazyListState = accountsListState
             )
-            SearchSubScreen.Hashtags -> Unit
+
+            SearchSubScreen.Hashtags -> TagList(
+                insets = insets,
+                tagFlow = vm.hashtagsPagingItems,
+                lazyListState = hashtagsListState
+            )
         }
     }
 }

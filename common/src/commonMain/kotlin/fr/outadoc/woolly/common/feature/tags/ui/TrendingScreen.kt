@@ -21,7 +21,7 @@ fun TrendingScreen(insets: PaddingValues) {
 
     LazyColumn(contentPadding = insets) {
         items(trends) { tag ->
-            TrendingTag(
+            TrendingTagListItem(
                 tag = tag,
                 onClick = { uriHandler.openUri(tag.url) }
             )

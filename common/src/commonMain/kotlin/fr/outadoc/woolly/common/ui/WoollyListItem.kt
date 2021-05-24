@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WoollyListItem(
+    modifier: Modifier = Modifier,
     icon: @Composable () -> Unit,
     title: @Composable () -> Unit,
     onClick: () -> Unit,
     selected: Boolean = false
 ) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clip(MaterialTheme.shapes.small),
         color = if (selected) {

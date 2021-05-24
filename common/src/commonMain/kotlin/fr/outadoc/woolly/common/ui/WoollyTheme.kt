@@ -17,7 +17,9 @@ fun WoollyTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colors = if (isDarkMode) darkColors() else lightColors(),
+        colors =
+        if (isDarkMode) woollyDarkColors()
+        else woollyLightColors(),
     ) {
         val systemUiController = rememberSystemUiController()
 
@@ -36,6 +38,24 @@ fun WoollyTheme(
         content()
     }
 }
+
+fun woollyLightColors() = lightColors(
+    primary = Color(0xff2196f3),
+    primaryVariant = Color(0xff0069c0),
+    onPrimary = Color(0xffffffff),
+    secondary = Color(0xff9ccc65),
+    secondaryVariant = Color(0xff6b9b37),
+    onSecondary = Color(0xff000000)
+)
+
+fun woollyDarkColors() = darkColors(
+    primary = Color(0xff2196f3),
+    primaryVariant = Color(0xff0069c0),
+    onPrimary = Color(0xffffffff),
+    secondary = Color(0xff9ccc65),
+    secondaryVariant = Color(0xff6b9b37),
+    onSecondary = Color(0xff000000)
+)
 
 @Composable
 private fun Color.elevated(elevation: Dp): Color {

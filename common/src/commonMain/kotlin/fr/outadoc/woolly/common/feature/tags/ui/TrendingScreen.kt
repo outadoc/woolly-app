@@ -1,20 +1,13 @@
-package fr.outadoc.woolly.common.feature.search.ui
+package fr.outadoc.woolly.common.feature.tags.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalUriHandler
-import fr.outadoc.mastodonk.api.entity.Tag
-import fr.outadoc.woolly.common.feature.search.viewmodel.TrendingViewModel
-import fr.outadoc.woolly.common.ui.WoollyListItem
+import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -34,23 +27,4 @@ fun TrendingScreen(insets: PaddingValues) {
             )
         }
     }
-}
-
-@Composable
-fun TrendingTag(tag: Tag, onClick: () -> Unit) {
-    WoollyListItem(
-        icon = {
-            Icon(
-                Icons.Default.TrendingUp,
-                contentDescription = "Trending"
-            )
-        },
-        title = {
-            Text(
-                text = tag.name,
-                style = MaterialTheme.typography.body1
-            )
-        },
-        onClick = onClick
-    )
 }

@@ -22,7 +22,7 @@ import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResou
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
-import fr.outadoc.woolly.common.feature.search.viewmodel.TrendingViewModel
+import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
 import fr.outadoc.woolly.common.navigation.Router
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme

@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.search.viewmodel
+package fr.outadoc.woolly.common.feature.tags.viewmodel
 
 import fr.outadoc.mastodonk.api.entity.Tag
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider

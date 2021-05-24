@@ -9,6 +9,7 @@ import fr.outadoc.woolly.common.feature.account.ui.AccountList
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.feature.status.ui.StatusList
+import fr.outadoc.woolly.common.feature.tags.ui.TrendingScreen
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 

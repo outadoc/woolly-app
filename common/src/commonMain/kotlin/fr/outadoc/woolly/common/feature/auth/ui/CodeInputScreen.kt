@@ -78,9 +78,9 @@ fun CodeInputScreen(state: AuthViewModel.State.InstanceSelected) {
                     label = { Text("Authorization code") },
                     value = authCode,
                     onValueChange = { value -> authCode = value },
-                    keyboardActions = KeyboardActions(
-                        onDone = { vm.onAuthCodeReceived(authCode) }
-                    ),
+                    keyboardActions = KeyboardActions {
+                        vm.onAuthCodeReceived(authCode)
+                    },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Password

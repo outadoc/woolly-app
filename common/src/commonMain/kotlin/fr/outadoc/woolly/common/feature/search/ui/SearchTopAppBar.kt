@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.DrawerState
 import androidx.compose.material.Icon
@@ -27,6 +29,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
@@ -107,8 +111,10 @@ fun SearchTabRow(
 @Composable
 fun SearchTextField(
     searchTerm: String,
-    onSearchTermChanged: (String) -> Unit,
+    onSearchTermChanged: (String) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     OutlinedTextField(
         value = searchTerm,
         onValueChange = { term -> onSearchTermChanged(term) },
@@ -127,6 +133,12 @@ fun SearchTextField(
                 }
             }
         },
+        keyboardActions = KeyboardActions {
+            focusManager.clearFocus()
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search
+        ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             cursorColor = LocalContentColor.current,
             leadingIconColor = LocalContentColor.current,

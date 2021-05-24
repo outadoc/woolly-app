@@ -58,9 +58,9 @@ fun DomainSelectScreen(state: AuthViewModel.State.Disconnected) {
                     placeholder = { Text("mastodon.example") },
                     value = state.domain,
                     onValueChange = { domain -> vm.onDomainTextChanged(domain) },
-                    keyboardActions = KeyboardActions(
-                        onDone = { vm.onSubmitDomain() }
-                    ),
+                    keyboardActions = KeyboardActions {
+                        vm.onSubmitDomain()
+                    },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Uri

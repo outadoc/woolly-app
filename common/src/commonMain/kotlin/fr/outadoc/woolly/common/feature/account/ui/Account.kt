@@ -3,7 +3,9 @@ package fr.outadoc.woolly.common.feature.account.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
@@ -16,6 +18,11 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
+
+@Composable
+fun AccountPlaceholder() {
+    Spacer(modifier = Modifier.height(128.dp))
+}
 
 @Composable
 fun Account(

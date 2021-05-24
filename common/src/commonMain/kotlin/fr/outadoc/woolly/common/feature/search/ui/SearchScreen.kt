@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import fr.outadoc.woolly.common.feature.account.ui.AccountList
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.feature.status.ui.StatusList
@@ -33,7 +34,11 @@ fun SearchScreen(
                 lazyListState = statusListState,
                 onStatusAction = vm::onStatusAction
             )
-            SearchSubScreen.Accounts -> Unit
+            SearchSubScreen.Accounts -> AccountList(
+                insets = insets,
+                accountFlow = vm.accountsPagingItems,
+                lazyListState = accountsListState
+            )
             SearchSubScreen.Hashtags -> Unit
         }
     }

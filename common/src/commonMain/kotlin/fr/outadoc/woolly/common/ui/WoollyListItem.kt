@@ -19,6 +19,7 @@ fun WoollyListItem(
     modifier: Modifier = Modifier,
     icon: @Composable () -> Unit,
     title: @Composable () -> Unit,
+    secondaryText: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     selected: Boolean = false
 ) {
@@ -42,6 +43,7 @@ fun WoollyListItem(
                 role = Role.Button,
                 onClick = onClick
             ),
+            secondaryText = secondaryText,
             icon = icon
         ) {
             title()

@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,7 +36,10 @@ import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
 
-@OptIn(ExperimentalFoundationApi::class)
+private const val MaxMediaCount = 4
+private const val ImageRatio = 16 / 9f
+private val ImageGridPadding = 4.dp
+
 @Composable
 fun StatusMediaGrid(
     modifier: Modifier = Modifier,
@@ -46,10 +48,11 @@ fun StatusMediaGrid(
 ) {
     val displayableMedia = media
         .filter { it.previewUrl != null }
-        .take(4)
+        .take(MaxMediaCount)
 
     Box(modifier = modifier.fillMaxWidth()) {
         when (displayableMedia.size) {
+            0 -> Unit
             1 -> SingleMediaPreview(
                 media = displayableMedia.first(),
                 isSensitive = isSensitive
@@ -73,7 +76,7 @@ fun StatusMediaGrid(
 @Composable
 fun SingleMediaPreview(media: Attachment, isSensitive: Boolean) {
     StatusMediaPreview(
-        modifier = Modifier.aspectRatio(16 / 9f),
+        modifier = Modifier.aspectRatio(ImageRatio),
         media = media,
         isSensitive = isSensitive
     )
@@ -82,21 +85,21 @@ fun SingleMediaPreview(media: Attachment, isSensitive: Boolean) {
 @Composable
 fun TwoMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
     Row(
-        modifier = Modifier.aspectRatio(16 / 9f),
+        modifier = Modifier.aspectRatio(ImageRatio),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         StatusMediaPreview(
             modifier = Modifier
-                .aspectRatio(16 / 18f)
-                .padding(end = 4.dp),
+                .aspectRatio(ImageRatio / 2)
+                .padding(end = ImageGridPadding),
             media = media[0],
             isSensitive = isSensitive
         )
 
         StatusMediaPreview(
             modifier = Modifier
-                .aspectRatio(16 / 18f)
-                .padding(start = 4.dp),
+                .aspectRatio(ImageRatio / 2)
+                .padding(start = ImageGridPadding),
             media = media[1],
             isSensitive = isSensitive
         )
@@ -106,35 +109,35 @@ fun TwoMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
 @Composable
 fun ThreeMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
     Row(
-        modifier = Modifier.aspectRatio(16 / 9f),
+        modifier = Modifier.aspectRatio(ImageRatio),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         StatusMediaPreview(
             modifier = Modifier
-                .aspectRatio(16 / 18f)
-                .padding(end = 4.dp),
+                .aspectRatio(ImageRatio / 2)
+                .padding(end = ImageGridPadding),
             media = media[0],
             isSensitive = isSensitive
         )
 
         Column(
             modifier = Modifier
-                .padding(start = 4.dp)
+                .padding(start = ImageGridPadding)
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             StatusMediaPreview(
                 modifier = Modifier
-                    .aspectRatio(16 / 9f)
-                    .padding(bottom = 2.dp),
+                    .aspectRatio(ImageRatio)
+                    .padding(bottom = ImageGridPadding / 2),
                 media = media[1],
                 isSensitive = isSensitive
             )
 
             StatusMediaPreview(
                 modifier = Modifier
-                    .aspectRatio(16 / 9f)
-                    .padding(top = 2.dp),
+                    .aspectRatio(ImageRatio)
+                    .padding(top = ImageGridPadding / 2),
                 media = media[2],
                 isSensitive = isSensitive
             )
@@ -147,22 +150,22 @@ fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
     Column(verticalArrangement = Arrangement.SpaceBetween) {
         Row(
             modifier = Modifier
-                .padding(bottom = 4.dp)
-                .aspectRatio(32 / 9f),
+                .padding(bottom = ImageGridPadding)
+                .aspectRatio(ImageRatio * 2),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             StatusMediaPreview(
                 modifier = Modifier
-                    .aspectRatio(16 / 9f)
-                    .padding(end = 4.dp),
+                    .aspectRatio(ImageRatio)
+                    .padding(end = ImageGridPadding),
                 media = media[0],
                 isSensitive = isSensitive
             )
 
             StatusMediaPreview(
                 modifier = Modifier
-                    .aspectRatio(16 / 9f)
-                    .padding(start = 4.dp),
+                    .aspectRatio(ImageRatio)
+                    .padding(start = ImageGridPadding),
                 media = media[1],
                 isSensitive = isSensitive
             )
@@ -170,22 +173,22 @@ fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
 
         Row(
             modifier = Modifier
-                .padding(top = 4.dp)
-                .aspectRatio(32 / 9f),
+                .padding(top = ImageGridPadding)
+                .aspectRatio(ImageRatio * 2),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             StatusMediaPreview(
                 modifier = Modifier
-                    .aspectRatio(16 / 9f)
-                    .padding(end = 4.dp),
+                    .aspectRatio(ImageRatio)
+                    .padding(end = ImageGridPadding),
                 media = media[2],
                 isSensitive = isSensitive
             )
 
             StatusMediaPreview(
                 modifier = Modifier
-                    .aspectRatio(16 / 9f)
-                    .padding(start = 4.dp),
+                    .aspectRatio(ImageRatio)
+                    .padding(start = ImageGridPadding),
                 media = media[3],
                 isSensitive = isSensitive
             )

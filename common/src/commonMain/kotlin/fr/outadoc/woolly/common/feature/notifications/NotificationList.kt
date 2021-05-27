@@ -2,6 +2,7 @@ package fr.outadoc.woolly.common.feature.notifications
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,10 +13,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Comment
+import androidx.compose.material.icons.filled.Inbox
+import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.filled.Poll
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -43,6 +52,7 @@ import fr.outadoc.woolly.common.feature.status.ui.ErrorScreen
 import fr.outadoc.woolly.common.feature.status.ui.RelativeTime
 import fr.outadoc.woolly.common.feature.status.ui.Status
 import fr.outadoc.woolly.common.ui.ListExtremityState
+import fr.outadoc.woolly.common.ui.WoollyTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -185,28 +195,32 @@ fun NotificationHeader(
     notification: Notification,
     currentTime: Instant?
 ) {
-    val accountTitle = notification.account.displayNameOrAcct
-    val title = when (notification.type) {
-        NotificationType.Follow -> "$accountTitle follows you"
-        NotificationType.FollowRequest -> "$accountTitle sent you a follow request"
-        NotificationType.Mention -> "$accountTitle mentioned you"
-        NotificationType.Boost -> "$accountTitle boosted your post"
-        NotificationType.Favourite -> "$accountTitle favourited your post"
-        NotificationType.Poll -> "A poll has ended"
-        NotificationType.Status -> "$accountTitle posted something"
-    }
-
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            modifier = modifier,
-            text = title,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.subtitle2,
-            fontWeight = FontWeight.Bold
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            NotificationIcon(
+                modifier = Modifier.padding(end = 16.dp),
+                notification = notification
+            )
+
+            val accountTitle = notification.account.displayNameOrAcct
+            Text(
+                text = when (notification.type) {
+                    NotificationType.Follow -> "New follower"
+                    NotificationType.FollowRequest -> "New follow request"
+                    NotificationType.Mention -> "New mention"
+                    NotificationType.Boost -> "$accountTitle boosted your post"
+                    NotificationType.Favourite -> "$accountTitle favourited your post"
+                    NotificationType.Poll -> "A poll has ended"
+                    NotificationType.Status -> "New post"
+                },
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.subtitle2,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         currentTime?.let {
             RelativeTime(
@@ -216,6 +230,49 @@ fun NotificationHeader(
                 style = MaterialTheme.typography.subtitle2,
                 color = LocalContentColor.current.copy(alpha = 0.7f),
                 maxLines = 1
+            )
+        }
+    }
+}
+
+@Composable
+fun NotificationIcon(modifier: Modifier = Modifier, notification: Notification) {
+    Box(modifier) {
+        when (notification.type) {
+            NotificationType.Follow -> Icon(
+                Icons.Default.PersonAdd,
+                contentDescription = "New follower",
+                tint = MaterialTheme.colors.primary
+            )
+            NotificationType.FollowRequest -> Icon(
+                Icons.Default.PersonAdd,
+                contentDescription = "New follow request",
+                tint = MaterialTheme.colors.secondary
+            )
+            NotificationType.Mention -> Icon(
+                Icons.Default.Comment,
+                contentDescription = "New mention",
+                tint = MaterialTheme.colors.primary
+            )
+            NotificationType.Boost -> Icon(
+                Icons.Default.Repeat,
+                contentDescription = "New boost",
+                tint = WoollyTheme.BoostColor
+            )
+            NotificationType.Favourite -> Icon(
+                Icons.Default.Star,
+                contentDescription = "New favourite",
+                tint = WoollyTheme.FavouriteColor
+            )
+            NotificationType.Poll -> Icon(
+                Icons.Default.Poll,
+                contentDescription = "Poll results are in",
+                tint = MaterialTheme.colors.primary
+            )
+            NotificationType.Status -> Icon(
+                Icons.Default.Inbox,
+                contentDescription = "New post",
+                tint = MaterialTheme.colors.primary
             )
         }
     }

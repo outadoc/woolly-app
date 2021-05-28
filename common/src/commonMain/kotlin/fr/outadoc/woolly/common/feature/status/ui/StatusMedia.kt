@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.AttachmentType
 import fr.outadoc.woolly.common.ui.BlurHashImage
+import fr.outadoc.woolly.common.ui.WoollyTheme
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
@@ -239,7 +240,7 @@ fun StatusMediaOverlay(
 
         if (icon != null) {
             Surface(
-                shape = CircleShape,
+                shape = WoollyTheme.AvatarShape,
                 color = Color.Black.copy(alpha = 0.7f),
                 modifier = Modifier
                     .size(48.dp)

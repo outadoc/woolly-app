@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.ui
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
@@ -70,4 +71,5 @@ private fun Color.elevated(elevation: Dp): Color {
 object WoollyTheme {
     val BoostColor = Color(0xff2b90d9)
     val FavouriteColor = Color(0xffca8f04)
+    val AvatarShape = CircleShape
 }

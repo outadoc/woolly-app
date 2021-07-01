@@ -2,6 +2,10 @@ package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -162,7 +166,11 @@ fun StatusBodyOrWarning(
             }
         )
 
-        AnimatedVisibility(visible = !isCollapsed) {
+        AnimatedVisibility(
+            visible = !isCollapsed,
+            enter = fadeIn() + expandVertically(expandFrom = Alignment.Top),
+            exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
+        ) {
             StatusBody(
                 modifier = modifier.padding(top = 8.dp),
                 status = status

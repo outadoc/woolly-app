@@ -3,6 +3,7 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 plugins {
     kotlin("android") version "1.5.10" apply false
     kotlin("multiplatform") version "1.5.10" apply false
+    kotlin("plugin.serialization") version "1.5.10" apply false
     id("org.jetbrains.compose") version "0.4.0" apply false
 
     id("com.diffplug.spotless") version "5.14.0"

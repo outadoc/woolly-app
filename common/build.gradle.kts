@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
-    kotlin("plugin.serialization") version "1.4.31"
+    kotlin("plugin.serialization")
 }
 
 kotlin {

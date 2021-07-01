@@ -36,7 +36,7 @@ fun TrendingTagListItem(
         title = { Text(text = tag.name) },
         secondaryText = {
             val lastDayUsage = tag.history
-                ?.maxBy { it.day }
+                ?.maxByOrNull { it.day }
                 ?.accountCount
 
             if (lastDayUsage != null) {

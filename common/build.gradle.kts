@@ -2,7 +2,7 @@ import org.jetbrains.compose.compose
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "0.3.2"
+    id("org.jetbrains.compose")
     id("com.android.library")
     kotlin("plugin.serialization") version "1.4.31"
 }
@@ -87,5 +87,10 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerVersion = "1.5.10"
+        kotlinCompilerExtensionVersion = "1.0.0-rc01"
     }
 }

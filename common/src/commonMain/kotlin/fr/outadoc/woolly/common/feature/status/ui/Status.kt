@@ -110,7 +110,9 @@ fun StatusWithActions(
             currentTime = currentTime
         )
 
-        StatusBodyOrWarning(status = status)
+        if (status.content.isNotBlank()) {
+            StatusBodyOrWarning(status = status)
+        }
 
         if (status.mediaAttachments.isNotEmpty()) {
             StatusMediaGrid(

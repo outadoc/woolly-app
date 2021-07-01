@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -53,7 +52,6 @@ fun StatusMediaGrid(
 
     Box(modifier = modifier.fillMaxWidth()) {
         when (displayableMedia.size) {
-            0 -> Unit
             1 -> SingleMediaPreview(
                 media = displayableMedia.first(),
                 isSensitive = isSensitive

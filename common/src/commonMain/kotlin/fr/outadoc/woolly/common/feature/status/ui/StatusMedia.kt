@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Gif
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material.icons.filled.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -203,7 +204,9 @@ fun StatusMediaPreview(
 ) {
     val uriHandler = LocalUriHandler.current
     val icon = when (media.type) {
-        AttachmentType.Image -> null
+        AttachmentType.Image ->
+            if (isSensitive) Icons.Default.Preview
+            else null
         AttachmentType.Gifv -> Icons.Default.Gif
         AttachmentType.Video -> Icons.Default.PlayCircle
         AttachmentType.Audio -> Icons.Default.Mic

@@ -18,6 +18,7 @@ import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
 import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
 import fr.outadoc.woolly.common.feature.notifications.viewmodel.NotificationsViewModel
+import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
@@ -32,6 +33,7 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
+import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.subDI
 import org.kodein.di.instance
 
@@ -76,11 +78,18 @@ private val di = fun DI.MainBuilder.() {
 
 @Composable
 fun App() = subDI(diBuilder = di) {
-    var colorScheme by rememberSaveable { mutableStateOf(ColorScheme.Dark) }
+    val di = LocalDI.current
+    val prefs by di.instance<PreferenceRepository>()
+
+    var colorScheme by rememberSaveable { mutableStateOf(prefs.colorScheme) }
+
     WoollyTheme(isDarkMode = colorScheme == ColorScheme.Dark) {
         Router(
             colorScheme = colorScheme,
-            onColorSchemeChanged = { colorScheme = it }
+            onColorSchemeChanged = {
+                prefs.colorScheme = it
+                colorScheme = it
+            }
         )
     }
 }

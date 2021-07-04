@@ -10,12 +10,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
@@ -44,14 +45,12 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
-import fr.outadoc.woolly.common.feature.account.ui.Account
 import fr.outadoc.woolly.common.feature.status.ui.ErrorScreen
-import fr.outadoc.woolly.common.feature.status.ui.RelativeTime
+import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
 import fr.outadoc.woolly.common.feature.status.ui.Status
 import fr.outadoc.woolly.common.ui.ListExtremityState
 import fr.outadoc.woolly.common.ui.WoollyDefaults
@@ -169,78 +168,75 @@ fun Notification(
             }
             .padding(16.dp)
     ) {
-        NotificationHeader(
-            modifier = Modifier.padding(bottom = 16.dp),
-            notification = notification,
-            currentTime = currentTime
-        )
+        NotificationHeader(notification = notification)
 
-        when (val status = notification.status) {
-            null -> AccountNotificationBody(account = notification.account)
-            else -> StatusNotificationBody(status = status)
+        notification.status?.let { status ->
+            StatusNotificationBody(
+                modifier = Modifier.padding(top = 16.dp),
+                status = status,
+                currentTime = currentTime
+            )
         }
     }
 }
 
 @Composable
-fun AccountNotificationBody(
-    modifier: Modifier = Modifier,
-    account: Account
-) {
-    Account(modifier = modifier, account = account)
-}
-
-@Composable
 fun StatusNotificationBody(
     modifier: Modifier = Modifier,
-    status: Status
+    status: Status,
+    currentTime: Instant?
 ) {
-    Status(modifier = modifier, status = status)
+    Status(
+        modifier = modifier,
+        status = status,
+        currentTime = currentTime
+    )
 }
 
 @Composable
 fun NotificationHeader(
     modifier: Modifier = Modifier,
-    notification: Notification,
-    currentTime: Instant?
+    notification: Notification
 ) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
+    val uriHandler = LocalUriHandler.current
+    val startPadding = WoollyDefaults.AvatarSize + 16.dp
+
+    Column(modifier = modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            NotificationIcon(
-                modifier = Modifier.padding(end = 16.dp),
-                notification = notification
-            )
+            Column(
+                modifier = Modifier.width(startPadding),
+                horizontalAlignment = Alignment.End
+            ) {
+                NotificationIcon(
+                    modifier = Modifier.padding(end = 8.dp),
+                    notification = notification
+                )
+            }
 
-            val accountTitle = notification.account.displayNameOrAcct
-            Text(
-                text = when (notification.type) {
-                    NotificationType.Follow -> "New follower"
-                    NotificationType.FollowRequest -> "New follow request"
-                    NotificationType.Mention -> "New mention"
-                    NotificationType.Boost -> "$accountTitle boosted your post"
-                    NotificationType.Favourite -> "$accountTitle favourited your post"
-                    NotificationType.Poll -> "A poll has ended"
-                    NotificationType.Status -> "New post"
-                },
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.subtitle2,
-                fontWeight = FontWeight.Bold
+            ProfilePicture(
+                modifier = Modifier
+                    .clickable { uriHandler.openUri(notification.account.url) }
+                    .size(32.dp),
+                account = notification.account
             )
         }
 
-        currentTime?.let {
-            RelativeTime(
-                modifier = Modifier.alignByBaseline(),
-                currentTime = currentTime,
-                time = notification.createdAt,
-                style = MaterialTheme.typography.subtitle2,
-                color = LocalContentColor.current.copy(alpha = 0.7f),
-                maxLines = 1
-            )
-        }
+        val accountTitle = notification.account.displayNameOrAcct
+        Text(
+            modifier = Modifier.padding(start = startPadding, top = 8.dp),
+            text = when (notification.type) {
+                NotificationType.Follow -> "$accountTitle follows you"
+                NotificationType.FollowRequest -> "$accountTitle would like to follow you"
+                NotificationType.Mention -> "New mention"
+                NotificationType.Boost -> "$accountTitle boosted your post"
+                NotificationType.Favourite -> "$accountTitle favourited your post"
+                NotificationType.Poll -> "A poll has ended"
+                NotificationType.Status -> "New post"
+            },
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.subtitle2,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 

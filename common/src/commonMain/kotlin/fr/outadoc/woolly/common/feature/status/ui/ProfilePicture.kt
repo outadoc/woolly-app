@@ -11,6 +11,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.common.ui.WoollyDefaults
 import fr.outadoc.woolly.common.ui.WoollyTheme
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
@@ -31,10 +32,10 @@ fun ProfilePicture(
         contentScale = ContentScale.FillWidth,
         crossfade = true,
         modifier = modifier
-            .size(48.dp)
+            .size(WoollyDefaults.AvatarSize)
             .clip(WoollyTheme.AvatarShape),
         onLoading = {
-            Spacer(modifier = modifier.size(48.dp))
+            Spacer(modifier = modifier.size(WoollyDefaults.AvatarSize))
         },
         animationSpec = tween()
     )

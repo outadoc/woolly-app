@@ -14,6 +14,7 @@ import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateSupplier
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
+import fr.outadoc.woolly.common.feature.bookmarks.viewmodel.BookmarksViewModel
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
 import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
@@ -74,6 +75,7 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { SearchViewModel(instance(), instance(), instance()) }
     bindSingleton { TrendingViewModel(instance()) }
     bindSingleton { NotificationsViewModel(instance(), instance(), instance()) }
+    bindSingleton { BookmarksViewModel(instance(), instance(), instance()) }
 }
 
 @Composable

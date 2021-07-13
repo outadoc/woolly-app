@@ -2,6 +2,7 @@ package fr.outadoc.woolly.common.screen
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Public
@@ -15,6 +16,7 @@ class AppScreenResources {
         AppScreen.Notifications -> "Notifications"
         AppScreen.Search -> "Search"
         AppScreen.Account -> "My Profile"
+        AppScreen.Bookmarks -> "Bookmarks"
     }
 
     fun getScreenIcon(screen: AppScreen) = when (screen) {
@@ -23,5 +25,6 @@ class AppScreenResources {
         AppScreen.Notifications -> Icons.Default.Notifications
         AppScreen.Search -> Icons.Default.Search
         AppScreen.Account -> Icons.Default.AccountCircle
+        AppScreen.Bookmarks -> Icons.Default.Bookmarks
     }
 }

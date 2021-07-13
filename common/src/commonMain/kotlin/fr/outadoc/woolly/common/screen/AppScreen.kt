@@ -5,5 +5,6 @@ enum class AppScreen {
     PublicTimeline,
     Notifications,
     Search,
-    Account
+    Account,
+    Bookmarks
 }

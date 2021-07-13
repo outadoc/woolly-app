@@ -20,7 +20,7 @@ actual class HtmlParser {
         return element.childNodes()
             .mapNotNull { node: Node ->
                 when (node) {
-                    is TextNode -> listOf(FlatTextNode(node.text()))
+                    is TextNode -> listOf(FlatTextNode(node.wholeText))
                     is Element -> {
                         if (node.hasClass("invisible")) {
                             listOf(FlatTextNode(text = "…"))

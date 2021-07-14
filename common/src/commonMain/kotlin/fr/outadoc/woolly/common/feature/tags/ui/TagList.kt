@@ -66,17 +66,18 @@ fun TagList(
             )
         }
 
-        itemsIndexed(lazyPagingItems) { _, tag ->
+        itemsIndexed(
+            items = lazyPagingItems,
+            key = { _, tag -> tag.name }
+        ) { _, tag ->
             Column {
                 if (tag != null) {
-                    key(tag.name) {
-                        HashtagListItem(
-                            tag = tag,
-                            onClick = {
-                                uriHandler.openUri(tag.url)
-                            }
-                        )
-                    }
+                    HashtagListItem(
+                        tag = tag,
+                        onClick = {
+                            uriHandler.openUri(tag.url)
+                        }
+                    )
                 } else {
                     HashtagPlaceholder()
                 }

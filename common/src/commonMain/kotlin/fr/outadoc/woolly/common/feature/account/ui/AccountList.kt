@@ -68,17 +68,18 @@ fun AccountList(
             )
         }
 
-        itemsIndexed(lazyPagingItems) { _, account ->
+        itemsIndexed(
+            items = lazyPagingItems,
+            key = { _, account -> account.accountId }
+        ) { _, account ->
             Column {
                 if (account != null) {
-                    key(account.accountId) {
-                        Account(
-                            modifier = Modifier
-                                .clickable { uriHandler.openUri(account.url) }
-                                .padding(16.dp),
-                            account = account
-                        )
-                    }
+                    Account(
+                        modifier = Modifier
+                            .clickable { uriHandler.openUri(account.url) }
+                            .padding(16.dp),
+                        account = account
+                    )
                 } else {
                     AccountPlaceholder()
                 }

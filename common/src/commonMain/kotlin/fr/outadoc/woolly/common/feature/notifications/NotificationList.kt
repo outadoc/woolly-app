@@ -29,7 +29,6 @@ import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -120,16 +119,17 @@ fun NotificationList(
                 )
             }
 
-            itemsIndexed(lazyPagingItems) { _, notification ->
+            itemsIndexed(
+                items = lazyPagingItems,
+                key = { _, notification -> notification.notificationId }
+            ) { _, notification ->
                 Column {
                     if (notification != null) {
-                        key(notification.notificationId) {
-                            Notification(
-                                modifier = Modifier.fillMaxWidth(),
-                                notification = notification,
-                                currentTime = currentTime
-                            )
-                        }
+                        Notification(
+                            modifier = Modifier.fillMaxWidth(),
+                            notification = notification,
+                            currentTime = currentTime
+                        )
                     } else {
                         NotificationPlaceHolder()
                     }
@@ -223,7 +223,10 @@ fun NotificationHeader(
 
         val accountTitle = notification.account.displayNameOrAcct
         Text(
-            modifier = Modifier.padding(start = startPadding, top = 8.dp),
+            modifier = Modifier.padding(
+                start = startPadding,
+                top = 8.dp
+            ),
             text = when (notification.type) {
                 NotificationType.Follow -> "$accountTitle follows you"
                 NotificationType.FollowRequest -> "$accountTitle would like to follow you"

@@ -14,7 +14,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -98,27 +97,28 @@ fun StatusList(
                 )
             }
 
-            itemsIndexed(lazyPagingItems) { _, status ->
+            itemsIndexed(
+                items = lazyPagingItems,
+                key = { _, status -> status.statusId }
+            ) { _, status ->
                 Column {
                     if (status != null) {
-                        key(status.statusId) {
-                            StatusOrBoost(
-                                modifier = Modifier
-                                    .clickable {
-                                        val url = status.boostedStatus?.url ?: status.url
-                                        url?.let { uriHandler.openUri(it) }
-                                    }
-                                    .padding(
-                                        top = 16.dp,
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        bottom = 8.dp
-                                    ),
-                                status = status,
-                                currentTime = currentTime,
-                                onStatusAction = onStatusAction
-                            )
-                        }
+                        StatusOrBoost(
+                            modifier = Modifier
+                                .clickable {
+                                    val url = status.boostedStatus?.url ?: status.url
+                                    url?.let { uriHandler.openUri(it) }
+                                }
+                                .padding(
+                                    top = 16.dp,
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    bottom = 8.dp
+                                ),
+                            status = status,
+                            currentTime = currentTime,
+                            onStatusAction = onStatusAction
+                        )
                     } else {
                         StatusPlaceholder()
                     }

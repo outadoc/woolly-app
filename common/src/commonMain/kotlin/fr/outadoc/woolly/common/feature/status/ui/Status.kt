@@ -23,11 +23,13 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Poll
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Star
@@ -40,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -107,6 +110,8 @@ fun StatusWithActions(
     currentTime: Instant?,
     onStatusAction: ((StatusAction) -> Unit)?
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Column(modifier = modifier.fillMaxWidth()) {
         StatusHeader(
             modifier = Modifier.padding(bottom = 8.dp),
@@ -116,6 +121,14 @@ fun StatusWithActions(
 
         if (status.content.isNotBlank()) {
             StatusBodyOrWarning(status = status)
+        }
+
+        status.poll?.let { poll ->
+            StatusPoll(
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                status.url?.let { uriHandler.openUri(it) }
+            }
         }
 
         if (status.mediaAttachments.isNotEmpty()) {
@@ -142,6 +155,37 @@ fun StatusWithActions(
                 status = status,
                 onStatusAction = onStatusAction
             )
+        }
+    }
+}
+
+@Composable
+fun StatusPoll(
+    modifier: Modifier = Modifier,
+    onClickPlaceholder: () -> Unit
+) {
+    OutlinedButton(
+        modifier = modifier.fillMaxWidth(),
+        onClick = onClickPlaceholder
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    Icons.Default.Poll,
+                    contentDescription = "View poll",
+                    modifier = Modifier.padding(end = 16.dp)
+                )
+
+                Text(
+                    modifier = Modifier.padding(end = 8.dp),
+                    text = "View poll",
+                    style = MaterialTheme.typography.body2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
@@ -208,7 +252,7 @@ fun ContentWarningBanner(
                 Text(
                     modifier = Modifier.padding(end = 8.dp),
                     text = contentWarning,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.body2,
                     overflow = TextOverflow.Ellipsis
                 )
             }

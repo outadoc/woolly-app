@@ -32,7 +32,7 @@ import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.LockOpen
-import androidx.compose.material.icons.filled.Message
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Poll
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Repeat
@@ -398,7 +398,7 @@ fun StatusVisibilityIcon(
         )
         StatusVisibility.Direct -> Icon(
             modifier = modifier,
-            imageVector = Icons.Default.Message,
+            imageVector = Icons.Default.Mail,
             contentDescription = "Direct"
         )
     }

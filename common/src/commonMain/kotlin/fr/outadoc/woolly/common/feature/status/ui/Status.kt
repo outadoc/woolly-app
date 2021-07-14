@@ -55,6 +55,7 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.StatusVisibility
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.common.ui.FillFirstThenWrap
 import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyTheme
 import fr.outadoc.woolly.htmltext.HtmlText
@@ -324,37 +325,33 @@ fun StatusHeader(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 2.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = FillFirstThenWrap,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier
-                    .alignByBaseline()
-                    .fillMaxWidth(0.8f),
+                modifier = Modifier.alignByBaseline(),
                 text = status.account.displayNameOrAcct,
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
 
-            Row(horizontalArrangement = Arrangement.End) {
-                StatusVisibilityIcon(
-                    modifier = Modifier
-                        .alignByBaseline()
-                        .size(22.dp)
-                        .padding(end = 8.dp),
-                    visibility = status.visibility
-                )
+            StatusVisibilityIcon(
+                modifier = Modifier.size(16.dp),
+                visibility = status.visibility
+            )
 
-                currentTime?.let {
-                    RelativeTime(
-                        modifier = Modifier.alignByBaseline(),
-                        currentTime = currentTime,
-                        time = status.createdAt,
-                        style = MaterialTheme.typography.subtitle2,
-                        color = LocalContentColor.current.copy(alpha = 0.7f),
-                        maxLines = 1
-                    )
-                }
+            currentTime?.let {
+                RelativeTime(
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .alignByBaseline(),
+                    currentTime = currentTime,
+                    time = status.createdAt,
+                    style = MaterialTheme.typography.subtitle2,
+                    color = LocalContentColor.current.copy(alpha = 0.7f),
+                    maxLines = 1
+                )
             }
         }
 

@@ -31,6 +31,7 @@ val FillFirstThenWrap = object : Arrangement.Horizontal {
             if (i == sizes.size - 1) {
                 // Leftmost composable
                 outPositions[realIndex] = 0
+                sizes[realIndex] = remaining
             } else {
                 outPositions[realIndex] = remaining - size
                 remaining -= size

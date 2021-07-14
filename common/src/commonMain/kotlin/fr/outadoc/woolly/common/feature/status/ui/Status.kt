@@ -331,7 +331,10 @@ fun StatusHeader(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.alignByBaseline(),
+                modifier = Modifier
+                    .alignByBaseline()
+                    .weight(1f, fill = false)
+                    .padding(end = 8.dp),
                 text = status.account.displayNameOrAcct,
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,

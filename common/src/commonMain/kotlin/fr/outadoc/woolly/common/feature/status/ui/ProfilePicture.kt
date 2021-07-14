@@ -1,14 +1,14 @@
 package fr.outadoc.woolly.common.feature.status.ui
 
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.ui.WoollyDefaults
@@ -26,16 +26,22 @@ fun ProfilePicture(
         dispatcher = Dispatchers.IO
     }
 
+    val contentDescription = "${account.displayNameOrAcct}'s profile picture"
+
     KamelImage(
         resource = avatarResource,
-        contentDescription = "${account.displayNameOrAcct}'s profile picture",
+        contentDescription = contentDescription,
         contentScale = ContentScale.FillWidth,
         crossfade = true,
         modifier = modifier
             .size(WoollyDefaults.AvatarSize)
             .clip(WoollyTheme.AvatarShape),
         onLoading = {
-            Spacer(modifier = modifier.size(WoollyDefaults.AvatarSize))
+            Icon(
+                modifier = modifier.size(WoollyDefaults.AvatarSize),
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = contentDescription
+            )
         },
         animationSpec = tween()
     )

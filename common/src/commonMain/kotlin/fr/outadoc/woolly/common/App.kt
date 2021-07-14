@@ -17,6 +17,7 @@ import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
 import fr.outadoc.woolly.common.feature.bookmarks.viewmodel.BookmarksViewModel
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
+import fr.outadoc.woolly.common.feature.favourites.viewmodel.FavouritesViewModel
 import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
 import fr.outadoc.woolly.common.feature.notifications.viewmodel.NotificationsViewModel
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
@@ -76,6 +77,7 @@ private val di = fun DI.MainBuilder.() {
     bindSingleton { TrendingViewModel(instance()) }
     bindSingleton { NotificationsViewModel(instance(), instance(), instance()) }
     bindSingleton { BookmarksViewModel(instance(), instance(), instance()) }
+    bindSingleton { FavouritesViewModel(instance(), instance(), instance()) }
 }
 
 @Composable

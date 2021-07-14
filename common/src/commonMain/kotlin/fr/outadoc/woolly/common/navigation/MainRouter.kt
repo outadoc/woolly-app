@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.bookmarks.ui.BookmarksScreen
+import fr.outadoc.woolly.common.feature.favourites.ui.FavouritesScreen
 import fr.outadoc.woolly.common.feature.home.ui.HomeTimelineScreen
 import fr.outadoc.woolly.common.feature.notifications.NotificationsScreen
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
@@ -45,6 +46,7 @@ fun MainRouter(
     val searchAccountsListState = rememberLazyListState()
     val searchHashtagsListState = rememberLazyListState()
     val bookmarksListState = rememberLazyListState()
+    val favouritesListState = rememberLazyListState()
 
     var currentSearchScreen: SearchSubScreen by rememberSaveable {
         mutableStateOf(SearchSubScreen.Statuses)
@@ -71,6 +73,7 @@ fun MainRouter(
             }
             AppScreen.Account -> null
             AppScreen.Bookmarks -> bookmarksListState
+            AppScreen.Favourites -> favouritesListState
         }?.let { listState ->
             scope.launch {
                 try {
@@ -157,6 +160,11 @@ fun MainRouter(
                 AppScreen.Bookmarks -> BookmarksScreen(
                     insets = insets,
                     listState = bookmarksListState
+                )
+
+                AppScreen.Favourites -> FavouritesScreen(
+                    insets = insets,
+                    listState = favouritesListState
                 )
             }
         }

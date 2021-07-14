@@ -67,6 +67,7 @@ fun MainAppDrawer(
         AppScreen.PublicTimeline,
         AppScreen.Notifications,
         AppScreen.Search,
+        AppScreen.Favourites,
         AppScreen.Bookmarks,
         AppScreen.Account
     )

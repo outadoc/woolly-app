@@ -29,7 +29,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockOpen
+import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Poll
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Star
@@ -49,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.mastodonk.api.entity.StatusVisibility
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyTheme
@@ -331,15 +336,25 @@ fun StatusHeader(
                 overflow = TextOverflow.Ellipsis
             )
 
-            currentTime?.let {
-                RelativeTime(
-                    modifier = Modifier.alignByBaseline(),
-                    currentTime = currentTime,
-                    time = status.createdAt,
-                    style = MaterialTheme.typography.subtitle2,
-                    color = LocalContentColor.current.copy(alpha = 0.7f),
-                    maxLines = 1
+            Row(horizontalArrangement = Arrangement.End) {
+                StatusVisibilityIcon(
+                    modifier = Modifier
+                        .alignByBaseline()
+                        .size(22.dp)
+                        .padding(end = 8.dp),
+                    visibility = status.visibility
                 )
+
+                currentTime?.let {
+                    RelativeTime(
+                        modifier = Modifier.alignByBaseline(),
+                        currentTime = currentTime,
+                        time = status.createdAt,
+                        style = MaterialTheme.typography.subtitle2,
+                        color = LocalContentColor.current.copy(alpha = 0.7f),
+                        maxLines = 1
+                    )
+                }
             }
         }
 
@@ -352,6 +367,35 @@ fun StatusHeader(
                 overflow = TextOverflow.Ellipsis
             )
         }
+    }
+}
+
+@Composable
+fun StatusVisibilityIcon(
+    modifier: Modifier = Modifier,
+    visibility: StatusVisibility
+) {
+    when (visibility) {
+        StatusVisibility.Public -> Icon(
+            modifier = modifier,
+            imageVector = Icons.Default.Public,
+            contentDescription = "Public"
+        )
+        StatusVisibility.Unlisted -> Icon(
+            modifier = modifier,
+            imageVector = Icons.Default.LockOpen,
+            contentDescription = "Unlisted"
+        )
+        StatusVisibility.Private -> Icon(
+            modifier = modifier,
+            imageVector = Icons.Default.Lock,
+            contentDescription = "Followers-only"
+        )
+        StatusVisibility.Direct -> Icon(
+            modifier = modifier,
+            imageVector = Icons.Default.Message,
+            contentDescription = "Direct"
+        )
     }
 }
 

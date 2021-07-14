@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -76,83 +75,88 @@ fun AccountHeader(
             contentScale = ContentScale.FillWidth
         )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .offset(y = -(80.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
         ) {
-            ProfilePicture(
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .size(96.dp),
-                account = account
-            )
-
-            Text(
-                text = account.displayNameOrAcct,
-                style = MaterialTheme.typography.h6,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-
-            if (account.displayName.isNotBlank()) {
-                Text(
-                    text = "@${account.acct}",
-                    style = MaterialTheme.typography.subtitle1,
-                    color = LocalContentColor.current.copy(alpha = 0.7f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
             Column(
                 modifier = Modifier
+                    .padding(16.dp)
                     .widthIn(max = maxContentWidth)
+                    .offset(y = -(80.dp))
             ) {
-                if (!account.fields.isNullOrEmpty()) {
-                    AccountFields(
-                        modifier = Modifier
-                            .padding(top = 16.dp)
-                            .fillMaxWidth(),
-                        fields = account.fields!!
-                    )
-                }
-
-                SelectionContainer {
-                    HtmlText(
-                        modifier = Modifier.padding(top = 16.dp),
-                        html = account.bio,
-                        style = MaterialTheme.typography.body1
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    AccountStat(
-                        modifier = Modifier.alignByBaseline(),
-                        number = account.statusesCount.toString(),
-                        unit = "Posts"
-                    )
-
-                    AccountStat(
-                        modifier = Modifier.alignByBaseline(),
-                        number = account.followingCount.toString(),
-                        unit = "Following"
-                    )
-
-                    AccountStat(
-                        modifier = Modifier.alignByBaseline(),
-                        number = account.followersCount.toString(),
-                        unit = "Followers"
-                    )
-                }
+                AccountInfo(account = account)
             }
         }
+    }
+}
+
+@Composable
+fun AccountInfo(account: Account) {
+    ProfilePicture(
+        modifier = Modifier
+            .padding(bottom = 16.dp)
+            .size(96.dp),
+        account = account
+    )
+
+    Text(
+        text = account.displayNameOrAcct,
+        style = MaterialTheme.typography.h6,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+
+    if (account.displayName.isNotBlank()) {
+        Text(
+            text = "@${account.acct}",
+            style = MaterialTheme.typography.subtitle1,
+            color = LocalContentColor.current.copy(alpha = 0.7f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+
+    if (!account.fields.isNullOrEmpty()) {
+        AccountFields(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth(),
+            fields = account.fields!!
+        )
+    }
+
+    SelectionContainer {
+        HtmlText(
+            modifier = Modifier.padding(top = 16.dp),
+            html = account.bio,
+            style = MaterialTheme.typography.body1
+        )
+    }
+
+    Row(
+        modifier = Modifier
+            .padding(top = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        AccountStat(
+            modifier = Modifier.alignByBaseline(),
+            number = account.statusesCount.toString(),
+            unit = "Posts"
+        )
+
+        AccountStat(
+            modifier = Modifier.alignByBaseline(),
+            number = account.followingCount.toString(),
+            unit = "Following"
+        )
+
+        AccountStat(
+            modifier = Modifier.alignByBaseline(),
+            number = account.followersCount.toString(),
+            unit = "Followers"
+        )
     }
 }
 
@@ -165,10 +169,13 @@ fun AccountFields(modifier: Modifier = Modifier, fields: List<Field>) {
                     text = field.name,
                     style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
                 )
-                Text(
-                    modifier = Modifier.padding(start = 16.dp),
-                    text = field.value
-                )
+
+                SelectionContainer {
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp),
+                        text = field.value
+                    )
+                }
             }
         }
     }

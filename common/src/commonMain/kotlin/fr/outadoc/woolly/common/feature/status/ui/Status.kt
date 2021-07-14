@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
@@ -38,6 +39,7 @@ import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -336,22 +338,25 @@ fun StatusHeader(
                 overflow = TextOverflow.Ellipsis
             )
 
-            StatusVisibilityIcon(
-                modifier = Modifier.size(16.dp),
-                visibility = status.visibility
-            )
-
-            currentTime?.let {
-                RelativeTime(
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .alignByBaseline(),
-                    currentTime = currentTime,
-                    time = status.createdAt,
-                    style = MaterialTheme.typography.subtitle2,
-                    color = LocalContentColor.current.copy(alpha = 0.7f),
-                    maxLines = 1
+            CompositionLocalProvider(
+                LocalContentAlpha provides 0.7f
+            ) {
+                StatusVisibilityIcon(
+                    modifier = Modifier.size(16.dp),
+                    visibility = status.visibility
                 )
+
+                currentTime?.let {
+                    RelativeTime(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .alignByBaseline(),
+                        currentTime = currentTime,
+                        time = status.createdAt,
+                        style = MaterialTheme.typography.subtitle2,
+                        maxLines = 1
+                    )
+                }
             }
         }
 

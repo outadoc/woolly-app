@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.status.ui
 
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +18,7 @@ fun RelativeTime(
     time: Instant,
     currentTime: Instant,
     style: TextStyle,
-    color: Color = LocalContentColor.current,
+    color: Color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
     maxLines: Int
 ) {
     val duration = currentTime - time

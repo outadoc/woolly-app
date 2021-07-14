@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,11 +28,14 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
+import fr.outadoc.woolly.common.ui.WoollyDefaults
 import fr.outadoc.woolly.htmltext.HtmlText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
@@ -46,12 +51,17 @@ fun AccountScreen(insets: PaddingValues) {
     val currentAccount by repo.currentAccount.collectAsState()
 
     Box(modifier = Modifier.padding(insets)) {
-        currentAccount?.let { AccountHeader(it) }
+        currentAccount?.let { account ->
+            AccountHeader(account)
+        }
     }
 }
 
 @Composable
-fun AccountHeader(account: Account) {
+fun AccountHeader(
+    account: Account,
+    maxContentWidth: Dp = WoollyDefaults.MaxContentWidth
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         val headerResource = lazyImageResource(account.headerStaticUrl) {
             dispatcher = Dispatchers.IO
@@ -96,36 +106,68 @@ fun AccountHeader(account: Account) {
                 )
             }
 
-            SelectionContainer {
-                HtmlText(
-                    html = account.bio,
-                    modifier = Modifier.padding(top = 16.dp),
-                    style = MaterialTheme.typography.body1
-                )
-            }
-
-            Row(
+            Column(
                 modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .widthIn(max = maxContentWidth)
             ) {
-                AccountStat(
-                    modifier = Modifier.alignByBaseline(),
-                    number = account.statusesCount.toString(),
-                    unit = "Toots"
-                )
+                if (!account.fields.isNullOrEmpty()) {
+                    AccountFields(
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .fillMaxWidth(),
+                        fields = account.fields!!
+                    )
+                }
 
-                AccountStat(
-                    modifier = Modifier.alignByBaseline(),
-                    number = account.followingCount.toString(),
-                    unit = "Following"
-                )
+                SelectionContainer {
+                    HtmlText(
+                        modifier = Modifier.padding(top = 16.dp),
+                        html = account.bio,
+                        style = MaterialTheme.typography.body1
+                    )
+                }
 
-                AccountStat(
-                    modifier = Modifier.alignByBaseline(),
-                    number = account.followersCount.toString(),
-                    unit = "Followers"
+                Row(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    AccountStat(
+                        modifier = Modifier.alignByBaseline(),
+                        number = account.statusesCount.toString(),
+                        unit = "Posts"
+                    )
+
+                    AccountStat(
+                        modifier = Modifier.alignByBaseline(),
+                        number = account.followingCount.toString(),
+                        unit = "Following"
+                    )
+
+                    AccountStat(
+                        modifier = Modifier.alignByBaseline(),
+                        number = account.followersCount.toString(),
+                        unit = "Followers"
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AccountFields(modifier: Modifier = Modifier, fields: List<Field>) {
+    Column(modifier = modifier) {
+        fields.forEach { field ->
+            Row {
+                Text(
+                    text = field.name,
+                    style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
+                )
+                Text(
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = field.value
                 )
             }
         }

@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import kotlinx.datetime.Instant
-import kotlin.math.truncate
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -24,11 +23,11 @@ fun RelativeTime(
     val duration = currentTime - time
 
     val stringDuration = when {
-        duration.inSeconds < 5.0 -> "Now"
-        duration.inMinutes < 1.0 -> "${truncate(duration.inSeconds).toInt()} s"
-        duration.inHours < 1.0 -> "${truncate(duration.inMinutes).toInt()} m"
-        duration.inDays < 1.0 -> "${truncate(duration.inHours).toInt()} h"
-        else -> "${truncate(duration.inDays).toInt()} d"
+        duration.inWholeSeconds < 5 -> "Now"
+        duration.inWholeMinutes < 1 -> "${duration.inWholeSeconds} s"
+        duration.inWholeHours < 1 -> "${duration.inWholeMinutes} m"
+        duration.inWholeDays < 1 -> "${duration.inWholeHours} h"
+        else -> "${duration.inWholeDays} d"
     }
 
     Text(

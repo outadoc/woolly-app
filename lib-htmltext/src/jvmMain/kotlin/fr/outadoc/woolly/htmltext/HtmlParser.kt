@@ -12,8 +12,15 @@ import org.jsoup.nodes.TextNode
 actual class HtmlParser {
 
     actual fun parse(html: String): List<FlatNode> {
-        val document = Jsoup.parse(html)
-        return flattenElementsToList(document.body())
+        val preprocessedText = preprocess(html)
+        val document = Jsoup.parse(preprocessedText).body()
+        return flattenElementsToList(document)
+    }
+
+    private val twitterHandleRegex = Regex("@([a-z0-9_]{1,15})@twitter.com")
+
+    private fun preprocess(html: String): String {
+        return html.replace(twitterHandleRegex, """<a href="https://twitter.com/$1">$0</a>""")
     }
 
     private fun flattenElementsToList(element: Element): List<FlatNode> {

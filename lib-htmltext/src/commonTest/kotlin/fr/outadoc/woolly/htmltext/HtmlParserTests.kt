@@ -51,7 +51,10 @@ class HtmlParserTests {
         """.trimIndent()
 
         val expected = listOf(
-            FlatLinkNode("Hello World!", href = "https://website/test")
+            FlatLinkNode(
+                href = "https://website/test",
+                children = listOf(FlatTextNode("Hello World!"))
+            )
         )
 
         assertEquals(expected, parser.parse(input))
@@ -67,10 +70,31 @@ class HtmlParserTests {
             FlatParagraph(
                 listOf(
                     FlatTextNode("Hello "),
-                    FlatLinkNode("World", href = "https://website/test"),
+                    FlatLinkNode(
+                        href = "https://website/test",
+                        children = listOf(FlatTextNode("World"))
+                    ),
                     FlatTextNode("!")
                 )
             )
+        )
+
+        assertEquals(expected, parser.parse(input))
+    }
+
+    @Test
+    fun testTwitterLinkReplacement() {
+        val input = """
+            Take a look at this, @outadoc@twitter.com!
+        """.trimIndent()
+
+        val expected = listOf(
+            FlatTextNode("Take a look at this, "),
+            FlatLinkNode(
+                href = "https://twitter.com/outadoc",
+                children = listOf(FlatTextNode("@outadoc@twitter.com"))
+            ),
+            FlatTextNode("!")
         )
 
         assertEquals(expected, parser.parse(input))

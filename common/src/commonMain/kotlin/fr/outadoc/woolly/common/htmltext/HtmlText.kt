@@ -94,9 +94,9 @@ fun NodeText(
         inlineContent = emojis.map { emoji ->
             emoji.shortCode to InlineTextContent(
                 Placeholder(
-                    width = 1.em,
-                    height = 1.em,
-                    placeholderVerticalAlign = PlaceholderVerticalAlign.AboveBaseline
+                    width = 1.3.em,
+                    height = 1.3.em,
+                    placeholderVerticalAlign = PlaceholderVerticalAlign.TextBottom
                 )
             ) {
                 InlineEmoji(emoji)

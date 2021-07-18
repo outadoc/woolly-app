@@ -19,7 +19,7 @@ actual class HtmlParser {
         return flattenElementsToList(document)
     }
 
-    private val twitterHandleRegex = Regex("@([a-z0-9_]{1,15})@twitter.com")
+    private val twitterHandleRegex = Regex("@([a-z0-9_]{1,15})@twitter.com", RegexOption.IGNORE_CASE)
 
     private fun preprocess(html: String, emojis: List<Emoji>): String {
         return emojis.fold(html) { acc: String, emoji: Emoji ->

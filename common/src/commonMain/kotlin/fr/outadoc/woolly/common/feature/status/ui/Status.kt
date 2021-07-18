@@ -57,10 +57,10 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.StatusVisibility
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.common.htmltext.HtmlText
 import fr.outadoc.woolly.common.ui.FillFirstThenWrap
 import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyTheme
-import fr.outadoc.woolly.common.htmltext.HtmlText
 import kotlinx.datetime.Instant
 
 @Composable
@@ -331,15 +331,16 @@ fun StatusHeader(
             horizontalArrangement = FillFirstThenWrap,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+            HtmlText(
                 modifier = Modifier
                     .alignByBaseline()
                     .weight(1f, fill = false)
                     .padding(end = 8.dp),
-                text = status.account.displayNameOrAcct,
+                html = status.account.displayNameOrAcct,
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                emojis = status.account.emojis
             )
 
             CompositionLocalProvider(

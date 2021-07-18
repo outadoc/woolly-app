@@ -15,6 +15,7 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.em
 import fr.outadoc.mastodonk.api.entity.Emoji
@@ -35,13 +36,24 @@ fun HtmlText(
     style: TextStyle = TextStyle.Default,
     linkColor: Color = MaterialTheme.colors.secondary,
     uriHandler: UriHandler = LocalUriHandler.current,
-    emojis: List<Emoji>
+    emojis: List<Emoji>,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip
 ) {
     val textNodes = remember(html) {
         htmlParser.parse(html, emojis)
     }
 
-    NodeText(modifier, textNodes, style, linkColor, uriHandler, emojis)
+    NodeText(
+        modifier = modifier,
+        textNodes = textNodes,
+        style = style,
+        linkColor = linkColor,
+        uriHandler = uriHandler,
+        emojis = emojis,
+        maxLines = maxLines,
+        overflow = overflow
+    )
 }
 
 @Composable
@@ -51,7 +63,9 @@ fun NodeText(
     style: TextStyle = TextStyle.Default,
     linkColor: Color = MaterialTheme.colors.secondary,
     uriHandler: UriHandler = LocalUriHandler.current,
-    emojis: List<Emoji>
+    emojis: List<Emoji>,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip
 ) {
     val annotatedString = buildAnnotatedString {
         appendNodes(textNodes, linkColor)
@@ -66,6 +80,8 @@ fun NodeText(
                 .getStringAnnotations(ClickableTag, index, index)
                 .any()
         },
+        maxLines = maxLines,
+        overflow = overflow,
         onClick = { index ->
             annotatedString
                 .getStringAnnotations(ClickableTag, index, index)

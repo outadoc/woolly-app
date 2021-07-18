@@ -1,9 +1,9 @@
-package fr.outadoc.woolly.htmltext
+package fr.outadoc.woolly.common.htmltext
 
-import fr.outadoc.woolly.htmltext.model.FlatLinkNode
-import fr.outadoc.woolly.htmltext.model.FlatNode
-import fr.outadoc.woolly.htmltext.model.FlatParagraph
-import fr.outadoc.woolly.htmltext.model.FlatTextNode
+import fr.outadoc.woolly.common.htmltext.model.FlatLinkNode
+import fr.outadoc.woolly.common.htmltext.model.FlatNode
+import fr.outadoc.woolly.common.htmltext.model.FlatParagraph
+import fr.outadoc.woolly.common.htmltext.model.FlatTextNode
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node

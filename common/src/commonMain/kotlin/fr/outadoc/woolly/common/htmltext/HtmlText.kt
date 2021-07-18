@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.htmltext
+package fr.outadoc.woolly.common.htmltext
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,10 +12,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import fr.outadoc.woolly.htmltext.model.FlatLinkNode
-import fr.outadoc.woolly.htmltext.model.FlatNode
-import fr.outadoc.woolly.htmltext.model.FlatParagraph
-import fr.outadoc.woolly.htmltext.model.FlatTextNode
+import fr.outadoc.mastodonk.api.entity.Emoji
+import fr.outadoc.woolly.common.htmltext.model.FlatLinkNode
+import fr.outadoc.woolly.common.htmltext.model.FlatNode
+import fr.outadoc.woolly.common.htmltext.model.FlatParagraph
+import fr.outadoc.woolly.common.htmltext.model.FlatTextNode
 
 private val htmlParser = HtmlParser()
 private const val ClickableTag = "clickable"
@@ -26,7 +27,8 @@ fun HtmlText(
     html: String,
     style: TextStyle = TextStyle.Default,
     linkColor: Color = MaterialTheme.colors.secondary,
-    uriHandler: UriHandler = LocalUriHandler.current
+    uriHandler: UriHandler = LocalUriHandler.current,
+    emojis: List<Emoji>
 ) {
     val textNodes = remember(html) {
         htmlParser.parse(html)

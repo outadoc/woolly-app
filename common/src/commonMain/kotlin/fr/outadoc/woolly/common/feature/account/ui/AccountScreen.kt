@@ -34,8 +34,8 @@ import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
+import fr.outadoc.woolly.common.htmltext.HtmlText
 import fr.outadoc.woolly.common.ui.WoollyDefaults
-import fr.outadoc.woolly.htmltext.HtmlText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
 import kotlinx.coroutines.Dispatchers
@@ -130,7 +130,8 @@ fun AccountInfo(account: Account) {
         HtmlText(
             modifier = Modifier.padding(top = 16.dp),
             html = account.bio,
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.body1,
+            emojis = account.emojis
         )
     }
 

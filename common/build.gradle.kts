@@ -19,8 +19,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.libHtmltext)
-
                 api(compose.foundation)
                 api(compose.runtime)
                 api(compose.material)
@@ -39,7 +37,12 @@ kotlin {
                 implementation(libs.ktor.core)
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
 
         val jvmMain by creating {
             dependsOn(commonMain)
@@ -47,6 +50,7 @@ kotlin {
                 implementation(libs.mastodonk.core.jvm)
                 implementation(libs.mastodonk.paging.jvm)
                 implementation(libs.ktor.engine.cio)
+                implementation("org.jsoup:jsoup:1.13.1")
             }
         }
         val jvmTest by creating {

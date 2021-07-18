@@ -60,7 +60,7 @@ import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.ui.FillFirstThenWrap
 import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyTheme
-import fr.outadoc.woolly.htmltext.HtmlText
+import fr.outadoc.woolly.common.htmltext.HtmlText
 import kotlinx.datetime.Instant
 
 @Composable
@@ -288,7 +288,8 @@ fun StatusBody(
     HtmlText(
         modifier = modifier,
         html = status.content,
-        style = MaterialTheme.typography.body2
+        style = MaterialTheme.typography.body2,
+        emojis = status.emojis
     )
 }
 

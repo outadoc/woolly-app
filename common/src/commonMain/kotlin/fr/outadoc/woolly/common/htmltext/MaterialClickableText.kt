@@ -3,6 +3,7 @@ package fr.outadoc.woolly.common.htmltext
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +27,8 @@ internal fun MaterialClickableText(
     maxLines: Int = Int.MAX_VALUE,
     onTextLayout: (TextLayoutResult) -> Unit = {},
     isClickableIndex: (Int) -> Boolean,
-    onClick: (Int) -> Unit
+    onClick: (Int) -> Unit,
+    inlineContent: Map<String, InlineTextContent>
 ) {
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -68,6 +70,7 @@ internal fun MaterialClickableText(
         onTextLayout = {
             layoutResult.value = it
             onTextLayout(it)
-        }
+        },
+        inlineContent = inlineContent
     )
 }

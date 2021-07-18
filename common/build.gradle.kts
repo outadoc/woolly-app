@@ -24,6 +24,7 @@ kotlin {
                 api(compose.material)
                 api(compose.ui)
                 api(compose.materialIconsExtended)
+                api("androidx.compose.ui:ui-text")
 
                 api(libs.kodein)
                 api(libs.ktor.serialization)
@@ -50,7 +51,7 @@ kotlin {
                 implementation(libs.mastodonk.core.jvm)
                 implementation(libs.mastodonk.paging.jvm)
                 implementation(libs.ktor.engine.cio)
-                implementation("org.jsoup:jsoup:1.13.1")
+                implementation(libs.jsoup)
             }
         }
         val jvmTest by creating {

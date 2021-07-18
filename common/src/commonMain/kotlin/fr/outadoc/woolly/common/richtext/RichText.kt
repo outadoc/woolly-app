@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.htmltext
+package fr.outadoc.woolly.common.richtext
 
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
@@ -19,20 +19,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.em
 import fr.outadoc.mastodonk.api.entity.Emoji
-import fr.outadoc.woolly.common.htmltext.model.FlatEmojiNode
-import fr.outadoc.woolly.common.htmltext.model.FlatLinkNode
-import fr.outadoc.woolly.common.htmltext.model.FlatNode
-import fr.outadoc.woolly.common.htmltext.model.FlatParagraph
-import fr.outadoc.woolly.common.htmltext.model.FlatTextNode
+import fr.outadoc.woolly.common.richtext.model.FlatEmojiNode
+import fr.outadoc.woolly.common.richtext.model.FlatLinkNode
+import fr.outadoc.woolly.common.richtext.model.FlatNode
+import fr.outadoc.woolly.common.richtext.model.FlatParagraph
+import fr.outadoc.woolly.common.richtext.model.FlatTextNode
 import fr.outadoc.woolly.common.ui.InlineEmoji
 
 private val htmlParser = HtmlParser()
 private const val ClickableTag = "clickable"
 
 @Composable
-fun HtmlText(
+fun RichText(
     modifier: Modifier = Modifier,
-    html: String,
+    text: String,
     style: TextStyle = TextStyle.Default,
     linkColor: Color = MaterialTheme.colors.secondary,
     uriHandler: UriHandler = LocalUriHandler.current,
@@ -40,8 +40,8 @@ fun HtmlText(
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
 ) {
-    val textNodes = remember(html) {
-        htmlParser.parse(html, emojis)
+    val textNodes = remember(text) {
+        htmlParser.parse(text, emojis)
     }
 
     NodeText(
@@ -57,7 +57,7 @@ fun HtmlText(
 }
 
 @Composable
-fun NodeText(
+private fun NodeText(
     modifier: Modifier = Modifier,
     textNodes: List<FlatNode>,
     style: TextStyle = TextStyle.Default,

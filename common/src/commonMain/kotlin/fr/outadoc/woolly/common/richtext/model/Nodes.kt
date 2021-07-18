@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.htmltext.model
+package fr.outadoc.woolly.common.richtext.model
 
 sealed class FlatNode
 data class FlatParagraph(val children: List<FlatNode>) : FlatNode()

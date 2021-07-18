@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.htmltext
+package fr.outadoc.woolly.common.richtext
 
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.forEachGesture

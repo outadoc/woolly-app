@@ -58,6 +58,7 @@ kotlin {
             dependsOn(commonTest)
             dependencies {
                 implementation(libs.junit)
+                implementation(kotlin("test-junit"))
             }
         }
 

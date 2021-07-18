@@ -1,8 +1,10 @@
-package fr.outadoc.woolly.common.htmltext
+package fr.outadoc.woolly.common.richtext
 
-import fr.outadoc.woolly.common.htmltext.model.FlatLinkNode
-import fr.outadoc.woolly.common.htmltext.model.FlatParagraph
-import fr.outadoc.woolly.common.htmltext.model.FlatTextNode
+import fr.outadoc.mastodonk.api.entity.Emoji
+import fr.outadoc.woolly.common.richtext.model.FlatEmojiNode
+import fr.outadoc.woolly.common.richtext.model.FlatLinkNode
+import fr.outadoc.woolly.common.richtext.model.FlatParagraph
+import fr.outadoc.woolly.common.richtext.model.FlatTextNode
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -98,5 +100,27 @@ class HtmlParserTests {
         )
 
         assertEquals(expected, parser.parse(input))
+    }
+
+    @Test
+    fun testCustomEmoji() {
+        val emoji1 = Emoji(
+            shortCode = "test",
+            url = "https://example.com/test.gif",
+            staticUrl = "https://example.com/test.png",
+            isVisibleInPicker = false
+        )
+
+        val input = """
+            Looks like this text contains a :test: emoji!
+        """.trimIndent()
+
+        val expected = listOf(
+            FlatTextNode("Looks like this text contains a "),
+            FlatEmojiNode(shortCode = "test"),
+            FlatTextNode(" emoji!")
+        )
+
+        assertEquals(expected, parser.parse(input, emojis = listOf(emoji1)))
     }
 }

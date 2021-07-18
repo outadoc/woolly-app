@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
-import fr.outadoc.woolly.common.htmltext.HtmlText
+import fr.outadoc.woolly.common.richtext.RichText
 
 @Composable
 fun AccountPlaceholder() {
@@ -46,11 +46,11 @@ fun Account(
                     .padding(bottom = 2.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                HtmlText(
+                RichText(
                     modifier = Modifier
                         .alignByBaseline()
                         .fillMaxWidth(0.8f),
-                    html = account.displayNameOrAcct,
+                    text = account.displayNameOrAcct,
                     style = MaterialTheme.typography.subtitle1,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

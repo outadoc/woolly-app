@@ -57,7 +57,7 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.StatusVisibility
 import fr.outadoc.woolly.common.displayNameOrAcct
-import fr.outadoc.woolly.common.htmltext.HtmlText
+import fr.outadoc.woolly.common.richtext.RichText
 import fr.outadoc.woolly.common.ui.FillFirstThenWrap
 import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyTheme
@@ -285,9 +285,9 @@ fun StatusBody(
     modifier: Modifier = Modifier,
     status: Status
 ) {
-    HtmlText(
+    RichText(
         modifier = modifier,
-        html = status.content,
+        text = status.content,
         style = MaterialTheme.typography.body2,
         emojis = status.emojis
     )
@@ -331,12 +331,12 @@ fun StatusHeader(
             horizontalArrangement = FillFirstThenWrap,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            HtmlText(
+            RichText(
                 modifier = Modifier
                     .alignByBaseline()
                     .weight(1f, fill = false)
                     .padding(end = 8.dp),
-                html = status.account.displayNameOrAcct,
+                text = status.account.displayNameOrAcct,
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

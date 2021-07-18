@@ -34,7 +34,7 @@ import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
-import fr.outadoc.woolly.common.htmltext.HtmlText
+import fr.outadoc.woolly.common.richtext.RichText
 import fr.outadoc.woolly.common.ui.WoollyDefaults
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
@@ -127,9 +127,9 @@ fun AccountInfo(account: Account) {
     }
 
     SelectionContainer {
-        HtmlText(
+        RichText(
             modifier = Modifier.padding(top = 16.dp),
-            html = account.bio,
+            text = account.bio,
             style = MaterialTheme.typography.body1,
             emojis = account.emojis
         )

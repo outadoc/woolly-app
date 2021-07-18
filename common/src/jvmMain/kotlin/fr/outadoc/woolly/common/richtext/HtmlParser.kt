@@ -1,11 +1,11 @@
-package fr.outadoc.woolly.common.htmltext
+package fr.outadoc.woolly.common.richtext
 
 import fr.outadoc.mastodonk.api.entity.Emoji
-import fr.outadoc.woolly.common.htmltext.model.FlatEmojiNode
-import fr.outadoc.woolly.common.htmltext.model.FlatLinkNode
-import fr.outadoc.woolly.common.htmltext.model.FlatNode
-import fr.outadoc.woolly.common.htmltext.model.FlatParagraph
-import fr.outadoc.woolly.common.htmltext.model.FlatTextNode
+import fr.outadoc.woolly.common.richtext.model.FlatEmojiNode
+import fr.outadoc.woolly.common.richtext.model.FlatLinkNode
+import fr.outadoc.woolly.common.richtext.model.FlatNode
+import fr.outadoc.woolly.common.richtext.model.FlatParagraph
+import fr.outadoc.woolly.common.richtext.model.FlatTextNode
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node

@@ -289,6 +289,13 @@ fun StatusImage(
                     contentDescription = contentDescription
                 )
             },
+            onFailure = {
+                BlurHashImage(
+                    modifier = modifier,
+                    blurHash = blurHash,
+                    contentDescription = contentDescription
+                )
+            },
             contentDescription = contentDescription,
             crossfade = true,
             animationSpec = tween(),

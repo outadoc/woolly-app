@@ -24,10 +24,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.AttachmentType
@@ -200,7 +203,8 @@ fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
 fun StatusMediaPreview(
     modifier: Modifier = Modifier,
     media: Attachment,
-    isSensitive: Boolean
+    isSensitive: Boolean,
+    shape: Shape = MaterialTheme.shapes.medium
 ) {
     val uriHandler = LocalUriHandler.current
     val icon = when (media.type) {
@@ -219,8 +223,14 @@ fun StatusMediaPreview(
     ) {
         StatusImage(
             modifier = modifier
-                .clip(MaterialTheme.shapes.medium)
-                .clickable { uriHandler.openUri(media.url) },
+                .shadow(1.dp, shape, clip = false)
+                .clip(shape)
+                .clickable(
+                    role = Role.Image,
+                    onClickLabel = "View media source"
+                ) {
+                    uriHandler.openUri(media.url)
+                },
             previewUrl = media.previewUrl ?: media.url,
             contentDescription = media.description,
             blurHash = media.blurHash,

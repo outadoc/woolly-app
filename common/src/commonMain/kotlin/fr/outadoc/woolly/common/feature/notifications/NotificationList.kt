@@ -214,10 +214,9 @@ fun NotificationHeader(
             }
 
             ProfilePicture(
-                modifier = Modifier
-                    .clickable { uriHandler.openUri(notification.account.url) }
-                    .size(32.dp),
-                account = notification.account
+                modifier = Modifier.size(32.dp),
+                account = notification.account,
+                onClick = { uriHandler.openUri(notification.account.url) }
             )
         }
 

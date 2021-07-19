@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
@@ -30,13 +31,16 @@ fun Account(
     modifier: Modifier = Modifier,
     account: Account
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
-            account = account
+            account = account,
+            onClick = { uriHandler.openUri(account.url) }
         )
 
         Column {

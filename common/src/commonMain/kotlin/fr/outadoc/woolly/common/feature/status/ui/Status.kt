@@ -95,10 +95,13 @@ fun Status(
     currentTime: Instant? = null,
     onStatusAction: ((StatusAction) -> Unit)? = null
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Row(modifier = modifier) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
-            account = status.account
+            account = status.account,
+            onClick = { uriHandler.openUri(status.account.url) }
         )
 
         StatusWithActions(

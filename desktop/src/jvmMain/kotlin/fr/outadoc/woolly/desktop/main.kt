@@ -44,7 +44,7 @@ private fun DesktopApp() = withDI(di) {
         LocalUriHandler provides DesktopUriHandler()
     ) {
         val windowState = rememberWindowState(
-            size = WindowSize(width = 850.dp, height = 750.dp)
+            size = WindowSize(width = 1024.dp, height = 900.dp)
         )
 
         Window(title = "Woolly", state = windowState) {

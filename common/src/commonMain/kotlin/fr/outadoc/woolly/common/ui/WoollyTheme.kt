@@ -18,9 +18,7 @@ fun WoollyTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colors =
-        if (isDarkMode) woollyDarkColors()
-        else woollyLightColors(),
+        colors = if (isDarkMode) woollyDarkColors() else woollyLightColors(),
     ) {
         val systemUiController = rememberSystemUiController()
 

@@ -1,10 +1,14 @@
 package fr.outadoc.woolly.common.ui
 
-enum class ColorScheme(val value: String) {
-    Light("light"), Dark("dark");
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-    companion object {
-        fun from(value: String): ColorScheme =
-            values().first { it.value == value }
-    }
+@Serializable
+enum class ColorScheme {
+
+    @SerialName("light")
+    Light,
+
+    @SerialName("dark")
+    Dark
 }

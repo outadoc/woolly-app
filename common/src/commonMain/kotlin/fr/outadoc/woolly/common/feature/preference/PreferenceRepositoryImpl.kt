@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
@@ -23,6 +24,7 @@ class PreferenceRepositoryImpl(
 
     override val preferences: Flow<AppPreferences> = prefs.data
         .map { it[KEY_PREFERENCES].decodePreferencesOrDefault() }
+        .distinctUntilChanged()
 
     override suspend fun updatePreferences(transform: (AppPreferences) -> AppPreferences) {
         withContext(Dispatchers.IO) {

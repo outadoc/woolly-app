@@ -36,6 +36,7 @@ kotlin {
                 implementation(libs.kamel)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.core)
+                implementation(libs.androidx.datastore.core)
             }
         }
         val commonTest by getting {

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
@@ -26,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 fun ProfilePicture(
     modifier: Modifier = Modifier,
     account: Account,
+    size: Dp = WoollyDefaults.AvatarSize,
     onClick: (() -> Unit)? = null
 ) {
     val avatarResource = lazyImageResource(account.avatarStaticUrl) {
@@ -35,14 +37,14 @@ fun ProfilePicture(
     val contentDescription = "${account.displayNameOrAcct}'s profile picture"
 
     Surface(
-        modifier = modifier.size(WoollyDefaults.AvatarSize),
+        modifier = modifier.size(size),
         enabled = onClick != null,
         onClick = { onClick?.invoke() },
         shape = WoollyTheme.AvatarShape,
         elevation = 4.dp
     ) {
         KamelImage(
-            modifier = Modifier.size(WoollyDefaults.AvatarSize),
+            modifier = Modifier.size(size),
             resource = avatarResource,
             contentDescription = contentDescription,
             contentScale = ContentScale.FillWidth,
@@ -51,7 +53,7 @@ fun ProfilePicture(
                 Icon(
                     modifier = Modifier
                         .alpha(0.5f)
-                        .size(WoollyDefaults.AvatarSize),
+                        .size(size),
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = contentDescription
                 )

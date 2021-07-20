@@ -23,7 +23,10 @@ import org.kodein.di.instance
 
 class MainActivity : ComponentActivity() {
 
-    private val dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    private val dataStore: DataStore<Preferences> by preferencesDataStore(
+        name = "settings",
+        scope = lifecycleScope
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

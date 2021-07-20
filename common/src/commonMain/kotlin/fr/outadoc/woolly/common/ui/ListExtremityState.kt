@@ -15,25 +15,26 @@ import fr.outadoc.woolly.common.feature.status.ui.ErrorScreen
 
 @Composable
 fun LazyItemScope.ListExtremityState(state: LoadState, onRetry: () -> Unit) {
-    when (state) {
-        is LoadState.Loading -> {
-            Column(
-                modifier = Modifier.fillParentMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator()
-            }
-        }
+    if (state !is LoadState.NotLoading) {
+        Column(
+            modifier = Modifier
+                .fillParentMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            when (state) {
+                is LoadState.Loading -> CircularProgressIndicator()
 
-        is LoadState.Error -> {
-            ErrorScreen(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                error = state.error,
-                onRetry = onRetry
-            )
+                is LoadState.Error -> ErrorScreen(
+                    modifier = Modifier.fillMaxWidth(),
+                    error = state.error,
+                    onRetry = onRetry
+                )
+
+                else -> {
+                }
+            }
         }
     }
 }

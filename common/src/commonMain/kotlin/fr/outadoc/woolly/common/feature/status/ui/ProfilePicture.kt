@@ -42,6 +42,7 @@ fun ProfilePicture(
         elevation = 4.dp
     ) {
         KamelImage(
+            modifier = Modifier.size(WoollyDefaults.AvatarSize),
             resource = avatarResource,
             contentDescription = contentDescription,
             contentScale = ContentScale.FillWidth,

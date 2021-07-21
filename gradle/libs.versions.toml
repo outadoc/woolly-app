@@ -4,6 +4,7 @@ mastodonk = "0.1-alpha19"
 ktor = "1.6.1"
 
 [libraries]
+appdirs = "net.harawata:appdirs:1.2.1"
 mastodonk-core-common = { module = "fr.outadoc.mastodonk:mastodonk-core", version.ref = "mastodonk" }
 mastodonk-core-jvm = { module = "fr.outadoc.mastodonk:mastodonk-core-jvm", version.ref = "mastodonk" }
 mastodonk-paging-common = { module = "fr.outadoc.mastodonk:mastodonk-paging", version.ref = "mastodonk" }

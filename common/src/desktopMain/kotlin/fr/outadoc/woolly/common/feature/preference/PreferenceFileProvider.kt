@@ -1,19 +1,19 @@
 package fr.outadoc.woolly.common.feature.preference
 
+import net.harawata.appdirs.AppDirsFactory
 import java.io.File
 
 actual object PreferenceFileProvider {
 
-    actual val preferenceFile: File?
-        get() {
-            val directory = File(
-                System.getProperty(
-                    "java.util.prefs.userRoot",
-                    System.getProperty("user.home")
-                ),
-                ".config/fr.outadoc.woolly"
-            ).apply { mkdirs() }
+    private val configPath = AppDirsFactory.getInstance()
+        .getUserConfigDir(
+            "Woolly",
+            null,
+            "outadoc",
+            true
+        )
 
-            return File(directory, "main.preferences_pb")
-        }
+    private val directory = File(configPath).apply { mkdirs() }
+
+    actual val preferenceFile: File? = File(directory, "main.preferences_pb")
 }

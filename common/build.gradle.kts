@@ -53,6 +53,7 @@ kotlin {
                 implementation(libs.mastodonk.paging.jvm)
                 implementation(libs.ktor.engine.cio)
                 implementation(libs.jsoup)
+                implementation(libs.appdirs)
             }
         }
         val jvmTest by creating {

@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.common.feature.auth.state
 
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface AuthenticationStateSupplier {
-    val state: StateFlow<AuthenticationState>
+    val state: Flow<AuthenticationState>
 }

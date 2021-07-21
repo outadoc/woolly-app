@@ -101,7 +101,11 @@ fun MainAppDrawer(
             WoollyListItem(
                 title = { Text("Log out") },
                 icon = { Icon(Icons.Default.Logout, "Log out") },
-                onClick = { authenticationStateConsumer.logoutAll() }
+                onClick = {
+                    scope.launch {
+                        authenticationStateConsumer.logoutAll()
+                    }
+                }
             )
         }
 

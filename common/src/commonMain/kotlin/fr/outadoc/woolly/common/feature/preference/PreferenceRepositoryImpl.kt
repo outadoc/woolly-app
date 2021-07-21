@@ -29,6 +29,10 @@ class PreferenceRepositoryImpl(
     override suspend fun updatePreferences(transform: (AppPreferences) -> AppPreferences) {
         withContext(Dispatchers.IO) {
             prefs.edit { preferences ->
+                // Fix editing on Windows, where the destination file has to be deleted
+                // before calling moveTo
+                PreferenceFileProvider.preferenceFile?.delete()
+
                 val currentValue = preferences[KEY_PREFERENCES].decodePreferencesOrDefault()
                 preferences[KEY_PREFERENCES] = json.encodeToString(transform(currentValue))
             }

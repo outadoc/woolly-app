@@ -11,6 +11,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import fr.outadoc.woolly.common.App
+import fr.outadoc.woolly.common.feature.preference.PreferenceFileProvider
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepositoryImpl
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +21,6 @@ import kotlinx.serialization.json.Json
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
-import java.io.File
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
@@ -33,7 +33,9 @@ private val di = DI {
 
     bindSingleton<PreferenceRepository> {
         PreferenceRepositoryImpl(
-            prefs = PreferenceDataStoreFactory.create { getPreferencesFile() },
+            prefs = PreferenceDataStoreFactory.create {
+                PreferenceFileProvider.preferenceFile!!
+            },
             json = Json.Default
         )
     }
@@ -53,16 +55,4 @@ private fun DesktopApp() = withDI(di) {
             App()
         }
     }
-}
-
-private fun getPreferencesFile(): File {
-    val directory = File(
-        System.getProperty(
-            "java.util.prefs.userRoot",
-            System.getProperty("user.home")
-        ),
-        ".config/fr.outadoc.woolly"
-    ).apply { mkdirs() }
-
-    return File(directory, "main.preferences_pb")
 }

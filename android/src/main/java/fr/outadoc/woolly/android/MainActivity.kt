@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
 
     private val di = DI {
 
-        bindSingleton { Json {} }
+        bindSingleton { Json.Default }
         bindSingleton<CoroutineScope> { lifecycleScope }
 
         bindSingleton<PreferenceRepository> {

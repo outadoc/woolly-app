@@ -1,15 +1,13 @@
 package fr.outadoc.woolly.common.navigation
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.jetbrains.Children
+import com.arkivanov.decompose.replaceCurrent
 import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.bookmarks.ui.BookmarksScreen
 import fr.outadoc.woolly.common.feature.favourites.ui.FavouritesScreen
@@ -29,14 +27,15 @@ import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun MainRouter(
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit
 ) {
-    var currentScreen: AppScreen by rememberSaveable {
-        mutableStateOf(AppScreen.HomeTimeline)
-    }
+    val router = rememberRouter<AppScreen>(
+        initialConfiguration = { AppScreen.HomeTimeline }
+    )
 
     val homeListState = rememberLazyListState()
     val publicLocalListState = rememberLazyListState()
@@ -48,25 +47,17 @@ fun MainRouter(
     val bookmarksListState = rememberLazyListState()
     val favouritesListState = rememberLazyListState()
 
-    var currentSearchScreen: SearchSubScreen by rememberSaveable {
-        mutableStateOf(SearchSubScreen.Statuses)
-    }
-
-    var currentPublicTimelineScreen: PublicTimelineSubScreen by rememberSaveable {
-        mutableStateOf(PublicTimelineSubScreen.Local)
-    }
-
     val scope = rememberCoroutineScope()
-    fun onScreenSelected(selectedScreen: AppScreen) {
-        if (selectedScreen != currentScreen) currentScreen = selectedScreen
-        else when (selectedScreen) {
+
+    fun AppScreen.scrollToTop() {
+        when (this) {
             AppScreen.HomeTimeline -> homeListState
-            AppScreen.PublicTimeline -> when (currentPublicTimelineScreen) {
+            is AppScreen.PublicTimeline -> when (subScreen) {
                 PublicTimelineSubScreen.Global -> publicGlobalListState
                 PublicTimelineSubScreen.Local -> publicLocalListState
             }
             AppScreen.Notifications -> notificationsListState
-            AppScreen.Search -> when (currentSearchScreen) {
+            is AppScreen.Search -> when (subScreen) {
                 SearchSubScreen.Statuses -> searchStatusesListState
                 SearchSubScreen.Accounts -> searchAccountsListState
                 SearchSubScreen.Hashtags -> searchHashtagsListState
@@ -89,55 +80,80 @@ fun MainRouter(
     val res by di.instance<AppScreenResources>()
     val scaffoldState = rememberScaffoldState()
 
-    ResponsiveScaffold(
-        scaffoldState = scaffoldState,
-        topBar = { drawerState ->
-            when (currentScreen) {
-                AppScreen.PublicTimeline -> PublicTimelineTopAppBar(
-                    title = { Text(res.getScreenTitle(AppScreen.PublicTimeline)) },
-                    drawerState = drawerState,
-                    currentSubScreen = currentPublicTimelineScreen,
-                    onCurrentSubScreenChanged = { currentPublicTimelineScreen = it }
-                )
+    Children(routerState = router.state) { screen ->
+        val currentScreen = screen.configuration
+        ResponsiveScaffold(
+            scaffoldState = scaffoldState,
+            topBar = { drawerState ->
+                when (currentScreen) {
+                    is AppScreen.PublicTimeline -> PublicTimelineTopAppBar(
+                        title = { Text(res.getScreenTitle(currentScreen)) },
+                        drawerState = drawerState,
+                        currentSubScreen = currentScreen.subScreen,
+                        onCurrentSubScreenChanged = { subScreen ->
+                            when (currentScreen.subScreen) {
+                                subScreen -> currentScreen.scrollToTop()
+                                else -> router.replaceCurrent(
+                                    AppScreen.PublicTimeline(subScreen = subScreen)
+                                )
+                            }
+                        }
+                    )
 
-                AppScreen.Search -> SearchTopAppBar(
-                    drawerState = drawerState,
-                    currentSubScreen = currentSearchScreen,
-                    onCurrentSubScreenChanged = { currentSearchScreen = it }
-                )
+                    is AppScreen.Search -> SearchTopAppBar(
+                        drawerState = drawerState,
+                        currentSubScreen = currentScreen.subScreen,
+                        onCurrentSubScreenChanged = { subScreen ->
+                            when (currentScreen.subScreen) {
+                                subScreen -> currentScreen.scrollToTop()
+                                else -> router.replaceCurrent(
+                                    AppScreen.Search(subScreen = subScreen)
+                                )
+                            }
+                        }
+                    )
 
-                else -> TopAppBarWithMenu(
-                    title = { Text(res.getScreenTitle(currentScreen)) },
-                    drawerState = drawerState
+                    else -> TopAppBarWithMenu(
+                        title = { Text(res.getScreenTitle(currentScreen)) },
+                        drawerState = drawerState
+                    )
+                }
+            },
+            bottomBar = {
+                MainBottomNavigation(
+                    currentScreen = currentScreen,
+                    onScreenSelected = { screen ->
+                        when (currentScreen) {
+                            screen -> screen.scrollToTop()
+                            else -> router.replaceCurrent(screen)
+                        }
+                    }
+                )
+            },
+            drawerContent = { drawerState ->
+                MainAppDrawer(
+                    drawerState = drawerState,
+                    colorScheme = colorScheme,
+                    onColorSchemeChanged = onColorSchemeChanged,
+                    currentScreen = currentScreen,
+                    onScreenSelected = { screen ->
+                        when (currentScreen) {
+                            screen -> screen.scrollToTop()
+                            else -> router.replaceCurrent(screen)
+                        }
+                    }
                 )
             }
-        },
-        bottomBar = {
-            MainBottomNavigation(
-                currentScreen = currentScreen,
-                onScreenSelected = { screen -> onScreenSelected(screen) }
-            )
-        },
-        drawerContent = { drawerState ->
-            MainAppDrawer(
-                drawerState = drawerState,
-                colorScheme = colorScheme,
-                onColorSchemeChanged = onColorSchemeChanged,
-                currentScreen = currentScreen,
-                onScreenSelected = { screen -> onScreenSelected(screen) }
-            )
-        }
-    ) { insets ->
-        Crossfade(targetState = currentScreen) { screen ->
-            when (screen) {
+        ) { insets ->
+            when (currentScreen) {
                 AppScreen.HomeTimeline -> HomeTimelineScreen(
                     insets = insets,
                     listState = homeListState
                 )
 
-                AppScreen.PublicTimeline -> PublicTimelineScreen(
+                is AppScreen.PublicTimeline -> PublicTimelineScreen(
                     insets = insets,
-                    currentSubScreen = currentPublicTimelineScreen,
+                    currentSubScreen = currentScreen.subScreen,
                     localListState = publicLocalListState,
                     globalListState = publicGlobalListState
                 )
@@ -147,9 +163,9 @@ fun MainRouter(
                     listState = notificationsListState
                 )
 
-                AppScreen.Search -> SearchScreen(
+                is AppScreen.Search -> SearchScreen(
                     insets = insets,
-                    currentSubScreen = currentSearchScreen,
+                    currentSubScreen = currentScreen.subScreen,
                     statusListState = searchStatusesListState,
                     accountsListState = searchAccountsListState,
                     hashtagsListState = searchHashtagsListState

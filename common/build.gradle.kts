@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.compose")
     id("com.android.library")
     kotlin("plugin.serialization")
+    id("kotlin-parcelize")
 }
 
 kotlin {
@@ -37,6 +38,8 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.core)
                 implementation(libs.androidx.datastore.core)
+                implementation(libs.decompose.core)
+                implementation(libs.decompose.jb)
             }
         }
         val commonTest by getting {

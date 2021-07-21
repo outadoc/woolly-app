@@ -59,18 +59,7 @@ fun MainAppDrawer(
     onScreenSelected: (AppScreen) -> Unit
 ) {
     val di = LocalDI.current
-    val res by di.instance<AppScreenResources>()
     val authenticationStateConsumer by di.instance<AuthenticationStateConsumer>()
-
-    val screens = listOf(
-        AppScreen.HomeTimeline,
-        AppScreen.PublicTimeline,
-        AppScreen.Notifications,
-        AppScreen.Search,
-        AppScreen.Favourites,
-        AppScreen.Bookmarks,
-        AppScreen.Account
-    )
 
     val scope = rememberCoroutineScope()
 
@@ -116,22 +105,54 @@ fun MainAppDrawer(
                 .padding(vertical = 16.dp)
                 .verticalScroll(scrollState)
         ) {
-            screens.forEach { screen ->
-                WoollyListItem(
-                    title = { Text(res.getScreenTitle(screen)) },
-                    icon = {
-                        Icon(
-                            imageVector = res.getScreenIcon(screen),
-                            contentDescription = res.getScreenTitle(screen)
-                        )
-                    },
-                    onClick = {
-                        scope.launch { drawerState?.close() }
-                        onScreenSelected(screen)
-                    },
-                    selected = currentScreen == screen
-                )
-            }
+            ScreenItem(
+                targetScreen = AppScreen.HomeTimeline,
+                selected = currentScreen is AppScreen.HomeTimeline,
+                onScreenSelected = onScreenSelected,
+                drawerState = drawerState
+            )
+
+            ScreenItem(
+                targetScreen = AppScreen.PublicTimeline(),
+                selected = currentScreen is AppScreen.PublicTimeline,
+                onScreenSelected = onScreenSelected,
+                drawerState = drawerState
+            )
+
+            ScreenItem(
+                targetScreen = AppScreen.Notifications,
+                selected = currentScreen is AppScreen.Notifications,
+                onScreenSelected = onScreenSelected,
+                drawerState = drawerState
+            )
+
+            ScreenItem(
+                targetScreen = AppScreen.Search(),
+                selected = currentScreen is AppScreen.Search,
+                onScreenSelected = onScreenSelected,
+                drawerState = drawerState
+            )
+
+            ScreenItem(
+                targetScreen = AppScreen.Favourites,
+                selected = currentScreen is AppScreen.Favourites,
+                onScreenSelected = onScreenSelected,
+                drawerState = drawerState
+            )
+
+            ScreenItem(
+                targetScreen = AppScreen.Bookmarks,
+                selected = currentScreen is AppScreen.Bookmarks,
+                onScreenSelected = onScreenSelected,
+                drawerState = drawerState
+            )
+
+            ScreenItem(
+                targetScreen = AppScreen.Account,
+                selected = currentScreen is AppScreen.Account,
+                onScreenSelected = onScreenSelected,
+                drawerState = drawerState
+            )
         }
 
         Column(modifier = Modifier.padding(vertical = 16.dp)) {
@@ -153,6 +174,33 @@ fun MainAppDrawer(
             }
         }
     }
+}
+
+@Composable
+private fun ScreenItem(
+    selected: Boolean,
+    targetScreen: AppScreen,
+    onScreenSelected: (AppScreen) -> Unit,
+    drawerState: DrawerState?
+) {
+    val di = LocalDI.current
+    val res by di.instance<AppScreenResources>()
+    val scope = rememberCoroutineScope()
+
+    WoollyListItem(
+        title = { Text(res.getScreenTitle(targetScreen)) },
+        icon = {
+            Icon(
+                imageVector = res.getScreenIcon(targetScreen),
+                contentDescription = res.getScreenTitle(targetScreen)
+            )
+        },
+        onClick = {
+            scope.launch { drawerState?.close() }
+            onScreenSelected(targetScreen)
+        },
+        selected = selected
+    )
 }
 
 @Composable

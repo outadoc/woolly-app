@@ -12,42 +12,56 @@ import org.kodein.di.instance
 
 @Composable
 fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen) -> Unit) {
-    val screens = listOf(
-        AppScreen.HomeTimeline,
-        AppScreen.PublicTimeline,
-        AppScreen.Notifications,
-        AppScreen.Search,
-        AppScreen.Account
-    )
-
     BottomNavigation {
-        screens.forEach { screen ->
-            Item(
-                currentScreen = currentScreen,
-                screen = screen,
-                onScreenSelected = onScreenSelected
-            )
-        }
+        Item(
+            selected = currentScreen is AppScreen.HomeTimeline,
+            targetScreen = AppScreen.HomeTimeline,
+            onScreenSelected = onScreenSelected
+        )
+
+        Item(
+            selected = currentScreen is AppScreen.PublicTimeline,
+            targetScreen = AppScreen.PublicTimeline(),
+            onScreenSelected = onScreenSelected
+        )
+
+        Item(
+            selected = currentScreen is AppScreen.Notifications,
+            targetScreen = AppScreen.Notifications,
+            onScreenSelected = onScreenSelected
+        )
+
+        Item(
+            selected = currentScreen is AppScreen.Search,
+            targetScreen = AppScreen.Search(),
+            onScreenSelected = onScreenSelected
+        )
+
+        Item(
+            selected = currentScreen is AppScreen.Account,
+            targetScreen = AppScreen.Account,
+            onScreenSelected = onScreenSelected
+        )
     }
 }
 
 @Composable
 private fun RowScope.Item(
-    currentScreen: AppScreen,
-    screen: AppScreen,
+    selected: Boolean,
+    targetScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit
 ) {
     val di = LocalDI.current
     val res by di.instance<AppScreenResources>()
 
-    val itemTitle = res.getScreenTitle(screen)
+    val itemTitle = res.getScreenTitle(targetScreen)
 
     BottomNavigationItem(
-        selected = currentScreen == screen,
-        onClick = { onScreenSelected(screen) },
+        selected = selected,
+        onClick = { onScreenSelected(targetScreen) },
         icon = {
             Icon(
-                imageVector = res.getScreenIcon(screen),
+                imageVector = res.getScreenIcon(targetScreen),
                 contentDescription = itemTitle
             )
         }

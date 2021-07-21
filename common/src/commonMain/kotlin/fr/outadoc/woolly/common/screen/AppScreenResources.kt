@@ -17,8 +17,8 @@ class AppScreenResources {
         AppScreen.Favourites -> "Favourites"
         AppScreen.HomeTimeline -> "Home"
         AppScreen.Notifications -> "Notifications"
-        AppScreen.PublicTimeline -> "Public Timeline"
-        AppScreen.Search -> "Search"
+        is AppScreen.PublicTimeline -> "Public Timeline"
+        is AppScreen.Search -> "Search"
     }
 
     fun getScreenIcon(screen: AppScreen) = when (screen) {
@@ -27,7 +27,7 @@ class AppScreenResources {
         AppScreen.Favourites -> Icons.Default.Favorite
         AppScreen.HomeTimeline -> Icons.Default.Home
         AppScreen.Notifications -> Icons.Default.Notifications
-        AppScreen.PublicTimeline -> Icons.Default.Public
-        AppScreen.Search -> Icons.Default.Search
+        is AppScreen.PublicTimeline -> Icons.Default.Public
+        is AppScreen.Search -> Icons.Default.Search
     }
 }

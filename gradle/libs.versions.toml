@@ -1,10 +1,13 @@
 [versions]
 datastore = "1.0.0-rc01"
+decompose = "0.2.6"
 mastodonk = "0.1-alpha19"
 ktor = "1.6.1"
 
 [libraries]
 appdirs = "net.harawata:appdirs:1.2.1"
+decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-jb = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 mastodonk-core-common = { module = "fr.outadoc.mastodonk:mastodonk-core", version.ref = "mastodonk" }
 mastodonk-core-jvm = { module = "fr.outadoc.mastodonk:mastodonk-core-jvm", version.ref = "mastodonk" }
 mastodonk-paging-common = { module = "fr.outadoc.mastodonk:mastodonk-paging", version.ref = "mastodonk" }

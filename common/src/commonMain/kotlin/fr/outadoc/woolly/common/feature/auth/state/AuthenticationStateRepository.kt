@@ -1,16 +1,10 @@
 package fr.outadoc.woolly.common.feature.auth.state
 
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 
 class AuthenticationStateRepository(
     private val prefs: PreferenceRepository
-) : AuthenticationStateSupplier, AuthenticationStateConsumer {
-
-    override val state = prefs.preferences
-        .map { it.authenticationState }
-        .distinctUntilChanged()
+) : AuthenticationStateConsumer {
 
     override suspend fun appendCredentials(credentials: UserCredentials) {
         prefs.updatePreferences { current ->

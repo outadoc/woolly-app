@@ -45,6 +45,7 @@ import fr.outadoc.woolly.common.ui.WoollyDefaults
 import fr.outadoc.woolly.common.ui.WoollyListItem
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyImageResource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
@@ -52,17 +53,15 @@ import org.kodein.di.instance
 
 @Composable
 fun MainAppDrawer(
-    drawerState: DrawerState?,
     colorScheme: ColorScheme,
-    onColorSchemeChanged: (ColorScheme) -> Unit,
+    onColorSchemeChanged: (ColorScheme) -> Unit = {},
     currentScreen: AppScreen,
-    onScreenSelected: (AppScreen) -> Unit
+    onScreenSelected: (AppScreen) -> Unit = {},
+    drawerState: DrawerState? = null,
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val di = LocalDI.current
     val authenticationStateConsumer by di.instance<AuthenticationStateConsumer>()
-
-    val scope = rememberCoroutineScope()
-
     val accountRepository by di.instance<AccountRepository>()
     val account by accountRepository.currentAccount.collectAsState()
 
@@ -109,49 +108,56 @@ fun MainAppDrawer(
                 targetScreen = AppScreen.HomeTimeline,
                 selected = currentScreen is AppScreen.HomeTimeline,
                 onScreenSelected = onScreenSelected,
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
 
             ScreenItem(
                 targetScreen = AppScreen.PublicTimeline(),
                 selected = currentScreen is AppScreen.PublicTimeline,
                 onScreenSelected = onScreenSelected,
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
 
             ScreenItem(
                 targetScreen = AppScreen.Notifications,
                 selected = currentScreen is AppScreen.Notifications,
                 onScreenSelected = onScreenSelected,
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
 
             ScreenItem(
                 targetScreen = AppScreen.Search(),
                 selected = currentScreen is AppScreen.Search,
                 onScreenSelected = onScreenSelected,
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
 
             ScreenItem(
                 targetScreen = AppScreen.Favourites,
                 selected = currentScreen is AppScreen.Favourites,
                 onScreenSelected = onScreenSelected,
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
 
             ScreenItem(
                 targetScreen = AppScreen.Bookmarks,
                 selected = currentScreen is AppScreen.Bookmarks,
                 onScreenSelected = onScreenSelected,
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
 
             ScreenItem(
                 targetScreen = AppScreen.Account,
                 selected = currentScreen is AppScreen.Account,
                 onScreenSelected = onScreenSelected,
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
         }
 
@@ -178,6 +184,7 @@ fun MainAppDrawer(
 
 @Composable
 private fun ScreenItem(
+    scope: CoroutineScope,
     selected: Boolean,
     targetScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit,
@@ -185,7 +192,6 @@ private fun ScreenItem(
 ) {
     val di = LocalDI.current
     val res by di.instance<AppScreenResources>()
-    val scope = rememberCoroutineScope()
 
     WoollyListItem(
         title = { Text(res.getScreenTitle(targetScreen)) },

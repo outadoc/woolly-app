@@ -139,6 +139,7 @@ fun MainRouter(
             Children(routerState = router.state) { screen ->
                 val currentScreen = screen.configuration
                 MainAppDrawer(
+                    scope = scope,
                     drawerState = drawerState,
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,

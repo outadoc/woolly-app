@@ -8,7 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
-import com.arkivanov.decompose.replaceCurrent
+import com.arkivanov.decompose.push
 import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.bookmarks.ui.BookmarksScreen
 import fr.outadoc.woolly.common.feature.favourites.ui.FavouritesScreen
@@ -94,7 +94,7 @@ fun MainRouter(
                         onCurrentSubScreenChanged = { subScreen ->
                             when (currentScreen.subScreen) {
                                 subScreen -> currentScreen.scrollToTop()
-                                else -> router.replaceCurrent(
+                                else -> router.push(
                                     AppScreen.PublicTimeline(subScreen = subScreen)
                                 )
                             }
@@ -107,7 +107,7 @@ fun MainRouter(
                         onCurrentSubScreenChanged = { subScreen ->
                             when (currentScreen.subScreen) {
                                 subScreen -> currentScreen.scrollToTop()
-                                else -> router.replaceCurrent(
+                                else -> router.push(
                                     AppScreen.Search(subScreen = subScreen)
                                 )
                             }
@@ -129,7 +129,7 @@ fun MainRouter(
                     onScreenSelected = { selectedScreen ->
                         when (currentScreen) {
                             selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.replaceCurrent(selectedScreen)
+                            else -> router.push(selectedScreen)
                         }
                     }
                 )
@@ -147,7 +147,7 @@ fun MainRouter(
                     onScreenSelected = { selectedScreen ->
                         when (currentScreen) {
                             selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.replaceCurrent(selectedScreen)
+                            else -> router.push(selectedScreen)
                         }
                     }
                 )

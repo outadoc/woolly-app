@@ -11,9 +11,11 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
+import com.arkivanov.decompose.backpressed.BackPressedDispatcher
 import fr.outadoc.woolly.common.App
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepositoryImpl
+import fr.outadoc.woolly.common.navigation.LocalBackPressedDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
 import org.kodein.di.DI
@@ -36,8 +38,10 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AndroidApp() = withDI(di) {
         val context = LocalContext.current
+
         CompositionLocalProvider(
-            LocalUriHandler provides CustomTabUriHandler(context)
+            LocalUriHandler provides CustomTabUriHandler(context),
+            LocalBackPressedDispatcher provides BackPressedDispatcher(onBackPressedDispatcher)
         ) {
             App()
         }

@@ -6,6 +6,7 @@ ktor = "1.6.1"
 
 [libraries]
 appdirs = "net.harawata:appdirs:1.2.1"
+decompose-android = { module = "com.arkivanov.decompose:extensions-android", version.ref = "decompose" }
 decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-jb = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 mastodonk-core-common = { module = "fr.outadoc.mastodonk:mastodonk-core", version.ref = "mastodonk" }

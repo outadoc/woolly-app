@@ -10,9 +10,12 @@ repositories {
 
 dependencies {
     implementation(projects.common)
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.datastore.android)
+    implementation(libs.decompose.core)
+    implementation(libs.decompose.android)
 }
 
 android {

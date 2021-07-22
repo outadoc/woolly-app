@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
+import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import com.arkivanov.decompose.replaceCurrent
 import fr.outadoc.woolly.common.feature.account.ui.AccountScreen
 import fr.outadoc.woolly.common.feature.bookmarks.ui.BookmarksScreen
@@ -33,10 +34,6 @@ fun MainRouter(
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit
 ) {
-    val router = rememberRouter<AppScreen>(
-        initialConfiguration = { AppScreen.HomeTimeline }
-    )
-
     val homeListState = rememberLazyListState()
     val publicLocalListState = rememberLazyListState()
     val publicGlobalListState = rememberLazyListState()
@@ -76,16 +73,20 @@ fun MainRouter(
         }
     }
 
+    val router = rememberRouter<AppScreen>(
+        initialConfiguration = { AppScreen.HomeTimeline },
+        handleBackButton = true
+    )
+
     val di = LocalDI.current
     val res by di.instance<AppScreenResources>()
     val scaffoldState = rememberScaffoldState()
 
-    Children(routerState = router.state) { screen ->
-        val currentScreen = screen.configuration
-        ResponsiveScaffold(
-            scaffoldState = scaffoldState,
-            topBar = { drawerState ->
-                when (currentScreen) {
+    ResponsiveScaffold(
+        scaffoldState = scaffoldState,
+        topBar = { drawerState ->
+            Children(routerState = router.state) { screen ->
+                when (val currentScreen = screen.configuration) {
                     is AppScreen.PublicTimeline -> PublicTimelineTopAppBar(
                         title = { Text(res.getScreenTitle(currentScreen)) },
                         drawerState = drawerState,
@@ -118,34 +119,42 @@ fun MainRouter(
                         drawerState = drawerState
                     )
                 }
-            },
-            bottomBar = {
+            }
+        },
+        bottomBar = {
+            Children(routerState = router.state) { screen ->
+                val currentScreen = screen.configuration
                 MainBottomNavigation(
                     currentScreen = currentScreen,
-                    onScreenSelected = { screen ->
+                    onScreenSelected = { selectedScreen ->
                         when (currentScreen) {
-                            screen -> screen.scrollToTop()
-                            else -> router.replaceCurrent(screen)
+                            selectedScreen -> selectedScreen.scrollToTop()
+                            else -> router.replaceCurrent(selectedScreen)
                         }
                     }
                 )
-            },
-            drawerContent = { drawerState ->
+            }
+        },
+        drawerContent = { drawerState ->
+            Children(routerState = router.state) { screen ->
+                val currentScreen = screen.configuration
                 MainAppDrawer(
                     drawerState = drawerState,
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = currentScreen,
-                    onScreenSelected = { screen ->
+                    onScreenSelected = { selectedScreen ->
                         when (currentScreen) {
-                            screen -> screen.scrollToTop()
-                            else -> router.replaceCurrent(screen)
+                            selectedScreen -> selectedScreen.scrollToTop()
+                            else -> router.replaceCurrent(selectedScreen)
                         }
                     }
                 )
             }
-        ) { insets ->
-            when (currentScreen) {
+        }
+    ) { insets ->
+        Children(routerState = router.state, animation = crossfadeScale()) { screen ->
+            when (val currentScreen = screen.configuration) {
                 AppScreen.HomeTimeline -> HomeTimelineScreen(
                     insets = insets,
                     listState = homeListState

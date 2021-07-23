@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TabRowDefaults
@@ -44,6 +44,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
 import fr.outadoc.woolly.common.displayNameOrAcct
@@ -83,68 +85,65 @@ fun NotificationList(
 
     val lazyPagingItems = notificationFlow.collectAsLazyPagingItems()
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+    SwipeRefresh(
+        onRefresh = lazyPagingItems::refresh,
+        state = rememberSwipeRefreshState(
+            isRefreshing = lazyPagingItems.loadState.refresh == LoadState.Loading
+        )
     ) {
-        LazyColumn(
-            modifier = modifier.widthIn(max = maxContentWidth),
-            state = lazyListState,
-            contentPadding = insets
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center
         ) {
-            when (val state = lazyPagingItems.loadState.refresh) {
-                LoadState.Loading -> item {
-                    Column(
-                        modifier = Modifier.fillParentMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator()
+            LazyColumn(
+                modifier = modifier.widthIn(max = maxContentWidth),
+                state = lazyListState,
+                contentPadding = insets
+            ) {
+                when (val state = lazyPagingItems.loadState.refresh) {
+                    is LoadState.Error -> item {
+                        ErrorScreen(
+                            modifier = Modifier
+                                .fillParentMaxSize()
+                                .padding(16.dp),
+                            error = state.error,
+                            onRetry = lazyPagingItems::retry
+                        )
                     }
                 }
 
-                is LoadState.Error -> item {
-                    ErrorScreen(
-                        modifier = Modifier
-                            .fillParentMaxSize()
-                            .padding(16.dp),
-                        error = state.error,
+                item {
+                    ListExtremityState(
+                        state = lazyPagingItems.loadState.prepend,
                         onRetry = lazyPagingItems::retry
                     )
                 }
-            }
 
-            item {
-                ListExtremityState(
-                    state = lazyPagingItems.loadState.prepend,
-                    onRetry = lazyPagingItems::retry
-                )
-            }
+                itemsIndexed(
+                    items = lazyPagingItems,
+                    key = { _, notification -> notification.notificationId }
+                ) { _, notification ->
+                    Column {
+                        if (notification != null) {
+                            Notification(
+                                modifier = Modifier.fillMaxWidth(),
+                                notification = notification,
+                                currentTime = currentTime
+                            )
+                        } else {
+                            NotificationPlaceHolder()
+                        }
 
-            itemsIndexed(
-                items = lazyPagingItems,
-                key = { _, notification -> notification.notificationId }
-            ) { _, notification ->
-                Column {
-                    if (notification != null) {
-                        Notification(
-                            modifier = Modifier.fillMaxWidth(),
-                            notification = notification,
-                            currentTime = currentTime
-                        )
-                    } else {
-                        NotificationPlaceHolder()
+                        TabRowDefaults.Divider(thickness = 1.dp)
                     }
-
-                    TabRowDefaults.Divider(thickness = 1.dp)
                 }
-            }
 
-            item {
-                ListExtremityState(
-                    state = lazyPagingItems.loadState.append,
-                    onRetry = lazyPagingItems::retry
-                )
+                item {
+                    ListExtremityState(
+                        state = lazyPagingItems.loadState.append,
+                        onRetry = lazyPagingItems::retry
+                    )
+                }
             }
         }
     }

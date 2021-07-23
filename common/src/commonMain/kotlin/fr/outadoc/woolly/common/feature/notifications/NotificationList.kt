@@ -46,11 +46,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
-import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.ui.ErrorScreen
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
+import fr.outadoc.woolly.common.feature.status.ui.RelativeTime
 import fr.outadoc.woolly.common.feature.status.ui.Status
+import fr.outadoc.woolly.common.feature.status.ui.StatusBody
+import fr.outadoc.woolly.common.feature.status.ui.StatusMediaGrid
 import fr.outadoc.woolly.common.ui.ListExtremityState
 import fr.outadoc.woolly.common.ui.WoollyDefaults
 import fr.outadoc.woolly.common.ui.WoollyTheme
@@ -168,49 +170,70 @@ fun Notification(
             }
             .padding(16.dp)
     ) {
-        if (notification.type != NotificationType.Mention) {
-            NotificationHeader(
-                modifier = Modifier
-                    .padding(bottom = if (notification.status != null) 16.dp else 0.dp),
-                notification = notification
-            )
-        }
+        val status = notification.status
+        when {
+            notification.type == NotificationType.Mention && status != null -> {
+                Status(
+                    modifier = modifier,
+                    status = status,
+                    currentTime = currentTime
+                )
+            }
+            else -> {
+                val startPadding = WoollyDefaults.AvatarSize + 16.dp
 
-        notification.status?.let { status ->
-            StatusNotificationBody(
-                status = status,
-                currentTime = currentTime
-            )
+                NotificationHeader(
+                    modifier = Modifier.padding(
+                        bottom = if (notification.status != null) 16.dp else 0.dp
+                    ),
+                    notification = notification,
+                    startPadding = startPadding,
+                    currentTime = currentTime
+                )
+
+                if (status != null) {
+                    if (status.content.isNotBlank()) {
+                        StatusBody(
+                            modifier = Modifier.padding(start = startPadding),
+                            status = status
+                        )
+                    }
+
+                    if (status.mediaAttachments.isNotEmpty()) {
+                        StatusMediaGrid(
+                            modifier = Modifier
+                                .padding(
+                                    start = startPadding,
+                                    top = if (status.content.isNotBlank()) 16.dp else 0.dp
+                                )
+                                .width(256.dp),
+                            media = status.mediaAttachments,
+                            isSensitive = status.isSensitive
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun StatusNotificationBody(
-    modifier: Modifier = Modifier,
-    status: Status,
-    currentTime: Instant?
-) {
-    Status(
-        modifier = modifier,
-        status = status,
-        currentTime = currentTime
-    )
-}
-
-@Composable
 fun NotificationHeader(
     modifier: Modifier = Modifier,
-    notification: Notification
+    notification: Notification,
+    startPadding: Dp,
+    currentTime: Instant?
 ) {
     val uriHandler = LocalUriHandler.current
-    val startPadding = WoollyDefaults.AvatarSize + 16.dp
 
     Column(modifier = modifier.fillMaxWidth()) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Column(
                 modifier = Modifier.width(startPadding),
-                horizontalAlignment = Alignment.End
+                horizontalAlignment = Alignment.Start
             ) {
                 NotificationIcon(
                     modifier = Modifier.padding(end = 8.dp),
@@ -218,11 +241,24 @@ fun NotificationHeader(
                 )
             }
 
-            ProfilePicture(
-                modifier = Modifier.size(32.dp),
-                account = notification.account,
-                onClick = { uriHandler.openUri(notification.account.url) }
-            )
+            Column(
+                modifier = Modifier.weight(0.1f, fill = true),
+                horizontalAlignment = Alignment.Start
+            ) {
+                ProfilePicture(
+                    modifier = Modifier.size(32.dp),
+                    account = notification.account,
+                    onClick = { uriHandler.openUri(notification.account.url) }
+                )
+            }
+
+            if (currentTime != null) {
+                RelativeTime(
+                    time = notification.createdAt,
+                    currentTime = currentTime,
+                    style = MaterialTheme.typography.subtitle2,
+                )
+            }
         }
 
         val accountTitle = notification.account.displayNameOrAcct

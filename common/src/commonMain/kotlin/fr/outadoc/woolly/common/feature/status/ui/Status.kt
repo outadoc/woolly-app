@@ -117,9 +117,9 @@ fun Status(
 fun StatusWithActions(
     modifier: Modifier = Modifier,
     status: Status,
-    boostedBy: Account?,
-    currentTime: Instant?,
-    onStatusAction: ((StatusAction) -> Unit)?
+    boostedBy: Account? = null,
+    currentTime: Instant? = null,
+    onStatusAction: ((StatusAction) -> Unit)? = null
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -131,7 +131,7 @@ fun StatusWithActions(
         )
 
         if (status.content.isNotBlank()) {
-            StatusBodyOrWarning(status = status)
+            StatusBody(status = status)
         }
 
         status.poll?.let { poll ->
@@ -203,7 +203,7 @@ fun StatusPoll(
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun StatusBodyOrWarning(
+fun StatusBody(
     modifier: Modifier = Modifier,
     status: Status
 ) {
@@ -226,14 +226,14 @@ fun StatusBodyOrWarning(
             enter = fadeIn() + expandVertically(expandFrom = Alignment.Top),
             exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
         ) {
-            StatusBody(
+            StatusBodyPlain(
                 modifier = modifier.padding(top = 8.dp),
                 status = status
             )
         }
 
     } else {
-        StatusBody(
+        StatusBodyPlain(
             modifier = modifier,
             status = status
         )
@@ -287,7 +287,7 @@ fun ContentWarningBanner(
 }
 
 @Composable
-fun StatusBody(
+fun StatusBodyPlain(
     modifier: Modifier = Modifier,
     status: Status
 ) {
@@ -364,8 +364,7 @@ fun StatusHeader(
                             .alignByBaseline(),
                         currentTime = currentTime,
                         time = status.createdAt,
-                        style = MaterialTheme.typography.subtitle2,
-                        maxLines = 1
+                        style = MaterialTheme.typography.subtitle2
                     )
                 }
             }

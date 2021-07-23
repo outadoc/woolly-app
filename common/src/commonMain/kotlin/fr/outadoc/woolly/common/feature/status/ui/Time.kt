@@ -13,12 +13,12 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 @Composable
 fun RelativeTime(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     time: Instant,
     currentTime: Instant,
     style: TextStyle,
     color: Color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-    maxLines: Int
+    maxLines: Int = 1
 ) {
     val duration = currentTime - time
 

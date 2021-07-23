@@ -168,11 +168,16 @@ fun Notification(
             }
             .padding(16.dp)
     ) {
-        NotificationHeader(notification = notification)
+        if (notification.type != NotificationType.Mention) {
+            NotificationHeader(
+                modifier = Modifier
+                    .padding(bottom = if (notification.status != null) 16.dp else 0.dp),
+                notification = notification
+            )
+        }
 
         notification.status?.let { status ->
             StatusNotificationBody(
-                modifier = Modifier.padding(top = 16.dp),
                 status = status,
                 currentTime = currentTime
             )

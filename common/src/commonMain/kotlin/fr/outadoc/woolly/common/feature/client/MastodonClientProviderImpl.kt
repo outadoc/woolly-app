@@ -23,10 +23,10 @@ class MastodonClientProviderImpl(
         preferenceRepository
             .preferences
             .filterIsInstance<LoadState.Loaded<AppPreferences>>()
-            .map { it.value.authenticationState }
+            .map { it.value.authenticationState.activeAccount }
             .distinctUntilChanged()
-            .map { state ->
-                state.activeAccount?.let { account ->
+            .map { activeAccount ->
+                activeAccount?.let { account ->
                     MastodonClient {
                         domain = account.domain
                         authTokenProvider = AuthTokenProvider {

@@ -232,7 +232,7 @@ fun NotificationHeader(
         ) {
             Column(
                 modifier = Modifier.width(startPadding),
-                horizontalAlignment = Alignment.Start
+                horizontalAlignment = Alignment.End
             ) {
                 NotificationIcon(
                     modifier = Modifier.padding(end = 8.dp),

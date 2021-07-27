@@ -17,7 +17,7 @@ import kotlinx.serialization.json.Json
 
 class PreferenceRepositoryImpl(
     private val prefs: DataStore<Preferences>,
-    private val json: Json
+    private val json: Json = Json.Default
 ) : PreferenceRepository {
 
     companion object {

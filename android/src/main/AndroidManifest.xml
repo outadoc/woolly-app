@@ -3,6 +3,7 @@
     package="fr.outadoc.woolly.android">
 
     <application
+        android:name="fr.outadoc.woolly.android.WoollyApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:label="@string/app_name"

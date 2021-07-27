@@ -13,7 +13,7 @@ This project is a Mastodon client built with Jetpack Compose and Compose Desktop
 - [x] Basic navigation
 - [ ] Nicer icon
 - [x] Status reactions
-- [ ] Complex navigation (back stack, back button support)
+- [x] Complex navigation (back stack, back button support)
 - [ ] Status details
 - [ ] Conversation details
 - [ ] Account details

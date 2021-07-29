@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -45,7 +44,8 @@ fun StatusList(
     statusFlow: Flow<PagingData<Status>>,
     lazyListState: LazyListState,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
-    onStatusAction: (StatusAction) -> Unit = {}
+    onStatusAction: (StatusAction) -> Unit = {},
+    onStatusClick: (Status) -> Unit = {}
 ) {
     // Periodically refresh timestamps
     var currentTime by remember { mutableStateOf(Clock.System.now()) }
@@ -56,7 +56,6 @@ fun StatusList(
         }
     }
 
-    val uriHandler = LocalUriHandler.current
     val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
     SwipeRefresh(
@@ -102,8 +101,7 @@ fun StatusList(
                             StatusOrBoost(
                                 modifier = Modifier
                                     .clickable {
-                                        val url = status.boostedStatus?.url ?: status.url
-                                        url?.let { uriHandler.openUri(it) }
+                                        onStatusClick(status.boostedStatus ?: status)
                                     }
                                     .padding(
                                         top = 16.dp,

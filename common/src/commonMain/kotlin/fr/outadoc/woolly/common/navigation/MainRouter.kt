@@ -20,6 +20,7 @@ import fr.outadoc.woolly.common.feature.publictimeline.ui.PublicTimelineTopAppBa
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.ui.SearchScreen
 import fr.outadoc.woolly.common.feature.search.ui.SearchTopAppBar
+import fr.outadoc.woolly.common.feature.statusdetails.ui.StatusDetailsScreen
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
 import fr.outadoc.woolly.common.ui.ColorScheme
@@ -62,6 +63,7 @@ fun MainRouter(
             AppScreen.Account -> null
             AppScreen.Bookmarks -> bookmarksListState
             AppScreen.Favourites -> favouritesListState
+            is AppScreen.StatusDetails -> null
         }?.let { listState ->
             scope.launch {
                 try {
@@ -158,19 +160,34 @@ fun MainRouter(
             when (val currentScreen = screen.configuration) {
                 AppScreen.HomeTimeline -> HomeTimelineScreen(
                     insets = insets,
-                    listState = homeListState
+                    listState = homeListState,
+                    onStatusClick = { status ->
+                        router.push(
+                            AppScreen.StatusDetails(statusId = status.statusId)
+                        )
+                    }
                 )
 
                 is AppScreen.PublicTimeline -> PublicTimelineScreen(
                     insets = insets,
                     currentSubScreen = currentScreen.subScreen,
                     localListState = publicLocalListState,
-                    globalListState = publicGlobalListState
+                    globalListState = publicGlobalListState,
+                    onStatusClick = { status ->
+                        router.push(
+                            AppScreen.StatusDetails(statusId = status.statusId)
+                        )
+                    }
                 )
 
                 AppScreen.Notifications -> NotificationsScreen(
                     insets = insets,
-                    listState = notificationsListState
+                    listState = notificationsListState,
+                    onStatusClick = { status ->
+                        router.push(
+                            AppScreen.StatusDetails(statusId = status.statusId)
+                        )
+                    }
                 )
 
                 is AppScreen.Search -> SearchScreen(
@@ -178,21 +195,40 @@ fun MainRouter(
                     currentSubScreen = currentScreen.subScreen,
                     statusListState = searchStatusesListState,
                     accountsListState = searchAccountsListState,
-                    hashtagsListState = searchHashtagsListState
+                    hashtagsListState = searchHashtagsListState,
+                    onStatusClick = { status ->
+                        router.push(
+                            AppScreen.StatusDetails(statusId = status.statusId)
+                        )
+                    }
                 )
 
                 AppScreen.Account -> AccountScreen(insets = insets)
 
                 AppScreen.Bookmarks -> BookmarksScreen(
                     insets = insets,
-                    listState = bookmarksListState
+                    listState = bookmarksListState,
+                    onStatusClick = { status ->
+                        router.push(
+                            AppScreen.StatusDetails(statusId = status.statusId)
+                        )
+                    }
                 )
 
                 AppScreen.Favourites -> FavouritesScreen(
                     insets = insets,
-                    listState = favouritesListState
+                    listState = favouritesListState,
+                    onStatusClick = { status ->
+                        router.push(
+                            AppScreen.StatusDetails(statusId = status.statusId)
+                        )
+                    }
                 )
-            }
+
+                is AppScreen.StatusDetails -> StatusDetailsScreen(
+                    statusId = currentScreen.statusId
+                )
+            }.let {}
         }
     }
 }

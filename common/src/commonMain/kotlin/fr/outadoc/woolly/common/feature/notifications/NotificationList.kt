@@ -48,6 +48,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
+import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.ui.ErrorScreen
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
@@ -72,7 +73,8 @@ fun NotificationList(
     insets: PaddingValues,
     notificationFlow: Flow<PagingData<Notification>>,
     lazyListState: LazyListState,
-    maxContentWidth: Dp = WoollyDefaults.MaxContentWidth
+    maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
+    onStatusClick: (Status) -> Unit = {}
 ) {
     // Periodically refresh timestamps
     var currentTime by remember { mutableStateOf(Clock.System.now()) }
@@ -128,7 +130,8 @@ fun NotificationList(
                             Notification(
                                 modifier = Modifier.fillMaxWidth(),
                                 notification = notification,
-                                currentTime = currentTime
+                                currentTime = currentTime,
+                                onStatusClick = onStatusClick
                             )
                         } else {
                             NotificationPlaceHolder()
@@ -158,14 +161,18 @@ fun NotificationPlaceHolder() {
 fun Notification(
     modifier: Modifier = Modifier,
     notification: Notification,
-    currentTime: Instant?
+    currentTime: Instant?,
+    onStatusClick: (Status) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
 
     Column(
         modifier = modifier
             .clickable {
-                uriHandler.openUri(notification.status?.url ?: notification.account.url)
+                when (val status = notification.status) {
+                    null -> uriHandler.openUri(notification.account.url)
+                    else -> onStatusClick(status)
+                }
             }
             .padding(16.dp)
     ) {

@@ -31,4 +31,7 @@ sealed class AppScreen : Parcelable {
     data class Search(
         val subScreen: SearchSubScreen = SearchSubScreen.Statuses
     ) : AppScreen()
+
+    @Parcelize
+    data class StatusDetails(val statusId: String) : AppScreen()
 }

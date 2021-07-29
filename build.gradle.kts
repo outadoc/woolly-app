@@ -1,4 +1,5 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("android") version "1.5.10" apply false
@@ -31,6 +32,12 @@ allprojects {
         google()
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
         maven { url = uri("https://nexus.outadoc.fr/repository/public") }
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+        }
     }
 }
 

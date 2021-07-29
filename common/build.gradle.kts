@@ -32,8 +32,8 @@ kotlin {
                 api(libs.kotlinx.coroutines)
 
                 implementation(libs.androidx.paging)
-                implementation(libs.mastodonk.core.common)
-                implementation(libs.mastodonk.paging.common)
+                implementation(libs.mastodonk.core)
+                implementation(libs.mastodonk.paging)
                 implementation(libs.kamel)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.core)
@@ -52,8 +52,6 @@ kotlin {
         val jvmMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation(libs.mastodonk.core.jvm)
-                implementation(libs.mastodonk.paging.jvm)
                 implementation(libs.ktor.engine.cio)
                 implementation(libs.jsoup)
                 implementation(libs.appdirs)

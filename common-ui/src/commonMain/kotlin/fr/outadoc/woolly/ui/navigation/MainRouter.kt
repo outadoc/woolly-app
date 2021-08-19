@@ -137,12 +137,29 @@ fun MainRouter(
                 )
             }
         },
-        drawerContent = { drawerState ->
+        narrowDrawerContent = { drawerState ->
             Children(routerState = router.state) { screen ->
                 val currentScreen = screen.configuration
                 MainAppDrawer(
                     scope = scope,
                     drawerState = drawerState,
+                    colorScheme = colorScheme,
+                    onColorSchemeChanged = onColorSchemeChanged,
+                    currentScreen = currentScreen,
+                    onScreenSelected = { selectedScreen ->
+                        when (currentScreen) {
+                            selectedScreen -> selectedScreen.scrollToTop()
+                            else -> router.push(selectedScreen)
+                        }
+                    }
+                )
+            }
+        },
+        wideDrawerContent = {
+            Children(routerState = router.state) { screen ->
+                val currentScreen = screen.configuration
+                WideAppDrawer(
+                    scope = scope,
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = currentScreen,

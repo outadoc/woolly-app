@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DrawerState
 import androidx.compose.material.MaterialTheme
@@ -27,8 +28,9 @@ fun ResponsiveScaffold(
     scaffoldState: ScaffoldState,
     topBar: @Composable (DrawerState?) -> Unit,
     bottomBar: @Composable () -> Unit,
-    drawerContent: @Composable ColumnScope.(DrawerState?) -> Unit,
-    breakpointWidthDp: Dp = 720.dp,
+    narrowDrawerContent: @Composable ColumnScope.(DrawerState?) -> Unit,
+    wideDrawerContent: @Composable ColumnScope.() -> Unit,
+    breakpointWidthDp: Dp = 600.dp,
     content: @Composable (PaddingValues) -> Unit
 ) {
     BoxWithConstraints {
@@ -42,12 +44,12 @@ fun ResponsiveScaffold(
                 Row {
                     Surface(
                         modifier = Modifier
-                            .width(270.dp)
+                            .width(64.dp)
                             .zIndex(0.0f),
                         color = MaterialTheme.colors.background
                     ) {
-                        Column {
-                            drawerContent(null)
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            wideDrawerContent()
                         }
                     }
 
@@ -60,7 +62,7 @@ fun ResponsiveScaffold(
                             scaffoldState = scaffoldState,
                             topBar = topBar,
                             bottomBar = bottomBar,
-                            drawerContent = drawerContent,
+                            drawerContent = {},
                             content = content,
                             disposition = disposition
                         )
@@ -72,7 +74,7 @@ fun ResponsiveScaffold(
                     scaffoldState = scaffoldState,
                     topBar = topBar,
                     bottomBar = bottomBar,
-                    drawerContent = drawerContent,
+                    drawerContent = narrowDrawerContent,
                     content = content,
                     disposition = disposition
                 )

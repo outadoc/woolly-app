@@ -23,7 +23,7 @@ private fun ApplicationScope.DesktopApp() = withDI(DesktopAppDI) {
         LocalUriHandler provides DesktopUriHandler()
     ) {
         val windowState = rememberWindowState(
-            size = WindowSize(width = 1024.dp, height = 900.dp)
+            size = WindowSize(width = 620.dp, height = 900.dp)
         )
 
         Window(

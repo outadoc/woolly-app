@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -37,9 +38,13 @@ fun ProfilePicture(
     val contentDescription = "${account.displayNameOrAcct}'s profile picture"
 
     Surface(
-        modifier = modifier.size(size),
-        enabled = onClick != null,
-        onClick = { onClick?.invoke() },
+        modifier = modifier
+            .size(size)
+            .apply {
+                if (onClick != null) {
+                    clickable { onClick() }
+                }
+            },
         shape = WoollyTheme.AvatarShape,
         elevation = 4.dp
     ) {

@@ -1,18 +1,29 @@
 package fr.outadoc.woolly.ui.navigation
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
+import com.arkivanov.decompose.pop
 import com.arkivanov.decompose.push
+import com.arkivanov.decompose.replaceCurrent
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
+import fr.outadoc.woolly.ui.common.DrawerMenuButton
 import fr.outadoc.woolly.ui.common.ResponsiveScaffold
+import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.feature.account.AccountScreen
 import fr.outadoc.woolly.ui.feature.bookmarks.BookmarksScreen
 import fr.outadoc.woolly.ui.feature.favourites.FavouritesScreen
@@ -116,9 +127,22 @@ fun MainRouter(
                         }
                     )
 
-                    else -> TopAppBarWithMenu(
+                    else -> TopAppBar(
+                        modifier = Modifier.height(WoollyDefaults.AppBarHeight),
                         title = { Text(res.getScreenTitle(currentScreen)) },
-                        drawerState = drawerState
+                        navigationIcon = when {
+                            router.state.value.backStack.isNotEmpty() -> {
+                                @Composable {
+                                    IconButton(onClick = { router.pop() }) {
+                                        Icon(Icons.Default.ArrowBack, "Go back")
+                                    }
+                                }
+                            }
+                            drawerState != null -> {
+                                @Composable { DrawerMenuButton(drawerState) }
+                            }
+                            else -> null
+                        }
                     )
                 }
             }
@@ -131,7 +155,7 @@ fun MainRouter(
                     onScreenSelected = { selectedScreen ->
                         when (currentScreen) {
                             selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.push(selectedScreen)
+                            else -> router.replaceCurrent(selectedScreen)
                         }
                     }
                 )
@@ -149,7 +173,7 @@ fun MainRouter(
                     onScreenSelected = { selectedScreen ->
                         when (currentScreen) {
                             selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.push(selectedScreen)
+                            else -> router.replaceCurrent(selectedScreen)
                         }
                     }
                 )
@@ -166,7 +190,7 @@ fun MainRouter(
                     onScreenSelected = { selectedScreen ->
                         when (currentScreen) {
                             selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.push(selectedScreen)
+                            else -> router.replaceCurrent(selectedScreen)
                         }
                     }
                 )

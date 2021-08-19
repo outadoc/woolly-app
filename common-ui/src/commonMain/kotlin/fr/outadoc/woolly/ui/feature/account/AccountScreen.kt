@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
@@ -47,8 +49,13 @@ fun AccountScreen(insets: PaddingValues) {
     val repo by di.instance<AccountRepository>()
 
     val currentAccount by repo.currentAccount.collectAsState()
+    val scrollState = rememberScrollState()
 
-    Box(modifier = Modifier.padding(insets)) {
+    Box(
+        modifier = Modifier
+            .padding(insets)
+            .verticalScroll(scrollState)
+    ) {
         currentAccount?.let { account ->
             AccountHeader(account)
         }

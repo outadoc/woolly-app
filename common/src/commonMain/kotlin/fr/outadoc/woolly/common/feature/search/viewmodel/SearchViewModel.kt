@@ -14,8 +14,8 @@ import fr.outadoc.mastodonk.paging.api.endpoint.search.searchHashtagsSource
 import fr.outadoc.mastodonk.paging.api.endpoint.search.searchStatusesSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
+import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
-import fr.outadoc.woolly.common.ui.StatusAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

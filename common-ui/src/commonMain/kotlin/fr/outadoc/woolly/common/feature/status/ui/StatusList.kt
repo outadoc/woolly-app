@@ -24,11 +24,9 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.ui.ListExtremityState
-import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyDefaults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

@@ -1,5 +1,6 @@
-package fr.outadoc.woolly.common.feature.tags.ui
+package fr.outadoc.woolly.common.feature.account.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,22 +16,20 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import fr.outadoc.mastodonk.api.entity.Tag
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.feature.status.ui.ErrorScreen
 import fr.outadoc.woolly.common.ui.ListExtremityState
 import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun TagList(
+fun AccountList(
     modifier: Modifier = Modifier,
     insets: PaddingValues,
-    tagFlow: Flow<PagingData<Tag>>,
+    accountFlow: Flow<PagingData<Account>>,
     lazyListState: LazyListState
 ) {
     val uriHandler = LocalUriHandler.current
-    val lazyPagingItems = tagFlow.collectAsLazyPagingItems()
+    val lazyPagingItems = accountFlow.collectAsLazyPagingItems()
 
     com.google.accompanist.swiperefresh.SwipeRefresh(
         onRefresh = lazyPagingItems::refresh,
@@ -64,18 +63,18 @@ fun TagList(
 
             itemsIndexed(
                 items = lazyPagingItems,
-                key = { _, tag -> tag.name }
-            ) { _, tag ->
+                key = { _, account -> account.accountId }
+            ) { _, account ->
                 Column {
-                    if (tag != null) {
-                        HashtagListItem(
-                            tag = tag,
-                            onClick = {
-                                uriHandler.openUri(tag.url)
-                            }
+                    if (account != null) {
+                        Account(
+                            modifier = Modifier
+                                .clickable { uriHandler.openUri(account.url) }
+                                .padding(16.dp),
+                            account = account
                         )
                     } else {
-                        HashtagPlaceholder()
+                        AccountPlaceholder()
                     }
 
                     TabRowDefaults.Divider(thickness = 1.dp)

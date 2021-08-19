@@ -73,9 +73,10 @@ fun DomainSelectScreen(state: AuthViewModel.State.Disconnected) {
                     singleLine = true
                 )
 
-                if (state.error != null) {
-                    Text(
-                        text = state.error.message ?: "Error while fetching instance details.",
+                when (val error = state.error) {
+                    null -> {}
+                    else -> Text(
+                        text = error.message ?: "Error while fetching instance details.",
                         modifier = Modifier.padding(top = 16.dp),
                         style = MaterialTheme.typography.body1,
                         color = MaterialTheme.colors.error

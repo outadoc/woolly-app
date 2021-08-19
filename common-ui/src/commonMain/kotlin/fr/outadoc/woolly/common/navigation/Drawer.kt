@@ -34,13 +34,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.status.ui.ProfilePicture
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
-import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.ui.WoollyDefaults
 import fr.outadoc.woolly.common.ui.WoollyListItem
 import io.kamel.image.KamelImage

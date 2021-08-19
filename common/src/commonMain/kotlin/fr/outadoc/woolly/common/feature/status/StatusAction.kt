@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common.feature.status
 
 import fr.outadoc.mastodonk.api.entity.Status
 

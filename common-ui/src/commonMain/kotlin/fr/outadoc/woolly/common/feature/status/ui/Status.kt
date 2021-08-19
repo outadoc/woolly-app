@@ -57,9 +57,9 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.StatusVisibility
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.richtext.RichText
 import fr.outadoc.woolly.common.ui.FillFirstThenWrap
-import fr.outadoc.woolly.common.ui.StatusAction
 import fr.outadoc.woolly.common.ui.WoollyTheme
 import kotlinx.datetime.Instant
 

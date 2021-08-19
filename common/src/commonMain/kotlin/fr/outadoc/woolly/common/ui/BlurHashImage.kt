@@ -15,7 +15,7 @@ fun BlurHashImage(
     contentDescription: String?
 ) {
     val blurHashBitmap = remember(blurHash) {
-        BlurHashDecoder.decode(blurHash, height = 32, width = 32)
+        com.wolt.blurhashkt.BlurHashDecoder.decode(blurHash, height = 32, width = 32)
     }
 
     when (blurHashBitmap) {

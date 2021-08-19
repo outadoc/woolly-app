@@ -20,7 +20,8 @@ fun WoollyTheme(
     MaterialTheme(
         colors = if (isDarkMode) woollyDarkColors() else woollyLightColors(),
     ) {
-        val systemUiController = rememberSystemUiController()
+        val systemUiController =
+            com.google.accompanist.systemuicontroller.rememberSystemUiController()
 
         val baseColor =
             if (isDarkMode) MaterialTheme.colors.surface

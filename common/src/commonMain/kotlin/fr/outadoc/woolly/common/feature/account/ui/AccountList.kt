@@ -33,9 +33,9 @@ fun AccountList(
     val uriHandler = LocalUriHandler.current
     val lazyPagingItems = accountFlow.collectAsLazyPagingItems()
 
-    SwipeRefresh(
+    com.google.accompanist.swiperefresh.SwipeRefresh(
         onRefresh = lazyPagingItems::refresh,
-        state = rememberSwipeRefreshState(
+        state = com.google.accompanist.swiperefresh.rememberSwipeRefreshState(
             isRefreshing = lazyPagingItems.loadState.refresh == LoadState.Loading
         )
     ) {

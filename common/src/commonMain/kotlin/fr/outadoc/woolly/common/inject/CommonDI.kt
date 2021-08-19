@@ -25,9 +25,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import org.kodein.di.DI
-import org.kodein.di.bind
 import org.kodein.di.bindSingleton
-import org.kodein.di.compose.instance
 import org.kodein.di.instance
 
 val CommonDI = DI {
@@ -48,7 +46,7 @@ val CommonDI = DI {
         )
     }
 
-    bindSingleton { AppScreenResources() }
+    bindSingleton { fr.outadoc.woolly.common.screen.AppScreenResources() }
     bindSingleton { SearchScreenResources() }
     bindSingleton { PublicTimelineScreenResources() }
 

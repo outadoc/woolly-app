@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.common.navigation.Router
-import fr.outadoc.woolly.common.ui.ColorScheme
+import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.ui.WoollyTheme
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI

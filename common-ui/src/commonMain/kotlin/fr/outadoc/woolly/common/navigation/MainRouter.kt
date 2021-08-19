@@ -23,7 +23,7 @@ import fr.outadoc.woolly.common.feature.search.ui.SearchTopAppBar
 import fr.outadoc.woolly.common.feature.statusdetails.ui.StatusDetailsScreen
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.common.screen.AppScreenResources
-import fr.outadoc.woolly.common.ui.ColorScheme
+import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.ui.ResponsiveScaffold
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI

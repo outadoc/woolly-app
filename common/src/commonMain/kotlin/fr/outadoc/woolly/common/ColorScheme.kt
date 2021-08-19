@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.ui
+package fr.outadoc.woolly.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

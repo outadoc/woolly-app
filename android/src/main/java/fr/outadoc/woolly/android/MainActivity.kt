@@ -8,8 +8,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.backpressed.BackPressedDispatcher
-import fr.outadoc.woolly.common.WoollyApp
-import fr.outadoc.woolly.common.navigation.LocalBackPressedDispatcher
+import fr.outadoc.woolly.ui.WoollyApp
+import fr.outadoc.woolly.ui.navigation.LocalBackPressedDispatcher
 import org.kodein.di.compose.withDI
 
 class MainActivity : ComponentActivity() {

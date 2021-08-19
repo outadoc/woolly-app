@@ -1,10 +1,7 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose")
-    id("com.android.library")
     kotlin("plugin.serialization")
+    id("com.android.library")
     id("kotlin-parcelize")
 }
 
@@ -20,13 +17,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.foundation)
-                api(compose.runtime)
-                api(compose.material)
-                api(compose.ui)
-                api(compose.materialIconsExtended)
-                api("androidx.compose.ui:ui-text")
-
                 api(libs.kodein)
                 api(libs.ktor.serialization)
                 api(libs.kotlinx.coroutines)
@@ -38,8 +28,6 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.core)
                 implementation(libs.androidx.datastore.core)
-                implementation(libs.decompose.core)
-                implementation(libs.decompose.jb)
             }
         }
         val commonTest by getting {
@@ -87,11 +75,12 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(30)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
+    compileSdk = 30
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(30)
+        minSdk = 24
+        targetSdk = 30
     }
 
     buildFeatures {
@@ -99,7 +88,6 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion = "1.5.10"
         kotlinCompilerExtensionVersion = "1.0.0-rc01"
     }
 }

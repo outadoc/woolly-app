@@ -18,16 +18,13 @@ import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResou
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
-import fr.outadoc.woolly.common.feature.statusdetails.ui.viewmodel.StatusDetailsViewModel
+import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
 import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
-import fr.outadoc.woolly.common.screen.AppScreenResources
-import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import org.kodein.di.DI
-import org.kodein.di.bind
 import org.kodein.di.bindSingleton
-import org.kodein.di.compose.instance
 import org.kodein.di.instance
 
 val CommonDI = DI {
@@ -48,7 +45,6 @@ val CommonDI = DI {
         )
     }
 
-    bindSingleton { AppScreenResources() }
     bindSingleton { SearchScreenResources() }
     bindSingleton { PublicTimelineScreenResources() }
 

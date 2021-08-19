@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     implementation(projects.common)
+    implementation(projects.commonUi)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.browser)
@@ -34,8 +35,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion = "1.5.10"
-        kotlinCompilerExtensionVersion = "1.0.0-rc01"
+        kotlinCompilerExtensionVersion = "1.0.0"
     }
 
     buildTypes {

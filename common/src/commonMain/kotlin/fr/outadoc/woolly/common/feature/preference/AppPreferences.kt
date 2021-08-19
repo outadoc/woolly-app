@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.common.feature.preference
 
+import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationState
-import fr.outadoc.woolly.common.ui.ColorScheme
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

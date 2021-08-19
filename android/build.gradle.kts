@@ -34,8 +34,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion = "1.5.10"
-        kotlinCompilerExtensionVersion = "1.0.0-rc01"
+        kotlinCompilerExtensionVersion = "1.0.0"
     }
 
     buildTypes {

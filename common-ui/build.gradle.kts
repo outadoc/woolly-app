@@ -1,6 +1,8 @@
+import org.jetbrains.compose.compose
+
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization")
+    id("org.jetbrains.compose")
     id("com.android.library")
     id("kotlin-parcelize")
 }
@@ -17,6 +19,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(compose.foundation)
+                api(compose.runtime)
+                api(compose.material)
+                api(compose.ui)
+                api(compose.materialIconsExtended)
+                api("androidx.compose.ui:ui-text")
+
                 api(libs.kodein)
                 api(libs.ktor.serialization)
                 api(libs.kotlinx.coroutines)
@@ -28,12 +37,8 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.core)
                 implementation(libs.androidx.datastore.core)
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(libs.decompose.core)
+                implementation(libs.decompose.jb)
             }
         }
 
@@ -45,13 +50,6 @@ kotlin {
                 implementation(libs.appdirs)
             }
         }
-        val jvmTest by creating {
-            dependsOn(commonTest)
-            dependencies {
-                implementation(libs.junit)
-                implementation(kotlin("test-junit"))
-            }
-        }
 
         val androidMain by getting {
             dependsOn(jvmMain)
@@ -61,15 +59,9 @@ kotlin {
                 api(libs.androidx.preference)
             }
         }
-        val androidTest by getting {
-            dependsOn(jvmTest)
-        }
 
         val desktopMain by getting {
             dependsOn(jvmMain)
-        }
-        val desktopTest by getting {
-            dependsOn(jvmTest)
         }
     }
 }

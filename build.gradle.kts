@@ -6,7 +6,7 @@ plugins {
 
     kotlin("android") version kotlinVersion apply false
     kotlin("multiplatform") version kotlinVersion apply false
-    kotlin("plugin.serialization") version "1.5.10" apply false
+    kotlin("plugin.serialization") version kotlinVersion apply false
     id("org.jetbrains.compose") version "1.0.0-alpha2" apply false
 
     id("com.diffplug.spotless") version "5.14.0"

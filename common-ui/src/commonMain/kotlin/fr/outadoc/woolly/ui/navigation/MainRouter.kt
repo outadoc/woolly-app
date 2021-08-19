@@ -107,7 +107,7 @@ fun MainRouter(
                         onCurrentSubScreenChanged = { subScreen ->
                             when (currentScreen.subScreen) {
                                 subScreen -> currentScreen.scrollToTop()
-                                else -> router.push(
+                                else -> router.replaceCurrent(
                                     AppScreen.PublicTimeline(subScreen = subScreen)
                                 )
                             }
@@ -120,7 +120,7 @@ fun MainRouter(
                         onCurrentSubScreenChanged = { subScreen ->
                             when (currentScreen.subScreen) {
                                 subScreen -> currentScreen.scrollToTop()
-                                else -> router.push(
+                                else -> router.replaceCurrent(
                                     AppScreen.Search(subScreen = subScreen)
                                 )
                             }

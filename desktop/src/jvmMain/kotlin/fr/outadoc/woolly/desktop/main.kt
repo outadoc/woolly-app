@@ -9,8 +9,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import fr.outadoc.woolly.common.WoollyApp
 import fr.outadoc.woolly.desktop.inject.DesktopAppDI
+import fr.outadoc.woolly.ui.WoollyApp
 import org.kodein.di.compose.withDI
 
 fun main() = application {

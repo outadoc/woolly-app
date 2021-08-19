@@ -5,7 +5,7 @@ import fr.outadoc.woolly.common.feature.preference.PreferenceFileProvider
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepositoryImpl
 import fr.outadoc.woolly.common.inject.CommonDI
-import fr.outadoc.woolly.common.screen.AppScreenResources
+import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

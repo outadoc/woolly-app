@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -289,12 +290,13 @@ fun ContentWarningBanner(
 @Composable
 fun StatusBodyPlain(
     modifier: Modifier = Modifier,
-    status: Status
+    status: Status,
+    style: TextStyle = MaterialTheme.typography.body2
 ) {
     RichText(
         modifier = modifier,
         text = status.content,
-        style = MaterialTheme.typography.body2,
+        style = style,
         emojis = status.emojis
     )
 }

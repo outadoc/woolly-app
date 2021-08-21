@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.LocalContentAlpha
@@ -41,7 +42,6 @@ import fr.outadoc.woolly.ui.feature.status.StatusMediaGrid
 import fr.outadoc.woolly.ui.feature.status.StatusPoll
 import fr.outadoc.woolly.ui.feature.status.StatusVisibilityIcon
 import fr.outadoc.woolly.ui.richtext.RichText
-import java.time.format.TextStyle
 
 @Composable
 fun StatusDetails(
@@ -57,22 +57,25 @@ fun StatusDetails(
     Column(modifier = modifier) {
         boostedBy?.let { boostedBy ->
             StatusBoostedByMention(
-                modifier = Modifier.padding(bottom = 8.dp),
+                modifier = Modifier.padding(bottom = 16.dp),
                 boostedBy = boostedBy
             )
         }
 
         StatusHeader(
-            modifier = Modifier.padding(bottom = 8.dp),
+            modifier = Modifier.padding(bottom = 16.dp),
             status = status
         )
 
         if (status.content.isNotBlank()) {
-            StatusBodyPlain(
-                modifier = Modifier.padding(bottom = 8.dp),
-                status = status,
-                style = MaterialTheme.typography.body1
-            )
+            SelectionContainer(
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                StatusBodyPlain(
+                    status = status,
+                    style = MaterialTheme.typography.body1
+                )
+            }
         }
 
         status.poll?.let { poll ->

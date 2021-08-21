@@ -44,6 +44,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
 import fr.outadoc.mastodonk.api.entity.Status
@@ -85,9 +87,9 @@ fun NotificationList(
 
     val lazyPagingItems = notificationFlow.collectAsLazyPagingItems()
 
-    com.google.accompanist.swiperefresh.SwipeRefresh(
+    SwipeRefresh(
         onRefresh = lazyPagingItems::refresh,
-        state = com.google.accompanist.swiperefresh.rememberSwipeRefreshState(
+        state = rememberSwipeRefreshState(
             isRefreshing = lazyPagingItems.loadState.refresh == LoadState.Loading
         )
     ) {

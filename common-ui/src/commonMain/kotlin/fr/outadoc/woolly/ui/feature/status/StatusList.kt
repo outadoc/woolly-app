@@ -24,6 +24,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.common.ListExtremityState
@@ -56,9 +58,9 @@ fun StatusList(
 
     val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
-    com.google.accompanist.swiperefresh.SwipeRefresh(
+    SwipeRefresh(
         onRefresh = lazyPagingItems::refresh,
-        state = com.google.accompanist.swiperefresh.rememberSwipeRefreshState(
+        state = rememberSwipeRefreshState(
             isRefreshing = lazyPagingItems.loadState.refresh == LoadState.Loading
         )
     ) {
@@ -98,9 +100,7 @@ fun StatusList(
                         if (status != null) {
                             StatusOrBoost(
                                 modifier = Modifier
-                                    .clickable {
-                                        onStatusClick(status.boostedStatus ?: status)
-                                    }
+                                    .clickable { onStatusClick(status) }
                                     .padding(
                                         top = 16.dp,
                                         start = 16.dp,

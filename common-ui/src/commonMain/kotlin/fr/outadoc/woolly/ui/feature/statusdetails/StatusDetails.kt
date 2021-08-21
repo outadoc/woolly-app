@@ -68,14 +68,11 @@ fun StatusDetails(
         )
 
         if (status.content.isNotBlank()) {
-            SelectionContainer(
-                modifier = Modifier.padding(bottom = 8.dp)
-            ) {
-                StatusBodyPlain(
-                    status = status,
-                    style = MaterialTheme.typography.body1
-                )
-            }
+            StatusBodyPlain(
+                modifier = Modifier.padding(bottom = 8.dp),
+                status = status,
+                style = MaterialTheme.typography.body1
+            )
         }
 
         status.poll?.let { poll ->

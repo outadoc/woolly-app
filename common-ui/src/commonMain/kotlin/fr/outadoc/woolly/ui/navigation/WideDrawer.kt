@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
@@ -20,11 +19,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
-import fr.outadoc.woolly.ui.common.IconToggleButton
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
@@ -60,11 +59,15 @@ fun WideAppDrawer(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             account?.let {
-                IconToggleButton(
-                    selected = currentScreen is AppScreen.Account,
+                IconButton(
+                    modifier = Modifier.padding(4.dp),
                     onClick = { onScreenSelected(AppScreen.Account) }
                 ) {
                     ProfilePicture(
+                        modifier = Modifier.alpha(
+                            if (currentScreen is AppScreen.Account) LocalContentAlpha.current
+                            else ContentAlpha.medium
+                        ),
                         size = 32.dp,
                         account = it
                     )
@@ -147,18 +150,21 @@ fun WideAppDrawer(
 private fun ScreenItem(
     selected: Boolean,
     targetScreen: AppScreen,
-    onScreenSelected: (AppScreen) -> Unit
+    onScreenSelected: (AppScreen) -> Unit,
+    selectedContentColor: Color = LocalContentColor.current,
+    unselectedContentColor: Color = selectedContentColor.copy(alpha = ContentAlpha.medium)
 ) {
     val di = LocalDI.current
     val res by di.instance<AppScreenResources>()
 
-    IconToggleButton(
-        selected = selected,
+    IconButton(
+        modifier = Modifier.padding(4.dp),
         onClick = { onScreenSelected(targetScreen) }
     ) {
         Icon(
             imageVector = res.getScreenIcon(targetScreen),
-            contentDescription = res.getScreenTitle(targetScreen)
+            contentDescription = res.getScreenTitle(targetScreen),
+            tint = if (selected) selectedContentColor else unselectedContentColor
         )
     }
 }

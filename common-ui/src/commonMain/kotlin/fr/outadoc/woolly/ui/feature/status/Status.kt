@@ -62,7 +62,6 @@ import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.common.FillFirstThenWrap
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import fr.outadoc.woolly.ui.richtext.RichText
-import kotlinx.datetime.Instant
 
 @Composable
 fun StatusPlaceholder() {
@@ -73,7 +72,6 @@ fun StatusPlaceholder() {
 fun StatusOrBoost(
     modifier: Modifier = Modifier,
     status: Status,
-    currentTime: Instant,
     onStatusAction: (StatusAction) -> Unit
 ) {
     val original = status.boostedStatus ?: status
@@ -83,7 +81,6 @@ fun StatusOrBoost(
         modifier = modifier,
         status = original,
         boostedBy = boostedBy,
-        currentTime = currentTime,
         onStatusAction = onStatusAction
     )
 }
@@ -93,7 +90,6 @@ fun Status(
     modifier: Modifier = Modifier,
     status: Status,
     boostedBy: Account? = null,
-    currentTime: Instant? = null,
     onStatusAction: ((StatusAction) -> Unit)? = null
 ) {
     val uriHandler = LocalUriHandler.current
@@ -108,7 +104,6 @@ fun Status(
         StatusWithActions(
             status = status,
             boostedBy = boostedBy,
-            currentTime = currentTime,
             onStatusAction = onStatusAction
         )
     }
@@ -119,7 +114,6 @@ fun StatusWithActions(
     modifier: Modifier = Modifier,
     status: Status,
     boostedBy: Account? = null,
-    currentTime: Instant? = null,
     onStatusAction: ((StatusAction) -> Unit)? = null
 ) {
     val uriHandler = LocalUriHandler.current
@@ -127,8 +121,7 @@ fun StatusWithActions(
     Column(modifier = modifier.fillMaxWidth()) {
         StatusHeader(
             modifier = Modifier.padding(bottom = 8.dp),
-            status = status,
-            currentTime = currentTime
+            status = status
         )
 
         if (status.content.isNotBlank()) {
@@ -328,8 +321,7 @@ fun StatusBoostedByMention(modifier: Modifier = Modifier, boostedBy: Account) {
 @Composable
 fun StatusHeader(
     modifier: Modifier = Modifier,
-    status: Status,
-    currentTime: Instant?
+    status: Status
 ) {
     Column(modifier = modifier) {
         Row(
@@ -359,16 +351,13 @@ fun StatusHeader(
                     visibility = status.visibility
                 )
 
-                currentTime?.let {
-                    RelativeTime(
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .alignByBaseline(),
-                        currentTime = currentTime,
-                        time = status.createdAt,
-                        style = MaterialTheme.typography.subtitle2
-                    )
-                }
+                RelativeTime(
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .alignByBaseline(),
+                    time = status.createdAt,
+                    style = MaterialTheme.typography.subtitle2
+                )
             }
         }
 

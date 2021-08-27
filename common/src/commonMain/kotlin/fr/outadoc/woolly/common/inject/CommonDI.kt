@@ -20,6 +20,7 @@ import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
 import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
+import fr.outadoc.woolly.common.feature.time.TimeRepository
 import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
@@ -55,6 +56,7 @@ val CommonDI = DI {
 
     bindSingleton<MastodonClientProvider> { MastodonClientProviderImpl(instance(), instance()) }
     bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
+    bindSingleton { TimeRepository() }
 
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
     bindSingleton { HomeTimelineViewModel(instance(), instance(), instance()) }

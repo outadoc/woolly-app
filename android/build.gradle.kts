@@ -20,12 +20,11 @@ dependencies {
 }
 
 android {
-    compileSdkVersion(30)
-
+    compileSdk = 31
     defaultConfig {
         applicationId = "fr.outadoc.woolly.android"
-        minSdkVersion(24)
-        targetSdkVersion(30)
+        minSdk = 24
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
     }
@@ -45,6 +44,8 @@ android {
     }
 
     packagingOptions {
-        exclude("META-INF/**")
+        resources {
+            excludes.add("META-INF/**")
+        }
     }
 }

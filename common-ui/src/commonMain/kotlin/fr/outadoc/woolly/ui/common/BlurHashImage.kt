@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import com.wolt.blurhashkt.BlurHashDecoder
 
 @Composable
 fun BlurHashImage(
@@ -14,7 +15,7 @@ fun BlurHashImage(
     contentDescription: String?
 ) {
     val blurHashBitmap = remember(blurHash) {
-        com.wolt.blurhashkt.BlurHashDecoder.decode(blurHash, height = 32, width = 32)
+        BlurHashDecoder.decode(blurHash, height = 32, width = 32)
     }
 
     when (blurHashBitmap) {

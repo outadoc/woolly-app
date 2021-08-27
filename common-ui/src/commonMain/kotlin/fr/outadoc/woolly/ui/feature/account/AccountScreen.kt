@@ -1,16 +1,7 @@
 package fr.outadoc.woolly.ui.feature.account
 
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
@@ -38,8 +29,7 @@ import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.richtext.RichText
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyImageResource
-import kotlinx.coroutines.Dispatchers
+import io.kamel.image.lazyPainterResource
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
 
@@ -68,13 +58,9 @@ fun AccountHeader(
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        val headerResource = lazyImageResource(account.headerStaticUrl) {
-            dispatcher = Dispatchers.IO
-        }
-
         KamelImage(
             modifier = Modifier.aspectRatio(4f),
-            resource = headerResource,
+            resource = lazyPainterResource(account.headerStaticUrl),
             contentDescription = "Your profile header",
             crossfade = true,
             animationSpec = tween(),

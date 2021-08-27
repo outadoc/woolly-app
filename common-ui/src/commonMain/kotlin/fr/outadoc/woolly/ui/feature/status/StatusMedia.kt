@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,8 +25,7 @@ import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.woolly.ui.common.BlurHashImage
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyImageResource
-import kotlinx.coroutines.Dispatchers
+import io.kamel.image.lazyPainterResource
 
 private const val MaxMediaCount = 4
 private const val DefaultImageRatio = 16 / 9f
@@ -274,9 +274,7 @@ fun StatusImage(
     if (!isSensitive) {
         KamelImage(
             modifier = modifier,
-            resource = lazyImageResource(previewUrl) {
-                dispatcher = Dispatchers.IO
-            },
+            resource = lazyPainterResource(previewUrl),
             onLoading = {
                 BlurHashImage(
                     modifier = modifier,

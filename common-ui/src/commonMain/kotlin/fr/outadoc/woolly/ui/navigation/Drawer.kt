@@ -2,22 +2,10 @@ package fr.outadoc.woolly.ui.navigation
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.DrawerState
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
@@ -44,9 +32,8 @@ import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyImageResource
+import io.kamel.image.lazyPainterResource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
@@ -222,13 +209,9 @@ fun AppDrawerHeader(
 @Composable
 fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
     Box(modifier) {
-        val headerResource = lazyImageResource(account.headerStaticUrl) {
-            dispatcher = Dispatchers.IO
-        }
-
         KamelImage(
             modifier = Modifier.fillMaxSize(),
-            resource = headerResource,
+            resource = lazyPainterResource(account.headerStaticUrl),
             contentDescription = "Your profile header",
             crossfade = true,
             animationSpec = tween(),

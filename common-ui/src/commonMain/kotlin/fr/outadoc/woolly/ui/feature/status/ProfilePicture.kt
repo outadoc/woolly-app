@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.NoAccounts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
@@ -20,8 +21,7 @@ import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyImageResource
-import kotlinx.coroutines.Dispatchers
+import io.kamel.image.lazyPainterResource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -31,10 +31,6 @@ fun ProfilePicture(
     size: Dp = WoollyDefaults.AvatarSize,
     onClick: (() -> Unit)? = null
 ) {
-    val avatarResource = lazyImageResource(account.avatarStaticUrl) {
-        dispatcher = Dispatchers.IO
-    }
-
     val contentDescription = "${account.displayNameOrAcct}'s profile picture"
 
     Surface(
@@ -50,7 +46,7 @@ fun ProfilePicture(
     ) {
         KamelImage(
             modifier = Modifier.size(size),
-            resource = avatarResource,
+            resource = lazyPainterResource(account.avatarStaticUrl),
             contentDescription = contentDescription,
             contentScale = ContentScale.FillWidth,
             crossfade = true,

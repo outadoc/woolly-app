@@ -8,15 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import fr.outadoc.mastodonk.api.entity.Emoji
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyImageResource
-import kotlinx.coroutines.Dispatchers
+import io.kamel.image.lazyPainterResource
 
 @Composable
 fun InlineEmoji(emoji: Emoji) {
     KamelImage(
-        resource = lazyImageResource(emoji.staticUrl) {
-            dispatcher = Dispatchers.IO
-        },
+        resource = lazyPainterResource(emoji.staticUrl),
         onLoading = { Box(modifier = Modifier.fillMaxSize()) },
         onFailure = { Box(modifier = Modifier.fillMaxSize()) },
         contentDescription = emoji.shortCode,

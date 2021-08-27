@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.datastore.android)
+    implementation(libs.androidx.splashscreen)
     implementation(libs.decompose.core)
     implementation(libs.decompose.android)
 }

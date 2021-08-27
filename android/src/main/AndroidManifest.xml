@@ -5,16 +5,16 @@
     <application
         android:name="fr.outadoc.woolly.android.WoollyApplication"
         android:allowBackup="false"
-        android:supportsRtl="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Woolly.Main">
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_name">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

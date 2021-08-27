@@ -2,24 +2,12 @@ package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Gif
-import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.PlayCircle
-import androidx.compose.material.icons.filled.Preview
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,7 +65,7 @@ fun StatusMediaGrid(
 
 @Composable
 fun SingleMediaPreview(media: Attachment, isSensitive: Boolean) {
-    val aspectRatio = when(media) {
+    val aspectRatio = when (media) {
         is Attachment.Image -> media.meta.small?.aspect
         is Attachment.Video -> media.meta.small?.aspect
         is Attachment.Gifv -> media.meta.small?.aspect
@@ -224,19 +212,20 @@ fun StatusMediaPreview(
     }
 
     StatusMediaOverlay(
+        modifier = Modifier
+            .clickable(
+                role = Role.Image,
+                onClickLabel = "View media source"
+            ) {
+                uriHandler.openUri(media.url)
+            },
         icon = icon,
         contentDescription = media.description
     ) {
         StatusImage(
             modifier = modifier
                 .shadow(1.dp, shape, clip = false)
-                .clip(shape)
-                .clickable(
-                    role = Role.Image,
-                    onClickLabel = "View media source"
-                ) {
-                    uriHandler.openUri(media.url)
-                },
+                .clip(shape),
             previewUrl = media.previewUrl ?: media.url,
             contentDescription = media.description,
             blurHash = media.blurHash,

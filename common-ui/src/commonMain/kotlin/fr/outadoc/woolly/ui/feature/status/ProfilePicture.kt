@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.ui.feature.status
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ExperimentalMaterialApi
@@ -67,8 +66,7 @@ fun ProfilePicture(
                     imageVector = Icons.Default.NoAccounts,
                     contentDescription = contentDescription
                 )
-            },
-            animationSpec = tween()
+            }
         )
     }
 }

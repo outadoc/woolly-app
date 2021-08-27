@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.ui.common
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -18,7 +17,6 @@ fun InlineEmoji(emoji: Emoji) {
         onFailure = { Box(modifier = Modifier.fillMaxSize()) },
         contentDescription = emoji.shortCode,
         crossfade = true,
-        animationSpec = tween(),
         contentScale = ContentScale.Fit
     )
 }

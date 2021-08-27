@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.ui.navigation
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -214,7 +213,6 @@ fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
             resource = lazyPainterResource(account.headerStaticUrl),
             contentDescription = "Your profile header",
             crossfade = true,
-            animationSpec = tween(),
             contentScale = ContentScale.Crop
         )
 

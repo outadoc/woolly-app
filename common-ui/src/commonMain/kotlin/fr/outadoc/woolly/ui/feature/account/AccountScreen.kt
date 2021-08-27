@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.ui.feature.account
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -63,7 +62,6 @@ fun AccountHeader(
             resource = lazyPainterResource(account.headerStaticUrl),
             contentDescription = "Your profile header",
             crossfade = true,
-            animationSpec = tween(),
             contentScale = ContentScale.FillWidth
         )
 

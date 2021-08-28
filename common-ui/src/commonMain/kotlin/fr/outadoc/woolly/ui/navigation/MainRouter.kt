@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import fr.outadoc.woolly.ui.common.ResponsiveScaffold
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.feature.account.AccountScreen
 import fr.outadoc.woolly.ui.feature.bookmarks.BookmarksScreen
+import fr.outadoc.woolly.ui.feature.composer.ComposerScreen
 import fr.outadoc.woolly.ui.feature.favourites.FavouritesScreen
 import fr.outadoc.woolly.ui.feature.home.HomeTimelineScreen
 import fr.outadoc.woolly.ui.feature.media.ImageViewerScreen
@@ -211,6 +213,17 @@ fun MainRouter(
                     }
                 )
             }
+        },
+        floatingActionButton = {
+            Children(routerState = router.state) {
+                if (router.state.value.backStack.isEmpty()) {
+                    FloatingActionButton(
+                        onClick = { router.push(AppScreen.StatusComposer) }
+                    ) {
+                        Icon(Icons.Default.Edit, contentDescription = "Compose a new status")
+                    }
+                }
+            }
         }
     ) { insets ->
         Children(routerState = router.state, animation = crossfadeScale()) { screen ->
@@ -271,6 +284,8 @@ fun MainRouter(
                 is AppScreen.ImageViewer -> ImageViewerScreen(
                     image = currentScreen.image
                 )
+
+                AppScreen.StatusComposer -> ComposerScreen()
             }.let {}
         }
     }

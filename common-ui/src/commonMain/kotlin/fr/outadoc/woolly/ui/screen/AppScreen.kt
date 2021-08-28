@@ -38,4 +38,7 @@ sealed class AppScreen : Parcelable {
 
     @Parcelize
     data class ImageViewer(val image: ImageAttachment) : AppScreen()
+
+    @Parcelize
+    object StatusComposer : AppScreen()
 }

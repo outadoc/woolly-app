@@ -15,6 +15,7 @@ class AppScreenResources {
         is AppScreen.Search -> "Search"
         is AppScreen.StatusDetails -> "Status"
         is AppScreen.ImageViewer -> "Image"
+        AppScreen.StatusComposer -> "New status"
     }
 
     fun getScreenIcon(screen: AppScreen) = when (screen) {
@@ -27,5 +28,6 @@ class AppScreenResources {
         is AppScreen.Search -> Icons.Default.Search
         is AppScreen.StatusDetails -> Icons.Default.ChatBubble
         is AppScreen.ImageViewer -> Icons.Default.Image
+        AppScreen.StatusComposer -> Icons.Default.Edit
     }
 }

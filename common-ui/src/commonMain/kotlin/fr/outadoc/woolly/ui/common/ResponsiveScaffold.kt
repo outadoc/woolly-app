@@ -30,6 +30,8 @@ fun ResponsiveScaffold(
     bottomBar: @Composable () -> Unit,
     narrowDrawerContent: @Composable ColumnScope.(DrawerState?) -> Unit,
     wideDrawerContent: @Composable ColumnScope.() -> Unit,
+    drawerGesturesEnabled: Boolean = true,
+    floatingActionButton: @Composable () -> Unit = {},
     breakpointWidthDp: Dp = 600.dp,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -63,6 +65,8 @@ fun ResponsiveScaffold(
                             topBar = topBar,
                             bottomBar = bottomBar,
                             drawerContent = {},
+                            drawerGesturesEnabled = drawerGesturesEnabled,
+                            floatingActionButton = floatingActionButton,
                             content = content,
                             disposition = disposition
                         )
@@ -75,6 +79,8 @@ fun ResponsiveScaffold(
                     topBar = topBar,
                     bottomBar = bottomBar,
                     drawerContent = narrowDrawerContent,
+                    drawerGesturesEnabled = drawerGesturesEnabled,
+                    floatingActionButton = floatingActionButton,
                     content = content,
                     disposition = disposition
                 )
@@ -89,6 +95,8 @@ private fun InnerScaffold(
     topBar: @Composable (DrawerState?) -> Unit,
     bottomBar: @Composable () -> Unit,
     drawerContent: @Composable (ColumnScope.(DrawerState?) -> Unit),
+    drawerGesturesEnabled: Boolean = true,
+    floatingActionButton: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
     disposition: Disposition
 ) {
@@ -106,6 +114,8 @@ private fun InnerScaffold(
         drawerContent = if (disposition == Disposition.Standard) {
             @Composable { drawerContent(scaffoldState.drawerState) }
         } else null,
+        drawerGesturesEnabled = drawerGesturesEnabled,
+        floatingActionButton = floatingActionButton,
         content = content
     )
 }

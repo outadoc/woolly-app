@@ -43,7 +43,7 @@ fun PinchToZoomImage(
             .fillMaxSize()
             .combinedClickable(
                 indication = null,
-                interactionSource =  remember { MutableInteractionSource() },
+                interactionSource = remember { MutableInteractionSource() },
                 onClick = {},
                 onDoubleClick = {
                     scale = if (scale == 2f) 1f else 2f
@@ -62,7 +62,6 @@ fun PinchToZoomImage(
     ) {
         KamelImage(
             modifier = Modifier.graphicsLayer(
-                // adding some zoom limits (min 50%, max 200%)
                 scaleX = scale,
                 scaleY = scale,
                 rotationZ = rotationState,

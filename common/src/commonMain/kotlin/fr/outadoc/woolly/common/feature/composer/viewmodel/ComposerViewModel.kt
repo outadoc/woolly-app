@@ -12,12 +12,10 @@ class ComposerViewModel(
     private val statusPoster: StatusPoster
 ) {
     sealed class State {
-        data class Composing(val message: String) : State()
+        data class Composing(val message: String = "") : State()
     }
 
-    private val _state = MutableStateFlow<State>(
-        State.Composing(message = "")
-    )
+    private val _state = MutableStateFlow<State>(State.Composing())
 
     val state: StateFlow<State>
         get() = _state
@@ -32,6 +30,7 @@ class ComposerViewModel(
     fun onSubmit() {
         val currentState = (_state.value as? State.Composing) ?: return
         scope.launch {
+            _state.value = State.Composing()
             statusPoster.enqueueStatus(
                 StatusCreate(
                     status = currentState.message

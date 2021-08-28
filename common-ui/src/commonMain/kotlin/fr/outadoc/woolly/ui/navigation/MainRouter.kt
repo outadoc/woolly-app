@@ -2,22 +2,21 @@ package fr.outadoc.woolly.ui.navigation
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import com.arkivanov.decompose.pop
 import com.arkivanov.decompose.push
 import com.arkivanov.decompose.replaceCurrent
+import fr.outadoc.mastodonk.api.entity.Attachment
+import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
@@ -28,6 +27,8 @@ import fr.outadoc.woolly.ui.feature.account.AccountScreen
 import fr.outadoc.woolly.ui.feature.bookmarks.BookmarksScreen
 import fr.outadoc.woolly.ui.feature.favourites.FavouritesScreen
 import fr.outadoc.woolly.ui.feature.home.HomeTimelineScreen
+import fr.outadoc.woolly.ui.feature.media.ImageViewerScreen
+import fr.outadoc.woolly.ui.feature.media.toAppImage
 import fr.outadoc.woolly.ui.feature.notifications.NotificationsScreen
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineScreen
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
@@ -71,10 +72,9 @@ fun MainRouter(
                 SearchSubScreen.Accounts -> searchAccountsListState
                 SearchSubScreen.Hashtags -> searchHashtagsListState
             }
-            AppScreen.Account -> null
             AppScreen.Bookmarks -> bookmarksListState
             AppScreen.Favourites -> favouritesListState
-            is AppScreen.StatusDetails -> null
+            else -> null
         }?.let { listState ->
             scope.launch {
                 try {
@@ -94,6 +94,22 @@ fun MainRouter(
     val di = LocalDI.current
     val res by di.instance<AppScreenResources>()
     val scaffoldState = rememberScaffoldState()
+
+    val uriHandler = LocalUriHandler.current
+    val onAttachmentClick = { attachment: Attachment ->
+        when (attachment) {
+            is Attachment.Image -> router.push(
+                AppScreen.ImageViewer(image = attachment.toAppImage())
+            )
+            else -> uriHandler.openUri(attachment.url)
+        }
+    }
+
+    val onStatusClick = { status: Status ->
+        router.push(
+            AppScreen.StatusDetails(statusId = status.statusId)
+        )
+    }
 
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
@@ -202,11 +218,8 @@ fun MainRouter(
                 AppScreen.HomeTimeline -> HomeTimelineScreen(
                     insets = insets,
                     listState = homeListState,
-                    onStatusClick = { status ->
-                        router.push(
-                            AppScreen.StatusDetails(statusId = status.statusId)
-                        )
-                    }
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick
                 )
 
                 is AppScreen.PublicTimeline -> PublicTimelineScreen(
@@ -214,21 +227,15 @@ fun MainRouter(
                     currentSubScreen = currentScreen.subScreen,
                     localListState = publicLocalListState,
                     globalListState = publicGlobalListState,
-                    onStatusClick = { status ->
-                        router.push(
-                            AppScreen.StatusDetails(statusId = status.statusId)
-                        )
-                    }
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick
                 )
 
                 AppScreen.Notifications -> NotificationsScreen(
                     insets = insets,
                     listState = notificationsListState,
-                    onStatusClick = { status ->
-                        router.push(
-                            AppScreen.StatusDetails(statusId = status.statusId)
-                        )
-                    }
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick
                 )
 
                 is AppScreen.Search -> SearchScreen(
@@ -237,11 +244,8 @@ fun MainRouter(
                     statusListState = searchStatusesListState,
                     accountsListState = searchAccountsListState,
                     hashtagsListState = searchHashtagsListState,
-                    onStatusClick = { status ->
-                        router.push(
-                            AppScreen.StatusDetails(statusId = status.statusId)
-                        )
-                    }
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick
                 )
 
                 AppScreen.Account -> AccountScreen(insets = insets)
@@ -249,25 +253,23 @@ fun MainRouter(
                 AppScreen.Bookmarks -> BookmarksScreen(
                     insets = insets,
                     listState = bookmarksListState,
-                    onStatusClick = { status ->
-                        router.push(
-                            AppScreen.StatusDetails(statusId = status.statusId)
-                        )
-                    }
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick
                 )
 
                 AppScreen.Favourites -> FavouritesScreen(
                     insets = insets,
                     listState = favouritesListState,
-                    onStatusClick = { status ->
-                        router.push(
-                            AppScreen.StatusDetails(statusId = status.statusId)
-                        )
-                    }
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick
                 )
 
                 is AppScreen.StatusDetails -> StatusDetailsScreen(
                     statusId = currentScreen.statusId
+                )
+
+                is AppScreen.ImageViewer -> ImageViewerScreen(
+                    image = currentScreen.image
                 )
             }.let {}
         }

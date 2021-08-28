@@ -15,6 +15,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.common.ListExtremityState
@@ -29,7 +30,8 @@ fun StatusList(
     lazyListState: LazyListState,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
     onStatusAction: (StatusAction) -> Unit = {},
-    onStatusClick: (Status) -> Unit = {}
+    onStatusClick: (Status) -> Unit = {},
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
@@ -83,7 +85,8 @@ fun StatusList(
                                         bottom = 8.dp
                                     ),
                                 status = status,
-                                onStatusAction = onStatusAction
+                                onStatusAction = onStatusAction,
+                                onAttachmentClick = onAttachmentClick
                             )
                         } else {
                             StatusPlaceholder()

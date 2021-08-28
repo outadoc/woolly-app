@@ -1,49 +1,12 @@
 package fr.outadoc.woolly.ui.feature.status
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconToggleButton
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowDropUp
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.LockOpen
-import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.Poll
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.Repeat
-import androidx.compose.material.icons.filled.Reply
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.StatusVisibility
 import fr.outadoc.woolly.common.displayNameOrAcct
@@ -72,7 +36,8 @@ fun StatusPlaceholder() {
 fun StatusOrBoost(
     modifier: Modifier = Modifier,
     status: Status,
-    onStatusAction: (StatusAction) -> Unit
+    onStatusAction: (StatusAction) -> Unit,
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val original = status.boostedStatus ?: status
     val boostedBy = if (status.boostedStatus != null) status.account else null
@@ -81,7 +46,8 @@ fun StatusOrBoost(
         modifier = modifier,
         status = original,
         boostedBy = boostedBy,
-        onStatusAction = onStatusAction
+        onStatusAction = onStatusAction,
+        onAttachmentClick = onAttachmentClick
     )
 }
 
@@ -90,7 +56,8 @@ fun Status(
     modifier: Modifier = Modifier,
     status: Status,
     boostedBy: Account? = null,
-    onStatusAction: ((StatusAction) -> Unit)? = null
+    onStatusAction: ((StatusAction) -> Unit)? = null,
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -104,7 +71,8 @@ fun Status(
         StatusWithActions(
             status = status,
             boostedBy = boostedBy,
-            onStatusAction = onStatusAction
+            onStatusAction = onStatusAction,
+            onAttachmentClick = onAttachmentClick
         )
     }
 }
@@ -114,7 +82,8 @@ fun StatusWithActions(
     modifier: Modifier = Modifier,
     status: Status,
     boostedBy: Account? = null,
-    onStatusAction: ((StatusAction) -> Unit)? = null
+    onStatusAction: ((StatusAction) -> Unit)? = null,
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -143,7 +112,8 @@ fun StatusWithActions(
                     bottom = 8.dp
                 ),
                 media = status.mediaAttachments,
-                isSensitive = status.isSensitive
+                isSensitive = status.isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
         }
 

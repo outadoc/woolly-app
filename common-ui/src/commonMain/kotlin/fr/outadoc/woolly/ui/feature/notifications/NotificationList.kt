@@ -24,6 +24,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
 import fr.outadoc.mastodonk.api.entity.Status
@@ -41,7 +42,8 @@ fun NotificationList(
     notificationFlow: Flow<PagingData<Notification>>,
     lazyListState: LazyListState,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
-    onStatusClick: (Status) -> Unit = {}
+    onStatusClick: (Status) -> Unit = {},
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val lazyPagingItems = notificationFlow.collectAsLazyPagingItems()
 
@@ -88,7 +90,8 @@ fun NotificationList(
                             Notification(
                                 modifier = Modifier.fillMaxWidth(),
                                 notification = notification,
-                                onStatusClick = onStatusClick
+                                onStatusClick = onStatusClick,
+                                onAttachmentClick = onAttachmentClick
                             )
                         } else {
                             NotificationPlaceHolder()
@@ -118,7 +121,8 @@ fun NotificationPlaceHolder() {
 fun Notification(
     modifier: Modifier = Modifier,
     notification: Notification,
-    onStatusClick: (Status) -> Unit = {}
+    onStatusClick: (Status) -> Unit = {},
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -168,7 +172,8 @@ fun Notification(
                                 )
                                 .width(256.dp),
                             media = status.mediaAttachments,
-                            isSensitive = status.isSensitive
+                            isSensitive = status.isSensitive,
+                            onAttachmentClick = onAttachmentClick
                         )
                     }
                 }

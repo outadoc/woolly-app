@@ -4,6 +4,7 @@ import com.arkivanov.decompose.statekeeper.Parcelable
 import com.arkivanov.decompose.statekeeper.Parcelize
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
+import fr.outadoc.woolly.ui.feature.media.ImageAttachment
 
 sealed class AppScreen : Parcelable {
 
@@ -34,4 +35,7 @@ sealed class AppScreen : Parcelable {
 
     @Parcelize
     data class StatusDetails(val statusId: String) : AppScreen()
+
+    @Parcelize
+    data class ImageViewer(val image: ImageAttachment) : AppScreen()
 }

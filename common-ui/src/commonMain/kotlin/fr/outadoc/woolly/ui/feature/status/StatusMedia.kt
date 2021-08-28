@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.woolly.ui.common.BlurHashImage
 import fr.outadoc.woolly.ui.common.WoollyTheme
+import fr.outadoc.woolly.ui.feature.media.ImageAttachment
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
@@ -33,7 +34,8 @@ private val ImageGridPadding = 4.dp
 fun StatusMediaGrid(
     modifier: Modifier = Modifier,
     media: List<Attachment>,
-    isSensitive: Boolean
+    isSensitive: Boolean,
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val displayableMedia = media
         .filter { it.previewUrl != null }
@@ -43,26 +45,34 @@ fun StatusMediaGrid(
         when (displayableMedia.size) {
             1 -> SingleMediaPreview(
                 media = displayableMedia.first(),
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
             2 -> TwoMediaPreview(
                 media = displayableMedia,
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
             3 -> ThreeMediaPreview(
                 media = displayableMedia,
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
             4 -> FourMediaPreview(
                 media = displayableMedia,
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
         }
     }
 }
 
 @Composable
-fun SingleMediaPreview(media: Attachment, isSensitive: Boolean) {
+fun SingleMediaPreview(
+    media: Attachment,
+    isSensitive: Boolean,
+    onAttachmentClick: (Attachment) -> Unit = {}
+) {
     val aspectRatio = when (media) {
         is Attachment.Image -> media.meta.small?.aspect
         is Attachment.Video -> media.meta.small?.aspect
@@ -73,12 +83,17 @@ fun SingleMediaPreview(media: Attachment, isSensitive: Boolean) {
     StatusMediaPreview(
         modifier = Modifier.aspectRatio(aspectRatio),
         media = media,
-        isSensitive = isSensitive
+        isSensitive = isSensitive,
+        onAttachmentClick = onAttachmentClick
     )
 }
 
 @Composable
-fun TwoMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
+fun TwoMediaPreview(
+    media: List<Attachment>,
+    isSensitive: Boolean,
+    onAttachmentClick: (Attachment) -> Unit = {}
+) {
     Row(
         modifier = Modifier.aspectRatio(DefaultImageRatio),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -88,7 +103,8 @@ fun TwoMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                 .aspectRatio(DefaultImageRatio / 2)
                 .padding(end = ImageGridPadding),
             media = media[0],
-            isSensitive = isSensitive
+            isSensitive = isSensitive,
+            onAttachmentClick = onAttachmentClick
         )
 
         StatusMediaPreview(
@@ -96,13 +112,18 @@ fun TwoMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                 .aspectRatio(DefaultImageRatio / 2)
                 .padding(start = ImageGridPadding),
             media = media[1],
-            isSensitive = isSensitive
+            isSensitive = isSensitive,
+            onAttachmentClick = onAttachmentClick
         )
     }
 }
 
 @Composable
-fun ThreeMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
+fun ThreeMediaPreview(
+    media: List<Attachment>,
+    isSensitive: Boolean,
+    onAttachmentClick: (Attachment) -> Unit = {}
+) {
     Row(
         modifier = Modifier.aspectRatio(DefaultImageRatio),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -112,7 +133,8 @@ fun ThreeMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                 .aspectRatio(DefaultImageRatio / 2)
                 .padding(end = ImageGridPadding),
             media = media[0],
-            isSensitive = isSensitive
+            isSensitive = isSensitive,
+            onAttachmentClick = onAttachmentClick
         )
 
         Column(
@@ -126,7 +148,8 @@ fun ThreeMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                     .aspectRatio(DefaultImageRatio)
                     .padding(bottom = ImageGridPadding / 2),
                 media = media[1],
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
 
             StatusMediaPreview(
@@ -134,14 +157,19 @@ fun ThreeMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                     .aspectRatio(DefaultImageRatio)
                     .padding(top = ImageGridPadding / 2),
                 media = media[2],
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
         }
     }
 }
 
 @Composable
-fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
+fun FourMediaPreview(
+    media: List<Attachment>,
+    isSensitive: Boolean,
+    onAttachmentClick: (Attachment) -> Unit = {}
+) {
     Column(verticalArrangement = Arrangement.SpaceBetween) {
         Row(
             modifier = Modifier
@@ -154,7 +182,8 @@ fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                     .aspectRatio(DefaultImageRatio)
                     .padding(end = ImageGridPadding),
                 media = media[0],
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
 
             StatusMediaPreview(
@@ -162,7 +191,8 @@ fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                     .aspectRatio(DefaultImageRatio)
                     .padding(start = ImageGridPadding),
                 media = media[1],
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
         }
 
@@ -177,7 +207,8 @@ fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                     .aspectRatio(DefaultImageRatio)
                     .padding(end = ImageGridPadding),
                 media = media[2],
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
 
             StatusMediaPreview(
@@ -185,7 +216,8 @@ fun FourMediaPreview(media: List<Attachment>, isSensitive: Boolean) {
                     .aspectRatio(DefaultImageRatio)
                     .padding(start = ImageGridPadding),
                 media = media[3],
-                isSensitive = isSensitive
+                isSensitive = isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
         }
     }
@@ -196,9 +228,9 @@ fun StatusMediaPreview(
     modifier: Modifier = Modifier,
     media: Attachment,
     isSensitive: Boolean,
-    shape: Shape = MaterialTheme.shapes.medium
+    shape: Shape = MaterialTheme.shapes.medium,
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val uriHandler = LocalUriHandler.current
     val icon = when (media) {
         is Attachment.Image ->
             if (isSensitive) Icons.Default.Preview
@@ -215,7 +247,7 @@ fun StatusMediaPreview(
                 role = Role.Image,
                 onClickLabel = "View media source"
             ) {
-                uriHandler.openUri(media.url)
+              onAttachmentClick(media)
             },
         icon = icon,
         contentDescription = media.description

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import fr.outadoc.woolly.ui.feature.status.ErrorScreen
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
@@ -38,6 +39,8 @@ fun PinchToZoomImage(
     var translationX by remember { mutableStateOf(0f) }
     var translationY by remember { mutableStateOf(0f) }
 
+    val uriHandler = LocalUriHandler.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -45,6 +48,8 @@ fun PinchToZoomImage(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = {},
+                onLongClick = { uriHandler.openUri(imageUrl) },
+                onLongClickLabel = "Open in browser",
                 onDoubleClick = {
                     scale = if (scale == 2f) 1f else 2f
                 }

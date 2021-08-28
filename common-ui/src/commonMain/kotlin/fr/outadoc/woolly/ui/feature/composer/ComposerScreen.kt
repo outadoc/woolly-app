@@ -3,8 +3,8 @@ package fr.outadoc.woolly.ui.feature.composer
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -62,7 +62,7 @@ private fun Composer(
     onSubmit: () -> Unit = {}
 ) {
     Column(modifier = modifier) {
-        OutlinedTextField(
+        TextField(
             modifier = Modifier.fillMaxWidth(),
             value = message,
             onValueChange = onMessageChange,

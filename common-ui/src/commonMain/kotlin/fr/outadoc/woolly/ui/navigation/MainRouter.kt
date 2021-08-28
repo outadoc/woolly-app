@@ -19,6 +19,7 @@ import com.arkivanov.decompose.replaceCurrent
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.ColorScheme
+import fr.outadoc.woolly.common.feature.composer.StatusPoster
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.ui.common.DrawerMenuButton
@@ -39,6 +40,7 @@ import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
 import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
 import fr.outadoc.woolly.ui.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
@@ -111,6 +113,34 @@ fun MainRouter(
         router.push(
             AppScreen.StatusDetails(statusId = status.statusId)
         )
+    }
+
+    val statusPoster by di.instance<StatusPoster>()
+
+    scope.launch {
+        statusPoster.state.collect { state ->
+            with(scaffoldState.snackbarHostState) {
+                when {
+                    state.posting.isNotEmpty() -> {
+                        showSnackbar(
+                            message = "Posting status…"
+                        )
+                    }
+                    state.error.isNotEmpty() -> {
+                        val result = showSnackbar(
+                            message = "Error while posting status",
+                            actionLabel = "Retry",
+                            SnackbarDuration.Indefinite
+                        )
+
+                        if (result == SnackbarResult.ActionPerformed) {
+                            statusPoster.retryAll()
+                        }
+                    }
+                    else -> currentSnackbarData?.dismiss()
+                }
+            }
+        }
     }
 
     ResponsiveScaffold(
@@ -285,7 +315,9 @@ fun MainRouter(
                     image = currentScreen.image
                 )
 
-                AppScreen.StatusComposer -> ComposerScreen()
+                AppScreen.StatusComposer -> ComposerScreen(
+                    onDismiss = { router.pop() }
+                )
             }.let {}
         }
     }

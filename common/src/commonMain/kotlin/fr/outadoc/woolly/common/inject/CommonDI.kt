@@ -11,6 +11,9 @@ import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
 import fr.outadoc.woolly.common.feature.bookmarks.viewmodel.BookmarksViewModel
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
+import fr.outadoc.woolly.common.feature.composer.SimpleThreadedStatusPoster
+import fr.outadoc.woolly.common.feature.composer.StatusPoster
+import fr.outadoc.woolly.common.feature.composer.viewmodel.ComposerViewModel
 import fr.outadoc.woolly.common.feature.favourites.viewmodel.FavouritesViewModel
 import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
 import fr.outadoc.woolly.common.feature.notifications.viewmodel.NotificationsViewModel
@@ -58,6 +61,9 @@ val CommonDI = DI {
     bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
     bindSingleton { TimeRepository() }
 
+    // TODO WorkManager-based impl for Android
+    bindSingleton<StatusPoster> { SimpleThreadedStatusPoster(instance(), instance()) }
+
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
     bindSingleton { HomeTimelineViewModel(instance(), instance(), instance()) }
     bindSingleton { PublicTimelineViewModel(instance(), instance(), instance()) }
@@ -67,4 +73,5 @@ val CommonDI = DI {
     bindSingleton { BookmarksViewModel(instance(), instance(), instance()) }
     bindSingleton { FavouritesViewModel(instance(), instance(), instance()) }
     bindSingleton { StatusDetailsViewModel(instance(), instance()) }
+    bindSingleton { ComposerViewModel(instance(), instance()) }
 }

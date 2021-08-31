@@ -22,9 +22,10 @@ fun ImageViewerScreen(image: ImageAttachment) {
         onLongClick = { uriHandler.openUri(image.url) }
     ) {
         KamelImage(
+            modifier = Modifier.fillMaxSize(),
             resource = lazyPainterResource(image.url),
             contentDescription = image.contentDescription,
-            contentScale = ContentScale.FillWidth,
+            contentScale = ContentScale.Fit,
             crossfade = true,
             onLoading = {
                 Column(

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import kotlin.math.max
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -23,7 +24,6 @@ fun PinchToZoom(
     content: @Composable () -> Unit
 ) {
     var scale by remember { mutableStateOf(1f) }
-    var rotationState by remember { mutableStateOf(0f) }
     var translationX by remember { mutableStateOf(0f) }
     var translationY by remember { mutableStateOf(0f) }
 
@@ -41,9 +41,8 @@ fun PinchToZoom(
                 }
             )
             .pointerInput(Unit) {
-                detectTransformGestures { _, pan, zoom, rotation ->
-                    scale *= zoom
-                    rotationState += rotation
+                detectTransformGestures { _, pan, zoom, _ ->
+                    scale = max(scale * zoom, 1f)
                     translationX += pan.x
                     translationY += pan.y
                 }
@@ -56,7 +55,6 @@ fun PinchToZoom(
                 .graphicsLayer(
                     scaleX = scale,
                     scaleY = scale,
-                    rotationZ = rotationState,
                     translationX = translationX,
                     translationY = translationY
                 )

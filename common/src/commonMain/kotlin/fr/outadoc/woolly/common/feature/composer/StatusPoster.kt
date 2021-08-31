@@ -5,12 +5,13 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface StatusPoster {
 
-    data class State(
-        val posting: Set<StatusCreate> = emptySet(),
-        val error: Set<StatusCreate> = emptySet()
-    )
+    sealed class State {
+        object Idle : State()
+        object Posting : State()
+        object Error : State()
+    }
 
     val state: StateFlow<State>
-    suspend fun enqueueStatus(statusCreate: StatusCreate)
-    suspend fun retryAll()
+    fun enqueueStatus(statusCreate: StatusCreate)
+    fun retryAll()
 }

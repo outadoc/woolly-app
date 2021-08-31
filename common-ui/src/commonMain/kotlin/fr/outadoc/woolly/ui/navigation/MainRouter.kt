@@ -7,6 +7,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
@@ -40,7 +42,6 @@ import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
 import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
 import fr.outadoc.woolly.ui.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.instance
@@ -115,33 +116,29 @@ fun MainRouter(
         )
     }
 
-    val statusPoster by di.instance<StatusPoster>()
+    PostingStatusSnackbar(
+        showPostingSnackbar = {
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = "Posting status…",
+                    duration = SnackbarDuration.Short
+                )
+            }
+        },
+        showErrorSnackbar = { onRetry: () -> Unit ->
+            scope.launch {
+                val result = scaffoldState.snackbarHostState.showSnackbar(
+                    message = "Error while posting status",
+                    actionLabel = "Retry",
+                    duration = SnackbarDuration.Indefinite
+                )
 
-    scope.launch {
-        statusPoster.state.collect { state ->
-            with(scaffoldState.snackbarHostState) {
-                when {
-                    state.posting.isNotEmpty() -> {
-                        showSnackbar(
-                            message = "Posting status…"
-                        )
-                    }
-                    state.error.isNotEmpty() -> {
-                        val result = showSnackbar(
-                            message = "Error while posting status",
-                            actionLabel = "Retry",
-                            SnackbarDuration.Indefinite
-                        )
-
-                        if (result == SnackbarResult.ActionPerformed) {
-                            statusPoster.retryAll()
-                        }
-                    }
-                    else -> currentSnackbarData?.dismiss()
+                if (result == SnackbarResult.ActionPerformed) {
+                    onRetry()
                 }
             }
         }
-    }
+    )
 
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
@@ -319,6 +316,25 @@ fun MainRouter(
                     onDismiss = { router.pop() }
                 )
             }.let {}
+        }
+    }
+}
+
+@Composable
+fun PostingStatusSnackbar(
+    showPostingSnackbar: () -> Unit,
+    showErrorSnackbar: (() -> Unit) -> Unit
+) {
+    val di = LocalDI.current
+    val statusPoster by di.instance<StatusPoster>()
+    val state by statusPoster.state.collectAsState()
+
+    when (state) {
+        StatusPoster.State.Posting -> showPostingSnackbar()
+        StatusPoster.State.Error -> showErrorSnackbar {
+            statusPoster.retryAll()
+        }
+        else -> {
         }
     }
 }

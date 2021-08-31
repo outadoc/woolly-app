@@ -5,7 +5,6 @@ import fr.outadoc.woolly.common.feature.composer.StatusPoster
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 class ComposerViewModel(
     private val scope: CoroutineScope,
@@ -29,13 +28,11 @@ class ComposerViewModel(
 
     fun onSubmit() {
         val currentState = (_state.value as? State.Composing) ?: return
-        scope.launch {
-            _state.value = State.Composing()
-            statusPoster.enqueueStatus(
-                StatusCreate(
-                    status = currentState.message
-                )
+        _state.value = State.Composing()
+        statusPoster.enqueueStatus(
+            StatusCreate(
+                status = currentState.message
             )
-        }
+        )
     }
 }

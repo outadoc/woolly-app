@@ -3,54 +3,81 @@ package fr.outadoc.woolly.common.feature.composer
 import fr.outadoc.mastodonk.api.entity.request.StatusCreate
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class SimpleThreadedStatusPoster(
     scope: CoroutineScope,
     private val clientProvider: MastodonClientProvider
 ) : StatusPoster {
 
-    private val _state = MutableStateFlow(StatusPoster.State())
+    private data class PublishQueue(
+        val posting: Set<StatusCreate> = emptySet(),
+        val error: Set<StatusCreate> = emptySet()
+    )
 
-    override val state: StateFlow<StatusPoster.State> = _state
-        .map { state ->
-            val nextStatusToPost = state.posting.firstOrNull()
-            if (nextStatusToPost != null) {
-                try {
-                    clientProvider.mastodonClient.value
-                        ?.statuses
-                        ?.postStatus(nextStatusToPost)
+    private val _queue = MutableStateFlow(PublishQueue())
 
-                    state.copy(posting = state.posting - nextStatusToPost)
-                } catch (e: Exception) {
-                    state.copy(
-                        posting = state.posting - nextStatusToPost,
-                        error = state.error + nextStatusToPost
-                    )
-                }
-            } else {
-                state
+    override val state: StateFlow<StatusPoster.State> = _queue
+        .map { queue ->
+            when {
+                queue.posting.isNotEmpty() -> StatusPoster.State.Posting
+                queue.error.isNotEmpty() -> StatusPoster.State.Error
+                else -> StatusPoster.State.Idle
             }
         }
         .stateIn(
             scope,
-            initialValue = StatusPoster.State(),
-            started = SharingStarted.Eagerly
+            SharingStarted.WhileSubscribed(),
+            StatusPoster.State.Idle
         )
 
-    override suspend fun enqueueStatus(statusCreate: StatusCreate) {
-        val currentState = _state.value
-        _state.value = currentState.copy(
-            posting = currentState.posting + statusCreate
+    init {
+        scope.launch(Dispatchers.IO) {
+            _queue.collect { state ->
+                val nextStatusToPost = state.posting.firstOrNull()
+                if (nextStatusToPost != null) {
+                    try {
+                        clientProvider.mastodonClient.value
+                            ?.statuses
+                            ?.postStatus(nextStatusToPost)
+
+                        _queue.emit(
+                            state.copy(
+                                posting = state.posting - nextStatusToPost
+                            )
+                        )
+                    } catch (e: Exception) {
+                        _queue.emit(
+                            state.copy(
+                                posting = state.posting - nextStatusToPost,
+                                error = state.error + nextStatusToPost
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    override fun enqueueStatus(statusCreate: StatusCreate) {
+        val currentState = _queue.value
+        _queue.tryEmit(
+            currentState.copy(
+                posting = currentState.posting + statusCreate
+            )
         )
     }
 
-    override suspend fun retryAll() {
+    override fun retryAll() {
         // TODO investigate why it's not working
-        val currentState = _state.value
-        _state.value = currentState.copy(
-            error = emptySet(),
-            posting = currentState.posting + currentState.error
+        val currentState = _queue.value
+        _queue.tryEmit(
+            currentState.copy(
+                error = emptySet(),
+                posting = currentState.posting + currentState.error
+            )
         )
     }
 }

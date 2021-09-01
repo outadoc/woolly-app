@@ -1,11 +1,15 @@
 package fr.outadoc.woolly.ui.feature.statusdetails
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.TabRowDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -53,6 +57,7 @@ fun StatusDetailsScreen(
         }
         is StatusDetailsViewModel.State.LoadedStatus -> {
             StatusWithContext(
+                modifier = Modifier.fillMaxSize(),
                 status = state.status,
                 context = state.context,
                 onStatusClick = onStatusClick,
@@ -73,40 +78,51 @@ fun StatusWithContext(
     val lazyListState = rememberLazyListState()
 
     LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+        modifier = modifier,
         state = lazyListState
     ) {
-        context?.ancestors?.let { ancestors ->
-            items(ancestors, key = { it.statusId }) { status ->
-                Status(
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .clickable { onStatusClick(status) },
-                    status = status,
-                    onAttachmentClick = onAttachmentClick
-                )
+        context?.ancestors
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { ancestors ->
+                items(ancestors, key = { it.statusId }) { status ->
+                    Status(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable { onStatusClick(status) },
+                        status = status,
+                        onAttachmentClick = onAttachmentClick
+                    )
+                }
+
+                item {
+                    TabRowDefaults.Divider(thickness = 1.dp)
+                }
             }
-        }
 
         item {
             StatusDetails(
+                modifier = Modifier.padding(16.dp),
                 statusOrBoost = status,
                 onStatusAction = { TODO("call VM") }
             )
         }
 
-        context?.descendants?.let { descendants ->
-            items(descendants, key = { it.statusId }) { status ->
-                Status(
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .clickable { onStatusClick(status) },
-                    status = status,
-                    onAttachmentClick = onAttachmentClick
-                )
+        context?.descendants
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { descendants ->
+                item {
+                    TabRowDefaults.Divider(thickness = 1.dp)
+                }
+
+                items(descendants, key = { it.statusId }) { status ->
+                    Status(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable { onStatusClick(status) },
+                        status = status,
+                        onAttachmentClick = onAttachmentClick
+                    )
+                }
             }
-        }
     }
 }

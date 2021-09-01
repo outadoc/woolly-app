@@ -72,6 +72,6 @@ val CommonDI = DI {
     bindSingleton { NotificationsViewModel(instance(), instance(), instance()) }
     bindSingleton { BookmarksViewModel(instance(), instance(), instance()) }
     bindSingleton { FavouritesViewModel(instance(), instance(), instance()) }
-    bindSingleton { StatusDetailsViewModel(instance(), instance()) }
-    bindSingleton { ComposerViewModel(instance(), instance()) }
+    bindSingleton { StatusDetailsViewModel(instance()) }
+    bindSingleton { ComposerViewModel(instance()) }
 }

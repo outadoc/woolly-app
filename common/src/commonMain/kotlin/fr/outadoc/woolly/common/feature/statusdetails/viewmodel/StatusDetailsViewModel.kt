@@ -3,50 +3,45 @@ package fr.outadoc.woolly.common.feature.statusdetails.viewmodel
 import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 
-class StatusDetailsViewModel(
-    private val viewModelScope: CoroutineScope,
-    clientProvider: MastodonClientProvider
-) {
+class StatusDetailsViewModel(clientProvider: MastodonClientProvider) {
     sealed class State {
         object Loading : State()
         object Error : State()
         data class LoadedStatus(
             val status: Status,
-            val context: Context?
+            val context: Context
         ) : State()
     }
 
     private val statusIdFlow = MutableSharedFlow<String>(replay = 1)
 
-    private val mainStatusFlow: Flow<Status?> =
+    val state: Flow<State> = flow {
         combine(clientProvider.mastodonClient, statusIdFlow) { client, statusId ->
-            client?.statuses?.getStatus(statusId)
-        }
+            emit(State.Loading)
 
-    private val contextFlow: Flow<Context?> =
-        combine(clientProvider.mastodonClient, statusIdFlow) { client, statusId ->
-            client?.statuses?.getContext(statusId)
-        }
+            if (client == null) emit(State.Error)
+            else {
+                val status = client.statuses.getStatus(statusId)
+                val context = client.statuses.getContext(statusId)
+                    ?: Context(
+                        ancestors = emptyList(),
+                        descendants = emptyList()
+                    )
 
-    val state: Flow<State> =
-        combine(mainStatusFlow, contextFlow) { status, context ->
-            if (status == null) State.Error
-            else State.LoadedStatus(
-                status = status,
-                context = context
-            )
-        }
+                emit(
+                    if (status == null) State.Error
+                    else State.LoadedStatus(
+                        status = status,
+                        context = context
+                    )
+                )
+            }
+        }.collect()
+    }
 
     fun loadStatus(statusId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            statusIdFlow.emit(statusId)
-        }
+        statusIdFlow.tryEmit(statusId)
     }
 }

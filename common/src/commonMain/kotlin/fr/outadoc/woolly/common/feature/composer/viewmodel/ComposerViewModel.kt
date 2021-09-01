@@ -2,14 +2,10 @@ package fr.outadoc.woolly.common.feature.composer.viewmodel
 
 import fr.outadoc.mastodonk.api.entity.request.StatusCreate
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class ComposerViewModel(
-    private val scope: CoroutineScope,
-    private val statusPoster: StatusPoster
-) {
+class ComposerViewModel(private val statusPoster: StatusPoster) {
     sealed class State {
         data class Composing(val message: String = "") : State()
     }

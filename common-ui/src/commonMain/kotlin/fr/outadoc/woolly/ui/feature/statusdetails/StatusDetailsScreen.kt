@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.runtime.Composable
@@ -71,33 +71,31 @@ fun StatusDetailsScreen(
 fun StatusWithContext(
     modifier: Modifier = Modifier,
     status: Status,
-    context: Context?,
+    context: Context,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val lazyListState = rememberLazyListState()
-
     LazyColumn(
         modifier = modifier,
-        state = lazyListState
+        state = LazyListState(
+            firstVisibleItemIndex = context.ancestors.size
+        )
     ) {
-        context?.ancestors
-            ?.takeIf { it.isNotEmpty() }
-            ?.let { ancestors ->
-                items(ancestors, key = { it.statusId }) { status ->
-                    Status(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clickable { onStatusClick(status) },
-                        status = status,
-                        onAttachmentClick = onAttachmentClick
-                    )
-                }
-
-                item {
-                    TabRowDefaults.Divider(thickness = 1.dp)
-                }
+        if (context.ancestors.isNotEmpty()) {
+            items(context.ancestors, key = { it.statusId }) { status ->
+                Status(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .clickable { onStatusClick(status) },
+                    status = status,
+                    onAttachmentClick = onAttachmentClick
+                )
             }
+
+            item {
+                TabRowDefaults.Divider(thickness = 1.dp)
+            }
+        }
 
         item {
             StatusDetails(
@@ -107,22 +105,20 @@ fun StatusWithContext(
             )
         }
 
-        context?.descendants
-            ?.takeIf { it.isNotEmpty() }
-            ?.let { descendants ->
-                item {
-                    TabRowDefaults.Divider(thickness = 1.dp)
-                }
-
-                items(descendants, key = { it.statusId }) { status ->
-                    Status(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clickable { onStatusClick(status) },
-                        status = status,
-                        onAttachmentClick = onAttachmentClick
-                    )
-                }
+        if (context.descendants.isNotEmpty()) {
+            item {
+                TabRowDefaults.Divider(thickness = 1.dp)
             }
+
+            items(context.descendants, key = { it.statusId }) { status ->
+                Status(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .clickable { onStatusClick(status) },
+                    status = status,
+                    onAttachmentClick = onAttachmentClick
+                )
+            }
+        }
     }
 }

@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.StatusAction
@@ -47,7 +48,8 @@ import fr.outadoc.woolly.ui.richtext.RichText
 fun StatusDetails(
     modifier: Modifier = Modifier,
     statusOrBoost: Status,
-    onStatusAction: ((StatusAction) -> Unit)? = null
+    onStatusAction: ((StatusAction) -> Unit)? = null,
+    onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val status = statusOrBoost.boostedStatus ?: statusOrBoost
     val boostedBy = if (statusOrBoost.boostedStatus != null) statusOrBoost.account else null
@@ -88,7 +90,8 @@ fun StatusDetails(
             StatusMediaGrid(
                 modifier = Modifier.padding(vertical = 16.dp),
                 media = status.mediaAttachments,
-                isSensitive = status.isSensitive
+                isSensitive = status.isSensitive,
+                onAttachmentClick = onAttachmentClick
             )
         }
 

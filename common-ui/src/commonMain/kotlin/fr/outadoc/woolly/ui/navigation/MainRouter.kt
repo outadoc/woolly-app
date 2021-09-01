@@ -305,6 +305,7 @@ fun MainRouter(
                 )
 
                 is AppScreen.StatusDetails -> StatusDetailsScreen(
+                    insets = insets,
                     statusId = currentScreen.statusId,
                     onStatusClick = onStatusClick,
                     onAttachmentClick = onAttachmentClick

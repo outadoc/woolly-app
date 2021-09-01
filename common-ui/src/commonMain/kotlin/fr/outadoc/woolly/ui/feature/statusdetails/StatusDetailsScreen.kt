@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.ui.feature.statusdetails
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,6 +29,7 @@ import org.kodein.di.instance
 @Composable
 fun StatusDetailsScreen(
     statusId: String,
+    insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
@@ -55,7 +57,9 @@ fun StatusDetailsScreen(
             }
             is StatusDetailsViewModel.State.LoadedStatus -> {
                 StatusWithContext(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(insets),
                     status = state.status,
                     context = state.context,
                     onStatusClick = onStatusClick,
@@ -88,10 +92,11 @@ fun StatusWithContext(
             items(context.ancestors, key = { it.statusId }) { status ->
                 Status(
                     modifier = Modifier
-                        .padding(16.dp)
-                        .clickable { onStatusClick(status) },
+                        .clickable { onStatusClick(status) }
+                        .padding(16.dp),
                     status = status,
-                    onAttachmentClick = onAttachmentClick
+                    onAttachmentClick = onAttachmentClick,
+                    onStatusAction = onStatusAction
                 )
             }
 
@@ -104,6 +109,7 @@ fun StatusWithContext(
             StatusDetails(
                 modifier = Modifier.padding(16.dp),
                 statusOrBoost = status,
+                onAttachmentClick = onAttachmentClick,
                 onStatusAction = onStatusAction
             )
         }
@@ -116,10 +122,11 @@ fun StatusWithContext(
             items(context.descendants, key = { it.statusId }) { status ->
                 Status(
                     modifier = Modifier
-                        .padding(16.dp)
-                        .clickable { onStatusClick(status) },
+                        .clickable { onStatusClick(status) }
+                        .padding(16.dp),
                     status = status,
-                    onAttachmentClick = onAttachmentClick
+                    onAttachmentClick = onAttachmentClick,
+                    onStatusAction = onStatusAction
                 )
             }
         }

@@ -13,8 +13,7 @@ import fr.outadoc.woolly.ui.feature.account.AccountList
 import fr.outadoc.woolly.ui.feature.status.StatusList
 import fr.outadoc.woolly.ui.feature.tags.TagList
 import fr.outadoc.woolly.ui.feature.tags.TrendingScreen
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun SearchScreen(
@@ -26,9 +25,8 @@ fun SearchScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<SearchViewModel>()
-    val state by vm.state.collectAsState()
+    val viewModel by instance<SearchViewModel>()
+    val state by viewModel.state.collectAsState()
 
     if (state.query.isEmpty()) {
         TrendingScreen(insets = insets)
@@ -36,22 +34,22 @@ fun SearchScreen(
         when (currentSubScreen) {
             SearchSubScreen.Statuses -> StatusList(
                 insets = insets,
-                statusFlow = vm.statusPagingItems,
+                statusFlow = viewModel.statusPagingItems,
                 lazyListState = statusListState,
-                onStatusAction = vm::onStatusAction,
+                onStatusAction = viewModel::onStatusAction,
                 onStatusClick = onStatusClick,
                 onAttachmentClick = onAttachmentClick
             )
 
             SearchSubScreen.Accounts -> AccountList(
                 insets = insets,
-                accountFlow = vm.accountsPagingItems,
+                accountFlow = viewModel.accountsPagingItems,
                 lazyListState = accountsListState
             )
 
             SearchSubScreen.Hashtags -> TagList(
                 insets = insets,
-                tagFlow = vm.hashtagsPagingItems,
+                tagFlow = viewModel.hashtagsPagingItems,
                 lazyListState = hashtagsListState
             )
         }

@@ -6,8 +6,7 @@ import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.notifications.viewmodel.NotificationsViewModel
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun NotificationsScreen(
@@ -16,12 +15,10 @@ fun NotificationsScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<NotificationsViewModel>()
-
+    val viewModel by instance<NotificationsViewModel>()
     NotificationList(
         insets = insets,
-        notificationFlow = vm.pagingData,
+        notificationFlow = viewModel.pagingData,
         lazyListState = listState,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick

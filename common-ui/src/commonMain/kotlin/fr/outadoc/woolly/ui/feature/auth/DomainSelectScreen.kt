@@ -22,13 +22,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun DomainSelectScreen(state: AuthViewModel.State.Disconnected) {
-    val di = LocalDI.current
-    val vm by di.instance<AuthViewModel>()
+    val viewModel by instance<AuthViewModel>()
 
     Scaffold(
         topBar = {
@@ -57,9 +55,9 @@ fun DomainSelectScreen(state: AuthViewModel.State.Disconnected) {
                     label = { Text("Instance domain") },
                     placeholder = { Text("mastodon.example") },
                     value = state.domain,
-                    onValueChange = { domain -> vm.onDomainTextChanged(domain) },
+                    onValueChange = { domain -> viewModel.onDomainTextChanged(domain) },
                     keyboardActions = KeyboardActions {
-                        vm.onSubmitDomain()
+                        viewModel.onSubmitDomain()
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
@@ -87,7 +85,7 @@ fun DomainSelectScreen(state: AuthViewModel.State.Disconnected) {
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .fillMaxWidth(),
-                    onClick = { vm.onSubmitDomain() }
+                    onClick = { viewModel.onSubmitDomain() }
                 ) {
                     Text("Continue")
                 }

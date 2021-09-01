@@ -8,14 +8,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalUriHandler
 import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun TrendingScreen(insets: PaddingValues) {
-    val di = LocalDI.current
-    val vm by di.instance<TrendingViewModel>()
-    val trends by vm.trendingTags.collectAsState(initial = emptyList())
+    val viewModel by instance<TrendingViewModel>()
+    val trends by viewModel.trendingTags.collectAsState(initial = emptyList())
 
     val uriHandler = LocalUriHandler.current
 

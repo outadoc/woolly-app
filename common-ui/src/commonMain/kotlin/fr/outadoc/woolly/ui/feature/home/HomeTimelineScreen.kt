@@ -6,10 +6,8 @@ import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
-import fr.outadoc.woolly.ui.feature.media.ImageAttachment
 import fr.outadoc.woolly.ui.feature.status.StatusList
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun HomeTimelineScreen(
@@ -18,14 +16,12 @@ fun HomeTimelineScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<HomeTimelineViewModel>()
-
+    val viewModel by instance<HomeTimelineViewModel>()
     StatusList(
         insets = insets,
-        statusFlow = vm.homePagingItems,
+        statusFlow = viewModel.homePagingItems,
         lazyListState = listState,
-        onStatusAction = vm::onStatusAction,
+        onStatusAction = viewModel::onStatusAction,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick
     )

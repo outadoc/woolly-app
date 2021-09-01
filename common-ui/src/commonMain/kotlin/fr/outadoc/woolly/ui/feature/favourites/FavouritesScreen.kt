@@ -7,8 +7,7 @@ import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.favourites.viewmodel.FavouritesViewModel
 import fr.outadoc.woolly.ui.feature.status.StatusList
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun FavouritesScreen(
@@ -17,14 +16,12 @@ fun FavouritesScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<FavouritesViewModel>()
-
+    val viewModel by instance<FavouritesViewModel>()
     StatusList(
         insets = insets,
-        statusFlow = vm.favouritesPagingItems,
+        statusFlow = viewModel.favouritesPagingItems,
         lazyListState = listState,
-        onStatusAction = vm::onStatusAction,
+        onStatusAction = viewModel::onStatusAction,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick
     )

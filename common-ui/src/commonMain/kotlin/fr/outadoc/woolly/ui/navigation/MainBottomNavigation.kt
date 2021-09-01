@@ -7,8 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import fr.outadoc.woolly.ui.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen) -> Unit) {
@@ -51,9 +50,7 @@ private fun RowScope.Item(
     targetScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit
 ) {
-    val di = LocalDI.current
-    val res by di.instance<AppScreenResources>()
-
+    val res by instance<AppScreenResources>()
     val itemTitle = res.getScreenTitle(targetScreen)
 
     BottomNavigationItem(

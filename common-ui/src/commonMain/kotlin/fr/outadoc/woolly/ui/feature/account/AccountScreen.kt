@@ -29,13 +29,11 @@ import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.richtext.RichText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun AccountScreen(insets: PaddingValues) {
-    val di = LocalDI.current
-    val repo by di.instance<AccountRepository>()
+    val repo by instance<AccountRepository>()
 
     val currentAccount by repo.currentAccount.collectAsState()
     val scrollState = rememberScrollState()

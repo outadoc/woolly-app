@@ -12,8 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import fr.outadoc.woolly.common.feature.time.TimeRepository
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -26,8 +25,7 @@ fun RelativeTime(
     maxLines: Int = 1
 ) {
     // Periodically refresh timestamps
-    val di = LocalDI.current
-    val repository by di.instance<TimeRepository>()
+    val repository by instance<TimeRepository>()
     val currentTime by repository.currentTime.collectAsState(Clock.System.now())
 
     val duration = currentTime - time

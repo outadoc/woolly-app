@@ -6,24 +6,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AppBarDefaults
-import androidx.compose.material.DrawerState
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.ProvideTextStyle
-import androidx.compose.material.Surface
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,8 +22,7 @@ import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
 import fr.outadoc.woolly.ui.navigation.TopAppBarWithMenu
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun SearchTopAppBar(
@@ -45,9 +30,8 @@ fun SearchTopAppBar(
     onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
     drawerState: DrawerState?
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<SearchViewModel>()
-    val state by vm.state.collectAsState()
+    val viewModel by instance<SearchViewModel>()
+    val state by viewModel.state.collectAsState()
 
     val textStyle = LocalTextStyle.current
 
@@ -63,7 +47,7 @@ fun SearchTopAppBar(
                         SearchTextField(
                             searchTerm = state.query,
                             onSearchTermChanged = {
-                                vm.onSearchTermChanged(it)
+                                viewModel.onSearchTermChanged(it)
                             }
                         )
                     }
@@ -84,8 +68,7 @@ fun SearchTabRow(
     currentSubScreen: SearchSubScreen,
     onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
 ) {
-    val di = LocalDI.current
-    val searchRes by di.instance<SearchScreenResources>()
+    val searchRes by instance<SearchScreenResources>()
 
     val tabs = listOf(
         SearchSubScreen.Statuses,

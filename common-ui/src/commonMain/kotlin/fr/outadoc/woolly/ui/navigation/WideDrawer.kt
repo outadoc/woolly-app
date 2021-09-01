@@ -29,8 +29,7 @@ import fr.outadoc.woolly.ui.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun WideAppDrawer(
@@ -40,9 +39,8 @@ fun WideAppDrawer(
     onScreenSelected: (AppScreen) -> Unit = {},
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
-    val di = LocalDI.current
-    val authenticationStateConsumer by di.instance<AuthenticationStateConsumer>()
-    val accountRepository by di.instance<AccountRepository>()
+    val authenticationStateConsumer by instance<AuthenticationStateConsumer>()
+    val accountRepository by instance<AccountRepository>()
     val account by accountRepository.currentAccount.collectAsState()
 
     Column(
@@ -154,8 +152,7 @@ private fun ScreenItem(
     selectedContentColor: Color = LocalContentColor.current,
     unselectedContentColor: Color = selectedContentColor.copy(alpha = ContentAlpha.medium)
 ) {
-    val di = LocalDI.current
-    val res by di.instance<AppScreenResources>()
+    val res by instance<AppScreenResources>()
 
     IconButton(
         modifier = Modifier.padding(4.dp),

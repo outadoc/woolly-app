@@ -13,13 +13,11 @@ import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import fr.outadoc.woolly.ui.navigation.Router
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun WoollyApp(onFinishedLoading: () -> Unit = {}) {
-    val di = LocalDI.current
-    val prefs by di.instance<PreferenceRepository>()
+    val prefs by instance<PreferenceRepository>()
     val appPrefsState by prefs.preferences.collectAsState(initial = LoadState.Loading())
 
     val scope = rememberCoroutineScope()

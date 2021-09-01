@@ -34,8 +34,7 @@ import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun MainAppDrawer(
@@ -46,9 +45,8 @@ fun MainAppDrawer(
     drawerState: DrawerState? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
-    val di = LocalDI.current
-    val authenticationStateConsumer by di.instance<AuthenticationStateConsumer>()
-    val accountRepository by di.instance<AccountRepository>()
+    val authenticationStateConsumer by instance<AuthenticationStateConsumer>()
+    val accountRepository by instance<AccountRepository>()
     val account by accountRepository.currentAccount.collectAsState()
 
     Column(
@@ -176,8 +174,7 @@ private fun ScreenItem(
     onScreenSelected: (AppScreen) -> Unit,
     drawerState: DrawerState?
 ) {
-    val di = LocalDI.current
-    val res by di.instance<AppScreenResources>()
+    val res by instance<AppScreenResources>()
 
     WoollyListItem(
         title = { Text(res.getScreenTitle(targetScreen)) },

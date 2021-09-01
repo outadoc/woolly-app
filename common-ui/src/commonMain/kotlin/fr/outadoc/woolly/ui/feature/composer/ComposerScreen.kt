@@ -21,20 +21,18 @@ import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.composer.viewmodel.ComposerViewModel
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun ComposerScreen(
     onDismiss: () -> Unit
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<ComposerViewModel>()
+    val viewModel by instance<ComposerViewModel>()
+    val accountRepository by instance<AccountRepository>()
 
-    val accountRepository by di.instance<AccountRepository>()
     val account by accountRepository.currentAccount.collectAsState()
+    val state by viewModel.state.collectAsState()
 
-    val state by vm.state.collectAsState()
     when (val state = state) {
         is ComposerViewModel.State.Composing -> {
             Composer(
@@ -42,10 +40,10 @@ fun ComposerScreen(
                 message = state.message,
                 account = account,
                 onMessageChange = { message ->
-                    vm.onMessageChange(message)
+                    viewModel.onMessageChange(message)
                 },
                 onSubmit = {
-                    vm.onSubmit()
+                    viewModel.onSubmit()
                     onDismiss()
                 }
             )

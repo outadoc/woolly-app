@@ -7,8 +7,7 @@ import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.bookmarks.viewmodel.BookmarksViewModel
 import fr.outadoc.woolly.ui.feature.status.StatusList
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun BookmarksScreen(
@@ -17,14 +16,12 @@ fun BookmarksScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<BookmarksViewModel>()
-
+    val viewModel by instance<BookmarksViewModel>()
     StatusList(
         insets = insets,
-        statusFlow = vm.bookmarksPagingItems,
+        statusFlow = viewModel.bookmarksPagingItems,
         lazyListState = listState,
-        onStatusAction = vm::onStatusAction,
+        onStatusAction = viewModel::onStatusAction,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick
     )

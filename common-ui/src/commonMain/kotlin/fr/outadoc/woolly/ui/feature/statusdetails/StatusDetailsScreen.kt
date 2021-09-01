@@ -23,8 +23,7 @@ import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
 import fr.outadoc.woolly.ui.feature.status.ErrorScreen
 import fr.outadoc.woolly.ui.feature.status.Status
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun StatusDetailsScreen(
@@ -33,17 +32,16 @@ fun StatusDetailsScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<StatusDetailsViewModel>()
-    val state by vm.state.collectAsState(StatusDetailsViewModel.State.Initial())
+    val viewModel by instance<StatusDetailsViewModel>()
+    val state by viewModel.state.collectAsState(StatusDetailsViewModel.State.Initial())
 
     LaunchedEffect(statusId) {
-        vm.loadStatus(statusId)
+        viewModel.loadStatus(statusId)
     }
 
     SwipeRefresh(
         modifier = Modifier.fillMaxSize(),
-        onRefresh = vm::refresh,
+        onRefresh = viewModel::refresh,
         state = rememberSwipeRefreshState(
             isRefreshing = state.isLoading
         )
@@ -52,7 +50,7 @@ fun StatusDetailsScreen(
             is StatusDetailsViewModel.State.Error -> {
                 ErrorScreen(
                     modifier = Modifier.fillMaxSize(),
-                    onRetry = vm::refresh
+                    onRetry = viewModel::refresh
                 )
             }
             is StatusDetailsViewModel.State.LoadedStatus -> {
@@ -65,7 +63,7 @@ fun StatusDetailsScreen(
                     onStatusClick = onStatusClick,
                     onAttachmentClick = onAttachmentClick,
                     onStatusAction = { action ->
-                        vm.onStatusAction(action)
+                        viewModel.onStatusAction(action)
                     }
                 )
             }

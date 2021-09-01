@@ -8,8 +8,7 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.ui.feature.status.StatusList
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @Composable
 fun PublicTimelineScreen(
@@ -20,23 +19,21 @@ fun PublicTimelineScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val di = LocalDI.current
-    val vm by di.instance<PublicTimelineViewModel>()
-
+    val viewModel by instance<PublicTimelineViewModel>()
     when (currentSubScreen) {
         PublicTimelineSubScreen.Local -> StatusList(
             insets = insets,
-            statusFlow = vm.localPagingItems,
+            statusFlow = viewModel.localPagingItems,
             lazyListState = localListState,
-            onStatusAction = vm::onLocalStatusAction,
+            onStatusAction = viewModel::onLocalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick
         )
         PublicTimelineSubScreen.Global -> StatusList(
             insets = insets,
-            statusFlow = vm.globalPagingItems,
+            statusFlow = viewModel.globalPagingItems,
             lazyListState = globalListState,
-            onStatusAction = vm::onGlobalStatusAction,
+            onStatusAction = viewModel::onGlobalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick
         )

@@ -43,8 +43,7 @@ import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
 import fr.outadoc.woolly.ui.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.LocalDI
-import org.kodein.di.instance
+import org.kodein.di.compose.instance
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
@@ -96,8 +95,7 @@ fun MainRouter(
         handleBackButton = true
     )
 
-    val di = LocalDI.current
-    val res by di.instance<AppScreenResources>()
+    val res by instance<AppScreenResources>()
     val scaffoldState = rememberScaffoldState()
 
     val uriHandler = LocalUriHandler.current
@@ -328,8 +326,7 @@ fun PostingStatusSnackbar(
     showPostingSnackbar: () -> Unit,
     showErrorSnackbar: (() -> Unit) -> Unit
 ) {
-    val di = LocalDI.current
-    val statusPoster by di.instance<StatusPoster>()
+    val statusPoster by instance<StatusPoster>()
     val state by statusPoster.state.collectAsState()
 
     when (state) {

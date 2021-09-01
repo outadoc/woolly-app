@@ -305,7 +305,9 @@ fun MainRouter(
                 )
 
                 is AppScreen.StatusDetails -> StatusDetailsScreen(
-                    statusId = currentScreen.statusId
+                    statusId = currentScreen.statusId,
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick
                 )
 
                 is AppScreen.ImageViewer -> ImageViewerScreen(

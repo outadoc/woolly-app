@@ -1,10 +1,6 @@
 package fr.outadoc.woolly.common.feature.search.viewmodel
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.cachedIn
+import androidx.paging.*
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.Tag
@@ -15,18 +11,18 @@ import fr.outadoc.mastodonk.paging.api.endpoint.search.searchStatusesSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
 import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class SearchViewModel(
     pagingConfig: PagingConfig,
-    private val viewModelScope: CoroutineScope,
-    private val clientProvider: MastodonClientProvider
+    viewModelScope: CoroutineScope,
+    private val clientProvider: MastodonClientProvider,
+    statusActionRepository: StatusActionRepository
 ) {
     data class UiState(val query: String = "")
 
@@ -34,10 +30,13 @@ class SearchViewModel(
     val state: StateFlow<UiState>
         get() = _state
 
-    private val statusPagingRepository: StatusPagingRepository =
-        StatusPagingRepository(pagingConfig, clientProvider) { client ->
-            client.search.searchStatusesSource(q = state.value.query)
-        }
+    private val statusPagingRepository = StatusPagingRepository(
+        pagingConfig,
+        clientProvider,
+        statusActionRepository
+    ) { client ->
+        client.search.searchStatusesSource(q = state.value.query)
+    }
 
     val statusPagingItems: Flow<PagingData<Status>> =
         statusPagingRepository
@@ -81,14 +80,6 @@ class SearchViewModel(
     }
 
     fun onStatusAction(action: StatusAction) {
-        viewModelScope.launch {
-            statusPagingRepository.onStatusAction(action)
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            statusPagingRepository.actionObserver.collect()
-        }
+        statusPagingRepository.onStatusAction(action)
     }
 }

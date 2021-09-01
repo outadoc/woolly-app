@@ -7,26 +7,32 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.timelines.getPublicTimelineSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class PublicTimelineViewModel(
     pagingConfig: PagingConfig,
-    private val viewModelScope: CoroutineScope,
-    clientProvider: MastodonClientProvider
+    viewModelScope: CoroutineScope,
+    clientProvider: MastodonClientProvider,
+    statusActionRepository: StatusActionRepository
 ) {
-    private val localPagingRepository: StatusPagingRepository =
-        StatusPagingRepository(pagingConfig, clientProvider) { client ->
-            client.timelines.getPublicTimelineSource(onlyLocal = true)
-        }
+    private val localPagingRepository = StatusPagingRepository(
+        pagingConfig,
+        clientProvider,
+        statusActionRepository
+    ) { client ->
+        client.timelines.getPublicTimelineSource(onlyLocal = true)
+    }
 
-    private val globalPagingRepository: StatusPagingRepository =
-        StatusPagingRepository(pagingConfig, clientProvider) { client ->
-            client.timelines.getPublicTimelineSource()
-        }
+    private val globalPagingRepository = StatusPagingRepository(
+        pagingConfig,
+        clientProvider,
+        statusActionRepository
+    ) { client ->
+        client.timelines.getPublicTimelineSource()
+    }
 
     val localPagingItems: Flow<PagingData<Status>> =
         localPagingRepository
@@ -39,21 +45,10 @@ class PublicTimelineViewModel(
             .cachedIn(viewModelScope)
 
     fun onLocalStatusAction(action: StatusAction) {
-        viewModelScope.launch {
-            localPagingRepository.onStatusAction(action)
-        }
+        localPagingRepository.onStatusAction(action)
     }
 
     fun onGlobalStatusAction(action: StatusAction) {
-        viewModelScope.launch {
-            globalPagingRepository.onStatusAction(action)
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            localPagingRepository.actionObserver.collect()
-            globalPagingRepository.actionObserver.collect()
-        }
+        globalPagingRepository.onStatusAction(action)
     }
 }

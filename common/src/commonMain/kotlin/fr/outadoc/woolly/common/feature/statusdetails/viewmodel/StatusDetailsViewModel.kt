@@ -3,9 +3,14 @@ package fr.outadoc.woolly.common.feature.statusdetails.viewmodel
 import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
+import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import kotlinx.coroutines.flow.*
 
-class StatusDetailsViewModel(clientProvider: MastodonClientProvider) {
+class StatusDetailsViewModel(
+    clientProvider: MastodonClientProvider,
+    private val statusActionRepository: StatusActionRepository
+) {
     sealed class State(
         open val isLoading: Boolean
     ) {
@@ -54,6 +59,12 @@ class StatusDetailsViewModel(clientProvider: MastodonClientProvider) {
         }.collect()
     }
 
+    init {
+        statusActionRepository.addOnActionPerformedListener {
+            refresh()
+        }
+    }
+
     fun State.copy(isLoading: Boolean): State {
         return when (this) {
             is State.Error -> this.copy(isLoading = isLoading)
@@ -64,5 +75,15 @@ class StatusDetailsViewModel(clientProvider: MastodonClientProvider) {
 
     fun loadStatus(statusId: String) {
         statusIdFlow.tryEmit(statusId)
+    }
+
+    fun refresh() {
+        statusIdFlow.replayCache.lastOrNull()?.let { currentId ->
+            statusIdFlow.tryEmit(currentId)
+        }
+    }
+
+    fun onStatusAction(action: StatusAction) {
+        statusActionRepository.onStatusAction(action)
     }
 }

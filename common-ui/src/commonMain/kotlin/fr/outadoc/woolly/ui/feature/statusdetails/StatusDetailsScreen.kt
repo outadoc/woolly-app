@@ -18,6 +18,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
 import fr.outadoc.woolly.ui.feature.status.ErrorScreen
 import fr.outadoc.woolly.ui.feature.status.Status
@@ -34,13 +35,13 @@ fun StatusDetailsScreen(
     val vm by di.instance<StatusDetailsViewModel>()
     val state by vm.state.collectAsState(StatusDetailsViewModel.State.Initial())
 
-    fun reload() = vm.loadStatus(statusId)
-
-    LaunchedEffect(statusId) { reload() }
+    LaunchedEffect(statusId) {
+        vm.loadStatus(statusId)
+    }
 
     SwipeRefresh(
         modifier = Modifier.fillMaxSize(),
-        onRefresh = ::reload,
+        onRefresh = vm::refresh,
         state = rememberSwipeRefreshState(
             isRefreshing = state.isLoading
         )
@@ -49,7 +50,7 @@ fun StatusDetailsScreen(
             is StatusDetailsViewModel.State.Error -> {
                 ErrorScreen(
                     modifier = Modifier.fillMaxSize(),
-                    onRetry = ::reload
+                    onRetry = vm::refresh
                 )
             }
             is StatusDetailsViewModel.State.LoadedStatus -> {
@@ -58,7 +59,10 @@ fun StatusDetailsScreen(
                     status = state.status,
                     context = state.context,
                     onStatusClick = onStatusClick,
-                    onAttachmentClick = onAttachmentClick
+                    onAttachmentClick = onAttachmentClick,
+                    onStatusAction = { action ->
+                        vm.onStatusAction(action)
+                    }
                 )
             }
         }
@@ -71,7 +75,8 @@ fun StatusWithContext(
     status: Status,
     context: Context,
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusAction: (StatusAction) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier,
@@ -99,7 +104,7 @@ fun StatusWithContext(
             StatusDetails(
                 modifier = Modifier.padding(16.dp),
                 statusOrBoost = status,
-                onStatusAction = { TODO("call VM") }
+                onStatusAction = onStatusAction
             )
         }
 

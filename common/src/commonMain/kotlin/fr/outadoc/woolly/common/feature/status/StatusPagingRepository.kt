@@ -9,16 +9,12 @@ import fr.outadoc.mastodonk.api.entity.paging.PageInfo
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flowOn
 
 class StatusPagingRepository(
     pagingConfig: PagingConfig,
     private val clientProvider: MastodonClientProvider,
+    private val statusActionRepository: StatusActionRepository,
     private val pagingSourceFactory: (MastodonClient) -> PagingSource<PageInfo, Status>
 ) {
     private var _latestPagingSource: PagingSource<PageInfo, Status>? = null
@@ -30,31 +26,17 @@ class StatusPagingRepository(
                 _latestPagingSource = newSource
             }
 
-    private val _actionFlow = MutableSharedFlow<StatusAction>()
-    val actionObserver: Flow<*> =
-        combine(
-            clientProvider.mastodonClient.filterNotNull(),
-            _actionFlow
-        ) { client, action ->
-            with(client.statuses) {
-                when (action) {
-                    is StatusAction.Favourite -> favourite(action.status.statusId)
-                    is StatusAction.UndoFavourite -> undoFavourite(action.status.statusId)
-                    is StatusAction.Boost -> boost(action.status.statusId)
-                    is StatusAction.UndoBoost -> undoBoost(action.status.statusId)
-                    is StatusAction.Bookmark -> bookmark(action.status.statusId)
-                    is StatusAction.UndoBookmark -> undoBookmark(action.status.statusId)
-                }
-            }
-
+    init {
+        statusActionRepository.addOnActionPerformedListener {
             invalidate()
-        }.flowOn(Dispatchers.IO)
+        }
+    }
 
     val pagingData: Flow<PagingData<Status>> =
         Pager(pagingConfig) { pagingSource }.flow
 
-    suspend fun onStatusAction(action: StatusAction) {
-        _actionFlow.emit(action)
+    fun onStatusAction(action: StatusAction) {
+        statusActionRepository.onStatusAction(action)
     }
 
     fun invalidate() {

@@ -21,6 +21,7 @@ import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResou
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
+import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
 import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
 import fr.outadoc.woolly.common.feature.time.TimeRepository
@@ -56,6 +57,7 @@ val CommonDI = DI {
 
     bindSingleton { AuthenticationStateRepository(instance()) }
     bindSingleton<AuthenticationStateConsumer> { instance<AuthenticationStateRepository>() }
+    bindSingleton { StatusActionRepository(instance(), instance()) }
 
     bindSingleton<MastodonClientProvider> { MastodonClientProviderImpl(instance(), instance()) }
     bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
@@ -65,13 +67,13 @@ val CommonDI = DI {
     bindSingleton<StatusPoster> { SimpleThreadedStatusPoster(instance(), instance()) }
 
     bindSingleton { AuthViewModel(instance(), instance(), instance()) }
-    bindSingleton { HomeTimelineViewModel(instance(), instance(), instance()) }
-    bindSingleton { PublicTimelineViewModel(instance(), instance(), instance()) }
-    bindSingleton { SearchViewModel(instance(), instance(), instance()) }
+    bindSingleton { HomeTimelineViewModel(instance(), instance(), instance(), instance()) }
+    bindSingleton { PublicTimelineViewModel(instance(), instance(), instance(), instance()) }
+    bindSingleton { SearchViewModel(instance(), instance(), instance(), instance()) }
     bindSingleton { TrendingViewModel(instance()) }
     bindSingleton { NotificationsViewModel(instance(), instance(), instance()) }
-    bindSingleton { BookmarksViewModel(instance(), instance(), instance()) }
-    bindSingleton { FavouritesViewModel(instance(), instance(), instance()) }
-    bindSingleton { StatusDetailsViewModel(instance()) }
+    bindSingleton { BookmarksViewModel(instance(), instance(), instance(), instance()) }
+    bindSingleton { FavouritesViewModel(instance(), instance(), instance(), instance()) }
+    bindSingleton { StatusDetailsViewModel(instance(), instance()) }
     bindSingleton { ComposerViewModel(instance()) }
 }

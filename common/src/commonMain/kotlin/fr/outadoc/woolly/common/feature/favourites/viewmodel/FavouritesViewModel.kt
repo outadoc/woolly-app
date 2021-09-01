@@ -7,21 +7,24 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getFavouritesSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class FavouritesViewModel(
-    private val viewModelScope: CoroutineScope,
+    viewModelScope: CoroutineScope,
     clientProvider: MastodonClientProvider,
-    pagingConfig: PagingConfig
+    pagingConfig: PagingConfig,
+    statusActionRepository: StatusActionRepository
 ) {
-    private val pagingRepository: StatusPagingRepository =
-        StatusPagingRepository(pagingConfig, clientProvider) { client ->
-            client.favourites.getFavouritesSource()
-        }
+    private val pagingRepository = StatusPagingRepository(
+        pagingConfig,
+        clientProvider,
+        statusActionRepository
+    ) { client ->
+        client.favourites.getFavouritesSource()
+    }
 
     val favouritesPagingItems: Flow<PagingData<Status>> =
         pagingRepository
@@ -29,14 +32,6 @@ class FavouritesViewModel(
             .cachedIn(viewModelScope)
 
     fun onStatusAction(action: StatusAction) {
-        viewModelScope.launch {
-            pagingRepository.onStatusAction(action)
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            pagingRepository.actionObserver.collect()
-        }
+        pagingRepository.onStatusAction(action)
     }
 }

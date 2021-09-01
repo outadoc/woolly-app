@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.statusdetails.viewmodel
 
+import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import kotlinx.coroutines.CoroutineScope
@@ -16,16 +17,31 @@ class StatusDetailsViewModel(
     sealed class State {
         object Loading : State()
         object Error : State()
-        data class LoadedStatus(val status: Status) : State()
+        data class LoadedStatus(
+            val status: Status,
+            val context: Context?
+        ) : State()
     }
 
     private val statusIdFlow = MutableSharedFlow<String>(replay = 1)
 
-    val state: Flow<State> = combine(clientProvider.mastodonClient, statusIdFlow) { client, statusId ->
-            when (val status = client?.statuses?.getStatus(statusId)) {
-                null -> State.Error
-                else -> State.LoadedStatus(status)
-            }
+    private val mainStatusFlow: Flow<Status?> =
+        combine(clientProvider.mastodonClient, statusIdFlow) { client, statusId ->
+            client?.statuses?.getStatus(statusId)
+        }
+
+    private val contextFlow: Flow<Context?> =
+        combine(clientProvider.mastodonClient, statusIdFlow) { client, statusId ->
+            client?.statuses?.getContext(statusId)
+        }
+
+    val state: Flow<State> =
+        combine(mainStatusFlow, contextFlow) { status, context ->
+            if (status == null) State.Error
+            else State.LoadedStatus(
+                status = status,
+                context = context
+            )
         }
 
     fun loadStatus(statusId: String) {

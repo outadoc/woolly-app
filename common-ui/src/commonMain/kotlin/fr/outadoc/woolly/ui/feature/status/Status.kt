@@ -29,7 +29,7 @@ import fr.outadoc.woolly.ui.richtext.RichText
 
 @Composable
 fun StatusPlaceholder() {
-    Spacer(modifier = Modifier.height(128.dp))
+    Spacer(modifier = Modifier.height(256.dp))
 }
 
 @Composable

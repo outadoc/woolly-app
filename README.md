@@ -14,10 +14,12 @@ This project is a Mastodon client built with Jetpack Compose and Compose Desktop
 - [ ] Nicer icon
 - [x] Status reactions
 - [x] Complex navigation (back stack, back button support)
-- [ ] Status details
-- [ ] Conversation details
+- [x] Status details
+- [x] Conversation details
 - [ ] Account details
-- [ ] Composing statuses
+- [x] Composing statuses
+- [ ] Direct messaging
+- [ ] Replying to a status
 - [ ] Timeline streaming
 - [ ] Push notifications
 - [ ] You name it

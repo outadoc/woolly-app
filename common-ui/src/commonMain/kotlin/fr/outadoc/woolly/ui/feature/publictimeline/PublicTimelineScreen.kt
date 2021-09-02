@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
-import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
+import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
 import fr.outadoc.woolly.ui.feature.status.StatusList
 
 @Composable
 fun PublicTimelineScreen(
-    viewModel: PublicTimelineViewModel,
+    component: PublicTimelineComponent,
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: PublicTimelineSubScreen,
     localListState: LazyListState,
@@ -22,17 +22,17 @@ fun PublicTimelineScreen(
     when (currentSubScreen) {
         PublicTimelineSubScreen.Local -> StatusList(
             insets = insets,
-            statusFlow = viewModel.localPagingItems,
+            statusFlow = component.localPagingItems,
             lazyListState = localListState,
-            onStatusAction = viewModel::onLocalStatusAction,
+            onStatusAction = component::onLocalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick
         )
         PublicTimelineSubScreen.Global -> StatusList(
             insets = insets,
-            statusFlow = viewModel.globalPagingItems,
+            statusFlow = component.globalPagingItems,
             lazyListState = globalListState,
-            onStatusAction = viewModel::onGlobalStatusAction,
+            onStatusAction = component::onGlobalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick
         )

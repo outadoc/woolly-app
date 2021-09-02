@@ -5,13 +5,12 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.common.feature.favourites.viewmodel.FavouritesViewModel
+import fr.outadoc.woolly.common.feature.favourites.component.FavouritesComponent
 import fr.outadoc.woolly.ui.feature.status.StatusList
-import org.kodein.di.compose.instance
 
 @Composable
 fun FavouritesScreen(
-    viewModel: FavouritesViewModel,
+    component: FavouritesComponent,
     insets: PaddingValues = PaddingValues(),
     listState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
@@ -19,9 +18,9 @@ fun FavouritesScreen(
 ) {
     StatusList(
         insets = insets,
-        statusFlow = viewModel.favouritesPagingItems,
+        statusFlow = component.favouritesPagingItems,
         lazyListState = listState,
-        onStatusAction = viewModel::onStatusAction,
+        onStatusAction = component::onStatusAction,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick
     )

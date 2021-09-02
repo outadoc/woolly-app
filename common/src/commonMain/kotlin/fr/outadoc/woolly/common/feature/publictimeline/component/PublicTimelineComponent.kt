@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.publictimeline.viewmodel
+package fr.outadoc.woolly.common.feature.publictimeline.component
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -13,10 +13,10 @@ import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
-class PublicTimelineViewModel(
+class PublicTimelineComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
-    viewModelScope: CoroutineScope,
+    componentScope: CoroutineScope,
     clientProvider: MastodonClientProvider,
     statusActionRepository: StatusActionRepository
 ) : ComponentContext by componentContext {
@@ -40,12 +40,12 @@ class PublicTimelineViewModel(
     val localPagingItems: Flow<PagingData<Status>> =
         localPagingRepository
             .pagingData
-            .cachedIn(viewModelScope)
+            .cachedIn(componentScope)
 
     val globalPagingItems: Flow<PagingData<Status>> =
         globalPagingRepository
             .pagingData
-            .cachedIn(viewModelScope)
+            .cachedIn(componentScope)
 
     fun onLocalStatusAction(action: StatusAction) {
         localPagingRepository.onStatusAction(action)

@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.auth.viewmodel
+package fr.outadoc.woolly.common.feature.auth.component
 
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.client.MastodonClient
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class DomainSelectViewModel(
+class DomainSelectComponent(
     componentContext: ComponentContext,
     private val scope: CoroutineScope
 ) : ComponentContext by componentContext {

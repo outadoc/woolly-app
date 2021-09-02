@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.notifications.viewmodel
+package fr.outadoc.woolly.common.feature.notifications.component
 
 import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
@@ -10,10 +10,10 @@ import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
-class NotificationsViewModel(
+class NotificationsComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
-    viewModelScope: CoroutineScope,
+    componentScope: CoroutineScope,
     private val clientProvider: MastodonClientProvider
 ) : ComponentContext by componentContext {
 
@@ -25,5 +25,5 @@ class NotificationsViewModel(
     val pagingData: Flow<PagingData<Notification>> =
         Pager(pagingConfig) { pagingSource }
             .flow
-            .cachedIn(viewModelScope)
+            .cachedIn(componentScope)
 }

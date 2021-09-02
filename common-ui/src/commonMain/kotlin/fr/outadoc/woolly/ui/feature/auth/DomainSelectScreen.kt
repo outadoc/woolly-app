@@ -13,20 +13,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.auth.viewmodel.DomainSelectViewModel
-import fr.outadoc.woolly.common.feature.auth.viewmodel.DomainSelectViewModel.Event
+import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent
+import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent.Event
 import kotlinx.coroutines.flow.collect
 
 @Composable
 fun DomainSelectScreen(
-    viewModel: DomainSelectViewModel,
+    component: DomainSelectComponent,
     insets: PaddingValues = PaddingValues(),
     onDomainSelected: (String) -> Unit = {}
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by component.state.collectAsState()
 
-    LaunchedEffect(viewModel.events) {
-        viewModel.events.collect { event ->
+    LaunchedEffect(component.events) {
+        component.events.collect { event ->
             when (event) {
                 is Event.DomainSelectedEvent -> onDomainSelected(event.domain)
             }
@@ -55,9 +55,9 @@ fun DomainSelectScreen(
                 label = { Text("Instance domain") },
                 placeholder = { Text("mastodon.example") },
                 value = state.domain,
-                onValueChange = { domain -> viewModel.onDomainTextChanged(domain) },
+                onValueChange = { domain -> component.onDomainTextChanged(domain) },
                 keyboardActions = KeyboardActions {
-                    viewModel.onSubmitDomain()
+                    component.onSubmitDomain()
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done,
@@ -86,7 +86,7 @@ fun DomainSelectScreen(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .fillMaxWidth(),
-                onClick = { viewModel.onSubmitDomain() }
+                onClick = { component.onSubmitDomain() }
             ) {
                 Text("Continue")
             }

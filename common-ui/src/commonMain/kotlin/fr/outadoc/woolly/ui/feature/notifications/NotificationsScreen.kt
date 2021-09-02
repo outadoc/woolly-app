@@ -5,11 +5,11 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.common.feature.notifications.viewmodel.NotificationsViewModel
+import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
 
 @Composable
 fun NotificationsScreen(
-    viewModel: NotificationsViewModel,
+    component: NotificationsComponent,
     insets: PaddingValues = PaddingValues(),
     listState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
@@ -17,7 +17,7 @@ fun NotificationsScreen(
 ) {
     NotificationList(
         insets = insets,
-        notificationFlow = viewModel.pagingData,
+        notificationFlow = component.pagingData,
         lazyListState = listState,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick

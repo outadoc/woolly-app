@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
-import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
+import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.ui.feature.account.AccountList
 import fr.outadoc.woolly.ui.feature.status.StatusList
 import fr.outadoc.woolly.ui.feature.tags.TagList
@@ -16,7 +16,7 @@ import fr.outadoc.woolly.ui.feature.tags.TrendingScreen
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel,
+    component: SearchComponent,
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: SearchSubScreen,
     statusListState: LazyListState,
@@ -25,33 +25,33 @@ fun SearchScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by component.state.collectAsState()
 
     if (state.query.isEmpty()) {
         TrendingScreen(
-            trendingTags = viewModel.trendingTags,
+            trendingTags = component.trendingTags,
             insets = insets
         )
     } else {
         when (currentSubScreen) {
             SearchSubScreen.Statuses -> StatusList(
                 insets = insets,
-                statusFlow = viewModel.statusPagingItems,
+                statusFlow = component.statusPagingItems,
                 lazyListState = statusListState,
-                onStatusAction = viewModel::onStatusAction,
+                onStatusAction = component::onStatusAction,
                 onStatusClick = onStatusClick,
                 onAttachmentClick = onAttachmentClick
             )
 
             SearchSubScreen.Accounts -> AccountList(
                 insets = insets,
-                accountFlow = viewModel.accountsPagingItems,
+                accountFlow = component.accountsPagingItems,
                 lazyListState = accountsListState
             )
 
             SearchSubScreen.Hashtags -> TagList(
                 insets = insets,
-                tagFlow = viewModel.hashtagsPagingItems,
+                tagFlow = component.hashtagsPagingItems,
                 lazyListState = hashtagsListState
             )
         }

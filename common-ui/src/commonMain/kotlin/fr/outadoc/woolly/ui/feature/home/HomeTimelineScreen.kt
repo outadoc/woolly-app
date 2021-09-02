@@ -5,12 +5,12 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
+import fr.outadoc.woolly.common.feature.home.component.HomeTimelineComponent
 import fr.outadoc.woolly.ui.feature.status.StatusList
 
 @Composable
 fun HomeTimelineScreen(
-    viewModel: HomeTimelineViewModel,
+    component: HomeTimelineComponent,
     insets: PaddingValues = PaddingValues(),
     listState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
@@ -18,9 +18,9 @@ fun HomeTimelineScreen(
 ) {
     StatusList(
         insets = insets,
-        statusFlow = viewModel.homePagingItems,
+        statusFlow = component.homePagingItems,
         lazyListState = listState,
-        onStatusAction = viewModel::onStatusAction,
+        onStatusAction = component::onStatusAction,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick
     )

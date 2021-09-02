@@ -20,18 +20,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
-import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
+import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.ui.navigation.TopAppBarWithMenu
 import org.kodein.di.compose.instance
 
 @Composable
 fun SearchTopAppBar(
-    viewModel: SearchViewModel,
+    component: SearchComponent,
     currentSubScreen: SearchSubScreen,
     onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
     drawerState: DrawerState?
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by component.state.collectAsState()
 
     val textStyle = LocalTextStyle.current
 
@@ -47,7 +47,7 @@ fun SearchTopAppBar(
                         SearchTextField(
                             searchTerm = state.query,
                             onSearchTermChanged = {
-                                viewModel.onSearchTermChanged(it)
+                                component.onSearchTermChanged(it)
                             }
                         )
                     }

@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.auth.viewmodel
+package fr.outadoc.woolly.common.feature.auth.component
 
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class CodeInputViewModel(
+class CodeInputComponent(
     componentContext: ComponentContext,
     private val scope: CoroutineScope,
     private val authProxyRepository: AuthProxyRepository

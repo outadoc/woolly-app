@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.search.viewmodel
+package fr.outadoc.woolly.common.feature.search.component
 
 import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
@@ -19,10 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 
-class SearchViewModel(
+class SearchComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
-    viewModelScope: CoroutineScope,
+    componentScope: CoroutineScope,
     private val clientProvider: MastodonClientProvider,
     statusActionRepository: StatusActionRepository
 ) : ComponentContext by componentContext {
@@ -51,7 +51,7 @@ class SearchViewModel(
     val statusPagingItems: Flow<PagingData<Status>> =
         statusPagingRepository
             .pagingData
-            .cachedIn(viewModelScope)
+            .cachedIn(componentScope)
 
     private var _latestAccountsPagingSource: PagingSource<PageInfo, Account>? = null
     private val accountsPagingSource: PagingSource<PageInfo, Account>
@@ -65,7 +65,7 @@ class SearchViewModel(
     val accountsPagingItems: Flow<PagingData<Account>> =
         Pager(pagingConfig) { accountsPagingSource }
             .flow
-            .cachedIn(viewModelScope)
+            .cachedIn(componentScope)
 
     private var _latestHashtagsPagingSource: PagingSource<PageInfo, Tag>? = null
     private val hashtagsPagingSource: PagingSource<PageInfo, Tag>
@@ -79,7 +79,7 @@ class SearchViewModel(
     val hashtagsPagingItems: Flow<PagingData<Tag>> =
         Pager(pagingConfig) { hashtagsPagingSource }
             .flow
-            .cachedIn(viewModelScope)
+            .cachedIn(componentScope)
 
     fun onSearchTermChanged(term: String) {
         _state.value = _state.value.copy(query = term)

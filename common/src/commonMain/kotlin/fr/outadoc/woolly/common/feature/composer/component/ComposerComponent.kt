@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.composer.viewmodel
+package fr.outadoc.woolly.common.feature.composer.component
 
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.request.StatusCreate
@@ -6,7 +6,7 @@ import fr.outadoc.woolly.common.feature.composer.StatusPoster
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class ComposerViewModel(
+class ComposerComponent(
     componentContext: ComponentContext,
     private val statusPoster: StatusPoster
 ) : ComponentContext by componentContext {

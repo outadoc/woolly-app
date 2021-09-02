@@ -1,13 +1,9 @@
 package fr.outadoc.woolly.ui.common
 
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.AppBarDefaults
-import androidx.compose.material.LocalElevationOverlay
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 
@@ -29,8 +25,11 @@ fun WoollyTheme(
         val topColor = baseColor.elevated(AppBarDefaults.TopAppBarElevation)
         val bottomColor = baseColor.elevated(AppBarDefaults.BottomAppBarElevation)
 
-        SideEffect {
+        LaunchedEffect(topColor) {
             systemUiController.setStatusBarColor(topColor)
+        }
+
+        LaunchedEffect(bottomColor) {
             systemUiController.setNavigationBarColor(bottomColor)
         }
 

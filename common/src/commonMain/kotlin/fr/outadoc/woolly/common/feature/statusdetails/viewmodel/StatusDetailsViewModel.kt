@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.statusdetails.viewmodel
 
+import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
@@ -8,9 +9,11 @@ import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import kotlinx.coroutines.flow.*
 
 class StatusDetailsViewModel(
+    componentContext: ComponentContext,
     clientProvider: MastodonClientProvider,
     private val statusActionRepository: StatusActionRepository
-) {
+) : ComponentContext by componentContext {
+
     sealed class State(
         open val isLoading: Boolean
     ) {

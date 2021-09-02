@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.auth.viewmodel
 
+import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
 import io.ktor.http.*
@@ -12,9 +13,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class CodeInputViewModel(
+    componentContext: ComponentContext,
     private val scope: CoroutineScope,
     private val authProxyRepository: AuthProxyRepository
-) {
+): ComponentContext by componentContext {
+
     data class State(
         val error: Throwable? = null,
         val loading: Boolean = false

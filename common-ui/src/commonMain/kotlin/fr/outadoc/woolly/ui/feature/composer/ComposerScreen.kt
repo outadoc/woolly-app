@@ -25,9 +25,9 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun ComposerScreen(
+    viewModel: ComposerViewModel,
     onDismiss: () -> Unit
 ) {
-    val viewModel by instance<ComposerViewModel>()
     val accountRepository by instance<AccountRepository>()
 
     val account by accountRepository.currentAccount.collectAsState()

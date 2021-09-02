@@ -16,14 +16,13 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.viewmodel.DomainSelectViewModel
 import fr.outadoc.woolly.common.feature.auth.viewmodel.DomainSelectViewModel.Event
 import kotlinx.coroutines.flow.collect
-import org.kodein.di.compose.instance
 
 @Composable
 fun DomainSelectScreen(
+    viewModel: DomainSelectViewModel,
     insets: PaddingValues = PaddingValues(),
     onDomainSelected: (String) -> Unit = {}
 ) {
-    val viewModel by instance<DomainSelectViewModel>()
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(viewModel.events) {

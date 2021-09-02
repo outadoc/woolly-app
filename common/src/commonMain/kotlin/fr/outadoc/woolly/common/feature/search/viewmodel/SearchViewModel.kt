@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.search.viewmodel
 
 import androidx.paging.*
+import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.Tag
@@ -14,21 +15,30 @@ import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 
 class SearchViewModel(
+    componentContext: ComponentContext,
     pagingConfig: PagingConfig,
     viewModelScope: CoroutineScope,
     private val clientProvider: MastodonClientProvider,
     statusActionRepository: StatusActionRepository
-) {
+) : ComponentContext by componentContext {
+
     data class UiState(val query: String = "")
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState>
         get() = _state
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val trendingTags: Flow<List<Tag>> =
+        clientProvider.mastodonClient
+            .filterNotNull()
+            .mapLatest { client -> client.trends.getTrends() }
+            .flowOn(Dispatchers.IO)
 
     private val statusPagingRepository = StatusPagingRepository(
         pagingConfig,

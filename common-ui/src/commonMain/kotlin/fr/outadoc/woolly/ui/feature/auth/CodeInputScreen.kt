@@ -15,15 +15,14 @@ import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
 import fr.outadoc.woolly.common.feature.auth.viewmodel.CodeInputViewModel
 import fr.outadoc.woolly.common.feature.auth.viewmodel.CodeInputViewModel.Event
 import kotlinx.coroutines.flow.collect
-import org.kodein.di.compose.instance
 
 @Composable
 fun CodeInputScreen(
+    viewModel: CodeInputViewModel,
     domain: String,
     insets: PaddingValues = PaddingValues(),
     onSuccessfulAuthentication: (UserCredentials) -> Unit = {}
 ) {
-    val viewModel by instance<CodeInputViewModel>()
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(viewModel.events) {

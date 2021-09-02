@@ -26,11 +26,11 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun SearchTopAppBar(
+    viewModel: SearchViewModel,
     currentSubScreen: SearchSubScreen,
     onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
     drawerState: DrawerState?
 ) {
-    val viewModel by instance<SearchViewModel>()
     val state by viewModel.state.collectAsState()
 
     val textStyle = LocalTextStyle.current

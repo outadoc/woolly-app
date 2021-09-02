@@ -23,16 +23,15 @@ import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
 import fr.outadoc.woolly.ui.feature.status.ErrorScreen
 import fr.outadoc.woolly.ui.feature.status.Status
-import org.kodein.di.compose.instance
 
 @Composable
 fun StatusDetailsScreen(
+    viewModel: StatusDetailsViewModel,
     statusId: String,
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val viewModel by instance<StatusDetailsViewModel>()
     val state by viewModel.state.collectAsState(StatusDetailsViewModel.State.Initial())
 
     LaunchedEffect(statusId) {

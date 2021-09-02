@@ -8,10 +8,10 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
 import fr.outadoc.woolly.ui.feature.status.StatusList
-import org.kodein.di.compose.instance
 
 @Composable
 fun PublicTimelineScreen(
+    viewModel: PublicTimelineViewModel,
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: PublicTimelineSubScreen,
     localListState: LazyListState,
@@ -19,7 +19,6 @@ fun PublicTimelineScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val viewModel by instance<PublicTimelineViewModel>()
     when (currentSubScreen) {
         PublicTimelineSubScreen.Local -> StatusList(
             insets = insets,

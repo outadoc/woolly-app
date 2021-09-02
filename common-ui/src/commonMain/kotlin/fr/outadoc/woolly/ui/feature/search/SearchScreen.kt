@@ -13,10 +13,10 @@ import fr.outadoc.woolly.ui.feature.account.AccountList
 import fr.outadoc.woolly.ui.feature.status.StatusList
 import fr.outadoc.woolly.ui.feature.tags.TagList
 import fr.outadoc.woolly.ui.feature.tags.TrendingScreen
-import org.kodein.di.compose.instance
 
 @Composable
 fun SearchScreen(
+    viewModel: SearchViewModel,
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: SearchSubScreen,
     statusListState: LazyListState,
@@ -25,11 +25,13 @@ fun SearchScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val viewModel by instance<SearchViewModel>()
     val state by viewModel.state.collectAsState()
 
     if (state.query.isEmpty()) {
-        TrendingScreen(insets = insets)
+        TrendingScreen(
+            trendingTags = viewModel.trendingTags,
+            insets = insets
+        )
     } else {
         when (currentSubScreen) {
             SearchSubScreen.Statuses -> StatusList(

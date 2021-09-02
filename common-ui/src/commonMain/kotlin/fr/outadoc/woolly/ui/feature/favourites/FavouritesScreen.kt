@@ -11,12 +11,12 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun FavouritesScreen(
+    viewModel: FavouritesViewModel,
     insets: PaddingValues = PaddingValues(),
     listState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val viewModel by instance<FavouritesViewModel>()
     StatusList(
         insets = insets,
         statusFlow = viewModel.favouritesPagingItems,

@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.auth.viewmodel
 
+import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.client.MastodonClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,7 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class DomainSelectViewModel(private val scope: CoroutineScope) {
+class DomainSelectViewModel(
+    componentContext: ComponentContext,
+    private val scope: CoroutineScope
+) : ComponentContext by componentContext {
 
     data class State(
         val error: Throwable? = null,

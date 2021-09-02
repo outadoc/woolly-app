@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun NotificationList(
     modifier: Modifier = Modifier,
-    insets: PaddingValues,
+    insets: PaddingValues = PaddingValues(),
     notificationFlow: Flow<PagingData<Notification>>,
     lazyListState: LazyListState,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,

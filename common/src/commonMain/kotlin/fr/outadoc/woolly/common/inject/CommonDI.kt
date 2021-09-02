@@ -7,7 +7,8 @@ import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateRepository
-import fr.outadoc.woolly.common.feature.auth.viewmodel.AuthViewModel
+import fr.outadoc.woolly.common.feature.auth.viewmodel.CodeInputViewModel
+import fr.outadoc.woolly.common.feature.auth.viewmodel.DomainSelectViewModel
 import fr.outadoc.woolly.common.feature.bookmarks.viewmodel.BookmarksViewModel
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
@@ -66,7 +67,8 @@ val CommonDI = DI {
     // TODO WorkManager-based impl for Android
     bindSingleton<StatusPoster> { SimpleThreadedStatusPoster(instance(), instance()) }
 
-    bindSingleton { AuthViewModel(instance(), instance(), instance()) }
+    bindSingleton { DomainSelectViewModel(instance()) }
+    bindSingleton { CodeInputViewModel(instance(), instance()) }
     bindSingleton { HomeTimelineViewModel(instance(), instance(), instance(), instance()) }
     bindSingleton { PublicTimelineViewModel(instance(), instance(), instance(), instance()) }
     bindSingleton { SearchViewModel(instance(), instance(), instance(), instance()) }

@@ -28,6 +28,7 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.core)
                 implementation(libs.androidx.datastore.core)
+                implementation(libs.decompose.core)
             }
         }
         val commonTest by getting {

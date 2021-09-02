@@ -1,10 +1,10 @@
-package fr.outadoc.woolly.ui.screen
+package fr.outadoc.woolly.common.screen
 
 import com.arkivanov.decompose.statekeeper.Parcelable
 import com.arkivanov.decompose.statekeeper.Parcelize
+import fr.outadoc.woolly.common.feature.media.ImageAttachment
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
-import fr.outadoc.woolly.ui.feature.media.ImageAttachment
 
 sealed class AppScreen : Parcelable {
 

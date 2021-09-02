@@ -32,7 +32,9 @@ import io.kamel.image.lazyPainterResource
 import org.kodein.di.compose.instance
 
 @Composable
-fun AccountScreen(insets: PaddingValues) {
+fun AccountScreen(
+    insets: PaddingValues = PaddingValues()
+) {
     val repo by instance<AccountRepository>()
 
     val currentAccount by repo.currentAccount.collectAsState()

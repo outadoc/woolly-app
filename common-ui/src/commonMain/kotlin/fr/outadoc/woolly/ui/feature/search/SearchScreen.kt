@@ -17,7 +17,7 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun SearchScreen(
-    insets: PaddingValues,
+    insets: PaddingValues = PaddingValues(),
     currentSubScreen: SearchSubScreen,
     statusListState: LazyListState,
     accountsListState: LazyListState,

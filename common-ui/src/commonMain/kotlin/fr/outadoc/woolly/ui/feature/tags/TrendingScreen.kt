@@ -11,7 +11,9 @@ import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
 import org.kodein.di.compose.instance
 
 @Composable
-fun TrendingScreen(insets: PaddingValues) {
+fun TrendingScreen(
+    insets: PaddingValues = PaddingValues()
+) {
     val viewModel by instance<TrendingViewModel>()
     val trends by viewModel.trendingTags.collectAsState(initial = emptyList())
 

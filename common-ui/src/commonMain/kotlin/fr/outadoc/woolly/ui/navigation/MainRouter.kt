@@ -22,6 +22,7 @@ import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
+import fr.outadoc.woolly.common.feature.media.toAppImage
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.ui.common.DrawerMenuButton
@@ -33,14 +34,13 @@ import fr.outadoc.woolly.ui.feature.composer.ComposerScreen
 import fr.outadoc.woolly.ui.feature.favourites.FavouritesScreen
 import fr.outadoc.woolly.ui.feature.home.HomeTimelineScreen
 import fr.outadoc.woolly.ui.feature.media.ImageViewerScreen
-import fr.outadoc.woolly.ui.feature.media.toAppImage
 import fr.outadoc.woolly.ui.feature.notifications.NotificationsScreen
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineScreen
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
 import fr.outadoc.woolly.ui.feature.search.SearchScreen
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
 import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
-import fr.outadoc.woolly.ui.screen.AppScreen
+import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
@@ -176,7 +176,7 @@ fun MainRouter(
                         navigationIcon = when {
                             router.state.value.backStack.isNotEmpty() -> {
                                 @Composable {
-                                    IconButton(onClick = { router.pop() }) {
+                                    IconButton(onClick = router::pop) {
                                         Icon(Icons.Default.ArrowBack, "Go back")
                                     }
                                 }

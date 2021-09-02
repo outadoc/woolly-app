@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun AccountList(
     modifier: Modifier = Modifier,
-    insets: PaddingValues,
+    insets: PaddingValues = PaddingValues(),
     accountFlow: Flow<PagingData<Account>>,
     lazyListState: LazyListState
 ) {

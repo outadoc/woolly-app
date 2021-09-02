@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.feature.media
+package fr.outadoc.woolly.common.feature.media
 
 import com.arkivanov.decompose.statekeeper.Parcelable
 import com.arkivanov.decompose.statekeeper.Parcelize

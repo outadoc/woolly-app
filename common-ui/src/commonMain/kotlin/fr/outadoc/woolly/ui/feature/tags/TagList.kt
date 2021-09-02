@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun TagList(
     modifier: Modifier = Modifier,
-    insets: PaddingValues,
+    insets: PaddingValues = PaddingValues(),
     tagFlow: Flow<PagingData<Tag>>,
     lazyListState: LazyListState
 ) {

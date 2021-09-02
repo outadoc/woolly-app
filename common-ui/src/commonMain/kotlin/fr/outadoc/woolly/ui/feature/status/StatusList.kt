@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun StatusList(
     modifier: Modifier = Modifier,
-    insets: PaddingValues,
+    insets: PaddingValues = PaddingValues(),
     statusFlow: Flow<PagingData<Status>>,
     lazyListState: LazyListState,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,

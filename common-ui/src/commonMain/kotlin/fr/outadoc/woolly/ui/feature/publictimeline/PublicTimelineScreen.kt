@@ -12,7 +12,7 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun PublicTimelineScreen(
-    insets: PaddingValues,
+    insets: PaddingValues = PaddingValues(),
     currentSubScreen: PublicTimelineSubScreen,
     localListState: LazyListState,
     globalListState: LazyListState,

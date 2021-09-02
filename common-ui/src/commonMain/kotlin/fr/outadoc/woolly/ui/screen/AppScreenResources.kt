@@ -2,6 +2,7 @@ package fr.outadoc.woolly.ui.screen
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import fr.outadoc.woolly.common.screen.AppScreen
 
 class AppScreenResources {
 

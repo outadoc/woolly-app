@@ -11,7 +11,7 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun HomeTimelineScreen(
-    insets: PaddingValues,
+    insets: PaddingValues = PaddingValues(),
     listState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}

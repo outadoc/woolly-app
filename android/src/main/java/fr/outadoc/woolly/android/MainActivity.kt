@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.backpressed.BackPressedDispatcher
+import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.WoollyApp
 import fr.outadoc.woolly.ui.navigation.LocalBackPressedDispatcher
@@ -54,12 +55,20 @@ class MainActivity : ComponentActivity() {
             )
         }
 
+        val authRouterComponent = remember {
+            AuthRouterComponent(
+                componentContext = DefaultComponentContext(lifecycle),
+                directDI = di.direct
+            )
+        }
+
         CompositionLocalProvider(
             LocalUriHandler provides CustomTabUriHandler(LocalContext.current),
             LocalBackPressedDispatcher provides BackPressedDispatcher(onBackPressedDispatcher)
         ) {
             WoollyApp(
                 mainRouterComponent = mainRouterComponent,
+                authRouterComponent = authRouterComponent,
                 onFinishedLoading = { isReady = true }
             )
         }

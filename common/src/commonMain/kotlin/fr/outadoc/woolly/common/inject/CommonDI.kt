@@ -5,6 +5,8 @@ import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.account.AccountRepositoryImpl
 import fr.outadoc.woolly.common.feature.account.component.AccountComponent
+import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent
+import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
@@ -107,5 +109,14 @@ val CommonDI = DI {
 
     bindFactory { componentContext: ComponentContext ->
         ComposerComponent(componentContext, instance())
+    }
+
+    // Auth components
+    bindFactory { componentContext: ComponentContext ->
+        CodeInputComponent(componentContext, instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        DomainSelectComponent(componentContext, instance())
     }
 }

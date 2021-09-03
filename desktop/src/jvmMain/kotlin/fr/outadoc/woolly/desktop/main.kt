@@ -12,6 +12,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.lifecycle.LifecycleRegistry
+import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.desktop.inject.DesktopAppDI
 import fr.outadoc.woolly.ui.WoollyApp
@@ -33,6 +34,13 @@ private fun ApplicationScope.DesktopApp() = withDI(DesktopAppDI) {
         )
     }
 
+    val authRouterComponent = remember(di) {
+        AuthRouterComponent(
+            componentContext = DefaultComponentContext(LifecycleRegistry()),
+            directDI = di.direct
+        )
+    }
+
     CompositionLocalProvider(
         LocalUriHandler provides DesktopUriHandler()
     ) {
@@ -46,7 +54,8 @@ private fun ApplicationScope.DesktopApp() = withDI(DesktopAppDI) {
             onCloseRequest = ::exitApplication
         ) {
             WoollyApp(
-                mainRouterComponent = mainRouterComponent
+                mainRouterComponent = mainRouterComponent,
+                authRouterComponent = authRouterComponent
             )
         }
     }

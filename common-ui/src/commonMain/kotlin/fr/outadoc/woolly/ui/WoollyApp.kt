@@ -13,10 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.LoadState
+import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.ui.common.WoollyTheme
-import fr.outadoc.woolly.ui.feature.auth.AuthRouter
+import fr.outadoc.woolly.ui.feature.authrouter.AuthRouter
 import fr.outadoc.woolly.ui.mainrouter.MainRouter
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
@@ -24,6 +25,7 @@ import org.kodein.di.compose.instance
 @Composable
 fun WoollyApp(
     mainRouterComponent: MainRouterComponent,
+    authRouterComponent: AuthRouterComponent,
     onFinishedLoading: () -> Unit = {}
 ) {
     val prefs by instance<PreferenceRepository>()
@@ -39,21 +41,22 @@ fun WoollyApp(
 
             val appPrefs = state.value
             WoollyTheme(isDarkMode = appPrefs.colorScheme == ColorScheme.Dark) {
-                when (appPrefs.authenticationState.activeAccount) {
-                    null -> AuthRouter()
-                    else -> {
-                        MainRouter(
-                            component = mainRouterComponent,
-                            colorScheme = appPrefs.colorScheme,
-                            onColorSchemeChanged = { colorScheme ->
-                                scope.launch {
-                                    prefs.updatePreferences { current ->
-                                        current.copy(colorScheme = colorScheme)
-                                    }
+                if (appPrefs.authenticationState.activeAccount == null) {
+                    AuthRouter(
+                        component = authRouterComponent
+                    )
+                } else {
+                    MainRouter(
+                        component = mainRouterComponent,
+                        colorScheme = appPrefs.colorScheme,
+                        onColorSchemeChanged = { colorScheme ->
+                            scope.launch {
+                                prefs.updatePreferences { current ->
+                                    current.copy(colorScheme = colorScheme)
                                 }
                             }
-                        )
-                    }
+                        }
+                    )
                 }
             }
         }

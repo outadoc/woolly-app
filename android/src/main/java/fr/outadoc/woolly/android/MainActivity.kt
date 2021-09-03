@@ -12,9 +12,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.backpressed.BackPressedDispatcher
+import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.WoollyApp
 import fr.outadoc.woolly.ui.navigation.LocalBackPressedDispatcher
-import fr.outadoc.woolly.ui.navigation.main.MainRouterComponent
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.withDI
 

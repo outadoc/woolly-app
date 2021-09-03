@@ -4,16 +4,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.LoadState
+import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import fr.outadoc.woolly.ui.feature.auth.AuthRouter
-import fr.outadoc.woolly.ui.navigation.main.MainRouter
-import fr.outadoc.woolly.ui.navigation.main.MainRouterComponent
+import fr.outadoc.woolly.ui.mainrouter.MainRouter
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 

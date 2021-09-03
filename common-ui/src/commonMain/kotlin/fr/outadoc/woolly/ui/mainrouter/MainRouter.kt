@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.navigation.main
+package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
@@ -13,6 +13,8 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
+import fr.outadoc.woolly.common.feature.mainrouter.component.Content
+import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.ui.common.DrawerMenuButton
 import fr.outadoc.woolly.ui.common.ResponsiveScaffold
@@ -118,9 +120,9 @@ fun MainRouter(
                         modifier = Modifier.height(WoollyDefaults.AppBarHeight),
                         title = { Text(res.getScreenTitle(screen)) },
                         navigationIcon = when {
-                            !component.isBackStackEmpty -> {
+                            component.shouldDisplayBackButton.value -> {
                                 @Composable {
-                                    IconButton(onClick = router::pop) {
+                                    IconButton(onClick = component::onBackPressed) {
                                         Icon(Icons.Default.ArrowBack, "Go back")
                                     }
                                 }
@@ -185,10 +187,8 @@ fun MainRouter(
         },
         floatingActionButton = {
             Children(routerState = component.routerState) {
-                if (component.routerState.value.backStack.isEmpty()) {
-                    FloatingActionButton(
-                        onClick = { router.push(AppScreen.StatusComposer) }
-                    ) {
+                if (component.shouldDisplayComposeButton.value) {
+                    FloatingActionButton(onClick = component::onComposeStatusClicked) {
                         Icon(Icons.Default.Edit, contentDescription = "Compose a new status")
                     }
                 }
@@ -255,7 +255,7 @@ fun MainRouter(
                 )
                 is Content.StatusComposer -> ComposerScreen(
                     component = content.component,
-                    onDismiss = router::pop
+                    onDismiss = component::onComposerDismissed
                 )
             }
         }

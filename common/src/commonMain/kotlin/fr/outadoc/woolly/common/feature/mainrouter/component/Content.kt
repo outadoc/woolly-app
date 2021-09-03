@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.navigation.main
+package fr.outadoc.woolly.common.feature.mainrouter.component
 
 import fr.outadoc.woolly.common.feature.account.component.AccountComponent
 import fr.outadoc.woolly.common.feature.bookmarks.component.BookmarksComponent

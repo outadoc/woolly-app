@@ -1,10 +1,12 @@
-package fr.outadoc.woolly.ui.navigation.main
+package fr.outadoc.woolly.common.feature.mainrouter.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.RouterState
+import com.arkivanov.decompose.pop
 import com.arkivanov.decompose.push
 import com.arkivanov.decompose.router
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.operator.map
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.account.component.AccountComponent
@@ -45,8 +47,11 @@ class MainRouterComponent(
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
-    val isBackStackEmpty: Boolean
-        get() = routerState.value.backStack.isEmpty()
+    val shouldDisplayBackButton: Value<Boolean>
+        get() = routerState.map { it.backStack.isNotEmpty() }
+
+    val shouldDisplayComposeButton: Value<Boolean>
+        get() = routerState.map { it.backStack.isEmpty() }
 
     fun onAttachmentClick(attachment: Attachment) {
         when (attachment) {
@@ -63,6 +68,18 @@ class MainRouterComponent(
         router.push(
             AppScreen.StatusDetails(statusId = status.statusId)
         )
+    }
+
+    fun onBackPressed() {
+        router.pop()
+    }
+
+    fun onComposeStatusClicked() {
+        router.push(AppScreen.StatusComposer)
+    }
+
+    fun onComposerDismissed() {
+        router.pop()
     }
 
     private fun createChild(config: AppScreen, componentContext: ComponentContext): Content =

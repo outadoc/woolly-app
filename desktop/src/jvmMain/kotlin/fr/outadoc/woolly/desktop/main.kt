@@ -8,9 +8,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.lifecycle.LifecycleRegistry
+import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.desktop.inject.DesktopAppDI
 import fr.outadoc.woolly.ui.WoollyApp
-import fr.outadoc.woolly.ui.navigation.main.MainRouterComponent
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.withDI
 

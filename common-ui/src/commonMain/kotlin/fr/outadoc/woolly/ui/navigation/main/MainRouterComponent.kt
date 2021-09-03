@@ -1,7 +1,9 @@
 package fr.outadoc.woolly.ui.navigation.main
 
-import androidx.compose.material.*
-import com.arkivanov.decompose.*
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.RouterState
+import com.arkivanov.decompose.push
+import com.arkivanov.decompose.router
 import com.arkivanov.decompose.value.Value
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
@@ -17,6 +19,8 @@ import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineC
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
 import fr.outadoc.woolly.common.screen.AppScreen
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import org.kodein.di.DI
 import org.kodein.di.factory
 
@@ -116,6 +120,13 @@ class MainRouterComponent(
             }
         }
 
+    sealed class Event {
+        data class OpenUri(val uri: String) : Event()
+    }
+
+    private val _events = MutableSharedFlow<Event>()
+    val events get() = _events.asSharedFlow()
+
     val isBackStackEmpty: Boolean
         get() = routerState.value.backStack.isEmpty()
 
@@ -126,7 +137,7 @@ class MainRouterComponent(
                     image = attachment.toAppImage()
                 )
             )
-            else -> uriHandler.openUri(attachment.url)
+            else -> _events.tryEmit(Event.OpenUri(attachment.url))
         }
     }
 

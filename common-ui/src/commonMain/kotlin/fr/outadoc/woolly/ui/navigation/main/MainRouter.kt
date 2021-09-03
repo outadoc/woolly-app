@@ -5,11 +5,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.*
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
@@ -35,6 +33,7 @@ import fr.outadoc.woolly.ui.navigation.MainAppDrawer
 import fr.outadoc.woolly.ui.navigation.MainBottomNavigation
 import fr.outadoc.woolly.ui.navigation.WideAppDrawer
 import fr.outadoc.woolly.ui.screen.AppScreenResources
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
@@ -47,7 +46,17 @@ fun MainRouter(
 ) {
     val res by instance<AppScreenResources>()
     val scaffoldState = rememberScaffoldState()
+
     val scope = rememberCoroutineScope()
+    val uriHandler = LocalUriHandler.current
+
+    LaunchedEffect(component.events) {
+        component.events.collect { event ->
+            when (event) {
+                is MainRouterComponent.Event.OpenUri -> uriHandler.openUri(event.uri)
+            }
+        }
+    }
 
     PostingStatusSnackbar(
         showPostingSnackbar = {

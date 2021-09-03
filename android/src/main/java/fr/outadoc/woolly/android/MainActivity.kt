@@ -7,11 +7,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.backpressed.BackPressedDispatcher
 import fr.outadoc.woolly.ui.WoollyApp
 import fr.outadoc.woolly.ui.navigation.LocalBackPressedDispatcher
+import fr.outadoc.woolly.ui.navigation.main.MainRouterComponent
+import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.withDI
 
 class MainActivity : ComponentActivity() {
@@ -41,11 +45,22 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun AndroidApp() = withDI {
+        val di = LocalDI.current
+        val mainRouterComponent = remember {
+            MainRouterComponent(
+                componentContext = DefaultComponentContext(lifecycle),
+                di = di
+            )
+        }
+
         CompositionLocalProvider(
             LocalUriHandler provides CustomTabUriHandler(LocalContext.current),
             LocalBackPressedDispatcher provides BackPressedDispatcher(onBackPressedDispatcher)
         ) {
-            WoollyApp(onFinishedLoading = { isReady = true })
+            WoollyApp(
+                mainRouterComponent = mainRouterComponent,
+                onFinishedLoading = { isReady = true }
+            )
         }
     }
 }

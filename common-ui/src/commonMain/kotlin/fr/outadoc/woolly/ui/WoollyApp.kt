@@ -12,12 +12,16 @@ import fr.outadoc.woolly.common.LoadState
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import fr.outadoc.woolly.ui.feature.auth.AuthRouter
-import fr.outadoc.woolly.ui.navigation.MainRouter
+import fr.outadoc.woolly.ui.navigation.main.MainRouter
+import fr.outadoc.woolly.ui.navigation.main.MainRouterComponent
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
 @Composable
-fun WoollyApp(onFinishedLoading: () -> Unit = {}) {
+fun WoollyApp(
+    mainRouterComponent: MainRouterComponent,
+    onFinishedLoading: () -> Unit = {}
+) {
     val prefs by instance<PreferenceRepository>()
     val appPrefsState by prefs.preferences.collectAsState(initial = LoadState.Loading())
 
@@ -35,6 +39,7 @@ fun WoollyApp(onFinishedLoading: () -> Unit = {}) {
                     null -> AuthRouter()
                     else -> {
                         MainRouter(
+                            component = mainRouterComponent,
                             colorScheme = appPrefs.colorScheme,
                             onColorSchemeChanged = { colorScheme ->
                                 scope.launch {

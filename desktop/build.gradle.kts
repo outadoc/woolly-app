@@ -25,6 +25,8 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.core)
+                implementation(libs.decompose.core)
+                implementation(libs.decompose.jb)
             }
         }
         val jvmTest by getting

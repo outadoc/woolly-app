@@ -1,16 +1,28 @@
 package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.*
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarResult
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.*
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import com.arkivanov.decompose.*
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
 import fr.outadoc.woolly.common.feature.mainrouter.component.Content
@@ -88,37 +100,32 @@ fun MainRouter(
         scaffoldState = scaffoldState,
         topBar = { drawerState ->
             Children(routerState = component.routerState) { screen ->
-                when (val currentScreen = screen.configuration) {
-                    is AppScreen.PublicTimeline -> PublicTimelineTopAppBar(
-                        title = { Text(res.getScreenTitle(currentScreen)) },
+                when (val currentScreen = screen.instance) {
+                    is Content.PublicTimeline -> PublicTimelineTopAppBar(
+                        title = { Text(res.getScreenTitle(currentScreen.configuration)) },
                         drawerState = drawerState,
-                        currentSubScreen = currentScreen.subScreen,
+                        currentSubScreen = currentScreen.configuration.subScreen,
                         onSubScreenSelected = { subScreen ->
-                            when (currentScreen.subScreen) {
-                                subScreen -> currentScreen.scrollToTop()
-                                else -> router.replaceCurrent(
-                                    AppScreen.PublicTimeline(subScreen = subScreen)
-                                )
-                            }
+                            component.onScreenSelected(
+                                AppScreen.PublicTimeline(subScreen = subScreen)
+                            )
                         }
                     )
 
-                    is AppScreen.Search -> SearchTopAppBar(
+                    is Content.Search -> SearchTopAppBar(
+                        component = currentScreen.component,
                         drawerState = drawerState,
-                        currentSubScreen = currentScreen.subScreen,
+                        currentSubScreen = currentScreen.configuration.subScreen,
                         onSubScreenSelected = { subScreen ->
-                            when (currentScreen.subScreen) {
-                                subScreen -> currentScreen.scrollToTop()
-                                else -> router.replaceCurrent(
-                                    AppScreen.Search(subScreen = subScreen)
-                                )
-                            }
+                            component.onScreenSelected(
+                                AppScreen.Search(subScreen = subScreen)
+                            )
                         }
                     )
 
                     else -> TopAppBar(
                         modifier = Modifier.height(WoollyDefaults.AppBarHeight),
-                        title = { Text(res.getScreenTitle(screen)) },
+                        title = { Text(res.getScreenTitle(screen.configuration)) },
                         navigationIcon = when {
                             component.shouldDisplayBackButton.value -> {
                                 @Composable {
@@ -138,59 +145,40 @@ fun MainRouter(
         },
         bottomBar = {
             Children(routerState = component.routerState) { screen ->
-                val currentScreen = screen.configuration
                 MainBottomNavigation(
-                    currentScreen = currentScreen,
-                    onScreenSelected = { selectedScreen ->
-                        when (currentScreen) {
-                            selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.replaceCurrent(selectedScreen)
-                        }
-                    }
+                    currentScreen = screen.configuration,
+                    onScreenSelected = component::onScreenSelected
                 )
             }
         },
         narrowDrawerContent = { drawerState ->
             Children(routerState = component.routerState) { screen ->
-                val currentScreen = screen.configuration
                 MainAppDrawer(
                     scope = scope,
                     drawerState = drawerState,
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,
-                    currentScreen = currentScreen,
-                    onScreenSelected = { selectedScreen ->
-                        when (currentScreen) {
-                            selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.replaceCurrent(selectedScreen)
-                        }
-                    }
+                    currentScreen = screen.configuration,
+                    onScreenSelected = component::onScreenSelected
                 )
             }
         },
         wideDrawerContent = {
             Children(routerState = component.routerState) { screen ->
-                val currentScreen = screen.configuration
                 WideAppDrawer(
                     scope = scope,
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,
-                    currentScreen = currentScreen,
-                    onScreenSelected = { selectedScreen ->
-                        when (currentScreen) {
-                            selectedScreen -> selectedScreen.scrollToTop()
-                            else -> router.replaceCurrent(selectedScreen)
-                        }
-                    }
+                    currentScreen = screen.configuration,
+                    onScreenSelected = component::onScreenSelected
                 )
             }
         },
         floatingActionButton = {
-            Children(routerState = component.routerState) {
-                if (component.shouldDisplayComposeButton.value) {
-                    FloatingActionButton(onClick = component::onComposeStatusClicked) {
-                        Icon(Icons.Default.Edit, contentDescription = "Compose a new status")
-                    }
+            val shouldDisplay by component.shouldDisplayComposeButton.subscribeAsState()
+            if (shouldDisplay) {
+                FloatingActionButton(onClick = component::onComposeStatusClicked) {
+                    Icon(Icons.Default.Edit, contentDescription = "Compose a new status")
                 }
             }
         }

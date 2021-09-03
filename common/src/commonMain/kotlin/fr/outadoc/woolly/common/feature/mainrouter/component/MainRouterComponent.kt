@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.RouterState
 import com.arkivanov.decompose.pop
 import com.arkivanov.decompose.push
+import com.arkivanov.decompose.replaceCurrent
 import com.arkivanov.decompose.router
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
@@ -71,69 +72,61 @@ class MainRouterComponent(
         router.pop()
     }
 
-    private fun createChild(config: AppScreen, componentContext: ComponentContext): Content =
-        when (config) {
-            is AppScreen.HomeTimeline -> {
-                Content.HomeTimeline(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.PublicTimeline -> {
-                Content.PublicTimeline(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.Notifications -> {
-                Content.Notifications(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.Search -> {
-                Content.Search(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.Account -> {
-                Content.Account(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.Bookmarks -> {
-                Content.Bookmarks(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.Favourites -> {
-                Content.Favourites(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.StatusDetails -> {
-                Content.StatusDetails(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.ImageViewer -> {
-                Content.ImageViewer(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
-            is AppScreen.StatusComposer -> {
-                Content.StatusComposer(
-                    configuration = config,
-                    component = createComponent(componentContext)
-                )
-            }
+    fun onScreenSelected(target: AppScreen) {
+        val activeContent = routerState.value.activeChild.instance
+        if (target == activeContent.configuration) {
+            (activeContent.component as? ScrollableComponent)
+                ?.scrollToTop(activeContent.configuration)
         }
+
+        router.replaceCurrent(target)
+    }
+
+    private fun createChild(
+        configuration: AppScreen,
+        componentContext: ComponentContext
+    ): Content = when (configuration) {
+        is AppScreen.HomeTimeline -> Content.HomeTimeline(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.PublicTimeline -> Content.PublicTimeline(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.Notifications -> Content.Notifications(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.Search -> Content.Search(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.Account -> Content.Account(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.Bookmarks -> Content.Bookmarks(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.Favourites -> Content.Favourites(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.StatusDetails -> Content.StatusDetails(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.ImageViewer -> Content.ImageViewer(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.StatusComposer -> Content.StatusComposer(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+    }
 
     private inline fun <reified T : Any> createComponent(componentContext: ComponentContext): T {
         return directDI.factory<ComponentContext, T>()(componentContext)

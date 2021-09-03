@@ -9,19 +9,24 @@ import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.timelines.getPublicTimelineSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
+import fr.outadoc.woolly.common.feature.mainrouter.component.ScrollableComponent
+import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
+import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
+import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 class PublicTimelineComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
     clientProvider: MastodonClientProvider,
     statusActionRepository: StatusActionRepository
-) : ComponentContext by componentContext {
+) : ComponentContext by componentContext, ScrollableComponent {
 
     private val componentScope = MainScope()
 
@@ -61,6 +66,17 @@ class PublicTimelineComponent(
 
     fun onGlobalStatusAction(action: StatusAction) {
         globalPagingRepository.onStatusAction(action)
+    }
+
+    override fun scrollToTop(currentConfig: AppScreen?) {
+        val subScreen = (currentConfig as? AppScreen.PublicTimeline)?.subScreen ?: return
+
+        componentScope.launch {
+            when (subScreen) {
+                PublicTimelineSubScreen.Local -> localListState
+                PublicTimelineSubScreen.Global -> globalListState
+            }.tryScrollToTop()
+        }
     }
 
     init {

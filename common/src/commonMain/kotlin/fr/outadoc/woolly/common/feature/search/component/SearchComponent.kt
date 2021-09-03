@@ -17,9 +17,13 @@ import fr.outadoc.mastodonk.paging.api.endpoint.search.searchHashtagsSource
 import fr.outadoc.mastodonk.paging.api.endpoint.search.searchStatusesSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
+import fr.outadoc.woolly.common.feature.mainrouter.component.ScrollableComponent
+import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
+import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
+import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
@@ -30,13 +34,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.launch
 
 class SearchComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
     private val clientProvider: MastodonClientProvider,
     statusActionRepository: StatusActionRepository
-) : ComponentContext by componentContext {
+) : ComponentContext by componentContext, ScrollableComponent {
 
     private val componentScope = MainScope()
 
@@ -108,6 +113,17 @@ class SearchComponent(
 
     fun onStatusAction(action: StatusAction) {
         statusPagingRepository.onStatusAction(action)
+    }
+
+    override fun scrollToTop(currentConfig: AppScreen?) {
+        val subScreen = (currentConfig as? AppScreen.Search)?.subScreen ?: return
+        componentScope.launch {
+            when (subScreen) {
+                SearchSubScreen.Statuses -> statusListState
+                SearchSubScreen.Accounts -> accountsListState
+                SearchSubScreen.Hashtags -> hashtagsListState
+            }.tryScrollToTop()
+        }
     }
 
     init {

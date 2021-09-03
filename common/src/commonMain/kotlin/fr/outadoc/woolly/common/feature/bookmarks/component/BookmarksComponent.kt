@@ -9,7 +9,7 @@ import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getBookmarksSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
-import fr.outadoc.woolly.common.feature.mainrouter.component.ScrollableComponent
+import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository

@@ -11,6 +11,7 @@ import com.arkivanov.decompose.value.operator.map
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.media.toAppImage
+import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,13 +23,13 @@ class MainRouterComponent(
     private val directDI: DirectDI
 ) : ComponentContext by componentContext {
 
-    private val router = router<AppScreen, Content>(
+    private val router = router<AppScreen, MainContent>(
         initialConfiguration = { AppScreen.HomeTimeline },
         handleBackButton = true,
         childFactory = ::createChild
     )
 
-    val routerState: Value<RouterState<AppScreen, Content>> = router.state
+    val routerState: Value<RouterState<AppScreen, MainContent>> = router.state
 
     sealed class Event {
         data class OpenUri(val uri: String) : Event()
@@ -85,44 +86,44 @@ class MainRouterComponent(
     private fun createChild(
         configuration: AppScreen,
         componentContext: ComponentContext
-    ): Content = when (configuration) {
-        is AppScreen.HomeTimeline -> Content.HomeTimeline(
+    ): MainContent = when (configuration) {
+        is AppScreen.HomeTimeline -> MainContent.HomeTimeline(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.PublicTimeline -> Content.PublicTimeline(
+        is AppScreen.PublicTimeline -> MainContent.PublicTimeline(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.Notifications -> Content.Notifications(
+        is AppScreen.Notifications -> MainContent.Notifications(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.Search -> Content.Search(
+        is AppScreen.Search -> MainContent.Search(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.Account -> Content.Account(
+        is AppScreen.Account -> MainContent.Account(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.Bookmarks -> Content.Bookmarks(
+        is AppScreen.Bookmarks -> MainContent.Bookmarks(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.Favourites -> Content.Favourites(
+        is AppScreen.Favourites -> MainContent.Favourites(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.StatusDetails -> Content.StatusDetails(
+        is AppScreen.StatusDetails -> MainContent.StatusDetails(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.ImageViewer -> Content.ImageViewer(
+        is AppScreen.ImageViewer -> MainContent.ImageViewer(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.StatusComposer -> Content.StatusComposer(
+        is AppScreen.StatusComposer -> MainContent.StatusComposer(
             configuration = configuration,
             component = createComponent(componentContext)
         )

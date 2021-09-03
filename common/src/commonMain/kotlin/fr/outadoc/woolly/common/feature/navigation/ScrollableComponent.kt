@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.mainrouter.component
+package fr.outadoc.woolly.common.feature.navigation
 
 import fr.outadoc.woolly.common.screen.AppScreen
 

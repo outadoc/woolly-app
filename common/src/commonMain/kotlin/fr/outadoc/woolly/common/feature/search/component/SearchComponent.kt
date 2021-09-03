@@ -17,7 +17,7 @@ import fr.outadoc.mastodonk.paging.api.endpoint.search.searchHashtagsSource
 import fr.outadoc.mastodonk.paging.api.endpoint.search.searchStatusesSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
-import fr.outadoc.woolly.common.feature.mainrouter.component.ScrollableComponent
+import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.status.StatusAction

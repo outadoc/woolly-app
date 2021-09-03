@@ -13,7 +13,7 @@ import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
 import fr.outadoc.woolly.common.screen.AppScreen
 
-sealed class Content {
+sealed class MainContent {
 
     abstract val configuration: AppScreen
     abstract val component: ComponentContext
@@ -21,50 +21,50 @@ sealed class Content {
     data class Account(
         override val configuration: AppScreen.Account,
         override val component: AccountComponent
-    ) : Content()
+    ) : MainContent()
 
     data class Bookmarks(
         override val configuration: AppScreen.Bookmarks,
         override val component: BookmarksComponent
-    ) : Content()
+    ) : MainContent()
 
     data class Favourites(
         override val configuration: AppScreen.Favourites,
         override val component: FavouritesComponent
-    ) : Content()
+    ) : MainContent()
 
     data class HomeTimeline(
         override val configuration: AppScreen.HomeTimeline,
         override val component: HomeTimelineComponent
-    ) : Content()
+    ) : MainContent()
 
     data class Notifications(
         override val configuration: AppScreen.Notifications,
         override val component: NotificationsComponent
-    ) : Content()
+    ) : MainContent()
 
     data class PublicTimeline(
         override val configuration: AppScreen.PublicTimeline,
         override val component: PublicTimelineComponent
-    ) : Content()
+    ) : MainContent()
 
     data class Search(
         override val configuration: AppScreen.Search,
         override val component: SearchComponent
-    ) : Content()
+    ) : MainContent()
 
     data class StatusDetails(
         override val configuration: AppScreen.StatusDetails,
         override val component: StatusDetailsComponent
-    ) : Content()
+    ) : MainContent()
 
     data class ImageViewer(
         override val configuration: AppScreen.ImageViewer,
         override val component: AttachmentViewerComponent
-    ) : Content()
+    ) : MainContent()
 
     data class StatusComposer(
         override val configuration: AppScreen.StatusComposer,
         override val component: ComposerComponent
-    ) : Content()
+    ) : MainContent()
 }

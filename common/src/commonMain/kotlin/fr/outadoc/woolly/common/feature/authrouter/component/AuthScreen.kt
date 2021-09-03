@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.feature.auth
+package fr.outadoc.woolly.common.feature.authrouter.component
 
 import com.arkivanov.decompose.statekeeper.Parcelable
 import com.arkivanov.decompose.statekeeper.Parcelize

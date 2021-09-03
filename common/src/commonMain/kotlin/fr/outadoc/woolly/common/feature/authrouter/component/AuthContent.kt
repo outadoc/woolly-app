@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.common.feature.authrouter.component
 
 import com.arkivanov.decompose.ComponentContext
-import fr.outadoc.woolly.common.feature.auth.AuthScreen
 import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent
 import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent
 

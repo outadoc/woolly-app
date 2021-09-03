@@ -18,7 +18,6 @@ import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 class BookmarksComponent(
     componentContext: ComponentContext,
@@ -49,10 +48,8 @@ class BookmarksComponent(
         pagingRepository.onStatusAction(action)
     }
 
-    override fun scrollToTop(currentConfig: AppScreen?) {
-        componentScope.launch {
-            listState.tryScrollToTop()
-        }
+    override suspend fun scrollToTop(currentConfig: AppScreen?) {
+        listState.tryScrollToTop()
     }
 
     init {

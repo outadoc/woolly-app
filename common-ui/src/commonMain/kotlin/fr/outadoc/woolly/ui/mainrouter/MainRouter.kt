@@ -1,22 +1,11 @@
 package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarResult
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -106,9 +95,11 @@ fun MainRouter(
                         drawerState = drawerState,
                         currentSubScreen = currentScreen.configuration.subScreen,
                         onSubScreenSelected = { subScreen ->
-                            component.onScreenSelected(
-                                AppScreen.PublicTimeline(subScreen = subScreen)
-                            )
+                            scope.launch {
+                                component.onScreenSelected(
+                                    AppScreen.PublicTimeline(subScreen = subScreen)
+                                )
+                            }
                         }
                     )
 
@@ -117,9 +108,11 @@ fun MainRouter(
                         drawerState = drawerState,
                         currentSubScreen = currentScreen.configuration.subScreen,
                         onSubScreenSelected = { subScreen ->
-                            component.onScreenSelected(
-                                AppScreen.Search(subScreen = subScreen)
-                            )
+                            scope.launch {
+                                component.onScreenSelected(
+                                    AppScreen.Search(subScreen = subScreen)
+                                )
+                            }
                         }
                     )
 
@@ -147,7 +140,11 @@ fun MainRouter(
             Children(routerState = component.routerState) { screen ->
                 MainBottomNavigation(
                     currentScreen = screen.configuration,
-                    onScreenSelected = component::onScreenSelected
+                    onScreenSelected = { target ->
+                        scope.launch {
+                            component.onScreenSelected(target)
+                        }
+                    }
                 )
             }
         },
@@ -159,7 +156,11 @@ fun MainRouter(
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = screen.configuration,
-                    onScreenSelected = component::onScreenSelected
+                    onScreenSelected = { target ->
+                        scope.launch {
+                            component.onScreenSelected(target)
+                        }
+                    }
                 )
             }
         },
@@ -170,7 +171,11 @@ fun MainRouter(
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = screen.configuration,
-                    onScreenSelected = component::onScreenSelected
+                    onScreenSelected = { target ->
+                        scope.launch {
+                            component.onScreenSelected(target)
+                        }
+                    }
                 )
             }
         },

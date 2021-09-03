@@ -5,9 +5,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.DefaultComponentContext
@@ -15,7 +13,6 @@ import com.arkivanov.decompose.backpressed.BackPressedDispatcher
 import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.WoollyApp
-import fr.outadoc.woolly.ui.navigation.LocalBackPressedDispatcher
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.withDI
 import org.kodein.di.direct
@@ -74,3 +71,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+val LocalBackPressedDispatcher: ProvidableCompositionLocal<BackPressedDispatcher?> =
+    staticCompositionLocalOf { null }

@@ -19,7 +19,6 @@ import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 class PublicTimelineComponent(
     componentContext: ComponentContext,
@@ -68,15 +67,12 @@ class PublicTimelineComponent(
         globalPagingRepository.onStatusAction(action)
     }
 
-    override fun scrollToTop(currentConfig: AppScreen?) {
+    override suspend fun scrollToTop(currentConfig: AppScreen?) {
         val subScreen = (currentConfig as? AppScreen.PublicTimeline)?.subScreen ?: return
-
-        componentScope.launch {
-            when (subScreen) {
-                PublicTimelineSubScreen.Local -> localListState
-                PublicTimelineSubScreen.Global -> globalListState
-            }.tryScrollToTop()
-        }
+        when (subScreen) {
+            PublicTimelineSubScreen.Local -> localListState
+            PublicTimelineSubScreen.Global -> globalListState
+        }.tryScrollToTop()
     }
 
     init {

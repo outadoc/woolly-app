@@ -1,11 +1,7 @@
 package fr.outadoc.woolly.common.feature.search.component
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.cachedIn
+import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Account
@@ -28,13 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 
 class SearchComponent(
     componentContext: ComponentContext,
@@ -115,15 +105,13 @@ class SearchComponent(
         statusPagingRepository.onStatusAction(action)
     }
 
-    override fun scrollToTop(currentConfig: AppScreen?) {
+    override suspend fun scrollToTop(currentConfig: AppScreen?) {
         val subScreen = (currentConfig as? AppScreen.Search)?.subScreen ?: return
-        componentScope.launch {
-            when (subScreen) {
-                SearchSubScreen.Statuses -> statusListState
-                SearchSubScreen.Accounts -> accountsListState
-                SearchSubScreen.Hashtags -> hashtagsListState
-            }.tryScrollToTop()
-        }
+        when (subScreen) {
+            SearchSubScreen.Statuses -> statusListState
+            SearchSubScreen.Accounts -> accountsListState
+            SearchSubScreen.Hashtags -> hashtagsListState
+        }.tryScrollToTop()
     }
 
     init {

@@ -2,7 +2,14 @@ package fr.outadoc.woolly.ui.feature.publictimeline
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.*
+import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.DrawerState
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,7 +22,7 @@ import org.kodein.di.compose.instance
 fun PublicTimelineTopAppBar(
     title: @Composable () -> Unit,
     currentSubScreen: PublicTimelineSubScreen,
-    onCurrentSubScreenChanged: (PublicTimelineSubScreen) -> Unit,
+    onSubScreenSelected: (PublicTimelineSubScreen) -> Unit,
     drawerState: DrawerState?
 ) {
     Surface(
@@ -30,7 +37,7 @@ fun PublicTimelineTopAppBar(
                 elevation = 0.dp
             )
 
-            PublicTimelineTabRow(currentSubScreen, onCurrentSubScreenChanged)
+            PublicTimelineTabRow(currentSubScreen, onSubScreenSelected)
         }
     }
 }

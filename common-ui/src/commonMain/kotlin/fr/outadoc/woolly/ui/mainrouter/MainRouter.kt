@@ -93,7 +93,7 @@ fun MainRouter(
                         title = { Text(res.getScreenTitle(currentScreen)) },
                         drawerState = drawerState,
                         currentSubScreen = currentScreen.subScreen,
-                        onCurrentSubScreenChanged = { subScreen ->
+                        onSubScreenSelected = { subScreen ->
                             when (currentScreen.subScreen) {
                                 subScreen -> currentScreen.scrollToTop()
                                 else -> router.replaceCurrent(
@@ -106,7 +106,7 @@ fun MainRouter(
                     is AppScreen.Search -> SearchTopAppBar(
                         drawerState = drawerState,
                         currentSubScreen = currentScreen.subScreen,
-                        onCurrentSubScreenChanged = { subScreen ->
+                        onSubScreenSelected = { subScreen ->
                             when (currentScreen.subScreen) {
                                 subScreen -> currentScreen.scrollToTop()
                                 else -> router.replaceCurrent(

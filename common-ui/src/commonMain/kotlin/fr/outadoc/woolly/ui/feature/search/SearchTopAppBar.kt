@@ -6,10 +6,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.DrawerState
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material.Surface
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,7 +42,7 @@ import org.kodein.di.compose.instance
 fun SearchTopAppBar(
     component: SearchComponent,
     currentSubScreen: SearchSubScreen,
-    onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
+    onSubScreenSelected: (SearchSubScreen) -> Unit,
     drawerState: DrawerState?
 ) {
     val state by component.state.collectAsState()
@@ -57,7 +71,7 @@ fun SearchTopAppBar(
             )
 
             if (state.query.isNotEmpty()) {
-                SearchTabRow(currentSubScreen, onCurrentSubScreenChanged)
+                SearchTabRow(currentSubScreen, onSubScreenSelected)
             }
         }
     }

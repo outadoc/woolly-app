@@ -10,12 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import fr.outadoc.woolly.common.feature.media.ImageAttachment
+import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponent
 import fr.outadoc.woolly.ui.feature.status.ErrorScreen
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
 @Composable
-fun ImageViewerScreen(image: ImageAttachment) {
+fun ImageViewerScreen(
+    component: AttachmentViewerComponent,
+    image: ImageAttachment
+) {
     val uriHandler = LocalUriHandler.current
 
     PinchToZoom(

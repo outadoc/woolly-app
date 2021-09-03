@@ -11,23 +11,22 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent
+import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent.Event
 import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
-import fr.outadoc.woolly.common.feature.auth.viewmodel.CodeInputViewModel
-import fr.outadoc.woolly.common.feature.auth.viewmodel.CodeInputViewModel.Event
 import kotlinx.coroutines.flow.collect
-import org.kodein.di.compose.instance
 
 @Composable
 fun CodeInputScreen(
+    component: CodeInputComponent,
     domain: String,
     insets: PaddingValues = PaddingValues(),
     onSuccessfulAuthentication: (UserCredentials) -> Unit = {}
 ) {
-    val viewModel by instance<CodeInputViewModel>()
-    val state by viewModel.state.collectAsState()
+    val state by component.state.collectAsState()
 
-    LaunchedEffect(viewModel.events) {
-        viewModel.events.collect { event ->
+    LaunchedEffect(component.events) {
+        component.events.collect { event ->
             when (event) {
                 is Event.Authenticated -> onSuccessfulAuthentication(event.credentials)
             }
@@ -60,7 +59,7 @@ fun CodeInputScreen(
                 value = authCode,
                 onValueChange = { value -> authCode = value },
                 keyboardActions = KeyboardActions {
-                    viewModel.onAuthCodeReceived(domain, authCode)
+                    component.onAuthCodeReceived(domain, authCode)
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done,
@@ -93,7 +92,7 @@ fun CodeInputScreen(
                     modifier = Modifier.padding(top = 16.dp),
                     onClick = {
                         uriHandler.openUri(
-                            viewModel.getAuthorizeUrl(domain).toString()
+                            component.getAuthorizeUrl(domain).toString()
                         )
                     }
                 ) {
@@ -105,7 +104,7 @@ fun CodeInputScreen(
                         .padding(top = 16.dp, start = 32.dp)
                         .fillMaxWidth(),
                     onClick = {
-                        viewModel.onAuthCodeReceived(domain, authCode)
+                        component.onAuthCodeReceived(domain, authCode)
                     }
                 ) {
                     Text("Submit")

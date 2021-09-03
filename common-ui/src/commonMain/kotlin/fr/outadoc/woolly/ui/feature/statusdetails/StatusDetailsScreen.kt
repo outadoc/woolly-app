@@ -20,40 +20,39 @@ import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
-import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
+import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
 import fr.outadoc.woolly.ui.feature.status.ErrorScreen
 import fr.outadoc.woolly.ui.feature.status.Status
-import org.kodein.di.compose.instance
 
 @Composable
 fun StatusDetailsScreen(
+    component: StatusDetailsComponent,
     statusId: String,
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
-    val viewModel by instance<StatusDetailsViewModel>()
-    val state by viewModel.state.collectAsState(StatusDetailsViewModel.State.Initial())
+    val state by component.state.collectAsState(StatusDetailsComponent.State.Initial())
 
     LaunchedEffect(statusId) {
-        viewModel.loadStatus(statusId)
+        component.loadStatus(statusId)
     }
 
     SwipeRefresh(
         modifier = Modifier.fillMaxSize(),
-        onRefresh = viewModel::refresh,
+        onRefresh = component::refresh,
         state = rememberSwipeRefreshState(
             isRefreshing = state.isLoading
         )
     ) {
         when (val state = state) {
-            is StatusDetailsViewModel.State.Error -> {
+            is StatusDetailsComponent.State.Error -> {
                 ErrorScreen(
                     modifier = Modifier.fillMaxSize(),
-                    onRetry = viewModel::refresh
+                    onRetry = component::refresh
                 )
             }
-            is StatusDetailsViewModel.State.LoadedStatus -> {
+            is StatusDetailsComponent.State.LoadedStatus -> {
                 StatusWithContext(
                     modifier = Modifier
                         .fillMaxSize()
@@ -63,7 +62,7 @@ fun StatusDetailsScreen(
                     onStatusClick = onStatusClick,
                     onAttachmentClick = onAttachmentClick,
                     onStatusAction = { action ->
-                        viewModel.onStatusAction(action)
+                        component.onStatusAction(action)
                     }
                 )
             }
@@ -80,6 +79,7 @@ fun StatusWithContext(
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusAction: (StatusAction) -> Unit = {}
 ) {
+    // TODO move listState to component
     LazyColumn(
         modifier = modifier,
         state = rememberLazyListState(

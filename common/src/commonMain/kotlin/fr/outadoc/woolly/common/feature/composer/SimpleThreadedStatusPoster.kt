@@ -71,7 +71,6 @@ class SimpleThreadedStatusPoster(
     }
 
     override fun retryAll() {
-        // TODO investigate why it's not working
         val currentState = _queue.value
         _queue.tryEmit(
             currentState.copy(

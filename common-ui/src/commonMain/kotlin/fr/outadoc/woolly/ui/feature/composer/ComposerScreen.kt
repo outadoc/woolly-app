@@ -19,31 +19,31 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
-import fr.outadoc.woolly.common.feature.composer.viewmodel.ComposerViewModel
+import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import org.kodein.di.compose.instance
 
 @Composable
 fun ComposerScreen(
+    component: ComposerComponent,
     onDismiss: () -> Unit
 ) {
-    val viewModel by instance<ComposerViewModel>()
     val accountRepository by instance<AccountRepository>()
 
     val account by accountRepository.currentAccount.collectAsState()
-    val state by viewModel.state.collectAsState()
+    val state by component.state.collectAsState()
 
     when (val state = state) {
-        is ComposerViewModel.State.Composing -> {
+        is ComposerComponent.State.Composing -> {
             Composer(
                 modifier = Modifier.padding(16.dp),
                 message = state.message,
                 account = account,
                 onMessageChange = { message ->
-                    viewModel.onMessageChange(message)
+                    component.onMessageChange(message)
                 },
                 onSubmit = {
-                    viewModel.onSubmit()
+                    component.onSubmit()
                     onDismiss()
                 }
             )

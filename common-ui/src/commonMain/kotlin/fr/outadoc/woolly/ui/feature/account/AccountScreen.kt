@@ -24,6 +24,7 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
+import fr.outadoc.woolly.common.feature.account.component.AccountComponent
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.richtext.RichText
@@ -33,6 +34,7 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun AccountScreen(
+    component: AccountComponent,
     insets: PaddingValues = PaddingValues()
 ) {
     val repo by instance<AccountRepository>()

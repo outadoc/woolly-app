@@ -1,35 +1,38 @@
 package fr.outadoc.woolly.common.inject
 
 import androidx.paging.PagingConfig
+import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.account.AccountRepositoryImpl
+import fr.outadoc.woolly.common.feature.account.component.AccountComponent
+import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent
+import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepository
 import fr.outadoc.woolly.common.feature.auth.proxy.AuthProxyRepositoryImpl
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateRepository
-import fr.outadoc.woolly.common.feature.auth.viewmodel.CodeInputViewModel
-import fr.outadoc.woolly.common.feature.auth.viewmodel.DomainSelectViewModel
-import fr.outadoc.woolly.common.feature.bookmarks.viewmodel.BookmarksViewModel
+import fr.outadoc.woolly.common.feature.bookmarks.component.BookmarksComponent
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.MastodonClientProviderImpl
 import fr.outadoc.woolly.common.feature.composer.SimpleThreadedStatusPoster
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
-import fr.outadoc.woolly.common.feature.composer.viewmodel.ComposerViewModel
-import fr.outadoc.woolly.common.feature.favourites.viewmodel.FavouritesViewModel
-import fr.outadoc.woolly.common.feature.home.viewmodel.HomeTimelineViewModel
-import fr.outadoc.woolly.common.feature.notifications.viewmodel.NotificationsViewModel
+import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
+import fr.outadoc.woolly.common.feature.favourites.component.FavouritesComponent
+import fr.outadoc.woolly.common.feature.home.component.HomeTimelineComponent
+import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponent
+import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
-import fr.outadoc.woolly.common.feature.publictimeline.viewmodel.PublicTimelineViewModel
+import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
-import fr.outadoc.woolly.common.feature.search.viewmodel.SearchViewModel
+import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
-import fr.outadoc.woolly.common.feature.statusdetails.viewmodel.StatusDetailsViewModel
-import fr.outadoc.woolly.common.feature.tags.viewmodel.TrendingViewModel
+import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
 import fr.outadoc.woolly.common.feature.time.TimeRepository
 import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import org.kodein.di.DI
+import org.kodein.di.bindFactory
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
@@ -67,15 +70,53 @@ val CommonDI = DI {
     // TODO WorkManager-based impl for Android
     bindSingleton<StatusPoster> { SimpleThreadedStatusPoster(instance(), instance()) }
 
-    bindSingleton { DomainSelectViewModel(instance()) }
-    bindSingleton { CodeInputViewModel(instance(), instance()) }
-    bindSingleton { HomeTimelineViewModel(instance(), instance(), instance(), instance()) }
-    bindSingleton { PublicTimelineViewModel(instance(), instance(), instance(), instance()) }
-    bindSingleton { SearchViewModel(instance(), instance(), instance(), instance()) }
-    bindSingleton { TrendingViewModel(instance()) }
-    bindSingleton { NotificationsViewModel(instance(), instance(), instance()) }
-    bindSingleton { BookmarksViewModel(instance(), instance(), instance(), instance()) }
-    bindSingleton { FavouritesViewModel(instance(), instance(), instance(), instance()) }
-    bindSingleton { StatusDetailsViewModel(instance(), instance()) }
-    bindSingleton { ComposerViewModel(instance()) }
+    // Inject components
+    bindFactory { componentContext: ComponentContext ->
+        HomeTimelineComponent(componentContext, instance(), instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        PublicTimelineComponent(componentContext, instance(), instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        NotificationsComponent(componentContext, instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        SearchComponent(componentContext, instance(), instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        AccountComponent(componentContext)
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        BookmarksComponent(componentContext, instance(), instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        FavouritesComponent(componentContext, instance(), instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        StatusDetailsComponent(componentContext, instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        AttachmentViewerComponent(componentContext)
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        ComposerComponent(componentContext, instance())
+    }
+
+    // Auth components
+    bindFactory { componentContext: ComponentContext ->
+        CodeInputComponent(componentContext, instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        DomainSelectComponent(componentContext, instance())
+    }
 }

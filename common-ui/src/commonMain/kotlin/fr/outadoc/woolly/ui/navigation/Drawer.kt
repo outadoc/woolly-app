@@ -25,10 +25,10 @@ import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.WoollyListItem
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
-import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource

@@ -5,9 +5,9 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.media.toAppImage
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
-import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import org.kodein.di.DirectDI

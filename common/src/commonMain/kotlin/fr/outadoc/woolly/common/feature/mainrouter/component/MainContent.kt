@@ -6,12 +6,12 @@ import fr.outadoc.woolly.common.feature.bookmarks.component.BookmarksComponent
 import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
 import fr.outadoc.woolly.common.feature.favourites.component.FavouritesComponent
 import fr.outadoc.woolly.common.feature.home.component.HomeTimelineComponent
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponent
 import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
 import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
-import fr.outadoc.woolly.common.screen.AppScreen
 
 sealed class MainContent {
 

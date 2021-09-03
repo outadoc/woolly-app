@@ -1,6 +1,6 @@
 package fr.outadoc.woolly.common.feature.navigation
 
-import fr.outadoc.woolly.common.screen.AppScreen
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 
 interface ScrollableComponent {
     suspend fun scrollToTop(currentConfig: AppScreen? = null)

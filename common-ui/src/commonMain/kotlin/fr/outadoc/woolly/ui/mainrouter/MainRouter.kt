@@ -14,9 +14,9 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.cros
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
-import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.ui.common.DrawerMenuButton
 import fr.outadoc.woolly.ui.common.ResponsiveScaffold
 import fr.outadoc.woolly.ui.common.WoollyDefaults

@@ -9,12 +9,12 @@ import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getFavouritesSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
-import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow

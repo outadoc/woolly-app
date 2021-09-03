@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.common.screen
+package fr.outadoc.woolly.common.feature.mainrouter
 
 import com.arkivanov.decompose.statekeeper.Parcelable
 import com.arkivanov.decompose.statekeeper.Parcelize

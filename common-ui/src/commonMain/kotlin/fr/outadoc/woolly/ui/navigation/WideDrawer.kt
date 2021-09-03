@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
-import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.common.feature.publictimeline.component
 
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -13,6 +12,8 @@ import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
+import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
+import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
@@ -29,9 +30,13 @@ class PublicTimelineComponent(
 
     private val componentScope = MainScope()
 
-    // TODO save state
-    val localListState = LazyListState()
-    val globalListState = LazyListState()
+    val localListState = stateKeeper.consumeListStateOrDefault(key = "local_list_state")
+    val globalListState = stateKeeper.consumeListStateOrDefault(key = "global_list_state")
+
+    init {
+        stateKeeper.registerListState(key = "local_list_state") { localListState }
+        stateKeeper.registerListState(key = "global_list_state") { globalListState }
+    }
 
     private val localPagingRepository = StatusPagingRepository(
         pagingConfig,

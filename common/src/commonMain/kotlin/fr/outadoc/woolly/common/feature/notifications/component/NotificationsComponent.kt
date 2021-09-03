@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.common.feature.notifications.component
 
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.lifecycle.doOnDestroy
@@ -12,6 +11,8 @@ import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
+import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
+import fr.outadoc.woolly.common.feature.state.registerListState
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
@@ -24,8 +25,11 @@ class NotificationsComponent(
 
     private val componentScope = MainScope()
 
-    // TODO save state
-    val listState = LazyListState()
+    val listState = stateKeeper.consumeListStateOrDefault()
+
+    init {
+        stateKeeper.registerListState { listState }
+    }
 
     private val pagingSource: PagingSource<PageInfo, Notification>
         get() = clientProvider

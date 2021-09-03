@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.common.feature.favourites.component
 
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -12,6 +11,8 @@ import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
+import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
+import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
@@ -28,8 +29,11 @@ class FavouritesComponent(
 
     private val componentScope = MainScope()
 
-    // TODO save state
-    val listState = LazyListState()
+    val listState = stateKeeper.consumeListStateOrDefault()
+
+    init {
+        stateKeeper.registerListState { listState }
+    }
 
     private val pagingRepository = StatusPagingRepository(
         pagingConfig,

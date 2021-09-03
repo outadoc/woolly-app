@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.common.feature.search.component
 
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.lifecycle.doOnDestroy
@@ -17,6 +16,8 @@ import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
+import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
+import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
@@ -47,10 +48,15 @@ class SearchComponent(
             .mapLatest { client -> client.trends.getTrends() }
             .flowOn(Dispatchers.IO)
 
-    // TODO save state
-    val statusListState = LazyListState()
-    val accountsListState = LazyListState()
-    val hashtagsListState = LazyListState()
+    val statusListState = stateKeeper.consumeListStateOrDefault(key = "status_list_state")
+    val accountsListState = stateKeeper.consumeListStateOrDefault(key = "accounts_list_state")
+    val hashtagsListState = stateKeeper.consumeListStateOrDefault(key = "hashtags_list_state")
+
+    init {
+        stateKeeper.registerListState(key = "status_list_state") { statusListState }
+        stateKeeper.registerListState(key = "accounts_list_state") { accountsListState }
+        stateKeeper.registerListState(key = "hashtags_list_state") { hashtagsListState }
+    }
 
     private val statusPagingRepository = StatusPagingRepository(
         pagingConfig,

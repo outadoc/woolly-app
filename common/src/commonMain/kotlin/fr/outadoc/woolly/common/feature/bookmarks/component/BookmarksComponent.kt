@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.common.feature.bookmarks.component
 
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -9,12 +8,14 @@ import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getBookmarksSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
+import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
+import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
-import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
@@ -28,8 +29,12 @@ class BookmarksComponent(
 
     private val componentScope = MainScope()
 
-    // TODO save state
-    val listState = LazyListState()
+
+    val listState = stateKeeper.consumeListStateOrDefault()
+
+    init {
+        stateKeeper.registerListState { listState }
+    }
 
     private val pagingRepository = StatusPagingRepository(
         pagingConfig,

@@ -1,7 +1,11 @@
 package fr.outadoc.woolly.common.feature.search.component
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Account
@@ -20,7 +24,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 
 class SearchComponent(
     componentContext: ComponentContext,
@@ -34,8 +43,7 @@ class SearchComponent(
     data class UiState(val query: String = "")
 
     private val _state = MutableStateFlow(UiState())
-    val state: StateFlow<UiState>
-        get() = _state
+    val state = _state.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val trendingTags: Flow<List<Tag>> =

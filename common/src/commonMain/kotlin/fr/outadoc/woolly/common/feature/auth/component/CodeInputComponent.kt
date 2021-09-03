@@ -6,10 +6,10 @@ import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CodeInputComponent(
@@ -28,10 +28,10 @@ class CodeInputComponent(
     }
 
     private val _state = MutableStateFlow(State())
-    val state: StateFlow<State> get() = _state
+    val state = _state.asStateFlow()
 
     private val _events = MutableSharedFlow<Event>()
-    val events: Flow<Event> get() = _events
+    val events = _events.asSharedFlow()
 
     fun onAuthCodeReceived(domain: String, code: String) {
         val currentState = state.value

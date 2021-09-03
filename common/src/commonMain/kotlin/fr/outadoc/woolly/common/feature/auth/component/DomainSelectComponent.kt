@@ -4,10 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.client.MastodonClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class DomainSelectComponent(
@@ -26,10 +26,10 @@ class DomainSelectComponent(
     }
 
     private val _state = MutableStateFlow(State())
-    val state: StateFlow<State> get() = _state
+    val state = _state.asStateFlow()
 
     private val _events = MutableSharedFlow<Event>()
-    val events: Flow<Event> get() = _events
+    val events = _events.asSharedFlow()
 
     fun onDomainTextChanged(domain: String) {
         val currentState = state.value

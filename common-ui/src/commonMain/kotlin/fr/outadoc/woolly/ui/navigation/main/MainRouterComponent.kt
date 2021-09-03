@@ -22,12 +22,13 @@ import fr.outadoc.woolly.common.screen.AppScreen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import org.kodein.di.DI
+import org.kodein.di.DIAware
 import org.kodein.di.factory
 
 class MainRouterComponent(
     componentContext: ComponentContext,
-    private val di: DI
-) : ComponentContext by componentContext {
+    override val di: DI
+) : ComponentContext by componentContext, DIAware {
 
     private val router = router<AppScreen, Content>(
         initialConfiguration = { AppScreen.HomeTimeline },
@@ -37,95 +38,12 @@ class MainRouterComponent(
 
     val routerState: Value<RouterState<AppScreen, Content>> = router.state
 
-    private fun createChild(config: AppScreen, componentContext: ComponentContext): Content =
-        when (config) {
-            is AppScreen.HomeTimeline -> {
-                val component by di.factory<ComponentContext, HomeTimelineComponent>()
-                Content.HomeTimeline(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.PublicTimeline -> {
-                val component by di.factory<ComponentContext, PublicTimelineComponent>()
-                Content.PublicTimeline(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.Notifications -> {
-                val component by di.factory<ComponentContext, NotificationsComponent>()
-                Content.Notifications(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.Search -> {
-                val component by di.factory<ComponentContext, SearchComponent>()
-                Content.Search(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.Account -> {
-                val component by di.factory<ComponentContext, AccountComponent>()
-                Content.Account(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.Bookmarks -> {
-                val component by di.factory<ComponentContext, BookmarksComponent>()
-                Content.Bookmarks(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.Favourites -> {
-                val component by di.factory<ComponentContext, FavouritesComponent>()
-                Content.Favourites(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.StatusDetails -> {
-                val component by di.factory<ComponentContext, StatusDetailsComponent>()
-                Content.StatusDetails(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.ImageViewer -> {
-                val component by di.factory<ComponentContext, AttachmentViewerComponent>()
-                Content.ImageViewer(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-
-            is AppScreen.StatusComposer -> {
-                val component by di.factory<ComponentContext, ComposerComponent>()
-                Content.StatusComposer(
-                    configuration = config,
-                    component = component(componentContext)
-                )
-            }
-        }
-
     sealed class Event {
         data class OpenUri(val uri: String) : Event()
     }
 
     private val _events = MutableSharedFlow<Event>()
-    val events get() = _events.asSharedFlow()
+    val events = _events.asSharedFlow()
 
     val isBackStackEmpty: Boolean
         get() = routerState.value.backStack.isEmpty()
@@ -146,5 +64,88 @@ class MainRouterComponent(
             AppScreen.StatusDetails(statusId = status.statusId)
         )
     }
+
+    private fun createChild(config: AppScreen, componentContext: ComponentContext): Content =
+        when (config) {
+            is AppScreen.HomeTimeline -> {
+                val component by factory<ComponentContext, HomeTimelineComponent>()
+                Content.HomeTimeline(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.PublicTimeline -> {
+                val component by factory<ComponentContext, PublicTimelineComponent>()
+                Content.PublicTimeline(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.Notifications -> {
+                val component by factory<ComponentContext, NotificationsComponent>()
+                Content.Notifications(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.Search -> {
+                val component by factory<ComponentContext, SearchComponent>()
+                Content.Search(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.Account -> {
+                val component by factory<ComponentContext, AccountComponent>()
+                Content.Account(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.Bookmarks -> {
+                val component by factory<ComponentContext, BookmarksComponent>()
+                Content.Bookmarks(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.Favourites -> {
+                val component by factory<ComponentContext, FavouritesComponent>()
+                Content.Favourites(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.StatusDetails -> {
+                val component by factory<ComponentContext, StatusDetailsComponent>()
+                Content.StatusDetails(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.ImageViewer -> {
+                val component by factory<ComponentContext, AttachmentViewerComponent>()
+                Content.ImageViewer(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+
+            is AppScreen.StatusComposer -> {
+                val component by factory<ComponentContext, ComposerComponent>()
+                Content.StatusComposer(
+                    configuration = config,
+                    component = component(componentContext)
+                )
+            }
+        }
 }
 

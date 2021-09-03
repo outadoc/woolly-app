@@ -1,5 +1,8 @@
 package fr.outadoc.woolly.ui.mainrouter
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -88,51 +91,60 @@ fun MainRouter(
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
         topBar = { drawerState ->
-            Children(routerState = component.routerState) { screen ->
-                when (val currentScreen = screen.instance) {
-                    is MainContent.PublicTimeline -> PublicTimelineTopAppBar(
-                        title = { Text(res.getScreenTitle(currentScreen.configuration)) },
-                        drawerState = drawerState,
-                        currentSubScreen = currentScreen.configuration.subScreen,
-                        onSubScreenSelected = { subScreen ->
-                            scope.launch {
-                                component.onScreenSelected(
-                                    AppScreen.PublicTimeline(subScreen = subScreen)
-                                )
-                            }
-                        }
-                    )
-
-                    is MainContent.Search -> SearchTopAppBar(
-                        component = currentScreen.component,
-                        drawerState = drawerState,
-                        currentSubScreen = currentScreen.configuration.subScreen,
-                        onSubScreenSelected = { subScreen ->
-                            scope.launch {
-                                component.onScreenSelected(
-                                    AppScreen.Search(subScreen = subScreen)
-                                )
-                            }
-                        }
-                    )
-
-                    else -> TopAppBar(
-                        modifier = Modifier.height(WoollyDefaults.AppBarHeight),
-                        title = { Text(res.getScreenTitle(screen.configuration)) },
-                        navigationIcon = when {
-                            component.shouldDisplayBackButton.value -> {
-                                @Composable {
-                                    IconButton(onClick = component::onBackPressed) {
-                                        Icon(Icons.Default.ArrowBack, "Go back")
-                                    }
+            Box(modifier = Modifier
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    scope.launch { component.scrollToTop() }
+                }
+            ) {
+                Children(routerState = component.routerState) { screen ->
+                    when (val currentScreen = screen.instance) {
+                        is MainContent.PublicTimeline -> PublicTimelineTopAppBar(
+                            title = { Text(res.getScreenTitle(currentScreen.configuration)) },
+                            drawerState = drawerState,
+                            currentSubScreen = currentScreen.configuration.subScreen,
+                            onSubScreenSelected = { subScreen ->
+                                scope.launch {
+                                    component.onScreenSelected(
+                                        AppScreen.PublicTimeline(subScreen = subScreen)
+                                    )
                                 }
                             }
-                            drawerState != null -> {
-                                @Composable { DrawerMenuButton(drawerState) }
+                        )
+
+                        is MainContent.Search -> SearchTopAppBar(
+                            component = currentScreen.component,
+                            drawerState = drawerState,
+                            currentSubScreen = currentScreen.configuration.subScreen,
+                            onSubScreenSelected = { subScreen ->
+                                scope.launch {
+                                    component.onScreenSelected(
+                                        AppScreen.Search(subScreen = subScreen)
+                                    )
+                                }
                             }
-                            else -> null
-                        }
-                    )
+                        )
+
+                        else -> TopAppBar(
+                            modifier = Modifier.height(WoollyDefaults.AppBarHeight),
+                            title = { Text(res.getScreenTitle(screen.configuration)) },
+                            navigationIcon = when {
+                                component.shouldDisplayBackButton.value -> {
+                                    @Composable {
+                                        IconButton(onClick = component::onBackPressed) {
+                                            Icon(Icons.Default.ArrowBack, "Go back")
+                                        }
+                                    }
+                                }
+                                drawerState != null -> {
+                                    @Composable { DrawerMenuButton(drawerState) }
+                                }
+                                else -> null
+                            }
+                        )
+                    }
                 }
             }
         },

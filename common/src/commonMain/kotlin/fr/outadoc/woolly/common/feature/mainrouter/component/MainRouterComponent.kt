@@ -69,13 +69,14 @@ class MainRouterComponent(
     }
 
     suspend fun onScreenSelected(target: AppScreen) {
-        val activeContent = routerState.value.activeChild.instance
-        if (target == activeContent.configuration) {
-            (activeContent.component as? ScrollableComponent)
-                ?.scrollToTop(activeContent.configuration)
-        }
-
+        scrollToTop()
         router.replaceCurrent(target)
+    }
+
+    suspend fun scrollToTop() {
+        val activeContent = routerState.value.activeChild.instance
+        (activeContent.component as? ScrollableComponent)
+            ?.scrollToTop(activeContent.configuration)
     }
 
     private fun createChild(

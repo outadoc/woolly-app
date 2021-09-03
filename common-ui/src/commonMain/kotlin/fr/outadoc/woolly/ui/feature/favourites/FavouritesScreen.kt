@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.ui.feature.favourites
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
@@ -12,14 +11,13 @@ import fr.outadoc.woolly.ui.feature.status.StatusList
 fun FavouritesScreen(
     component: FavouritesComponent,
     insets: PaddingValues = PaddingValues(),
-    listState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     StatusList(
         insets = insets,
         statusFlow = component.favouritesPagingItems,
-        lazyListState = listState,
+        lazyListState = component.listState,
         onStatusAction = component::onStatusAction,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick

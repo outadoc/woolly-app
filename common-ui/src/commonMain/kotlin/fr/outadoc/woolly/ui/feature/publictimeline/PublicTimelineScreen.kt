@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.ui.feature.publictimeline
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
@@ -14,8 +13,6 @@ fun PublicTimelineScreen(
     component: PublicTimelineComponent,
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: PublicTimelineSubScreen,
-    localListState: LazyListState,
-    globalListState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
@@ -23,7 +20,7 @@ fun PublicTimelineScreen(
         PublicTimelineSubScreen.Local -> StatusList(
             insets = insets,
             statusFlow = component.localPagingItems,
-            lazyListState = localListState,
+            lazyListState = component.localListState,
             onStatusAction = component::onLocalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick
@@ -31,7 +28,7 @@ fun PublicTimelineScreen(
         PublicTimelineSubScreen.Global -> StatusList(
             insets = insets,
             statusFlow = component.globalPagingItems,
-            lazyListState = globalListState,
+            lazyListState = component.globalListState,
             onStatusAction = component::onGlobalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick

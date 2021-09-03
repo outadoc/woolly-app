@@ -1,40 +1,66 @@
 package fr.outadoc.woolly.ui.navigation.main
 
-import androidx.compose.runtime.Composable
+import fr.outadoc.woolly.common.feature.account.component.AccountComponent
+import fr.outadoc.woolly.common.feature.bookmarks.component.BookmarksComponent
+import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
+import fr.outadoc.woolly.common.feature.favourites.component.FavouritesComponent
+import fr.outadoc.woolly.common.feature.home.component.HomeTimelineComponent
+import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponent
+import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
+import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
+import fr.outadoc.woolly.common.feature.search.component.SearchComponent
+import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
+import fr.outadoc.woolly.common.screen.AppScreen
 
-abstract class Content {
-    abstract val main: @Composable () -> Unit
-    abstract val topBar: @Composable () -> Unit
-    abstract val bottomBar: @Composable () -> Unit
-    abstract val narrowDrawerContent: @Composable () -> Unit
-    abstract val wideDrawerContent: @Composable () -> Unit
-    abstract val floatingActionButton: @Composable () -> Unit
-}
+sealed class Content {
 
-fun <T : Any> T.asContent(
-    topBar: @Composable (T) -> Unit,
-    bottomBar: @Composable (T) -> Unit,
-    narrowDrawerContent: @Composable (T) -> Unit,
-    wideDrawerContent: @Composable (T) -> Unit,
-    floatingActionButton: @Composable (T) -> Unit,
-    main: @Composable (T) -> Unit,
-): Content = object : Content() {
+    data class Account(
+        val configuration: AppScreen.Account,
+        val component: AccountComponent
+    ) : Content()
 
-    override val main: () -> Unit =
-        @Composable { main(this@asContent) }
+    data class Bookmarks(
+        val configuration: AppScreen.Bookmarks,
+        val component: BookmarksComponent
+    ) : Content()
 
-    override val topBar: () -> Unit =
-        @Composable { topBar(this@asContent) }
+    data class Favourites(
+        val configuration: AppScreen.Favourites,
+        val component: FavouritesComponent
+    ) : Content()
 
-    override val bottomBar: () -> Unit =
-        @Composable { bottomBar(this@asContent) }
+    data class HomeTimeline(
+        val configuration: AppScreen.HomeTimeline,
+        val component: HomeTimelineComponent
+    ) : Content()
 
-    override val narrowDrawerContent: () -> Unit =
-        @Composable { narrowDrawerContent(this@asContent) }
+    data class Notifications(
+        val configuration: AppScreen.Notifications,
+        val component: NotificationsComponent
+    ) : Content()
 
-    override val wideDrawerContent: () -> Unit =
-        @Composable { wideDrawerContent(this@asContent) }
+    data class PublicTimeline(
+        val configuration: AppScreen.PublicTimeline,
+        val component: PublicTimelineComponent
+    ) : Content()
 
-    override val floatingActionButton: () -> Unit =
-        @Composable { floatingActionButton(this@asContent) }
+    data class Search(
+        val configuration: AppScreen.Search,
+        val component: SearchComponent
+    ) : Content()
+
+    data class StatusDetails(
+        val configuration: AppScreen.StatusDetails,
+        val component: StatusDetailsComponent
+    ) : Content()
+
+    data class ImageViewer(
+        val configuration: AppScreen.ImageViewer,
+        val component: AttachmentViewerComponent
+    ) : Content()
+
+    data class StatusComposer(
+        val configuration: AppScreen.StatusComposer,
+        val component: ComposerComponent
+    ) : Content()
 }

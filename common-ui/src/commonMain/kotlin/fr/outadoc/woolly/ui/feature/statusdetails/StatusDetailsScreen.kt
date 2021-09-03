@@ -79,6 +79,7 @@ fun StatusWithContext(
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusAction: (StatusAction) -> Unit = {}
 ) {
+    // TODO move listState to component
     LazyColumn(
         modifier = modifier,
         state = rememberLazyListState(

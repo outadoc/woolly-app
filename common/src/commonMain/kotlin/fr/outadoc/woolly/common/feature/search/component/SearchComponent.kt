@@ -1,7 +1,9 @@
 package fr.outadoc.woolly.common.feature.search.component
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.Tag
@@ -14,18 +16,20 @@ import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 
 class SearchComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
-    componentScope: CoroutineScope,
     private val clientProvider: MastodonClientProvider,
     statusActionRepository: StatusActionRepository
 ) : ComponentContext by componentContext {
+
+    private val componentScope = MainScope()
 
     data class UiState(val query: String = "")
 
@@ -39,6 +43,11 @@ class SearchComponent(
             .filterNotNull()
             .mapLatest { client -> client.trends.getTrends() }
             .flowOn(Dispatchers.IO)
+
+    // TODO save state
+    val statusListState = LazyListState()
+    val accountsListState = LazyListState()
+    val hashtagsListState = LazyListState()
 
     private val statusPagingRepository = StatusPagingRepository(
         pagingConfig,
@@ -91,5 +100,11 @@ class SearchComponent(
 
     fun onStatusAction(action: StatusAction) {
         statusPagingRepository.onStatusAction(action)
+    }
+
+    init {
+        lifecycle.doOnDestroy {
+            componentScope.cancel()
+        }
     }
 }

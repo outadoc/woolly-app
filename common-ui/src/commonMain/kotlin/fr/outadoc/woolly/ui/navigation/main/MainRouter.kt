@@ -19,8 +19,18 @@ import fr.outadoc.woolly.common.screen.AppScreen
 import fr.outadoc.woolly.ui.common.DrawerMenuButton
 import fr.outadoc.woolly.ui.common.ResponsiveScaffold
 import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.feature.account.AccountScreen
+import fr.outadoc.woolly.ui.feature.bookmarks.BookmarksScreen
+import fr.outadoc.woolly.ui.feature.composer.ComposerScreen
+import fr.outadoc.woolly.ui.feature.favourites.FavouritesScreen
+import fr.outadoc.woolly.ui.feature.home.HomeTimelineScreen
+import fr.outadoc.woolly.ui.feature.media.ImageViewerScreen
+import fr.outadoc.woolly.ui.feature.notifications.NotificationsScreen
+import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineScreen
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
+import fr.outadoc.woolly.ui.feature.search.SearchScreen
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
+import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
 import fr.outadoc.woolly.ui.navigation.MainAppDrawer
 import fr.outadoc.woolly.ui.navigation.MainBottomNavigation
 import fr.outadoc.woolly.ui.navigation.WideAppDrawer
@@ -94,6 +104,24 @@ fun MainRouter(
                             }
                         }
                     )
+
+                    else -> TopAppBar(
+                        modifier = Modifier.height(WoollyDefaults.AppBarHeight),
+                        title = { Text(res.getScreenTitle(screen)) },
+                        navigationIcon = when {
+                            !component.isBackStackEmpty -> {
+                                @Composable {
+                                    IconButton(onClick = router::pop) {
+                                        Icon(Icons.Default.ArrowBack, "Go back")
+                                    }
+                                }
+                            }
+                            drawerState != null -> {
+                                @Composable { DrawerMenuButton(drawerState) }
+                            }
+                            else -> null
+                        }
+                    )
                 }
             }
         },
@@ -162,7 +190,65 @@ fun MainRouter(
             routerState = component.routerState,
             animation = crossfadeScale()
         ) { child ->
-            child.instance.main()
+            when (val content = child.instance) {
+                is Content.HomeTimeline -> HomeTimelineScreen(
+                    component = content.component,
+                    insets = insets,
+                    onStatusClick = component::onStatusClick,
+                    onAttachmentClick = component::onAttachmentClick
+                )
+                is Content.PublicTimeline -> PublicTimelineScreen(
+                    component = content.component,
+                    insets = insets,
+                    currentSubScreen = content.configuration.subScreen,
+                    onStatusClick = component::onStatusClick,
+                    onAttachmentClick = component::onAttachmentClick
+                )
+                is Content.Notifications -> NotificationsScreen(
+                    component = content.component,
+                    insets = insets,
+                    onStatusClick = component::onStatusClick,
+                    onAttachmentClick = component::onAttachmentClick
+                )
+                is Content.Search -> SearchScreen(
+                    component = content.component,
+                    insets = insets,
+                    currentSubScreen = content.configuration.subScreen,
+                    onStatusClick = component::onStatusClick,
+                    onAttachmentClick = component::onAttachmentClick
+                )
+                is Content.Account -> AccountScreen(
+                    component = content.component,
+                    insets = insets
+                )
+                is Content.Bookmarks -> BookmarksScreen(
+                    component = content.component,
+                    insets = insets,
+                    onStatusClick = component::onStatusClick,
+                    onAttachmentClick = component::onAttachmentClick
+                )
+                is Content.Favourites -> FavouritesScreen(
+                    component = content.component,
+                    insets = insets,
+                    onStatusClick = component::onStatusClick,
+                    onAttachmentClick = component::onAttachmentClick
+                )
+                is Content.StatusDetails -> StatusDetailsScreen(
+                    component = content.component,
+                    insets = insets,
+                    statusId = content.configuration.statusId,
+                    onStatusClick = component::onStatusClick,
+                    onAttachmentClick = component::onAttachmentClick
+                )
+                is Content.ImageViewer -> ImageViewerScreen(
+                    component = content.component,
+                    image = content.configuration.image
+                )
+                is Content.StatusComposer -> ComposerScreen(
+                    component = content.component,
+                    onDismiss = router::pop
+                )
+            }
         }
     }
 }

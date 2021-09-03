@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.ui.feature.search
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,9 +18,6 @@ fun SearchScreen(
     component: SearchComponent,
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: SearchSubScreen,
-    statusListState: LazyListState,
-    accountsListState: LazyListState,
-    hashtagsListState: LazyListState,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
@@ -37,7 +33,7 @@ fun SearchScreen(
             SearchSubScreen.Statuses -> StatusList(
                 insets = insets,
                 statusFlow = component.statusPagingItems,
-                lazyListState = statusListState,
+                lazyListState = component.statusListState,
                 onStatusAction = component::onStatusAction,
                 onStatusClick = onStatusClick,
                 onAttachmentClick = onAttachmentClick
@@ -46,13 +42,13 @@ fun SearchScreen(
             SearchSubScreen.Accounts -> AccountList(
                 insets = insets,
                 accountFlow = component.accountsPagingItems,
-                lazyListState = accountsListState
+                lazyListState = component.accountsListState
             )
 
             SearchSubScreen.Hashtags -> TagList(
                 insets = insets,
                 tagFlow = component.hashtagsPagingItems,
-                lazyListState = hashtagsListState
+                lazyListState = component.hashtagsListState
             )
         }
     }

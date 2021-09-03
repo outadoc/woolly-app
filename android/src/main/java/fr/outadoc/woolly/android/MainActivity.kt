@@ -17,6 +17,7 @@ import fr.outadoc.woolly.ui.WoollyApp
 import fr.outadoc.woolly.ui.navigation.LocalBackPressedDispatcher
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.withDI
+import org.kodein.di.direct
 
 class MainActivity : ComponentActivity() {
 
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
         val mainRouterComponent = remember {
             MainRouterComponent(
                 componentContext = DefaultComponentContext(lifecycle),
-                di = di
+                directDI = di.direct
             )
         }
 

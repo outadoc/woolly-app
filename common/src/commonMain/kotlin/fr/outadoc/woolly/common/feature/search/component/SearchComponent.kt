@@ -121,6 +121,16 @@ class SearchComponent(
     }
 
     init {
+        backPressedDispatcher.register {
+            // Handle the back button.
+            // Return true to consume the event, or false to allow other consumers.
+            _state.value.query.isNotEmpty().also { isNotEmpty ->
+                if (isNotEmpty) {
+                    onSearchTermChanged(term = "")
+                }
+            }
+        }
+
         lifecycle.doOnDestroy {
             componentScope.cancel()
         }

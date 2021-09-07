@@ -37,7 +37,8 @@ fun StatusOrBoost(
     modifier: Modifier = Modifier,
     status: Status,
     onStatusAction: (StatusAction) -> Unit,
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     val original = status.boostedStatus ?: status
     val boostedBy = if (status.boostedStatus != null) status.account else null
@@ -47,7 +48,8 @@ fun StatusOrBoost(
         status = original,
         boostedBy = boostedBy,
         onStatusAction = onStatusAction,
-        onAttachmentClick = onAttachmentClick
+        onAttachmentClick = onAttachmentClick,
+        onStatusReplyClick = onStatusReplyClick
     )
 }
 
@@ -57,7 +59,8 @@ fun Status(
     status: Status,
     boostedBy: Account? = null,
     onStatusAction: ((StatusAction) -> Unit)? = null,
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -72,7 +75,8 @@ fun Status(
             status = status,
             boostedBy = boostedBy,
             onStatusAction = onStatusAction,
-            onAttachmentClick = onAttachmentClick
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick
         )
     }
 }
@@ -83,7 +87,8 @@ fun StatusWithActions(
     status: Status,
     boostedBy: Account? = null,
     onStatusAction: ((StatusAction) -> Unit)? = null,
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -128,7 +133,8 @@ fun StatusWithActions(
             StatusActions(
                 modifier = Modifier.offset(x = (-16).dp),
                 status = status,
-                onStatusAction = onStatusAction
+                onStatusAction = onStatusAction,
+                onStatusReplyClick = onStatusReplyClick
             )
         }
     }
@@ -376,7 +382,8 @@ fun StatusVisibilityIcon(
 fun StatusActions(
     modifier: Modifier = Modifier,
     status: Status,
-    onStatusAction: (StatusAction) -> Unit
+    onStatusAction: (StatusAction) -> Unit,
+    onStatusReplyClick: (Status) -> Unit
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -389,7 +396,7 @@ fun StatusActions(
                 checked = false,
                 contentDescription = "Reply",
                 counter = status.repliesCount,
-                onCheckedChange = {}
+                onCheckedChange = { onStatusReplyClick(status) }
             )
 
             StatusAction(

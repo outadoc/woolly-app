@@ -12,7 +12,8 @@ fun FavouritesScreen(
     component: FavouritesComponent,
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     StatusList(
         insets = insets,
@@ -20,6 +21,7 @@ fun FavouritesScreen(
         lazyListState = component.listState,
         onStatusAction = component::onStatusAction,
         onStatusClick = onStatusClick,
-        onAttachmentClick = onAttachmentClick
+        onAttachmentClick = onAttachmentClick,
+        onStatusReplyClick = onStatusReplyClick
     )
 }

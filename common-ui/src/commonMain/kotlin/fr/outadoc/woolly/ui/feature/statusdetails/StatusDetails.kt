@@ -1,21 +1,8 @@
 package fr.outadoc.woolly.ui.feature.statusdetails
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.Icon
-import androidx.compose.material.IconToggleButton
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
@@ -36,12 +23,7 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.common.WoollyTheme
-import fr.outadoc.woolly.ui.feature.status.ProfilePicture
-import fr.outadoc.woolly.ui.feature.status.StatusBodyPlain
-import fr.outadoc.woolly.ui.feature.status.StatusBoostedByMention
-import fr.outadoc.woolly.ui.feature.status.StatusMediaGrid
-import fr.outadoc.woolly.ui.feature.status.StatusPoll
-import fr.outadoc.woolly.ui.feature.status.StatusVisibilityIcon
+import fr.outadoc.woolly.ui.feature.status.*
 import fr.outadoc.woolly.ui.richtext.RichText
 
 @Composable
@@ -49,7 +31,8 @@ fun StatusDetails(
     modifier: Modifier = Modifier,
     statusOrBoost: Status,
     onStatusAction: ((StatusAction) -> Unit)? = null,
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     val status = statusOrBoost.boostedStatus ?: statusOrBoost
     val boostedBy = if (statusOrBoost.boostedStatus != null) statusOrBoost.account else null
@@ -108,7 +91,8 @@ fun StatusDetails(
             StatusActions(
                 modifier = Modifier,
                 status = status,
-                onStatusAction = onStatusAction
+                onStatusAction = onStatusAction,
+                onStatusReplyClick = onStatusReplyClick
             )
         }
     }
@@ -196,7 +180,8 @@ fun StatusHeader(
 fun StatusActions(
     modifier: Modifier = Modifier,
     status: Status,
-    onStatusAction: (StatusAction) -> Unit
+    onStatusAction: (StatusAction) -> Unit,
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         Row(
@@ -209,7 +194,7 @@ fun StatusActions(
                 checked = false,
                 contentDescription = "Reply",
                 counter = status.repliesCount,
-                onCheckedChange = {}
+                onCheckedChange = { onStatusReplyClick(status) }
             )
 
             StatusAction(

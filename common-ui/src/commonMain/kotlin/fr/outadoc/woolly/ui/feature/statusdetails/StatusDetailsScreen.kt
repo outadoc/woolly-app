@@ -30,7 +30,8 @@ fun StatusDetailsScreen(
     statusId: String,
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     val state by component.state.collectAsState(StatusDetailsComponent.State.Initial())
 
@@ -63,7 +64,8 @@ fun StatusDetailsScreen(
                     onAttachmentClick = onAttachmentClick,
                     onStatusAction = { action ->
                         component.onStatusAction(action)
-                    }
+                    },
+                    onStatusReplyClick = onStatusReplyClick
                 )
             }
         }
@@ -77,7 +79,8 @@ fun StatusWithContext(
     context: Context,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusAction: (StatusAction) -> Unit = {}
+    onStatusAction: (StatusAction) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     // TODO move listState to component
     LazyColumn(
@@ -94,7 +97,8 @@ fun StatusWithContext(
                         .padding(16.dp),
                     status = status,
                     onAttachmentClick = onAttachmentClick,
-                    onStatusAction = onStatusAction
+                    onStatusAction = onStatusAction,
+                    onStatusReplyClick = onStatusReplyClick
                 )
             }
 
@@ -108,7 +112,8 @@ fun StatusWithContext(
                 modifier = Modifier.padding(16.dp),
                 statusOrBoost = status,
                 onAttachmentClick = onAttachmentClick,
-                onStatusAction = onStatusAction
+                onStatusAction = onStatusAction,
+                onStatusReplyClick = onStatusReplyClick
             )
         }
 
@@ -124,7 +129,8 @@ fun StatusWithContext(
                         .padding(16.dp),
                     status = status,
                     onAttachmentClick = onAttachmentClick,
-                    onStatusAction = onStatusAction
+                    onStatusAction = onStatusAction,
+                    onStatusReplyClick = onStatusReplyClick
                 )
             }
         }

@@ -56,12 +56,20 @@ class MainRouterComponent(
         )
     }
 
+    fun onStatusReplyClick(status: Status) {
+        router.push(
+            AppScreen.StatusComposer(
+                inReplyToStatusId = status.statusId
+            )
+        )
+    }
+
     fun onBackPressed() {
         router.pop()
     }
 
     fun onComposeStatusClicked() {
-        router.push(AppScreen.StatusComposer)
+        router.push(AppScreen.StatusComposer())
     }
 
     fun onComposerDismissed() {

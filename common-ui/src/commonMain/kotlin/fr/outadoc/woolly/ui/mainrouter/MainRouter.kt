@@ -209,14 +209,16 @@ fun MainRouter(
                     component = content.component,
                     insets = insets,
                     onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick
+                    onAttachmentClick = component::onAttachmentClick,
+                    onStatusReplyClick = component::onStatusReplyClick
                 )
                 is MainContent.PublicTimeline -> PublicTimelineScreen(
                     component = content.component,
                     insets = insets,
                     currentSubScreen = content.configuration.subScreen,
                     onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick
+                    onAttachmentClick = component::onAttachmentClick,
+                    onStatusReplyClick = component::onStatusReplyClick
                 )
                 is MainContent.Notifications -> NotificationsScreen(
                     component = content.component,
@@ -229,7 +231,8 @@ fun MainRouter(
                     insets = insets,
                     currentSubScreen = content.configuration.subScreen,
                     onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick
+                    onAttachmentClick = component::onAttachmentClick,
+                    onStatusReplyClick = component::onStatusReplyClick
                 )
                 is MainContent.Account -> AccountScreen(
                     component = content.component,
@@ -239,20 +242,23 @@ fun MainRouter(
                     component = content.component,
                     insets = insets,
                     onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick
+                    onAttachmentClick = component::onAttachmentClick,
+                    onStatusReplyClick = component::onStatusReplyClick
                 )
                 is MainContent.Favourites -> FavouritesScreen(
                     component = content.component,
                     insets = insets,
                     onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick
+                    onAttachmentClick = component::onAttachmentClick,
+                    onStatusReplyClick = component::onStatusReplyClick
                 )
                 is MainContent.StatusDetails -> StatusDetailsScreen(
                     component = content.component,
                     insets = insets,
                     statusId = content.configuration.statusId,
                     onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick
+                    onAttachmentClick = component::onAttachmentClick,
+                    onStatusReplyClick = component::onStatusReplyClick
                 )
                 is MainContent.ImageViewer -> ImageViewerScreen(
                     component = content.component,

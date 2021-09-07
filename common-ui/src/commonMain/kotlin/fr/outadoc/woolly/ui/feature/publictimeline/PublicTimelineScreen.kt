@@ -14,7 +14,8 @@ fun PublicTimelineScreen(
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: PublicTimelineSubScreen,
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     when (currentSubScreen) {
         PublicTimelineSubScreen.Local -> StatusList(
@@ -23,7 +24,8 @@ fun PublicTimelineScreen(
             lazyListState = component.localListState,
             onStatusAction = component::onLocalStatusAction,
             onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick
         )
         PublicTimelineSubScreen.Global -> StatusList(
             insets = insets,
@@ -31,7 +33,8 @@ fun PublicTimelineScreen(
             lazyListState = component.globalListState,
             onStatusAction = component::onGlobalStatusAction,
             onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick
         )
     }
 }

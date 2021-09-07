@@ -31,7 +31,8 @@ fun StatusList(
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
     onStatusAction: (StatusAction) -> Unit = {},
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
@@ -86,7 +87,8 @@ fun StatusList(
                                     ),
                                 status = status,
                                 onStatusAction = onStatusAction,
-                                onAttachmentClick = onAttachmentClick
+                                onAttachmentClick = onAttachmentClick,
+                                onStatusReplyClick = onStatusReplyClick
                             )
                         } else {
                             StatusPlaceholder()

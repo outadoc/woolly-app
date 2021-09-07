@@ -19,7 +19,8 @@ fun SearchScreen(
     insets: PaddingValues = PaddingValues(),
     currentSubScreen: SearchSubScreen,
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     val state by component.state.collectAsState()
 
@@ -36,7 +37,8 @@ fun SearchScreen(
                 lazyListState = component.statusListState,
                 onStatusAction = component::onStatusAction,
                 onStatusClick = onStatusClick,
-                onAttachmentClick = onAttachmentClick
+                onAttachmentClick = onAttachmentClick,
+                onStatusReplyClick = onStatusReplyClick
             )
 
             SearchSubScreen.Accounts -> AccountList(

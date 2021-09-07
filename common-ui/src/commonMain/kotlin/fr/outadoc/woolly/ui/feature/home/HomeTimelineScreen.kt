@@ -12,7 +12,8 @@ fun HomeTimelineScreen(
     component: HomeTimelineComponent,
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {}
 ) {
     StatusList(
         insets = insets,
@@ -20,6 +21,7 @@ fun HomeTimelineScreen(
         lazyListState = component.listState,
         onStatusAction = component::onStatusAction,
         onStatusClick = onStatusClick,
-        onAttachmentClick = onAttachmentClick
+        onAttachmentClick = onAttachmentClick,
+        onStatusReplyClick = onStatusReplyClick
     )
 }

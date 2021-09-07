@@ -30,7 +30,7 @@ class ComposerComponent(
     val state = _state.asStateFlow()
 
     fun onMessageChange(message: String) {
-        _state.value = State(message = message)
+        _state.value = _state.value.copy(message = message)
     }
 
     fun onSubmit() {
@@ -38,7 +38,8 @@ class ComposerComponent(
         _state.value = State()
         statusPoster.enqueueStatus(
             StatusCreate(
-                status = currentState.message
+                status = currentState.message,
+                inReplyToId = currentState.inReplyToStatus?.statusId
             )
         )
     }

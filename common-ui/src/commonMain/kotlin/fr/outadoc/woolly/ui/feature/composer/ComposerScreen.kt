@@ -184,9 +184,7 @@ private fun ComposerBox(
                 }
             }
 
-            Button(
-                onClick = onSubmit
-            ) {
+            Button(onClick = onSubmit) {
                 Text("Send")
             }
         }

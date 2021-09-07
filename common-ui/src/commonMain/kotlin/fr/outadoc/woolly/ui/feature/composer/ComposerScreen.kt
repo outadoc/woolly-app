@@ -118,7 +118,8 @@ private fun ComposerAndParentStatus(
                         )
                         Text(
                             modifier = Modifier.padding(start = 8.dp),
-                            text = "In reply to ${inReplyToStatus?.account?.displayNameOrAcct}"
+                            text = "In reply to ${inReplyToStatus?.account?.displayNameOrAcct}",
+                            style = MaterialTheme.typography.subtitle2
                         )
                     }
                 }

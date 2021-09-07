@@ -5,6 +5,7 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.media.toAppImage
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
@@ -59,7 +60,10 @@ class MainRouterComponent(
     fun onStatusReplyClick(status: Status) {
         router.push(
             AppScreen.StatusComposer(
-                inReplyToStatusId = status.statusId
+                inReplyToStatusPayload = InReplyToStatusPayload(
+                    statusId = status.statusId,
+                    acct = status.account.acct
+                )
             )
         )
     }

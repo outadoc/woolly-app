@@ -2,6 +2,7 @@ package fr.outadoc.woolly.common.feature.mainrouter
 
 import com.arkivanov.decompose.statekeeper.Parcelable
 import com.arkivanov.decompose.statekeeper.Parcelize
+import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.media.ImageAttachment
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
@@ -40,5 +41,7 @@ sealed class AppScreen : Parcelable {
     data class ImageViewer(val image: ImageAttachment) : AppScreen()
 
     @Parcelize
-    data class StatusComposer(val inReplyToStatusId: String? = null) : AppScreen()
+    data class StatusComposer(
+        val inReplyToStatusPayload: InReplyToStatusPayload? = null
+    ) : AppScreen()
 }

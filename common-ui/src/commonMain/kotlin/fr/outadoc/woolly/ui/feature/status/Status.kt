@@ -36,7 +36,7 @@ fun StatusPlaceholder() {
 fun StatusOrBoost(
     modifier: Modifier = Modifier,
     status: Status,
-    onStatusAction: (StatusAction) -> Unit,
+    onStatusAction: (StatusAction) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {}
 ) {

@@ -1,11 +1,16 @@
 package fr.outadoc.woolly.ui.feature.composer
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Reply
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,42 +22,121 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
+import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
+import fr.outadoc.woolly.ui.feature.status.StatusOrBoost
 import org.kodein.di.compose.instance
 
 @Composable
 fun ComposerScreen(
     component: ComposerComponent,
-    onDismiss: () -> Unit
+    inReplyToStatusPayload: InReplyToStatusPayload?,
+    onDismiss: () -> Unit = {}
 ) {
     val accountRepository by instance<AccountRepository>()
 
     val account by accountRepository.currentAccount.collectAsState()
     val state by component.state.collectAsState()
 
-    when (val state = state) {
-        is ComposerComponent.State.Composing -> {
-            Composer(
-                modifier = Modifier.padding(16.dp),
-                message = state.message,
-                account = account,
-                onMessageChange = { message ->
-                    component.onMessageChange(message)
-                },
-                onSubmit = {
-                    component.onSubmit()
-                    onDismiss()
-                }
+    inReplyToStatusPayload?.let { payload ->
+        LaunchedEffect(payload) {
+            component.loadStatusRepliedTo(
+                acct = payload.acct,
+                statusId = payload.statusId
             )
+        }
+    }
+
+    ComposerAndParentStatus(
+        message = state.message,
+        account = account,
+        isLoadingParentStatus = state.isLoading,
+        inReplyToStatus = state.inReplyToStatus,
+        onMessageChange = { message ->
+            component.onMessageChange(message)
+        },
+        onSubmit = {
+            component.onSubmit()
+            onDismiss()
+        }
+    )
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+private fun ComposerAndParentStatus(
+    modifier: Modifier = Modifier,
+    message: String,
+    account: Account? = null,
+    isLoadingParentStatus: Boolean,
+    inReplyToStatus: Status?,
+    onMessageChange: (String) -> Unit,
+    onSubmit: () -> Unit = {}
+) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        state = rememberLazyListState(
+            // Skip first item (the header)
+            initialFirstVisibleItemIndex = 1
+        )
+    ) {
+        item {
+            when {
+                isLoadingParentStatus -> {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                    }
+                }
+                inReplyToStatus != null -> {
+                    StatusOrBoost(
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        status = inReplyToStatus
+                    )
+                }
+            }
+        }
+
+        item {
+            Column(modifier = Modifier.fillParentMaxHeight()) {
+                AnimatedVisibility(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    visible = inReplyToStatus != null
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.Reply,
+                            contentDescription = "Replying to"
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = "In reply to ${inReplyToStatus?.account?.displayNameOrAcct}"
+                        )
+                    }
+                }
+
+                ComposerBox(
+                    modifier = Modifier.padding(top = 8.dp),
+                    message = message,
+                    account = account,
+                    onMessageChange = onMessageChange,
+                    onSubmit = onSubmit
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun Composer(
+private fun ComposerBox(
     modifier: Modifier = Modifier,
     message: String,
     account: Account? = null,

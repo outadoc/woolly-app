@@ -108,7 +108,7 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        ComposerComponent(componentContext, instance())
+        ComposerComponent(componentContext, instance(), instance())
     }
 
     // Auth components

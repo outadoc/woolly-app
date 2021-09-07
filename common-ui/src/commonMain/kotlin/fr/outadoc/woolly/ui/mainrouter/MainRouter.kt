@@ -266,6 +266,7 @@ fun MainRouter(
                 )
                 is MainContent.StatusComposer -> ComposerScreen(
                     component = content.component,
+                    inReplyToStatusPayload = content.configuration.inReplyToStatusPayload,
                     onDismiss = component::onComposerDismissed
                 )
             }

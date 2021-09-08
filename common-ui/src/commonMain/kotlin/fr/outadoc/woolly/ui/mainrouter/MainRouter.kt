@@ -116,15 +116,7 @@ fun MainRouter(
 
                         is MainContent.Search -> SearchTopAppBar(
                             component = currentScreen.component,
-                            drawerState = drawerState,
-                            currentSubScreen = currentScreen.configuration.subScreen,
-                            onSubScreenSelected = { subScreen ->
-                                scope.launch {
-                                    component.onScreenSelected(
-                                        AppScreen.Search(subScreen = subScreen)
-                                    )
-                                }
-                            }
+                            drawerState = drawerState
                         )
 
                         else -> TopAppBar(
@@ -229,7 +221,6 @@ fun MainRouter(
                 is MainContent.Search -> SearchScreen(
                     component = content.component,
                     insets = insets,
-                    currentSubScreen = content.configuration.subScreen,
                     onStatusClick = component::onStatusClick,
                     onAttachmentClick = component::onAttachmentClick,
                     onStatusReplyClick = component::onStatusReplyClick

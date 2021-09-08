@@ -35,7 +35,10 @@ class SearchComponent(
 
     private val componentScope = getScope()
 
-    data class State(val query: String = "")
+    data class State(
+        val query: String = "",
+        val subScreen: SearchSubScreen = SearchSubScreen.Statuses
+    )
 
     private val _state = MutableStateFlow(State())
     val state = _state.asStateFlow()
@@ -105,9 +108,12 @@ class SearchComponent(
         statusActionRepository.onStatusAction(action)
     }
 
+    fun onSubScreenSelected(subScreen: SearchSubScreen) {
+        _state.value = _state.value.copy(subScreen = subScreen)
+    }
+
     override suspend fun scrollToTop(currentConfig: AppScreen?) {
-        val subScreen = (currentConfig as? AppScreen.Search)?.subScreen ?: return
-        when (subScreen) {
+        when (state.value.subScreen) {
             SearchSubScreen.Statuses -> statusListState
             SearchSubScreen.Accounts -> accountsListState
             SearchSubScreen.Hashtags -> hashtagsListState

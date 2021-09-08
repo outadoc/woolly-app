@@ -32,7 +32,7 @@ fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen)
 
         Item(
             selected = currentScreen is AppScreen.Search,
-            targetScreen = AppScreen.Search(),
+            targetScreen = AppScreen.Search,
             onScreenSelected = onScreenSelected
         )
 

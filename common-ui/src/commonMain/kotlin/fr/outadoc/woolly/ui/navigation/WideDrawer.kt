@@ -109,7 +109,7 @@ fun WideAppDrawer(
             )
 
             ScreenItem(
-                targetScreen = AppScreen.Search(),
+                targetScreen = AppScreen.Search,
                 selected = currentScreen is AppScreen.Search,
                 onScreenSelected = onScreenSelected
             )

@@ -17,7 +17,6 @@ import fr.outadoc.woolly.ui.feature.tags.TrendingScreen
 fun SearchScreen(
     component: SearchComponent,
     insets: PaddingValues = PaddingValues(),
-    currentSubScreen: SearchSubScreen,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {}
@@ -30,7 +29,7 @@ fun SearchScreen(
             insets = insets
         )
     } else {
-        when (currentSubScreen) {
+        when (state.subScreen) {
             SearchSubScreen.Statuses -> StatusList(
                 insets = insets,
                 statusFlow = component.statusPagingItems,

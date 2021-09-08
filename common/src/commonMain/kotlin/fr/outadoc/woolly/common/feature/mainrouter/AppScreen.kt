@@ -5,7 +5,6 @@ import com.arkivanov.decompose.statekeeper.Parcelize
 import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.media.ImageAttachment
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
-import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 
 sealed class AppScreen : Parcelable {
 
@@ -30,9 +29,7 @@ sealed class AppScreen : Parcelable {
     ) : AppScreen()
 
     @Parcelize
-    data class Search(
-        val subScreen: SearchSubScreen = SearchSubScreen.Statuses
-    ) : AppScreen()
+    object Search : AppScreen()
 
     @Parcelize
     data class StatusDetails(val statusId: String) : AppScreen()

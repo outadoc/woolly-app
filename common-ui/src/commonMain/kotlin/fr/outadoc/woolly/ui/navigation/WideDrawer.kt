@@ -97,7 +97,7 @@ fun WideAppDrawer(
             )
 
             ScreenItem(
-                targetScreen = AppScreen.PublicTimeline(),
+                targetScreen = AppScreen.PublicTimeline,
                 selected = currentScreen is AppScreen.PublicTimeline,
                 onScreenSelected = onScreenSelected
             )

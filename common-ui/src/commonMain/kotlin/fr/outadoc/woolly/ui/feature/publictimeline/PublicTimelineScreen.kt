@@ -2,6 +2,8 @@ package fr.outadoc.woolly.ui.feature.publictimeline
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
@@ -12,12 +14,12 @@ import fr.outadoc.woolly.ui.feature.status.StatusList
 fun PublicTimelineScreen(
     component: PublicTimelineComponent,
     insets: PaddingValues = PaddingValues(),
-    currentSubScreen: PublicTimelineSubScreen,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {}
 ) {
-    when (currentSubScreen) {
+    val state by component.state.collectAsState()
+    when (state.subScreen) {
         PublicTimelineSubScreen.Local -> StatusList(
             insets = insets,
             statusFlow = component.localPagingItems,

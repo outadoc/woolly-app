@@ -17,7 +17,6 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.cros
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
-import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.common.DrawerMenuButton
@@ -50,7 +49,6 @@ fun MainRouter(
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit
 ) {
-    val res by instance<AppScreenResources>()
     val scaffoldState = rememberScaffoldState()
 
     val scope = rememberCoroutineScope()
@@ -102,16 +100,8 @@ fun MainRouter(
                 Children(routerState = component.routerState) { screen ->
                     when (val currentScreen = screen.instance) {
                         is MainContent.PublicTimeline -> PublicTimelineTopAppBar(
-                            title = { Text(res.getScreenTitle(currentScreen.configuration)) },
-                            drawerState = drawerState,
-                            currentSubScreen = currentScreen.configuration.subScreen,
-                            onSubScreenSelected = { subScreen ->
-                                scope.launch {
-                                    component.onScreenSelected(
-                                        AppScreen.PublicTimeline(subScreen = subScreen)
-                                    )
-                                }
-                            }
+                            component = currentScreen.component,
+                            drawerState = drawerState
                         )
 
                         is MainContent.Search -> SearchTopAppBar(
@@ -119,23 +109,26 @@ fun MainRouter(
                             drawerState = drawerState
                         )
 
-                        else -> TopAppBar(
-                            modifier = Modifier.height(WoollyDefaults.AppBarHeight),
-                            title = { Text(res.getScreenTitle(screen.configuration)) },
-                            navigationIcon = when {
-                                component.shouldDisplayBackButton.value -> {
-                                    @Composable {
-                                        IconButton(onClick = component::onBackPressed) {
-                                            Icon(Icons.Default.ArrowBack, "Go back")
+                        else -> {
+                            val res by instance<AppScreenResources>()
+                            TopAppBar(
+                                modifier = Modifier.height(WoollyDefaults.AppBarHeight),
+                                title = { Text(res.getScreenTitle(screen.configuration)) },
+                                navigationIcon = when {
+                                    component.shouldDisplayBackButton.value -> {
+                                        @Composable {
+                                            IconButton(onClick = component::onBackPressed) {
+                                                Icon(Icons.Default.ArrowBack, "Go back")
+                                            }
                                         }
                                     }
+                                    drawerState != null -> {
+                                        @Composable { DrawerMenuButton(drawerState) }
+                                    }
+                                    else -> null
                                 }
-                                drawerState != null -> {
-                                    @Composable { DrawerMenuButton(drawerState) }
-                                }
-                                else -> null
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
@@ -207,7 +200,6 @@ fun MainRouter(
                 is MainContent.PublicTimeline -> PublicTimelineScreen(
                     component = content.component,
                     insets = insets,
-                    currentSubScreen = content.configuration.subScreen,
                     onStatusClick = component::onStatusClick,
                     onAttachmentClick = component::onAttachmentClick,
                     onStatusReplyClick = component::onStatusReplyClick

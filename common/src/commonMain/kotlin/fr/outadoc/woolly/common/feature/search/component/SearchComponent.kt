@@ -108,8 +108,12 @@ class SearchComponent(
         statusActionRepository.onStatusAction(action)
     }
 
-    fun onSubScreenSelected(subScreen: SearchSubScreen) {
-        _state.value = _state.value.copy(subScreen = subScreen)
+    suspend fun onSubScreenSelected(subScreen: SearchSubScreen) {
+        val currentState = _state.value
+        if (currentState.subScreen == subScreen) {
+            scrollToTop()
+        }
+        _state.value = currentState.copy(subScreen = subScreen)
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {

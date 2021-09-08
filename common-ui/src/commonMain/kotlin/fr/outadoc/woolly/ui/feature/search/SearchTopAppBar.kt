@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -22,6 +23,7 @@ import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.ui.navigation.TopAppBarWithMenu
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
 @Composable
@@ -32,6 +34,7 @@ fun SearchTopAppBar(
     val state by component.state.collectAsState()
 
     val textStyle = LocalTextStyle.current
+    val scope = rememberCoroutineScope()
 
     Surface(
         color = MaterialTheme.colors.primarySurface,
@@ -57,7 +60,11 @@ fun SearchTopAppBar(
             if (state.query.isNotEmpty()) {
                 SearchTabRow(
                     currentSubScreen = state.subScreen,
-                    onCurrentSubScreenChanged = component::onSubScreenSelected
+                    onCurrentSubScreenChanged = { subScreen ->
+                        scope.launch {
+                            component.onSubScreenSelected(subScreen)
+                        }
+                    }
                 )
             }
         }

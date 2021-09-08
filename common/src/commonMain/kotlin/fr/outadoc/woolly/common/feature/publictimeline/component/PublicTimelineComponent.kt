@@ -15,6 +15,8 @@ import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class PublicTimelineComponent(
     componentContext: ComponentContext,
@@ -26,6 +28,13 @@ class PublicTimelineComponent(
 
     val localListState = stateKeeper.consumeListStateOrDefault(key = "local_list_state")
     val globalListState = stateKeeper.consumeListStateOrDefault(key = "global_list_state")
+
+    data class State(
+        val subScreen: PublicTimelineSubScreen = PublicTimelineSubScreen.Local
+    )
+
+    private val _state = MutableStateFlow(State())
+    val state = _state.asStateFlow()
 
     init {
         stateKeeper.registerListState(key = "local_list_state") { localListState }
@@ -56,9 +65,16 @@ class PublicTimelineComponent(
         statusActionRepository.onStatusAction(action)
     }
 
+    suspend fun onSubScreenSelected(subScreen: PublicTimelineSubScreen) {
+        val currentState = _state.value
+        if (currentState.subScreen == subScreen) {
+            scrollToTop()
+        }
+        _state.value = currentState.copy(subScreen = subScreen)
+    }
+
     override suspend fun scrollToTop(currentConfig: AppScreen?) {
-        val subScreen = (currentConfig as? AppScreen.PublicTimeline)?.subScreen ?: return
-        when (subScreen) {
+        when (state.value.subScreen) {
             PublicTimelineSubScreen.Local -> localListState
             PublicTimelineSubScreen.Global -> globalListState
         }.tryScrollToTop()

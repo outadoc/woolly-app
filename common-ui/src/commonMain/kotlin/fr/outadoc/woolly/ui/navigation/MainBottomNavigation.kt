@@ -20,7 +20,7 @@ fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen)
 
         Item(
             selected = currentScreen is AppScreen.PublicTimeline,
-            targetScreen = AppScreen.PublicTimeline(),
+            targetScreen = AppScreen.PublicTimeline,
             onScreenSelected = onScreenSelected
         )
 

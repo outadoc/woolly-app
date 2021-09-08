@@ -4,7 +4,6 @@ import com.arkivanov.decompose.statekeeper.Parcelable
 import com.arkivanov.decompose.statekeeper.Parcelize
 import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.media.ImageAttachment
-import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 
 sealed class AppScreen : Parcelable {
 
@@ -24,9 +23,7 @@ sealed class AppScreen : Parcelable {
     object Notifications : AppScreen()
 
     @Parcelize
-    data class PublicTimeline(
-        val subScreen: PublicTimelineSubScreen = PublicTimelineSubScreen.Local
-    ) : AppScreen()
+    object PublicTimeline : AppScreen()
 
     @Parcelize
     object Search : AppScreen()

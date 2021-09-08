@@ -2,42 +2,52 @@ package fr.outadoc.woolly.ui.feature.publictimeline
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.AppBarDefaults
-import androidx.compose.material.DrawerState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
-import androidx.compose.material.primarySurface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
+import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
 import fr.outadoc.woolly.ui.navigation.TopAppBarWithMenu
+import fr.outadoc.woolly.ui.screen.AppScreenResources
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
 @Composable
 fun PublicTimelineTopAppBar(
-    title: @Composable () -> Unit,
-    currentSubScreen: PublicTimelineSubScreen,
-    onSubScreenSelected: (PublicTimelineSubScreen) -> Unit,
+    component: PublicTimelineComponent,
     drawerState: DrawerState?
 ) {
+    val res by instance<AppScreenResources>()
+    val state by component.state.collectAsState()
+
+    val scope = rememberCoroutineScope()
+
     Surface(
         color = MaterialTheme.colors.primarySurface,
         elevation = AppBarDefaults.TopAppBarElevation
     ) {
         Column {
             TopAppBarWithMenu(
+                title = { Text(text = res.getScreenTitle(AppScreen.PublicTimeline)) },
                 backgroundColor = MaterialTheme.colors.primarySurface,
-                title = title,
                 drawerState = drawerState,
                 elevation = 0.dp
             )
 
-            PublicTimelineTabRow(currentSubScreen, onSubScreenSelected)
+            PublicTimelineTabRow(
+                currentSubScreen = state.subScreen,
+                onCurrentSubScreenChanged = { subScreen ->
+                    scope.launch {
+                        component.onSubScreenSelected(subScreen)
+                    }
+                }
+            )
         }
     }
 }

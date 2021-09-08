@@ -1,52 +1,70 @@
 package fr.outadoc.woolly.common.feature.status
 
+import fr.outadoc.mastodonk.api.endpoint.statuses.StatusesApi
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class StatusActionRepository(
     scope: CoroutineScope,
     clientProvider: MastodonClientProvider
 ) {
     private val _actionFlow = MutableSharedFlow<StatusAction>(replay = 1)
-    private val listeners = mutableSetOf<(StatusAction) -> Unit>()
+
+    private val _cachedStatusDeltas = MutableStateFlow<Map<String, StatusDelta>>(emptyMap())
+    val cachedStatusDeltas = _cachedStatusDeltas.asStateFlow()
 
     init {
         scope.launch(Dispatchers.IO) {
             clientProvider.mastodonClient
                 .filterNotNull()
                 .combine(_actionFlow) { client, action ->
-                    with(client.statuses) {
-                        when (action) {
-                            is StatusAction.Favourite -> favourite(action.status.statusId)
-                            is StatusAction.UndoFavourite -> undoFavourite(action.status.statusId)
-                            is StatusAction.Boost -> boost(action.status.statusId)
-                            is StatusAction.UndoBoost -> undoBoost(action.status.statusId)
-                            is StatusAction.Bookmark -> bookmark(action.status.statusId)
-                            is StatusAction.UndoBookmark -> undoBookmark(action.status.statusId)
-                        }
-                    }
+                    val originalDelta = cachedStatusDeltas.value[action.status.statusId]
+                    val newDelta = (originalDelta ?: StatusDelta()).performAction(action)
+                    updateDeltasWith(action.status.statusId, newDelta)
 
-                    withContext(Dispatchers.Main) {
-                        listeners.forEach { listener -> listener(action) }
+                    try {
+                        client.statuses.performAction(action)
+                    } catch (e: Exception) {
+                        updateDeltasWith(action.status.statusId, originalDelta)
                     }
-
                 }
                 .collect()
         }
     }
 
-    fun addOnActionPerformedListener(listener: (StatusAction) -> Unit) {
-        listeners.add(listener)
-    }
-
     fun onStatusAction(action: StatusAction) {
         _actionFlow.tryEmit(action)
+    }
+
+    private fun StatusDelta.performAction(action: StatusAction): StatusDelta {
+        return when (action) {
+            is StatusAction.Favourite -> copy(isFavourited = true)
+            is StatusAction.UndoFavourite -> copy(isFavourited = false)
+            is StatusAction.Boost -> copy(isBoosted = true)
+            is StatusAction.UndoBoost -> copy(isBoosted = false)
+            is StatusAction.Bookmark -> copy(isBookmarked = true)
+            is StatusAction.UndoBookmark -> copy(isBookmarked = false)
+        }
+    }
+
+    private suspend fun StatusesApi.performAction(action: StatusAction) {
+        val statusId = action.status.statusId
+        when (action) {
+            is StatusAction.Favourite -> favourite(statusId)
+            is StatusAction.UndoFavourite -> undoFavourite(statusId)
+            is StatusAction.Boost -> boost(statusId)
+            is StatusAction.UndoBoost -> undoBoost(statusId)
+            is StatusAction.Bookmark -> bookmark(statusId)
+            is StatusAction.UndoBookmark -> undoBookmark(statusId)
+        }
+    }
+
+    private fun updateDeltasWith(statusId: String, statusDelta: StatusDelta?) {
+        _cachedStatusDeltas.value =
+            (if (statusDelta == null) _cachedStatusDeltas.value - statusId
+            else _cachedStatusDeltas.value + (statusId to statusDelta))
     }
 }

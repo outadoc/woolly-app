@@ -1,13 +1,11 @@
 package fr.outadoc.woolly.common.feature.composer.component
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.request.StatusCreate
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +16,7 @@ class ComposerComponent(
     private val clientProvider: MastodonClientProvider
 ) : ComponentContext by componentContext {
 
-    private val componentScope = MainScope()
+    private val componentScope = getScope()
 
     data class State(
         val message: String = "",
@@ -58,12 +56,6 @@ class ComposerComponent(
                 inReplyToStatus = status,
                 isLoading = false
             )
-        }
-    }
-
-    init {
-        lifecycle.doOnDestroy {
-            componentScope.cancel()
         }
     }
 }

@@ -1,14 +1,12 @@
 package fr.outadoc.woolly.common.feature.authrouter.component
 
 import com.arkivanov.decompose.*
-import com.arkivanov.decompose.lifecycle.doOnDestroy
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.kodein.di.DirectDI
 import org.kodein.di.DirectDIAware
@@ -20,7 +18,7 @@ class AuthRouterComponent(
     override val directDI: DirectDI
 ) : ComponentContext by componentContext, DirectDIAware {
 
-    private val componentScope = MainScope()
+    private val componentScope = getScope()
 
     private val router = router<AuthScreen, AuthContent>(
         initialConfiguration = { AuthScreen.AuthDomainSelect },
@@ -62,12 +60,6 @@ class AuthRouterComponent(
     fun onSuccessfulAuthentication(credentials: UserCredentials) {
         componentScope.launch(Dispatchers.IO) {
             instance<AuthenticationStateConsumer>().appendCredentials(credentials)
-        }
-    }
-
-    init {
-        lifecycle.doOnDestroy {
-            componentScope.cancel()
         }
     }
 

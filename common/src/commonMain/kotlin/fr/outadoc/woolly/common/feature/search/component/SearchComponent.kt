@@ -2,7 +2,6 @@ package fr.outadoc.woolly.common.feature.search.component
 
 import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.Tag
@@ -21,24 +20,24 @@ import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 
 class SearchComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
     private val clientProvider: MastodonClientProvider,
-    statusActionRepository: StatusActionRepository
+    private val statusActionRepository: StatusActionRepository,
+    private val statusPagingRepository: StatusPagingRepository
 ) : ComponentContext by componentContext, ScrollableComponent {
 
-    private val componentScope = MainScope()
+    private val componentScope = getScope()
 
-    data class UiState(val query: String = "")
+    data class State(val query: String = "")
 
-    private val _state = MutableStateFlow(UiState())
+    private val _state = MutableStateFlow(State())
     val state = _state.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -58,18 +57,13 @@ class SearchComponent(
         stateKeeper.registerListState(key = "hashtags_list_state") { hashtagsListState }
     }
 
-    private val statusPagingRepository = StatusPagingRepository(
-        pagingConfig,
-        clientProvider,
-        statusActionRepository
-    ) { client ->
-        client.search.searchStatusesSource(q = state.value.query)
-    }
-
     val statusPagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository
-            .pagingData
-            .cachedIn(componentScope)
+        statusPagingRepository.getPagingData(
+            componentScope,
+            factory = { client ->
+                client.search.searchStatusesSource(q = state.value.query)
+            }
+        )
 
     private var _latestAccountsPagingSource: PagingSource<PageInfo, Account>? = null
     private val accountsPagingSource: PagingSource<PageInfo, Account>
@@ -102,13 +96,13 @@ class SearchComponent(
     fun onSearchTermChanged(term: String) {
         _state.value = _state.value.copy(query = term)
 
-        statusPagingRepository.invalidate()
+        statusPagingRepository.invalidateSource()
         _latestAccountsPagingSource?.invalidate()
         _latestHashtagsPagingSource?.invalidate()
     }
 
     fun onStatusAction(action: StatusAction) {
-        statusPagingRepository.onStatusAction(action)
+        statusActionRepository.onStatusAction(action)
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {
@@ -129,10 +123,6 @@ class SearchComponent(
                     onSearchTermChanged(term = "")
                 }
             }
-        }
-
-        lifecycle.doOnDestroy {
-            componentScope.cancel()
         }
     }
 }

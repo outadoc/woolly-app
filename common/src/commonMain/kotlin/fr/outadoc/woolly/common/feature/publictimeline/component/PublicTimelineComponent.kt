@@ -1,13 +1,9 @@
 package fr.outadoc.woolly.common.feature.publictimeline.component
 
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.timelines.getPublicTimelineSource
-import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
@@ -17,18 +13,16 @@ import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.Flow
 
 class PublicTimelineComponent(
     componentContext: ComponentContext,
-    pagingConfig: PagingConfig,
-    clientProvider: MastodonClientProvider,
-    statusActionRepository: StatusActionRepository
+    statusPagingRepository: StatusPagingRepository,
+    private val statusActionRepository: StatusActionRepository
 ) : ComponentContext by componentContext, ScrollableComponent {
 
-    private val componentScope = MainScope()
+    private val componentScope = getScope()
 
     val localListState = stateKeeper.consumeListStateOrDefault(key = "local_list_state")
     val globalListState = stateKeeper.consumeListStateOrDefault(key = "global_list_state")
@@ -38,38 +32,28 @@ class PublicTimelineComponent(
         stateKeeper.registerListState(key = "global_list_state") { globalListState }
     }
 
-    private val localPagingRepository = StatusPagingRepository(
-        pagingConfig,
-        clientProvider,
-        statusActionRepository
-    ) { client ->
-        client.timelines.getPublicTimelineSource(onlyLocal = true)
-    }
-
-    private val globalPagingRepository = StatusPagingRepository(
-        pagingConfig,
-        clientProvider,
-        statusActionRepository
-    ) { client ->
-        client.timelines.getPublicTimelineSource()
-    }
-
     val localPagingItems: Flow<PagingData<Status>> =
-        localPagingRepository
-            .pagingData
-            .cachedIn(componentScope)
+        statusPagingRepository.getPagingData(
+            componentScope,
+            factory = { client ->
+                client.timelines.getPublicTimelineSource(onlyLocal = true)
+            }
+        )
 
     val globalPagingItems: Flow<PagingData<Status>> =
-        globalPagingRepository
-            .pagingData
-            .cachedIn(componentScope)
+        statusPagingRepository.getPagingData(
+            componentScope,
+            factory = { client ->
+                client.timelines.getPublicTimelineSource()
+            }
+        )
 
     fun onLocalStatusAction(action: StatusAction) {
-        localPagingRepository.onStatusAction(action)
+        statusActionRepository.onStatusAction(action)
     }
 
     fun onGlobalStatusAction(action: StatusAction) {
-        globalPagingRepository.onStatusAction(action)
+        statusActionRepository.onStatusAction(action)
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {
@@ -78,11 +62,5 @@ class PublicTimelineComponent(
             PublicTimelineSubScreen.Local -> localListState
             PublicTimelineSubScreen.Global -> globalListState
         }.tryScrollToTop()
-    }
-
-    init {
-        lifecycle.doOnDestroy {
-            componentScope.cancel()
-        }
     }
 }

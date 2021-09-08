@@ -26,6 +26,7 @@ import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineC
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
+import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
 import fr.outadoc.woolly.common.feature.time.TimeRepository
 import io.ktor.client.*
@@ -62,6 +63,7 @@ val CommonDI = DI {
     bindSingleton { AuthenticationStateRepository(instance()) }
     bindSingleton<AuthenticationStateConsumer> { instance<AuthenticationStateRepository>() }
     bindSingleton { StatusActionRepository(instance(), instance()) }
+    bindSingleton { StatusPagingRepository(instance(), instance(), instance()) }
 
     bindSingleton<MastodonClientProvider> { MastodonClientProviderImpl(instance(), instance()) }
     bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
@@ -72,11 +74,11 @@ val CommonDI = DI {
 
     // Inject components
     bindFactory { componentContext: ComponentContext ->
-        HomeTimelineComponent(componentContext, instance(), instance(), instance())
+        HomeTimelineComponent(componentContext, instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->
-        PublicTimelineComponent(componentContext, instance(), instance(), instance())
+        PublicTimelineComponent(componentContext, instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->
@@ -84,7 +86,7 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        SearchComponent(componentContext, instance(), instance(), instance())
+        SearchComponent(componentContext, instance(), instance(), instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->
@@ -92,11 +94,11 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        BookmarksComponent(componentContext, instance(), instance(), instance())
+        BookmarksComponent(componentContext, instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->
-        FavouritesComponent(componentContext, instance(), instance(), instance())
+        FavouritesComponent(componentContext, instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->

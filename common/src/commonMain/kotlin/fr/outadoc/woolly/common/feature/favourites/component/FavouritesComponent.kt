@@ -1,13 +1,9 @@
 package fr.outadoc.woolly.common.feature.favourites.component
 
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.lifecycle.doOnDestroy
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getFavouritesSource
-import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
@@ -16,18 +12,16 @@ import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.Flow
 
 class FavouritesComponent(
     componentContext: ComponentContext,
-    clientProvider: MastodonClientProvider,
-    pagingConfig: PagingConfig,
-    statusActionRepository: StatusActionRepository
+    statusPagingRepository: StatusPagingRepository,
+    private val statusActionRepository: StatusActionRepository
 ) : ComponentContext by componentContext, ScrollableComponent {
 
-    private val componentScope = MainScope()
+    private val componentScope = getScope()
 
     val listState = stateKeeper.consumeListStateOrDefault()
 
@@ -35,30 +29,19 @@ class FavouritesComponent(
         stateKeeper.registerListState { listState }
     }
 
-    private val pagingRepository = StatusPagingRepository(
-        pagingConfig,
-        clientProvider,
-        statusActionRepository
-    ) { client ->
-        client.favourites.getFavouritesSource()
-    }
-
     val favouritesPagingItems: Flow<PagingData<Status>> =
-        pagingRepository
-            .pagingData
-            .cachedIn(componentScope)
+        statusPagingRepository.getPagingData(
+            componentScope,
+            factory = { client ->
+                client.favourites.getFavouritesSource()
+            }
+        )
 
     fun onStatusAction(action: StatusAction) {
-        pagingRepository.onStatusAction(action)
+        statusActionRepository.onStatusAction(action)
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {
         listState.tryScrollToTop()
-    }
-
-    init {
-        lifecycle.doOnDestroy {
-            componentScope.cancel()
-        }
     }
 }

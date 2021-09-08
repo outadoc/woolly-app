@@ -6,13 +6,17 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class StatusDetailsComponent(
     componentContext: ComponentContext,
     clientProvider: MastodonClientProvider,
     private val statusActionRepository: StatusActionRepository
 ) : ComponentContext by componentContext {
+
+    private val componentScope = getScope()
 
     sealed class State(
         open val isLoading: Boolean
@@ -63,8 +67,10 @@ class StatusDetailsComponent(
     }
 
     init {
-        statusActionRepository.addOnActionPerformedListener {
-            refresh()
+        componentScope.launch {
+            statusActionRepository.cachedStatusDeltas
+                .onEach { refresh() }
+                .collect()
         }
     }
 

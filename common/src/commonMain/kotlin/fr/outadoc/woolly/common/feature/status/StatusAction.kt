@@ -3,10 +3,13 @@ package fr.outadoc.woolly.common.feature.status
 import fr.outadoc.mastodonk.api.entity.Status
 
 sealed class StatusAction {
-    data class Favourite(val status: Status) : StatusAction()
-    data class UndoFavourite(val status: Status) : StatusAction()
-    data class Boost(val status: Status) : StatusAction()
-    data class UndoBoost(val status: Status) : StatusAction()
-    data class Bookmark(val status: Status) : StatusAction()
-    data class UndoBookmark(val status: Status) : StatusAction()
+
+    abstract val status: Status
+
+    data class Favourite(override val status: Status) : StatusAction()
+    data class UndoFavourite(override val status: Status) : StatusAction()
+    data class Boost(override val status: Status) : StatusAction()
+    data class UndoBoost(override val status: Status) : StatusAction()
+    data class Bookmark(override val status: Status) : StatusAction()
+    data class UndoBookmark(override val status: Status) : StatusAction()
 }

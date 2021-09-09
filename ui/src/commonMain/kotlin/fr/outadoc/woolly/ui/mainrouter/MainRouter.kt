@@ -3,6 +3,7 @@ package fr.outadoc.woolly.ui.mainrouter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,9 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Attachment
+import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
@@ -93,10 +97,11 @@ fun MainRouter(
             Box(modifier = Modifier
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
-                    indication = null
-                ) {
-                    scope.launch { component.scrollToTop() }
-                }
+                    indication = null,
+                    onClick = {
+                        scope.launch { component.scrollToTop() }
+                    }
+                )
             ) {
                 Children(routerState = component.routerState) { screen ->
                     when (val currentScreen = screen.instance) {
@@ -190,87 +195,108 @@ fun MainRouter(
             routerState = component.routerState,
             animation = crossfadeScale()
         ) { child ->
-            when (val content = child.instance) {
-                is MainContent.HomeTimeline -> HomeTimelineScreen(
-                    component = content.component,
-                    insets = insets,
-                    onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick,
-                    onStatusReplyClick = component::onStatusReplyClick,
-                    onAccountClick = component::onAccountClick
-                )
-                is MainContent.PublicTimeline -> PublicTimelineScreen(
-                    component = content.component,
-                    insets = insets,
-                    onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick,
-                    onStatusReplyClick = component::onStatusReplyClick,
-                    onAccountClick = component::onAccountClick
-                )
-                is MainContent.Notifications -> NotificationsScreen(
-                    component = content.component,
-                    insets = insets,
-                    onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick,
-                    onAccountClick = component::onAccountClick
-                )
-                is MainContent.Search -> SearchScreen(
-                    component = content.component,
-                    insets = insets,
-                    onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick,
-                    onStatusReplyClick = component::onStatusReplyClick,
-                    onAccountClick = component::onAccountClick
-                )
-                is MainContent.MyAccount -> MyAccountScreen(
-                    component = content.component,
-                    insets = insets
-                )
-                is MainContent.Bookmarks -> BookmarksScreen(
-                    component = content.component,
-                    insets = insets,
-                    onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick,
-                    onStatusReplyClick = component::onStatusReplyClick,
-                    onAccountClick = component::onAccountClick
-                )
-                is MainContent.Favourites -> FavouritesScreen(
-                    component = content.component,
-                    insets = insets,
-                    onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick,
-                    onStatusReplyClick = component::onStatusReplyClick,
-                    onAccountClick = component::onAccountClick
-                )
-                is MainContent.StatusDetails -> StatusDetailsScreen(
-                    component = content.component,
-                    insets = insets,
-                    statusId = content.configuration.statusId,
-                    onStatusClick = component::onStatusClick,
-                    onAttachmentClick = component::onAttachmentClick,
-                    onStatusReplyClick = component::onStatusReplyClick,
-                    onAccountClick = component::onAccountClick
-                )
-                is MainContent.ImageViewer -> ImageViewerScreen(
-                    component = content.component,
-                    image = content.configuration.image
-                )
-                is MainContent.StatusComposer -> ComposerScreen(
-                    component = content.component,
-                    inReplyToStatusPayload = content.configuration.inReplyToStatusPayload,
-                    onDismiss = component::onComposerDismissed
-                )
-                is MainContent.AccountDetails -> AccountDetailsScreen(
-                    component = content.component,
-                    accountId = content.configuration.accountId
-                )
-            }
+            ChildBody(
+                content = child.instance,
+                insets = insets,
+                onStatusClick = component::onStatusClick,
+                onAttachmentClick = component::onAttachmentClick,
+                onStatusReplyClick = component::onStatusReplyClick,
+                onAccountClick = component::onAccountClick,
+                onComposerDismissed = component::onComposerDismissed
+            )
         }
     }
 }
 
 @Composable
-fun PostingStatusSnackbar(
+private fun ChildBody(
+    content: MainContent,
+    insets: PaddingValues = PaddingValues(),
+    onStatusClick: (Status) -> Unit = {},
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {},
+    onComposerDismissed: () -> Unit = {}
+) {
+    when (content) {
+        is MainContent.HomeTimeline -> HomeTimelineScreen(
+            component = content.component,
+            insets = insets,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
+        )
+        is MainContent.PublicTimeline -> PublicTimelineScreen(
+            component = content.component,
+            insets = insets,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
+        )
+        is MainContent.Notifications -> NotificationsScreen(
+            component = content.component,
+            insets = insets,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onAccountClick = onAccountClick
+        )
+        is MainContent.Search -> SearchScreen(
+            component = content.component,
+            insets = insets,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
+        )
+        is MainContent.MyAccount -> MyAccountScreen(
+            component = content.component,
+            insets = insets
+        )
+        is MainContent.Bookmarks -> BookmarksScreen(
+            component = content.component,
+            insets = insets,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
+        )
+        is MainContent.Favourites -> FavouritesScreen(
+            component = content.component,
+            insets = insets,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
+        )
+        is MainContent.StatusDetails -> StatusDetailsScreen(
+            component = content.component,
+            insets = insets,
+            statusId = content.configuration.statusId,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
+        )
+        is MainContent.ImageViewer -> ImageViewerScreen(
+            component = content.component,
+            image = content.configuration.image
+        )
+        is MainContent.StatusComposer -> ComposerScreen(
+            component = content.component,
+            inReplyToStatusPayload = content.configuration.inReplyToStatusPayload,
+            onDismiss = onComposerDismissed
+        )
+        is MainContent.AccountDetails -> AccountDetailsScreen(
+            component = content.component,
+            accountId = content.configuration.accountId
+        )
+    }
+}
+
+@Composable
+private fun PostingStatusSnackbar(
     showPostingSnackbar: () -> Unit,
     showErrorSnackbar: (() -> Unit) -> Unit
 ) {

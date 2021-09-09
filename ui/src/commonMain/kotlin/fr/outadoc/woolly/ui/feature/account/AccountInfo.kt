@@ -17,6 +17,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Emoji
 import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.ui.common.WoollyDefaults
@@ -90,7 +91,8 @@ fun AccountInfo(account: Account) {
             modifier = Modifier
                 .padding(top = 16.dp)
                 .fillMaxWidth(),
-            fields = account.fields!!
+            fields = account.fields!!,
+            emojis = account.emojis
         )
     }
 
@@ -130,7 +132,11 @@ fun AccountInfo(account: Account) {
 }
 
 @Composable
-fun AccountFields(modifier: Modifier = Modifier, fields: List<Field>) {
+fun AccountFields(
+    modifier: Modifier = Modifier,
+    fields: List<Field>,
+    emojis: List<Emoji>
+) {
     Column(modifier = modifier) {
         fields.forEach { field ->
             Row {
@@ -139,19 +145,22 @@ fun AccountFields(modifier: Modifier = Modifier, fields: List<Field>) {
                     style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
                 )
 
-                SelectionContainer {
-                    Text(
-                        modifier = Modifier.padding(start = 16.dp),
-                        text = field.value
-                    )
-                }
+                RichText(
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = field.value,
+                    emojis = emojis
+                )
             }
         }
     }
 }
 
 @Composable
-fun AccountStat(modifier: Modifier = Modifier, number: String, unit: String) {
+fun AccountStat(
+    modifier: Modifier = Modifier,
+    number: String,
+    unit: String
+) {
     Text(
         modifier = modifier,
         text = buildAnnotatedString {

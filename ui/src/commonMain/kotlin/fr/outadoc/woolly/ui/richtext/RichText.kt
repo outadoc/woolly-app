@@ -2,6 +2,7 @@ package fr.outadoc.woolly.ui.richtext
 
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -9,22 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.Placeholder
-import androidx.compose.ui.text.PlaceholderVerticalAlign
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.em
 import fr.outadoc.mastodonk.api.entity.Emoji
 import fr.outadoc.woolly.common.richtext.HtmlParser
-import fr.outadoc.woolly.common.richtext.model.FlatEmojiNode
-import fr.outadoc.woolly.common.richtext.model.FlatLinkNode
-import fr.outadoc.woolly.common.richtext.model.FlatNode
-import fr.outadoc.woolly.common.richtext.model.FlatParagraph
-import fr.outadoc.woolly.common.richtext.model.FlatTextNode
+import fr.outadoc.woolly.common.richtext.model.*
 import fr.outadoc.woolly.ui.common.InlineEmoji
 
 private val htmlParser = HtmlParser()
@@ -34,10 +25,9 @@ private const val ClickableTag = "clickable"
 fun RichText(
     modifier: Modifier = Modifier,
     text: String,
-    style: TextStyle = TextStyle.Default,
+    style: TextStyle = LocalTextStyle.current,
     linkColor: Color = MaterialTheme.colors.secondary,
-    uriHandler: UriHandler = LocalUriHandler.current,
-    emojis: List<Emoji>,
+    emojis: List<Emoji> = emptyList(),
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
 ) {
@@ -50,7 +40,6 @@ fun RichText(
         textNodes = textNodes,
         style = style,
         linkColor = linkColor,
-        uriHandler = uriHandler,
         emojis = emojis,
         maxLines = maxLines,
         overflow = overflow
@@ -61,7 +50,7 @@ fun RichText(
 private fun NodeText(
     modifier: Modifier = Modifier,
     textNodes: List<FlatNode>,
-    style: TextStyle = TextStyle.Default,
+    style: TextStyle = LocalTextStyle.current,
     linkColor: Color = MaterialTheme.colors.secondary,
     uriHandler: UriHandler = LocalUriHandler.current,
     emojis: List<Emoji>,

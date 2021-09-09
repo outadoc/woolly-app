@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     implementation(projects.common)
-    implementation(projects.commonUi)
+    implementation(projects.ui)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.browser)

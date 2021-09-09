@@ -7,12 +7,12 @@ pluginManagement {
     }
 }
 
-rootProject.name = "woolly"
+rootProject.name = "woolly-app"
 
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include("android")
-include("desktop")
+include("app-android")
+include("app-desktop")
 include("common")
-include("common-ui")
+include("ui")

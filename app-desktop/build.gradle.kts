@@ -35,7 +35,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "fr.outadoc.woolly.desktop.MainKt"
+        mainClass = "fr.outadoc.woolly.desktop.Woolly"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

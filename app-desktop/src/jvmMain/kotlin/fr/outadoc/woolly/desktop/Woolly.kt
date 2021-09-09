@@ -1,3 +1,5 @@
+@file:JvmName("Woolly")
+
 package fr.outadoc.woolly.desktop
 
 import androidx.compose.runtime.Composable

@@ -1,16 +1,7 @@
 package fr.outadoc.woolly.ui.screen
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Bookmarks
-import androidx.compose.material.icons.filled.ChatBubble
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 
 class AppScreenResources {
@@ -26,6 +17,7 @@ class AppScreenResources {
         is AppScreen.StatusDetails -> "Status"
         is AppScreen.ImageViewer -> "Image"
         is AppScreen.StatusComposer -> "New status"
+        is AppScreen.AccountDetails -> "Account details"
     }
 
     fun getScreenIcon(screen: AppScreen) = when (screen) {
@@ -39,5 +31,6 @@ class AppScreenResources {
         is AppScreen.StatusDetails -> Icons.Default.ChatBubble
         is AppScreen.ImageViewer -> Icons.Default.Image
         is AppScreen.StatusComposer -> Icons.Default.Edit
+        is AppScreen.AccountDetails -> Icons.Default.AccountCircle
     }
 }

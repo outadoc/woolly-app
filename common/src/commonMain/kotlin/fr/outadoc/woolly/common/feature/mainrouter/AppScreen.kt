@@ -38,4 +38,7 @@ sealed class AppScreen : Parcelable {
     data class StatusComposer(
         val inReplyToStatusPayload: InReplyToStatusPayload? = null
     ) : AppScreen()
+
+    @Parcelize
+    data class AccountDetails(val accountId: String) : AppScreen()
 }

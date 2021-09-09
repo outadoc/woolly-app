@@ -20,12 +20,13 @@ fun MyAccountScreen(
     val scrollState = rememberScrollState()
 
     Box(
-        modifier = Modifier
-            .padding(insets)
-            .verticalScroll(scrollState)
+        modifier = Modifier.verticalScroll(scrollState)
     ) {
         state.account?.let { account ->
-            AccountHeader(account)
+            AccountHeader(
+                modifier = Modifier.padding(insets),
+                account = account
+            )
         }
     }
 }

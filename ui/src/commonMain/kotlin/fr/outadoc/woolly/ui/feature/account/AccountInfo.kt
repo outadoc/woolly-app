@@ -1,13 +1,6 @@
 package fr.outadoc.woolly.ui.feature.account
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
@@ -35,16 +28,20 @@ import io.kamel.image.lazyPainterResource
 
 @Composable
 fun AccountHeader(
+    modifier: Modifier = Modifier,
     account: Account,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth()) {
         KamelImage(
             modifier = Modifier.aspectRatio(4f),
             resource = lazyPainterResource(account.headerStaticUrl),
             contentDescription = "Your profile header",
             crossfade = true,
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.FillWidth,
+            onLoading = {
+                Spacer(modifier = Modifier.aspectRatio(4f))
+            }
         )
 
         Row(

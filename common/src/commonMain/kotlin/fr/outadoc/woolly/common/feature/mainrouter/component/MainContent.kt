@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.mainrouter.component
 
 import com.arkivanov.decompose.ComponentContext
+import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent
 import fr.outadoc.woolly.common.feature.account.component.MyAccountComponent
 import fr.outadoc.woolly.common.feature.bookmarks.component.BookmarksComponent
 import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
@@ -66,5 +67,10 @@ sealed class MainContent {
     data class StatusComposer(
         override val configuration: AppScreen.StatusComposer,
         override val component: ComposerComponent
+    ) : MainContent()
+
+    data class AccountDetails(
+        override val configuration: AppScreen.AccountDetails,
+        override val component: AccountDetailsComponent
     ) : MainContent()
 }

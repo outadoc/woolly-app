@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -139,7 +138,8 @@ fun Notification(
             notification.type == NotificationType.Mention && status != null -> {
                 Status(
                     modifier = modifier,
-                    status = status
+                    status = status,
+                    onAccountClick = onAccountClick
                 )
             }
             else -> {
@@ -150,7 +150,8 @@ fun Notification(
                         bottom = if (notification.status != null) 16.dp else 0.dp
                     ),
                     notification = notification,
-                    startPadding = startPadding
+                    startPadding = startPadding,
+                    onAccountClick = onAccountClick
                 )
 
                 if (status != null) {
@@ -184,10 +185,9 @@ fun Notification(
 fun NotificationHeader(
     modifier: Modifier = Modifier,
     notification: Notification,
-    startPadding: Dp
+    startPadding: Dp,
+    onAccountClick: (Account) -> Unit = {}
 ) {
-    val uriHandler = LocalUriHandler.current
-
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -210,7 +210,7 @@ fun NotificationHeader(
                 ProfilePicture(
                     modifier = Modifier.size(32.dp),
                     account = notification.account,
-                    onClick = { uriHandler.openUri(notification.account.url) }
+                    onClick = { onAccountClick(notification.account) }
                 )
             }
 

@@ -1,6 +1,11 @@
 package fr.outadoc.woolly.common.feature.mainrouter.component
 
-import com.arkivanov.decompose.*
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.RouterState
+import com.arkivanov.decompose.pop
+import com.arkivanov.decompose.push
+import com.arkivanov.decompose.replaceCurrent
+import com.arkivanov.decompose.router
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
 import fr.outadoc.mastodonk.api.entity.Attachment
@@ -116,7 +121,7 @@ class MainRouterComponent(
             configuration = configuration,
             component = createComponent(componentContext)
         )
-        is AppScreen.Account -> MainContent.Account(
+        is AppScreen.MyAccount -> MainContent.MyAccount(
             configuration = configuration,
             component = createComponent(componentContext)
         )

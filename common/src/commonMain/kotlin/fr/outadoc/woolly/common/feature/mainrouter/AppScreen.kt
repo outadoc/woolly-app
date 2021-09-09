@@ -8,7 +8,7 @@ import fr.outadoc.woolly.common.feature.media.ImageAttachment
 sealed class AppScreen : Parcelable {
 
     @Parcelize
-    object Account : AppScreen()
+    object MyAccount : AppScreen()
 
     @Parcelize
     object Bookmarks : AppScreen()

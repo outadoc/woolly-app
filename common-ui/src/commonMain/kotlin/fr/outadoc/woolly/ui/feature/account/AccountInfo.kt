@@ -1,16 +1,19 @@
 package fr.outadoc.woolly.ui.feature.account
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
@@ -23,35 +26,12 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
-import fr.outadoc.woolly.common.feature.account.AccountRepository
-import fr.outadoc.woolly.common.feature.account.component.AccountComponent
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.richtext.RichText
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
-import org.kodein.di.compose.instance
 
-@Composable
-fun AccountScreen(
-    component: AccountComponent,
-    insets: PaddingValues = PaddingValues()
-) {
-    val repo by instance<AccountRepository>()
-
-    val currentAccount by repo.currentAccount.collectAsState()
-    val scrollState = rememberScrollState()
-
-    Box(
-        modifier = Modifier
-            .padding(insets)
-            .verticalScroll(scrollState)
-    ) {
-        currentAccount?.let { account ->
-            AccountHeader(account)
-        }
-    }
-}
 
 @Composable
 fun AccountHeader(

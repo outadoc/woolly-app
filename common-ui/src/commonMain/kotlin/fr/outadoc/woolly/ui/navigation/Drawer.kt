@@ -1,10 +1,22 @@
 package fr.outadoc.woolly.ui.navigation
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.DrawerState
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
@@ -137,8 +149,8 @@ fun MainAppDrawer(
             )
 
             ScreenItem(
-                targetScreen = AppScreen.Account,
-                selected = currentScreen is AppScreen.Account,
+                targetScreen = AppScreen.MyAccount,
+                selected = currentScreen is AppScreen.MyAccount,
                 onScreenSelected = onScreenSelected,
                 drawerState = drawerState,
                 scope = scope

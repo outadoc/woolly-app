@@ -4,11 +4,23 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.*
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarResult
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.*
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -22,7 +34,7 @@ import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.common.DrawerMenuButton
 import fr.outadoc.woolly.ui.common.ResponsiveScaffold
 import fr.outadoc.woolly.ui.common.WoollyDefaults
-import fr.outadoc.woolly.ui.feature.account.AccountScreen
+import fr.outadoc.woolly.ui.feature.account.MyAccountScreen
 import fr.outadoc.woolly.ui.feature.bookmarks.BookmarksScreen
 import fr.outadoc.woolly.ui.feature.composer.ComposerScreen
 import fr.outadoc.woolly.ui.feature.favourites.FavouritesScreen
@@ -217,7 +229,7 @@ fun MainRouter(
                     onAttachmentClick = component::onAttachmentClick,
                     onStatusReplyClick = component::onStatusReplyClick
                 )
-                is MainContent.Account -> AccountScreen(
+                is MainContent.MyAccount -> MyAccountScreen(
                     component = content.component,
                     insets = insets
                 )

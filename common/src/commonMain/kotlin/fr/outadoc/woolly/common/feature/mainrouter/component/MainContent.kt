@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.common.feature.mainrouter.component
 
 import com.arkivanov.decompose.ComponentContext
-import fr.outadoc.woolly.common.feature.account.component.AccountComponent
+import fr.outadoc.woolly.common.feature.account.component.MyAccountComponent
 import fr.outadoc.woolly.common.feature.bookmarks.component.BookmarksComponent
 import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
 import fr.outadoc.woolly.common.feature.favourites.component.FavouritesComponent
@@ -18,9 +18,9 @@ sealed class MainContent {
     abstract val configuration: AppScreen
     abstract val component: ComponentContext
 
-    data class Account(
-        override val configuration: AppScreen.Account,
-        override val component: AccountComponent
+    data class MyAccount(
+        override val configuration: AppScreen.MyAccount,
+        override val component: MyAccountComponent
     ) : MainContent()
 
     data class Bookmarks(

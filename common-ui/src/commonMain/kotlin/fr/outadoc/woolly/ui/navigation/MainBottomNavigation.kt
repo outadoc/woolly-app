@@ -37,8 +37,8 @@ fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen)
         )
 
         Item(
-            selected = currentScreen is AppScreen.Account,
-            targetScreen = AppScreen.Account,
+            selected = currentScreen is AppScreen.MyAccount,
+            targetScreen = AppScreen.MyAccount,
             onScreenSelected = onScreenSelected
         )
     }

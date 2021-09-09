@@ -100,8 +100,8 @@ fun StatusWithContext(
                         .clickable { onStatusClick(status) }
                         .padding(16.dp),
                     status = status,
-                    onAttachmentClick = onAttachmentClick,
                     onStatusAction = onStatusAction,
+                    onAttachmentClick = onAttachmentClick,
                     onStatusReplyClick = onStatusReplyClick,
                     onAccountClick = onAccountClick
                 )
@@ -134,8 +134,8 @@ fun StatusWithContext(
                         .clickable { onStatusClick(status) }
                         .padding(16.dp),
                     status = status,
-                    onAttachmentClick = onAttachmentClick,
                     onStatusAction = onStatusAction,
+                    onAttachmentClick = onAttachmentClick,
                     onStatusReplyClick = onStatusReplyClick,
                     onAccountClick = onAccountClick
                 )

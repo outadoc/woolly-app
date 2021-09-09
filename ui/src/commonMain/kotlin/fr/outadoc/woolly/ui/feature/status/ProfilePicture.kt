@@ -9,7 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.NoAccounts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
@@ -28,23 +27,19 @@ fun ProfilePicture(
     modifier: Modifier = Modifier,
     account: Account,
     size: Dp = WoollyDefaults.AvatarSize,
-    onClick: (() -> Unit)? = null
+    onClick: () -> Unit = {}
 ) {
     val contentDescription = "${account.displayNameOrAcct}'s profile picture"
 
     Surface(
-        modifier = modifier
-            .size(size)
-            .apply {
-                if (onClick != null) {
-                    clickable { onClick() }
-                }
-            },
+        modifier = modifier.size(size),
         shape = WoollyTheme.AvatarShape,
         elevation = 4.dp
     ) {
         KamelImage(
-            modifier = Modifier.size(size),
+            modifier = Modifier
+                .size(size)
+                .clickable { onClick() },
             resource = lazyPainterResource(account.avatarStaticUrl),
             contentDescription = contentDescription,
             contentScale = ContentScale.FillWidth,

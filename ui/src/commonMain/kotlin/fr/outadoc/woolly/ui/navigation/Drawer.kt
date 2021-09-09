@@ -1,22 +1,10 @@
 package fr.outadoc.woolly.ui.navigation
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.DrawerState
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
@@ -207,15 +195,23 @@ private fun ScreenItem(
 @Composable
 fun AppDrawerHeader(
     modifier: Modifier = Modifier,
-    account: Account
+    account: Account,
+    onAvatarClick: () -> Unit = {}
 ) {
     Box(modifier = modifier) {
-        ProfileHeader(account = account)
+        ProfileHeader(
+            account = account,
+            onAvatarClick = onAvatarClick
+        )
     }
 }
 
 @Composable
-fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
+fun ProfileHeader(
+    modifier: Modifier = Modifier,
+    account: Account,
+    onAvatarClick: () -> Unit = {}
+) {
     Box(modifier) {
         KamelImage(
             modifier = Modifier.fillMaxSize(),
@@ -238,7 +234,8 @@ fun ProfileHeader(modifier: Modifier = Modifier, account: Account) {
             ) {
                 ProfilePicture(
                     modifier = Modifier.padding(end = 16.dp),
-                    account = account
+                    account = account,
+                    onClick = onAvatarClick
                 )
 
                 Column {

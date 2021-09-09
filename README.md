@@ -17,7 +17,7 @@ This project is a Mastodon client built with Jetpack Compose and Compose Desktop
 - [x] Conversation details
 - [x] Composing statuses
 - [x] Replying to a status
-- [ ] Account details
+- [x] Account details
 - [ ] Direct messaging
 - [ ] Timeline streaming
 - [ ] Push notifications

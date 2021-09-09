@@ -7,11 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalContentColor
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
@@ -61,19 +57,19 @@ fun WideAppDrawer(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             account?.let {
-                IconButton(
-                    modifier = Modifier.padding(4.dp),
-                    onClick = { onScreenSelected(AppScreen.MyAccount) }
-                ) {
-                    ProfilePicture(
-                        modifier = Modifier.alpha(
+                ProfilePicture(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .alpha(
                             if (currentScreen is AppScreen.MyAccount) LocalContentAlpha.current
                             else ContentAlpha.medium
                         ),
-                        size = 32.dp,
-                        account = it
-                    )
-                }
+                    onClick = {
+                        onScreenSelected(AppScreen.MyAccount)
+                    },
+                    size = 32.dp,
+                    account = it
+                )
             }
 
             IconButton(

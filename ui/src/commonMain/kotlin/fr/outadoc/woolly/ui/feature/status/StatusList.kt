@@ -15,6 +15,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
@@ -32,7 +33,8 @@ fun StatusList(
     onStatusAction: (StatusAction) -> Unit = {},
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
@@ -88,7 +90,8 @@ fun StatusList(
                                 status = status,
                                 onStatusAction = onStatusAction,
                                 onAttachmentClick = onAttachmentClick,
-                                onStatusReplyClick = onStatusReplyClick
+                                onStatusReplyClick = onStatusReplyClick,
+                                onAccountClick = onAccountClick
                             )
                         } else {
                             StatusPlaceholder()

@@ -38,7 +38,8 @@ fun StatusOrBoost(
     status: Status,
     onStatusAction: (StatusAction) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val original = status.boostedStatus ?: status
     val boostedBy = if (status.boostedStatus != null) status.account else null
@@ -49,7 +50,8 @@ fun StatusOrBoost(
         boostedBy = boostedBy,
         onStatusAction = onStatusAction,
         onAttachmentClick = onAttachmentClick,
-        onStatusReplyClick = onStatusReplyClick
+        onStatusReplyClick = onStatusReplyClick,
+        onAccountClick = onAccountClick
     )
 }
 
@@ -60,15 +62,14 @@ fun Status(
     boostedBy: Account? = null,
     onStatusAction: ((StatusAction) -> Unit)? = null,
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
-    val uriHandler = LocalUriHandler.current
-
     Row(modifier = modifier) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
             account = status.account,
-            onClick = { uriHandler.openUri(status.account.url) }
+            onClick = { onAccountClick(status.account) }
         )
 
         StatusWithActions(

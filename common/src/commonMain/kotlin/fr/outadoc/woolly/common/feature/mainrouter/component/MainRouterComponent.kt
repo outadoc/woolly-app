@@ -3,6 +3,7 @@ package fr.outadoc.woolly.common.feature.mainrouter.component
 import com.arkivanov.decompose.*
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
@@ -78,6 +79,14 @@ class MainRouterComponent(
 
     fun onComposerDismissed() {
         router.pop()
+    }
+
+    fun onAccountClick(account: Account) {
+        router.push(
+            AppScreen.AccountDetails(
+                accountId = account.accountId
+            )
+        )
     }
 
     suspend fun onScreenSelected(target: AppScreen) {

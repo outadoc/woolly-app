@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
@@ -32,7 +33,8 @@ fun StatusDetails(
     statusOrBoost: Status,
     onStatusAction: ((StatusAction) -> Unit)? = null,
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val status = statusOrBoost.boostedStatus ?: statusOrBoost
     val boostedBy = if (statusOrBoost.boostedStatus != null) statusOrBoost.account else null
@@ -49,7 +51,8 @@ fun StatusDetails(
 
         StatusHeader(
             modifier = Modifier.padding(bottom = 16.dp),
-            status = status
+            status = status,
+            onAccountClick = onAccountClick
         )
 
         if (status.content.isNotBlank()) {
@@ -142,15 +145,14 @@ fun StatusFooter(
 @Composable
 fun StatusHeader(
     modifier: Modifier = Modifier,
-    status: Status
+    status: Status,
+    onAccountClick: (Account) -> Unit = {}
 ) {
-    val uriHandler = LocalUriHandler.current
-
     Row(modifier = modifier) {
         ProfilePicture(
             modifier = Modifier.padding(end = 16.dp),
             account = status.account,
-            onClick = { uriHandler.openUri(status.account.url) }
+            onClick = { onAccountClick(status.account) }
         )
 
         Column(modifier = Modifier) {

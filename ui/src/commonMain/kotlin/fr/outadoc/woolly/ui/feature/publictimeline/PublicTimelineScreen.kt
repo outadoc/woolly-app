@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
@@ -16,7 +17,8 @@ fun PublicTimelineScreen(
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val state by component.state.collectAsState()
     when (state.subScreen) {
@@ -27,7 +29,8 @@ fun PublicTimelineScreen(
             onStatusAction = component::onLocalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
         )
         PublicTimelineSubScreen.Global -> StatusList(
             insets = insets,
@@ -36,7 +39,8 @@ fun PublicTimelineScreen(
             onStatusAction = component::onGlobalStatusAction,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
         )
     }
 }

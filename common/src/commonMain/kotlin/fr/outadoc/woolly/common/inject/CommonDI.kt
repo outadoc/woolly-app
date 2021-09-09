@@ -4,6 +4,7 @@ import androidx.paging.PagingConfig
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.account.AccountRepositoryImpl
+import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent
 import fr.outadoc.woolly.common.feature.account.component.MyAccountComponent
 import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent
 import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent
@@ -111,6 +112,10 @@ val CommonDI = DI {
 
     bindFactory { componentContext: ComponentContext ->
         ComposerComponent(componentContext, instance(), instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        AccountDetailsComponent(componentContext, instance())
     }
 
     // Auth components

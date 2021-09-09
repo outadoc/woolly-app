@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -28,9 +27,9 @@ fun AccountList(
     modifier: Modifier = Modifier,
     insets: PaddingValues = PaddingValues(),
     accountFlow: Flow<PagingData<Account>>,
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    onAccountClick: (Account) -> Unit = {}
 ) {
-    val uriHandler = LocalUriHandler.current
     val lazyPagingItems = accountFlow.collectAsLazyPagingItems()
 
     SwipeRefresh(
@@ -71,7 +70,7 @@ fun AccountList(
                     if (account != null) {
                         Account(
                             modifier = Modifier
-                                .clickable { uriHandler.openUri(account.url) }
+                                .clickable { onAccountClick(account) }
                                 .padding(16.dp),
                             account = account
                         )

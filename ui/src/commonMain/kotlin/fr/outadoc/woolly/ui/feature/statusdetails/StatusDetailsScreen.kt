@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
@@ -31,7 +32,8 @@ fun StatusDetailsScreen(
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val state by component.state.collectAsState(StatusDetailsComponent.State.Initial())
 
@@ -65,7 +67,8 @@ fun StatusDetailsScreen(
                     onStatusAction = { action ->
                         component.onStatusAction(action)
                     },
-                    onStatusReplyClick = onStatusReplyClick
+                    onStatusReplyClick = onStatusReplyClick,
+                    onAccountClick = onAccountClick
                 )
             }
         }
@@ -80,7 +83,8 @@ fun StatusWithContext(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusAction: (StatusAction) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     // TODO move listState to component
     LazyColumn(
@@ -98,7 +102,8 @@ fun StatusWithContext(
                     status = status,
                     onAttachmentClick = onAttachmentClick,
                     onStatusAction = onStatusAction,
-                    onStatusReplyClick = onStatusReplyClick
+                    onStatusReplyClick = onStatusReplyClick,
+                    onAccountClick = onAccountClick
                 )
             }
 
@@ -113,7 +118,8 @@ fun StatusWithContext(
                 statusOrBoost = status,
                 onAttachmentClick = onAttachmentClick,
                 onStatusAction = onStatusAction,
-                onStatusReplyClick = onStatusReplyClick
+                onStatusReplyClick = onStatusReplyClick,
+                onAccountClick = onAccountClick
             )
         }
 
@@ -130,7 +136,8 @@ fun StatusWithContext(
                     status = status,
                     onAttachmentClick = onAttachmentClick,
                     onStatusAction = onStatusAction,
-                    onStatusReplyClick = onStatusReplyClick
+                    onStatusReplyClick = onStatusReplyClick,
+                    onAccountClick = onAccountClick
                 )
             }
         }

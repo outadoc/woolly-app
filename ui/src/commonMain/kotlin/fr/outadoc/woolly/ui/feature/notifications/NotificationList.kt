@@ -24,10 +24,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import fr.outadoc.mastodonk.api.entity.Attachment
-import fr.outadoc.mastodonk.api.entity.Notification
-import fr.outadoc.mastodonk.api.entity.NotificationType
-import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.mastodonk.api.entity.*
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.ui.common.ListExtremityState
 import fr.outadoc.woolly.ui.common.WoollyDefaults
@@ -43,7 +40,8 @@ fun NotificationList(
     lazyListState: LazyListState,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val lazyPagingItems = notificationFlow.collectAsLazyPagingItems()
 
@@ -91,7 +89,8 @@ fun NotificationList(
                                 modifier = Modifier.fillMaxWidth(),
                                 notification = notification,
                                 onStatusClick = onStatusClick,
-                                onAttachmentClick = onAttachmentClick
+                                onAttachmentClick = onAttachmentClick,
+                                onAccountClick = onAccountClick
                             )
                         } else {
                             NotificationPlaceHolder()
@@ -122,15 +121,14 @@ fun Notification(
     modifier: Modifier = Modifier,
     notification: Notification,
     onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {}
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
-    val uriHandler = LocalUriHandler.current
-
     Column(
         modifier = modifier
             .clickable {
                 when (val status = notification.status) {
-                    null -> uriHandler.openUri(notification.account.url)
+                    null -> onAccountClick(notification.account)
                     else -> onStatusClick(status)
                 }
             }

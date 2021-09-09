@@ -36,10 +36,15 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "fr.outadoc.woolly.desktop.MainKt"
+
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "jvm"
-            packageVersion = "1.0.0"
+            packageName = "Woolly"
+            description = "Desktop client for Mastodon"
+            packageVersion = project.version as String
+            version = project.version as String
+            copyright = "© 2021 Baptiste Candellier"
+            vendor = "Baptiste Candellier"
         }
     }
 }

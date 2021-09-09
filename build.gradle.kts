@@ -21,13 +21,13 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.1")
+        classpath("com.android.tools.build:gradle:7.0.2")
     }
 }
 
 allprojects {
     group = "fr.outadoc.woolly"
-    version = "0.1-alpha01"
+    version = "1.0.0"
 
     repositories {
         mavenCentral()

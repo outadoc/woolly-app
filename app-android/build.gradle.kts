@@ -27,7 +27,7 @@ android {
         minSdk = 24
         targetSdk = 31
         versionCode = 1
-        versionName = "1.0"
+        versionName = project.version as String
     }
 
     buildFeatures {

@@ -105,12 +105,14 @@ private fun StatusAction(
             )
         }
 
-        Text(
-            text = counter.formatShort(),
-            maxLines = 1,
-            style = MaterialTheme.typography.caption,
-            fontWeight = FontWeight.Bold,
-            color = color
-        )
+        if (counter > 0) {
+            Text(
+                text = counter.formatShort(),
+                maxLines = 1,
+                style = MaterialTheme.typography.caption,
+                fontWeight = FontWeight.Bold,
+                color = color
+            )
+        }
     }
 }

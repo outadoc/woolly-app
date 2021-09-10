@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="desktop [run]" type="GradleRunConfiguration" factoryName="Gradle" singleton="false">
+  <configuration default="false" name="desktop [run]" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$/app-desktop" />

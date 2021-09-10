@@ -20,6 +20,7 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Emoji
 import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.common.feature.status.formatShort
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.feature.status.AutomatedLabel
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
@@ -118,23 +119,23 @@ fun AccountInfo(account: Account) {
         modifier = Modifier
             .padding(top = 16.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.spacedBy(22.dp)
     ) {
         AccountStat(
             modifier = Modifier.alignByBaseline(),
-            number = account.statusesCount.toString(),
+            number = account.statusesCount.formatShort(),
             unit = "Posts"
         )
 
         AccountStat(
             modifier = Modifier.alignByBaseline(),
-            number = account.followingCount.toString(),
+            number = account.followingCount.formatShort(),
             unit = "Following"
         )
 
         AccountStat(
             modifier = Modifier.alignByBaseline(),
-            number = account.followersCount.toString(),
+            number = account.followersCount.formatShort(),
             unit = "Followers"
         )
     }

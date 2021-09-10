@@ -320,9 +320,7 @@ fun StatusHeader(
                 emojis = status.account.emojis
             )
 
-            CompositionLocalProvider(
-                LocalContentAlpha provides 0.7f
-            ) {
+            CompositionLocalProvider(LocalContentAlpha provides 0.7f) {
                 StatusVisibilityIcon(
                     modifier = Modifier.size(16.dp),
                     visibility = status.visibility
@@ -338,15 +336,48 @@ fun StatusHeader(
             }
         }
 
-        if (status.account.displayName.isNotBlank()) {
-            Text(
-                text = "@${status.account.acct}",
-                style = MaterialTheme.typography.subtitle2,
-                color = LocalContentColor.current.copy(alpha = 0.7f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+        CompositionLocalProvider(LocalContentAlpha provides 0.5f) {
+            if (status.account.displayName.isNotBlank()) {
+                Text(
+                    text = "@${status.account.acct}",
+                    style = MaterialTheme.typography.subtitle2,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+
+        if (status.account.isBot == true) {
+            AutomatedLabel(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 6.dp)
             )
         }
+    }
+}
+
+@Composable
+fun AutomatedLabel(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(20.dp)
+                .padding(end = 4.dp),
+            imageVector = Icons.Default.SmartToy,
+            contentDescription = "Robot"
+        )
+
+        Text(
+            text = "Automated",
+            style = MaterialTheme.typography.subtitle2,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

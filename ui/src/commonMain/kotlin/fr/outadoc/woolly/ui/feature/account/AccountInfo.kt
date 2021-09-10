@@ -21,6 +21,7 @@ import fr.outadoc.mastodonk.api.entity.Emoji
 import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.feature.status.AutomatedLabel
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.richtext.RichText
 import io.kamel.image.KamelImage
@@ -83,6 +84,14 @@ fun AccountInfo(account: Account) {
             color = LocalContentColor.current.copy(alpha = 0.7f),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
+        )
+    }
+
+    if (account.isBot == true) {
+        AutomatedLabel(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp)
         )
     }
 

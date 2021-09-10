@@ -81,9 +81,15 @@ fun StatusDetails(
             )
         }
 
-        CompositionLocalProvider(
-            LocalContentAlpha provides 0.7f
-        ) {
+        if (status.account.isBot == true) {
+            AutomatedLabel(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+        }
+
+        CompositionLocalProvider(LocalContentAlpha provides 0.7f) {
             StatusFooter(
                 modifier = Modifier.padding(vertical = 8.dp),
                 status = status

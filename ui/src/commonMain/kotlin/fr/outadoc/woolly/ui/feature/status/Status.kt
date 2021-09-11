@@ -78,7 +78,8 @@ fun Status(
             boostedBy = boostedBy,
             onStatusAction = onStatusAction,
             onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
         )
     }
 }
@@ -90,7 +91,8 @@ fun StatusWithActions(
     boostedBy: Account? = null,
     onStatusAction: ((StatusAction) -> Unit)? = null,
     onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {}
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -127,7 +129,8 @@ fun StatusWithActions(
         boostedBy?.let { boostedBy ->
             StatusBoostedByMention(
                 modifier = Modifier.padding(top = 8.dp),
-                boostedBy = boostedBy
+                boostedBy = boostedBy,
+                onAccountClick = onAccountClick
             )
         }
 
@@ -273,7 +276,11 @@ fun StatusBodyPlain(
 }
 
 @Composable
-fun StatusBoostedByMention(modifier: Modifier = Modifier, boostedBy: Account) {
+fun StatusBoostedByMention(
+    modifier: Modifier = Modifier,
+    boostedBy: Account,
+    onAccountClick: (Account) -> Unit = {}
+) {
     Column(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -285,8 +292,16 @@ fun StatusBoostedByMention(modifier: Modifier = Modifier, boostedBy: Account) {
                 tint = LocalContentColor.current.copy(alpha = 0.7f)
             )
 
+            ProfilePicture(
+                modifier = Modifier.padding(end = 4.dp),
+                account = boostedBy,
+                size = 20.dp,
+                onClick = { onAccountClick(boostedBy) }
+            )
+
             Text(
-                "${boostedBy.displayNameOrAcct} boosted",
+                modifier = Modifier.clickable { onAccountClick(boostedBy) },
+                text = "${boostedBy.displayNameOrAcct} boosted",
                 style = MaterialTheme.typography.subtitle2,
                 maxLines = 1,
                 color = LocalContentColor.current.copy(alpha = 0.7f),

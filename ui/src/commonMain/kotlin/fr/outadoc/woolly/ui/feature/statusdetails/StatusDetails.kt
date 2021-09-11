@@ -45,7 +45,8 @@ fun StatusDetails(
         boostedBy?.let { boostedBy ->
             StatusBoostedByMention(
                 modifier = Modifier.padding(bottom = 16.dp),
-                boostedBy = boostedBy
+                boostedBy = boostedBy,
+                onAccountClick = onAccountClick
             )
         }
 

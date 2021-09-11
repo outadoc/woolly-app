@@ -20,22 +20,21 @@ import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.formatShort
 import fr.outadoc.woolly.ui.common.WoollyTheme
 
-
 @Composable
 fun StatusActions(
     modifier: Modifier = Modifier,
     status: Status,
     onStatusAction: (StatusAction) -> Unit,
     onStatusReplyClick: (Status) -> Unit,
-    maxActionsWidth: Dp = 200.dp
+    actionsWidth: Dp = 64.dp
 ) {
-    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier) {
         Row(
-            modifier = Modifier.requiredWidth(min(maxWidth, maxActionsWidth)),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             StatusAction(
+                modifier = Modifier.width(actionsWidth),
                 icon = Icons.Default.Reply,
                 checked = false,
                 contentDescription = "Reply",
@@ -44,7 +43,7 @@ fun StatusActions(
             )
 
             StatusAction(
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier.width(actionsWidth),
                 checked = status.isBoosted == true,
                 checkedColor = WoollyTheme.BoostColor,
                 icon = Icons.Default.Repeat,
@@ -59,7 +58,7 @@ fun StatusActions(
             )
 
             StatusAction(
-                modifier = Modifier.padding(start = 16.dp),
+                modifier = Modifier.width(actionsWidth),
                 checked = status.isFavourited == true,
                 checkedColor = WoollyTheme.FavouriteColor,
                 icon = Icons.Default.Star,
@@ -91,9 +90,11 @@ private fun StatusAction(
         if (checked) checkedColor
         else LocalContentColor.current.copy(alpha = 0.7f)
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         IconToggleButton(
-            modifier = modifier,
             checked = checked,
             onCheckedChange = onCheckedChange
         ) {

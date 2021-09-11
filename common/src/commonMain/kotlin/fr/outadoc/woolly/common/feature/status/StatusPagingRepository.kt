@@ -37,14 +37,13 @@ class StatusPagingRepository(
             .cachedIn(componentScope)
             .combine(statusActionRepository.cachedStatusDeltas) { data, deltas ->
                 data.map { status ->
-                    when (val statusDelta = deltas[status.statusId]) {
+                    // Apply status action deltas to the statuses in this list.
+                    // If this status is a boost, update the underlying boosted status with the cached action.
+                    // Either way, update the actual status with the associated cached action.
+                    when (val boostedStatus = status.boostedStatus) {
                         null -> status
-                        else -> status.copy(
-                            isBoosted = statusDelta.isBoosted ?: status.isBoosted,
-                            isFavourited = statusDelta.isFavourited ?: status.isFavourited,
-                            isBookmarked = statusDelta.isBookmarked ?: status.isBookmarked
-                        )
-                    }
+                        else -> status.copy(boostedStatus = boostedStatus + deltas[boostedStatus.statusId])
+                    } + deltas[status.statusId]
                 }
             }
 

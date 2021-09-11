@@ -17,7 +17,7 @@ class StatusActionRepository(
     val cachedStatusDeltas = _cachedStatusDeltas.asStateFlow()
 
     init {
-        scope.launch(Dispatchers.IO) {
+        scope.launch {
             clientProvider.mastodonClient
                 .filterNotNull()
                 .combine(_actionFlow) { client, action ->

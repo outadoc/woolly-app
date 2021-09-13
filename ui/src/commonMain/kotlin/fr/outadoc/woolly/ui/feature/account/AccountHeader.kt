@@ -15,7 +15,9 @@ import io.kamel.image.lazyPainterResource
 fun AccountHeader(
     modifier: Modifier = Modifier,
     account: Account,
-    maxContentWidth: Dp = WoollyDefaults.MaxContentWidth
+    maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
+    isFollowing: Boolean? = null,
+    onFollowClick: (Boolean) -> Unit = {}
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         KamelImage(
@@ -33,14 +35,15 @@ fun AccountHeader(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Column(
+            AccountInfo(
                 modifier = Modifier
                     .padding(16.dp)
                     .widthIn(max = maxContentWidth)
-                    .offset(y = -(80.dp))
-            ) {
-                AccountInfo(account = account)
-            }
+                    .offset(y = -(80.dp)),
+                account = account,
+                isFollowing = isFollowing,
+                onFollowClick = onFollowClick
+            )
         }
     }
 }

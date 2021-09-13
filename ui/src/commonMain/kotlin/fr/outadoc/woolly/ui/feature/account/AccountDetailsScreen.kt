@@ -37,13 +37,18 @@ fun AccountDetailsScreen(
             is State.Error -> {
                 ErrorScreen(
                     modifier = Modifier.fillMaxSize(),
+                    error = state.exception,
                     onRetry = component::refresh
                 )
             }
             is State.LoadedAccount -> {
                 AccountHeader(
                     modifier = Modifier.padding(insets),
-                    account = state.account
+                    account = state.account,
+                    isFollowing = state.relationship.isFollowing,
+                    onFollowClick = { follow ->
+                        component.onFollowClick(follow)
+                    }
                 )
             }
         }

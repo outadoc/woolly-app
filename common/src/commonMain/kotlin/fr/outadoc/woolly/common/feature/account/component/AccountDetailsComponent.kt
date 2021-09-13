@@ -2,12 +2,15 @@ package fr.outadoc.woolly.common.feature.account.component
 
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Relationship
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class AccountDetailsComponent(
     componentContext: ComponentContext,
-    clientProvider: MastodonClientProvider
+    private val clientProvider: MastodonClientProvider
 ) : ComponentContext by componentContext {
 
     sealed class State(
@@ -18,14 +21,18 @@ class AccountDetailsComponent(
         ) : State(isLoading)
 
         data class Error(
+            val exception: Exception? = null,
             override val isLoading: Boolean = false
         ) : State(isLoading)
 
         data class LoadedAccount(
             val account: Account,
+            val relationship: Relationship,
             override val isLoading: Boolean = false
         ) : State(isLoading)
     }
+
+    private val componentScope = getScope()
 
     private val accountIdFlow = MutableSharedFlow<String>(replay = 1)
 
@@ -38,10 +45,15 @@ class AccountDetailsComponent(
             val nextState = if (client == null) State.Error()
             else {
                 val account = client.accounts.getAccount(accountId)
+                    ?: return@combine State.Error()
 
-                if (account == null) State.Error()
-                else State.LoadedAccount(
-                    account = account
+                val relationship = client.accounts.getRelationships(listOf(accountId))
+                    ?.firstOrNull()
+                    ?: return@combine State.Error()
+
+                State.LoadedAccount(
+                    account = account,
+                    relationship = relationship
                 )
             }
 
@@ -66,6 +78,17 @@ class AccountDetailsComponent(
     fun refresh() {
         accountIdFlow.replayCache.lastOrNull()?.let { currentId ->
             accountIdFlow.tryEmit(currentId)
+        }
+    }
+
+    fun onFollowClick(follow: Boolean) {
+        componentScope.launch {
+            clientProvider.mastodonClient.value?.accounts?.let { api ->
+                when (follow) {
+                    true -> TODO()
+                    false -> TODO()
+                }
+            }
         }
     }
 }

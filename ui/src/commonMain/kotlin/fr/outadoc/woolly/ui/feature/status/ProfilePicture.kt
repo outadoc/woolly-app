@@ -48,7 +48,8 @@ fun ProfilePicture(
                 Icon(
                     modifier = Modifier
                         .alpha(0.5f)
-                        .size(size),
+                        .size(size)
+                        .clickable { onClick() },
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = contentDescription
                 )
@@ -57,7 +58,8 @@ fun ProfilePicture(
                 Icon(
                     modifier = Modifier
                         .alpha(0.5f)
-                        .size(WoollyDefaults.AvatarSize),
+                        .size(WoollyDefaults.AvatarSize)
+                        .clickable { onClick() },
                     imageVector = Icons.Default.NoAccounts,
                     contentDescription = contentDescription
                 )

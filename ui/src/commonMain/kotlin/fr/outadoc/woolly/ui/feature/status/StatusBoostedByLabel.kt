@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.runtime.Composable
@@ -33,7 +30,7 @@ fun StatusBoostedByLabel(
                     .padding(end = 8.dp),
                 imageVector = Icons.Default.Repeat,
                 contentDescription = "Boosted",
-                tint = LocalContentColor.current.copy(alpha = 0.7f)
+                tint = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
             )
 
             ProfilePicture(
@@ -48,7 +45,7 @@ fun StatusBoostedByLabel(
                 text = "${boostedBy.displayNameOrAcct} boosted",
                 style = MaterialTheme.typography.subtitle2,
                 maxLines = 1,
-                color = LocalContentColor.current.copy(alpha = 0.7f),
+                color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
                 overflow = TextOverflow.Ellipsis
             )
         }

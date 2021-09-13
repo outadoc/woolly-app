@@ -3,6 +3,7 @@ package fr.outadoc.woolly.ui.feature.statusdetails
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -79,7 +80,7 @@ fun StatusDetails(
             )
         }
 
-        CompositionLocalProvider(LocalContentAlpha provides 0.7f) {
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             StatusFooter(
                 modifier = Modifier.padding(vertical = 8.dp),
                 status = status

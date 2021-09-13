@@ -1,10 +1,7 @@
 package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +59,7 @@ fun OverlayAppDrawerHeader(
                         Text(
                             text = "@${account.acct}",
                             style = MaterialTheme.typography.subtitle2,
-                            color = LocalContentColor.current.copy(alpha = 0.7f),
+                            color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

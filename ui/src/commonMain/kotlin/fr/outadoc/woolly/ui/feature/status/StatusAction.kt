@@ -26,7 +26,7 @@ fun StatusAction(
 ) {
     val color =
         if (checked) checkedColor
-        else LocalContentColor.current.copy(alpha = 0.7f)
+        else LocalContentColor.current.copy(alpha = ContentAlpha.medium)
 
     Row(
         modifier = modifier,

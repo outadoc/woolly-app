@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -38,7 +39,7 @@ fun AccountInfo(account: Account) {
         Text(
             text = "@${account.acct}",
             style = MaterialTheme.typography.subtitle1,
-            color = LocalContentColor.current.copy(alpha = 0.7f),
+            color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

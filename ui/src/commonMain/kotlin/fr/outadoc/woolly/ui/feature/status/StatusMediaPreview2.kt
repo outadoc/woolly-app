@@ -1,5 +1,3 @@
-@file:JvmName("StatusMediaPreview1Kt")
-
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.layout.Arrangement

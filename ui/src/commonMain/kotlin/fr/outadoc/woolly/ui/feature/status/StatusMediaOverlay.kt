@@ -3,6 +3,7 @@ package fr.outadoc.woolly.ui.feature.status
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -26,7 +27,7 @@ fun StatusMediaOverlay(
         if (icon != null) {
             Surface(
                 shape = WoollyTheme.AvatarShape,
-                color = Color.Black.copy(alpha = 0.7f),
+                color = Color.Black.copy(alpha = ContentAlpha.medium),
                 modifier = Modifier
                     .size(48.dp)
                     .align(Alignment.Center)

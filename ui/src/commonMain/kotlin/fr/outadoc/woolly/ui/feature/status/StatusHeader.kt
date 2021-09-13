@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -40,7 +41,7 @@ fun StatusHeader(
                 emojis = status.account.emojis
             )
 
-            CompositionLocalProvider(LocalContentAlpha provides 0.7f) {
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 StatusVisibilityIcon(
                     modifier = Modifier.size(16.dp),
                     visibility = status.visibility
@@ -56,7 +57,7 @@ fun StatusHeader(
             }
         }
 
-        CompositionLocalProvider(LocalContentAlpha provides 0.5f) {
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             if (status.account.displayName.isNotBlank()) {
                 Text(
                     text = "@${status.account.acct}",

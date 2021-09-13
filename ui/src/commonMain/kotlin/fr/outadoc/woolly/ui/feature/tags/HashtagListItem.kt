@@ -1,29 +1,32 @@
 package fr.outadoc.woolly.ui.feature.tags
 
+import androidx.compose.foundation.clickable
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.ListItem
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Tag
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.Tag
-import fr.outadoc.woolly.ui.common.WoollyListItem
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HashtagListItem(
     modifier: Modifier = Modifier,
     tag: Tag,
     onClick: () -> Unit
 ) {
-    WoollyListItem(
-        modifier = modifier,
+    ListItem(
+        modifier = modifier.clickable(onClick = onClick),
         icon = {
             Icon(
                 Icons.Default.Tag,
                 contentDescription = "Hashtag"
             )
-        },
-        title = { Text(text = tag.name) },
-        onClick = onClick
-    )
+        }
+    ) {
+        Text(text = tag.name)
+    }
 }

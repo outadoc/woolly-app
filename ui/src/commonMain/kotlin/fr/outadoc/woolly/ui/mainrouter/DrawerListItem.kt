@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.common
+package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun WoollyListItem(
+fun DrawerListItem(
     modifier: Modifier = Modifier,
     icon: @Composable () -> Unit,
     title: @Composable () -> Unit,

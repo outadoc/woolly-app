@@ -24,7 +24,6 @@ import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.common.WoollyDefaults
-import fr.outadoc.woolly.ui.common.WoollyListItem
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -64,7 +63,7 @@ fun MainOverlayDrawer(
                 }
             }
 
-            WoollyListItem(
+            DrawerListItem(
                 title = { Text("Log out") },
                 icon = { Icon(Icons.Default.Logout, "Log out") },
                 onClick = {
@@ -142,14 +141,14 @@ fun MainOverlayDrawer(
         Column(modifier = Modifier.padding(vertical = 16.dp)) {
             when (colorScheme) {
                 ColorScheme.Light -> {
-                    WoollyListItem(
+                    DrawerListItem(
                         title = { Text("Switch to dark mode") },
                         icon = { Icon(Icons.Default.LightMode, "Light mode") },
                         onClick = { onColorSchemeChanged(ColorScheme.Dark) }
                     )
                 }
                 ColorScheme.Dark -> {
-                    WoollyListItem(
+                    DrawerListItem(
                         title = { Text("Switch to light mode") },
                         icon = { Icon(Icons.Default.DarkMode, "Dark mode") },
                         onClick = { onColorSchemeChanged(ColorScheme.Light) }
@@ -170,7 +169,7 @@ private fun ScreenItem(
 ) {
     val res by instance<AppScreenResources>()
 
-    WoollyListItem(
+    DrawerListItem(
         title = { Text(res.getScreenTitle(targetScreen)) },
         icon = {
             Icon(

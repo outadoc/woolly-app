@@ -1,16 +1,11 @@
-package fr.outadoc.woolly.ui.navigation
+package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.AppBarDefaults
-import androidx.compose.material.DrawerState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.primarySurface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import fr.outadoc.woolly.ui.common.DrawerMenuButton
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 
 @Composable

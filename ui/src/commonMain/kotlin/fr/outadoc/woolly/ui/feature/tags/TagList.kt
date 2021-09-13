@@ -19,7 +19,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Tag
 import fr.outadoc.woolly.ui.common.ListExtremityState
-import fr.outadoc.woolly.ui.feature.status.ErrorScreen
+import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 import kotlinx.coroutines.flow.Flow
 
 @Composable

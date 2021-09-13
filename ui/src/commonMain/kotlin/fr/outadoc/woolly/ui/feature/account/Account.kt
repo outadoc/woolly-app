@@ -15,11 +15,6 @@ import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.richtext.RichText
 
 @Composable
-fun AccountPlaceholder() {
-    Spacer(modifier = Modifier.height(128.dp))
-}
-
-@Composable
 fun Account(
     modifier: Modifier = Modifier,
     account: Account,

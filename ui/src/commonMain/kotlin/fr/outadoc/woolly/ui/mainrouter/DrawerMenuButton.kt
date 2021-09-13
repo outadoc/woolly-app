@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.common
+package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.Icon

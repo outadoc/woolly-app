@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
-import fr.outadoc.woolly.ui.navigation.TopAppBarWithMenu
+import fr.outadoc.woolly.ui.mainrouter.TopAppBarWithMenu
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 

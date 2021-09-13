@@ -12,7 +12,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent
 import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent.State
-import fr.outadoc.woolly.ui.feature.status.ErrorScreen
+import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 
 @Composable
 fun AccountDetailsScreen(

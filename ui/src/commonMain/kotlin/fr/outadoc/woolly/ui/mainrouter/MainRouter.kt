@@ -3,7 +3,6 @@ package fr.outadoc.woolly.ui.mainrouter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,32 +15,12 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import fr.outadoc.mastodonk.api.entity.Account
-import fr.outadoc.mastodonk.api.entity.Attachment
-import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.ColorScheme
-import fr.outadoc.woolly.common.feature.composer.StatusPoster
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
-import fr.outadoc.woolly.ui.common.DrawerMenuButton
-import fr.outadoc.woolly.ui.common.ResponsiveScaffold
 import fr.outadoc.woolly.ui.common.WoollyDefaults
-import fr.outadoc.woolly.ui.feature.account.AccountDetailsScreen
-import fr.outadoc.woolly.ui.feature.account.MyAccountScreen
-import fr.outadoc.woolly.ui.feature.bookmarks.BookmarksScreen
-import fr.outadoc.woolly.ui.feature.composer.ComposerScreen
-import fr.outadoc.woolly.ui.feature.favourites.FavouritesScreen
-import fr.outadoc.woolly.ui.feature.home.HomeTimelineScreen
-import fr.outadoc.woolly.ui.feature.media.ImageViewerScreen
-import fr.outadoc.woolly.ui.feature.notifications.NotificationsScreen
-import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineScreen
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
-import fr.outadoc.woolly.ui.feature.search.SearchScreen
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
-import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
-import fr.outadoc.woolly.ui.navigation.MainAppDrawer
-import fr.outadoc.woolly.ui.navigation.MainBottomNavigation
-import fr.outadoc.woolly.ui.navigation.WideAppDrawer
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -153,7 +132,7 @@ fun MainRouter(
         },
         narrowDrawerContent = { drawerState ->
             Children(routerState = component.routerState) { screen ->
-                MainAppDrawer(
+                MainOverlayDrawer(
                     scope = scope,
                     drawerState = drawerState,
                     colorScheme = colorScheme,
@@ -169,7 +148,7 @@ fun MainRouter(
         },
         wideDrawerContent = {
             Children(routerState = component.routerState) { screen ->
-                WideAppDrawer(
+                MainSideNavigation(
                     scope = scope,
                     colorScheme = colorScheme,
                     onColorSchemeChanged = onColorSchemeChanged,
@@ -195,7 +174,7 @@ fun MainRouter(
             routerState = component.routerState,
             animation = crossfadeScale()
         ) { child ->
-            ChildBody(
+            MainRouterChild(
                 content = child.instance,
                 insets = insets,
                 onStatusClick = component::onStatusClick,
@@ -204,111 +183,6 @@ fun MainRouter(
                 onAccountClick = component::onAccountClick,
                 onComposerDismissed = component::onComposerDismissed
             )
-        }
-    }
-}
-
-@Composable
-private fun ChildBody(
-    content: MainContent,
-    insets: PaddingValues = PaddingValues(),
-    onStatusClick: (Status) -> Unit = {},
-    onAttachmentClick: (Attachment) -> Unit = {},
-    onStatusReplyClick: (Status) -> Unit = {},
-    onAccountClick: (Account) -> Unit = {},
-    onComposerDismissed: () -> Unit = {}
-) {
-    when (content) {
-        is MainContent.HomeTimeline -> HomeTimelineScreen(
-            component = content.component,
-            insets = insets,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
-        )
-        is MainContent.PublicTimeline -> PublicTimelineScreen(
-            component = content.component,
-            insets = insets,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
-        )
-        is MainContent.Notifications -> NotificationsScreen(
-            component = content.component,
-            insets = insets,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onAccountClick = onAccountClick
-        )
-        is MainContent.Search -> SearchScreen(
-            component = content.component,
-            insets = insets,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
-        )
-        is MainContent.MyAccount -> MyAccountScreen(
-            component = content.component,
-            insets = insets
-        )
-        is MainContent.Bookmarks -> BookmarksScreen(
-            component = content.component,
-            insets = insets,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
-        )
-        is MainContent.Favourites -> FavouritesScreen(
-            component = content.component,
-            insets = insets,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
-        )
-        is MainContent.StatusDetails -> StatusDetailsScreen(
-            component = content.component,
-            insets = insets,
-            statusId = content.configuration.statusId,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
-        )
-        is MainContent.ImageViewer -> ImageViewerScreen(
-            component = content.component,
-            image = content.configuration.image
-        )
-        is MainContent.StatusComposer -> ComposerScreen(
-            component = content.component,
-            inReplyToStatusPayload = content.configuration.inReplyToStatusPayload,
-            onDismiss = onComposerDismissed
-        )
-        is MainContent.AccountDetails -> AccountDetailsScreen(
-            component = content.component,
-            accountId = content.configuration.accountId
-        )
-    }
-}
-
-@Composable
-private fun PostingStatusSnackbar(
-    showPostingSnackbar: () -> Unit,
-    showErrorSnackbar: (() -> Unit) -> Unit
-) {
-    val statusPoster by instance<StatusPoster>()
-    val state by statusPoster.state.collectAsState()
-
-    when (state) {
-        StatusPoster.State.Posting -> showPostingSnackbar()
-        StatusPoster.State.Error -> showErrorSnackbar {
-            statusPoster.retryAll()
-        }
-        else -> {
         }
     }
 }

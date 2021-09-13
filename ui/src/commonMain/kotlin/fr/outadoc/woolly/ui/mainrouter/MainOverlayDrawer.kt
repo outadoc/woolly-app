@@ -1,10 +1,12 @@
-package fr.outadoc.woolly.ui.navigation
+package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.DrawerState
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
@@ -16,28 +18,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.ColorScheme
-import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.WoollyListItem
-import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.screen.AppScreenResources
-import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
 @Composable
-fun MainAppDrawer(
+fun MainOverlayDrawer(
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit = {},
     currentScreen: AppScreen,
@@ -63,7 +57,7 @@ fun MainAppDrawer(
                     .height(WoollyDefaults.AppBarHeight)
             ) {
                 account?.let {
-                    AppDrawerHeader(
+                    OverlayAppDrawerHeader(
                         modifier = Modifier.fillMaxSize(),
                         account = it
                     )
@@ -190,73 +184,4 @@ private fun ScreenItem(
         },
         selected = selected
     )
-}
-
-@Composable
-fun AppDrawerHeader(
-    modifier: Modifier = Modifier,
-    account: Account,
-    onAvatarClick: () -> Unit = {}
-) {
-    Box(modifier = modifier) {
-        ProfileHeader(
-            account = account,
-            onAvatarClick = onAvatarClick
-        )
-    }
-}
-
-@Composable
-fun ProfileHeader(
-    modifier: Modifier = Modifier,
-    account: Account,
-    onAvatarClick: () -> Unit = {}
-) {
-    Box(modifier) {
-        KamelImage(
-            modifier = Modifier.fillMaxSize(),
-            resource = lazyPainterResource(account.headerStaticUrl),
-            contentDescription = "Your profile header",
-            crossfade = true,
-            contentScale = ContentScale.Crop
-        )
-
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.Black.copy(alpha = 0.5f),
-            contentColor = Color.White
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ProfilePicture(
-                    modifier = Modifier.padding(end = 16.dp),
-                    account = account,
-                    onClick = onAvatarClick
-                )
-
-                Column {
-                    Text(
-                        text = account.displayNameOrAcct,
-                        style = MaterialTheme.typography.subtitle1,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-
-                    if (account.displayName.isNotBlank()) {
-                        Text(
-                            text = "@${account.acct}",
-                            style = MaterialTheme.typography.subtitle2,
-                            color = LocalContentColor.current.copy(alpha = 0.7f),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                }
-            }
-        }
-    }
 }

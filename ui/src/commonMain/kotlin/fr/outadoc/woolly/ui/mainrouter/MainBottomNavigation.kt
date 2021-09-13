@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.navigation
+package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.BottomNavigation

@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import kotlin.math.max
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PinchToZoom(

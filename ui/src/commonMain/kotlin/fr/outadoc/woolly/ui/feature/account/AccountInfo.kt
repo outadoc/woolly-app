@@ -1,67 +1,23 @@
 package fr.outadoc.woolly.ui.feature.account
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
-import fr.outadoc.mastodonk.api.entity.Emoji
-import fr.outadoc.mastodonk.api.entity.Field
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.formatShort
-import fr.outadoc.woolly.ui.common.WoollyDefaults
-import fr.outadoc.woolly.ui.feature.status.AutomatedLabel
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
+import fr.outadoc.woolly.ui.feature.status.StatusAutomatedLabel
 import fr.outadoc.woolly.ui.richtext.RichText
-import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
-
-
-@Composable
-fun AccountHeader(
-    modifier: Modifier = Modifier,
-    account: Account,
-    maxContentWidth: Dp = WoollyDefaults.MaxContentWidth
-) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        KamelImage(
-            modifier = Modifier.aspectRatio(4f),
-            resource = lazyPainterResource(account.headerStaticUrl),
-            contentDescription = "Your profile header",
-            crossfade = true,
-            contentScale = ContentScale.FillWidth,
-            onLoading = {
-                Spacer(modifier = Modifier.aspectRatio(4f))
-            }
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .widthIn(max = maxContentWidth)
-                    .offset(y = -(80.dp))
-            ) {
-                AccountInfo(account = account)
-            }
-        }
-    }
-}
 
 @Composable
 fun AccountInfo(account: Account) {
@@ -89,7 +45,7 @@ fun AccountInfo(account: Account) {
     }
 
     if (account.isBot == true) {
-        AutomatedLabel(
+        StatusAutomatedLabel(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp)
@@ -139,47 +95,4 @@ fun AccountInfo(account: Account) {
             unit = "Followers"
         )
     }
-}
-
-@Composable
-fun AccountFields(
-    modifier: Modifier = Modifier,
-    fields: List<Field>,
-    emojis: List<Emoji>
-) {
-    Column(modifier = modifier) {
-        fields.forEach { field ->
-            Row {
-                Text(
-                    text = field.name,
-                    style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
-                )
-
-                RichText(
-                    modifier = Modifier.padding(start = 16.dp),
-                    text = field.value,
-                    emojis = emojis
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun AccountStat(
-    modifier: Modifier = Modifier,
-    number: String,
-    unit: String
-) {
-    Text(
-        modifier = modifier,
-        text = buildAnnotatedString {
-            withStyle(SpanStyle(fontWeight = FontWeight.Black)) {
-                append(number)
-            }
-
-            append(" ")
-            append(unit)
-        }
-    )
 }

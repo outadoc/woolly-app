@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import fr.outadoc.woolly.ui.feature.status.ErrorScreen
+import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 
 @Composable
 fun LazyItemScope.ListExtremityState(state: LoadState, onRetry: () -> Unit) {

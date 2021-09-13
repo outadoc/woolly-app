@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.navigation
+package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
 @Composable
-fun WideAppDrawer(
+fun MainSideNavigation(
     colorScheme: ColorScheme,
     onColorSchemeChanged: (ColorScheme) -> Unit = {},
     currentScreen: AppScreen,

@@ -1,19 +1,15 @@
 package fr.outadoc.woolly.ui.feature.publictimeline
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
-import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
-import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
 import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
-import fr.outadoc.woolly.ui.navigation.TopAppBarWithMenu
+import fr.outadoc.woolly.ui.mainrouter.TopAppBarWithMenu
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
@@ -48,33 +44,6 @@ fun PublicTimelineTopAppBar(
                     }
                 }
             )
-        }
-    }
-}
-
-@Composable
-fun PublicTimelineTabRow(
-    currentSubScreen: PublicTimelineSubScreen,
-    onCurrentSubScreenChanged: (PublicTimelineSubScreen) -> Unit,
-) {
-    val res by instance<PublicTimelineScreenResources>()
-
-    val tabs = listOf(
-        PublicTimelineSubScreen.Local,
-        PublicTimelineSubScreen.Global
-    )
-
-    TabRow(selectedTabIndex = tabs.indexOf(currentSubScreen)) {
-        tabs.forEach { screen ->
-            Tab(
-                modifier = Modifier.height(48.dp),
-                selected = currentSubScreen == screen,
-                onClick = {
-                    onCurrentSubScreenChanged(screen)
-                }
-            ) {
-                Text(text = res.getScreenTitle(screen))
-            }
         }
     }
 }

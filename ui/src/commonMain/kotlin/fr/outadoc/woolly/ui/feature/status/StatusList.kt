@@ -21,6 +21,7 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.common.ListExtremityState
 import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 import kotlinx.coroutines.flow.Flow
 
 @Composable

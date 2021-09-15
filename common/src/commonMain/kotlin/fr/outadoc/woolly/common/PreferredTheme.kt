@@ -4,11 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class ColorScheme {
+enum class PreferredTheme {
 
     @SerialName("light")
     Light,
 
     @SerialName("dark")
-    Dark
+    Dark,
+
+    @SerialName("system")
+    FollowSystem
 }

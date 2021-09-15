@@ -4,18 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import fr.outadoc.woolly.common.ColorScheme
 import fr.outadoc.woolly.common.LoadState
 import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
+import fr.outadoc.woolly.common.feature.theme.DisplayTheme
+import fr.outadoc.woolly.common.feature.theme.ThemeProvider
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import fr.outadoc.woolly.ui.feature.authrouter.AuthRouter
 import fr.outadoc.woolly.ui.mainrouter.MainRouter
@@ -29,7 +26,8 @@ fun WoollyApp(
     onFinishedLoading: () -> Unit = {}
 ) {
     val prefs by instance<PreferenceRepository>()
-    val appPrefsState by prefs.preferences.collectAsState(initial = LoadState.Loading())
+    val appPrefsState by prefs.preferences.collectAsState()
+    val themeProvider by instance<ThemeProvider>()
 
     val scope = rememberCoroutineScope()
 
@@ -40,7 +38,8 @@ fun WoollyApp(
             }
 
             val appPrefs = state.value
-            WoollyTheme(isDarkMode = appPrefs.colorScheme == ColorScheme.Dark) {
+            val theme by themeProvider.theme.collectAsState()
+            WoollyTheme(isDarkMode = theme == DisplayTheme.Dark) {
                 if (appPrefs.authenticationState.activeAccount == null) {
                     AuthRouter(
                         component = authRouterComponent
@@ -48,11 +47,11 @@ fun WoollyApp(
                 } else {
                     MainRouter(
                         component = mainRouterComponent,
-                        colorScheme = appPrefs.colorScheme,
+                        preferredTheme = appPrefs.preferredTheme,
                         onColorSchemeChanged = { colorScheme ->
                             scope.launch {
                                 prefs.updatePreferences { current ->
-                                    current.copy(colorScheme = colorScheme)
+                                    current.copy(preferredTheme = colorScheme)
                                 }
                             }
                         }

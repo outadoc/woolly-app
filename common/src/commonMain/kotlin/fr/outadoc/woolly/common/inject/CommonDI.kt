@@ -29,6 +29,7 @@ import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
+import fr.outadoc.woolly.common.feature.theme.ThemeProvider
 import fr.outadoc.woolly.common.feature.time.TimeRepository
 import io.ktor.client.*
 import io.ktor.client.features.json.*
@@ -69,6 +70,8 @@ val CommonDI = DI {
     bindSingleton<MastodonClientProvider> { MastodonClientProviderImpl(instance(), instance()) }
     bindSingleton<AccountRepository> { AccountRepositoryImpl(instance(), instance()) }
     bindSingleton { TimeRepository() }
+
+    bindSingleton { ThemeProvider(instance(), instance(), instance()) }
 
     // TODO WorkManager-based impl for Android
     bindSingleton<StatusPoster> { SimpleThreadedStatusPoster(instance(), instance()) }

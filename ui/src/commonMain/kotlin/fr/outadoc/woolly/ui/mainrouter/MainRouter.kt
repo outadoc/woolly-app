@@ -15,7 +15,7 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import fr.outadoc.woolly.common.ColorScheme
+import fr.outadoc.woolly.common.PreferredTheme
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.common.WoollyDefaults
@@ -30,8 +30,8 @@ import org.kodein.di.compose.instance
 @Composable
 fun MainRouter(
     component: MainRouterComponent,
-    colorScheme: ColorScheme,
-    onColorSchemeChanged: (ColorScheme) -> Unit
+    preferredTheme: PreferredTheme,
+    onColorSchemeChanged: (PreferredTheme) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -135,7 +135,7 @@ fun MainRouter(
                 MainOverlayDrawer(
                     scope = scope,
                     drawerState = drawerState,
-                    colorScheme = colorScheme,
+                    preferredTheme = preferredTheme,
                     onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = screen.configuration,
                     onScreenSelected = { target ->
@@ -150,7 +150,7 @@ fun MainRouter(
             Children(routerState = component.routerState) { screen ->
                 MainSideNavigation(
                     scope = scope,
-                    colorScheme = colorScheme,
+                    preferredTheme = preferredTheme,
                     onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = screen.configuration,
                     onScreenSelected = { target ->

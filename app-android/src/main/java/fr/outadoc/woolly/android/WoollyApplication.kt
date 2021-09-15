@@ -8,10 +8,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import fr.outadoc.woolly.android.inject.AndroidAppDI
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepositoryImpl
-import org.kodein.di.Copy
-import org.kodein.di.DIAware
-import org.kodein.di.bindSingleton
-import org.kodein.di.subDI
+import org.kodein.di.*
 
 @Suppress("unused")
 class WoollyApplication : Application(), DIAware {
@@ -20,7 +17,10 @@ class WoollyApplication : Application(), DIAware {
 
     override val di by subDI(AndroidAppDI, copy = Copy.All) {
         bindSingleton<PreferenceRepository> {
-            PreferenceRepositoryImpl(prefs = applicationContext.dataStore)
+            PreferenceRepositoryImpl(
+                appScope = instance(),
+                prefs = applicationContext.dataStore
+            )
         }
     }
 }

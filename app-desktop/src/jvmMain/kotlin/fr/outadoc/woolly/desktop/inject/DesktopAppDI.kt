@@ -26,6 +26,7 @@ val DesktopAppDI = subDI(CommonDI, copy = Copy.All) {
 
     bindSingleton<PreferenceRepository> {
         PreferenceRepositoryImpl(
+            appScope = instance(),
             prefs = PreferenceDataStoreFactory.create {
                 PreferenceFileProvider.preferenceFile!!
             }

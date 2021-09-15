@@ -18,5 +18,6 @@ val AndroidAppDI = subDI(CommonDI, copy = Copy.All) {
         (context as ComponentActivity).lifecycleScope
     }
 
-    bindSingleton<SystemThemeDetector> { AndroidSystemThemeDetector(instance()) }
+    bindSingleton { AndroidSystemThemeDetector(instance()) }
+    bindSingleton<SystemThemeDetector> { instance<AndroidSystemThemeDetector>() }
 }

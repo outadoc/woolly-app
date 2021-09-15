@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class AndroidSystemThemeDetector(appScope: CoroutineScope) : SystemThemeDetector {
 
-    private val _systemTheme = MutableStateFlow(SystemTheme.UNSUPPORTED)
+    private val _systemTheme = MutableStateFlow(SystemTheme.Unsupported)
     override val systemTheme: StateFlow<SystemTheme> = _systemTheme.asStateFlow()
 
     fun notifyConfigurationChanged(configuration: Configuration) {
         val newTheme = when (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO -> SystemTheme.LIGHT
-            Configuration.UI_MODE_NIGHT_YES -> SystemTheme.DARK
-            else -> SystemTheme.UNSUPPORTED
+            Configuration.UI_MODE_NIGHT_NO -> SystemTheme.Light
+            Configuration.UI_MODE_NIGHT_YES -> SystemTheme.Dark
+            else -> SystemTheme.Unsupported
         }
 
         _systemTheme.value = newTheme

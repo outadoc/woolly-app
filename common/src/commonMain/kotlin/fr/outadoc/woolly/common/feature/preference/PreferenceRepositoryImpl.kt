@@ -5,17 +5,16 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import fr.outadoc.woolly.common.LoadState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class PreferenceRepositoryImpl(
+    appScope: CoroutineScope,
     private val prefs: DataStore<Preferences>,
     private val json: Json = Json.Default
 ) : PreferenceRepository {
@@ -24,7 +23,7 @@ class PreferenceRepositoryImpl(
         private val KEY_PREFERENCES = stringPreferencesKey("preferences")
     }
 
-    override val preferences: Flow<LoadState<AppPreferences>> =
+    override val preferences: StateFlow<LoadState<AppPreferences>> =
         prefs.data
             .map { preferences ->
                 LoadState.Loaded(
@@ -33,6 +32,11 @@ class PreferenceRepositoryImpl(
             }
             .onStart { emit(LoadState.Loading()) }
             .distinctUntilChanged()
+            .stateIn(
+                scope = appScope,
+                started = SharingStarted.WhileSubscribed(),
+                initialValue = LoadState.Loading()
+            )
 
     override suspend fun updatePreferences(transform: (AppPreferences) -> AppPreferences) {
         withContext(Dispatchers.IO) {

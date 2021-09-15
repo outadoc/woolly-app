@@ -47,7 +47,7 @@ class StatusDetailsComponent(
             val nextState = if (client == null) State.Error()
             else {
                 val status = client.statuses.getStatus(statusId)
-                val context = client.statuses.getContext(statusId)
+                val context = client.statuses.getContext(status?.boostedStatus?.statusId ?: statusId)
                     ?: Context(
                         ancestors = emptyList(),
                         descendants = emptyList()

@@ -34,6 +34,7 @@ allprojects {
         google()
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
         maven { url = uri("https://nexus.outadoc.fr/repository/public") }
+        maven { url = uri("https://jitpack.io") }
     }
 
     tasks.withType<KotlinCompile> {

@@ -68,6 +68,9 @@ kotlin {
 
         val desktopMain by getting {
             dependsOn(jvmMain)
+            dependencies {
+                implementation(libs.systemthemedetector)
+            }
         }
         val desktopTest by getting {
             dependsOn(jvmTest)

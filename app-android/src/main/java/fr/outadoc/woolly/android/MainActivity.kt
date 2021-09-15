@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.android
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -13,10 +14,12 @@ import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.defaultComponentContext
 import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
+import fr.outadoc.woolly.common.feature.theme.AndroidSystemThemeDetector
 import fr.outadoc.woolly.ui.WoollyApp
 import org.kodein.di.android.closestDI
 import org.kodein.di.compose.withDI
 import org.kodein.di.direct
+import org.kodein.di.instance
 
 class MainActivity : ComponentActivity() {
 
@@ -61,6 +64,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         )
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val systemThemeDetector by di.instance<AndroidSystemThemeDetector>()
+        systemThemeDetector.notifyConfigurationChanged(newConfig)
     }
 
     @Composable

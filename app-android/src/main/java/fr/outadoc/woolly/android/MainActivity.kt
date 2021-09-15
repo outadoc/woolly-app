@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        notifyConfiguration(resources.configuration)
 
         val componentContext = defaultComponentContext()
 
@@ -68,8 +69,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        notifyConfiguration(newConfig)
+    }
+
+    private fun notifyConfiguration(config: Configuration) {
         val systemThemeDetector by di.instance<AndroidSystemThemeDetector>()
-        systemThemeDetector.notifyConfigurationChanged(newConfig)
+        systemThemeDetector.notifyConfigurationChanged(config)
     }
 
     @Composable

@@ -1,12 +1,11 @@
 package fr.outadoc.woolly.common.feature.theme
 
 import android.content.res.Configuration
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class AndroidSystemThemeDetector(appScope: CoroutineScope) : SystemThemeDetector {
+class AndroidSystemThemeDetector : SystemThemeDetector {
 
     private val _systemTheme = MutableStateFlow(SystemTheme.Unsupported)
     override val systemTheme: StateFlow<SystemTheme> = _systemTheme.asStateFlow()

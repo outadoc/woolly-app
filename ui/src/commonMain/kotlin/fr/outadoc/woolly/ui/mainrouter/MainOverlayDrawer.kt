@@ -39,7 +39,7 @@ fun MainOverlayDrawer(
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
         val alpha: Float by animateFloatAsState(if (account == null) 0f else 1f)
@@ -71,66 +71,70 @@ fun MainOverlayDrawer(
 
         val scrollState = rememberScrollState()
 
-        Column(
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .verticalScroll(scrollState)
-        ) {
-            ScreenItem(
-                targetScreen = AppScreen.HomeTimeline,
-                selected = currentScreen is AppScreen.HomeTimeline,
-                onScreenSelected = onScreenSelected,
-                drawerState = drawerState,
-                scope = scope
-            )
+        Box(modifier = Modifier.weight(1f, fill = true)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(vertical = 16.dp)
+                    .verticalScroll(scrollState),
+                verticalArrangement = Arrangement.Center
+            ) {
+                ScreenItem(
+                    targetScreen = AppScreen.HomeTimeline,
+                    selected = currentScreen is AppScreen.HomeTimeline,
+                    onScreenSelected = onScreenSelected,
+                    drawerState = drawerState,
+                    scope = scope
+                )
 
-            ScreenItem(
-                targetScreen = AppScreen.PublicTimeline,
-                selected = currentScreen is AppScreen.PublicTimeline,
-                onScreenSelected = onScreenSelected,
-                drawerState = drawerState,
-                scope = scope
-            )
+                ScreenItem(
+                    targetScreen = AppScreen.PublicTimeline,
+                    selected = currentScreen is AppScreen.PublicTimeline,
+                    onScreenSelected = onScreenSelected,
+                    drawerState = drawerState,
+                    scope = scope
+                )
 
-            ScreenItem(
-                targetScreen = AppScreen.Notifications,
-                selected = currentScreen is AppScreen.Notifications,
-                onScreenSelected = onScreenSelected,
-                drawerState = drawerState,
-                scope = scope
-            )
+                ScreenItem(
+                    targetScreen = AppScreen.Notifications,
+                    selected = currentScreen is AppScreen.Notifications,
+                    onScreenSelected = onScreenSelected,
+                    drawerState = drawerState,
+                    scope = scope
+                )
 
-            ScreenItem(
-                targetScreen = AppScreen.Search,
-                selected = currentScreen is AppScreen.Search,
-                onScreenSelected = onScreenSelected,
-                drawerState = drawerState,
-                scope = scope
-            )
+                ScreenItem(
+                    targetScreen = AppScreen.Search,
+                    selected = currentScreen is AppScreen.Search,
+                    onScreenSelected = onScreenSelected,
+                    drawerState = drawerState,
+                    scope = scope
+                )
 
-            ScreenItem(
-                targetScreen = AppScreen.Favourites,
-                selected = currentScreen is AppScreen.Favourites,
-                onScreenSelected = onScreenSelected,
-                drawerState = drawerState,
-                scope = scope
-            )
+                ScreenItem(
+                    targetScreen = AppScreen.Favourites,
+                    selected = currentScreen is AppScreen.Favourites,
+                    onScreenSelected = onScreenSelected,
+                    drawerState = drawerState,
+                    scope = scope
+                )
 
-            ScreenItem(
-                targetScreen = AppScreen.Bookmarks,
-                selected = currentScreen is AppScreen.Bookmarks,
-                onScreenSelected = onScreenSelected,
-                drawerState = drawerState,
-                scope = scope
-            )
+                ScreenItem(
+                    targetScreen = AppScreen.Bookmarks,
+                    selected = currentScreen is AppScreen.Bookmarks,
+                    onScreenSelected = onScreenSelected,
+                    drawerState = drawerState,
+                    scope = scope
+                )
 
-            ScreenItem(
-                targetScreen = AppScreen.MyAccount,
-                selected = currentScreen is AppScreen.MyAccount,
-                onScreenSelected = onScreenSelected,
-                drawerState = drawerState,
-                scope = scope
-            )
+                ScreenItem(
+                    targetScreen = AppScreen.MyAccount,
+                    selected = currentScreen is AppScreen.MyAccount,
+                    onScreenSelected = onScreenSelected,
+                    drawerState = drawerState,
+                    scope = scope
+                )
+            }
         }
     }
 }

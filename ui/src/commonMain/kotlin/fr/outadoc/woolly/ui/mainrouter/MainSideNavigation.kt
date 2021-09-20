@@ -2,9 +2,9 @@ package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
@@ -36,85 +36,82 @@ fun MainSideNavigation(
     val accountRepository by instance<AccountRepository>()
     val account by accountRepository.currentAccount.collectAsState()
 
-    NavigationRail {
-        val alpha: Float by animateFloatAsState(if (account == null) 0f else 1f)
+    NavigationRail(
+        header = {
+            val alpha: Float by animateFloatAsState(if (account == null) 0f else 1f)
 
-        Column(
-            modifier = Modifier
-                .alpha(alpha)
-                .padding(vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            account?.let {
-                ProfilePicture(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .alpha(
-                            if (currentScreen is AppScreen.MyAccount) LocalContentAlpha.current
-                            else ContentAlpha.medium
-                        ),
-                    onClick = {
-                        onScreenSelected(AppScreen.MyAccount)
-                    },
-                    size = 32.dp,
-                    account = it
-                )
-            }
-
-            IconButton(
-                onClick = {
-                    scope.launch {
-                        authenticationStateConsumer.logoutAll()
-                    }
-                }
+            Column(
+                modifier = Modifier
+                    .alpha(alpha)
+                    .padding(vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(Icons.Default.Logout, "Log out")
+                val account = account
+                if (account != null) {
+                    ProfilePicture(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .alpha(
+                                if (currentScreen is AppScreen.MyAccount) LocalContentAlpha.current
+                                else ContentAlpha.medium
+                            ),
+                        onClick = {
+                            onScreenSelected(AppScreen.MyAccount)
+                        },
+                        size = 32.dp,
+                        account = account
+                    )
+                } else {
+                    Spacer(modifier = Modifier.size(40.dp))
+                }
+
+                IconButton(
+                    onClick = {
+                        scope.launch {
+                            authenticationStateConsumer.logoutAll()
+                        }
+                    }
+                ) {
+                    Icon(Icons.Default.Logout, "Log out")
+                }
             }
         }
+    ) {
+        ScreenItem(
+            selected = currentScreen is AppScreen.HomeTimeline,
+            targetScreen = AppScreen.HomeTimeline,
+            onScreenSelected = onScreenSelected
+        )
 
-        val scrollState = rememberScrollState()
+        ScreenItem(
+            selected = currentScreen is AppScreen.PublicTimeline,
+            targetScreen = AppScreen.PublicTimeline,
+            onScreenSelected = onScreenSelected
+        )
 
-        Column(
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .verticalScroll(scrollState)
-        ) {
-            ScreenItem(
-                selected = currentScreen is AppScreen.HomeTimeline,
-                targetScreen = AppScreen.HomeTimeline,
-                onScreenSelected = onScreenSelected
-            )
+        ScreenItem(
+            selected = currentScreen is AppScreen.Notifications,
+            targetScreen = AppScreen.Notifications,
+            onScreenSelected = onScreenSelected
+        )
 
-            ScreenItem(
-                selected = currentScreen is AppScreen.PublicTimeline,
-                targetScreen = AppScreen.PublicTimeline,
-                onScreenSelected = onScreenSelected
-            )
+        ScreenItem(
+            selected = currentScreen is AppScreen.Search,
+            targetScreen = AppScreen.Search,
+            onScreenSelected = onScreenSelected
+        )
 
-            ScreenItem(
-                selected = currentScreen is AppScreen.Notifications,
-                targetScreen = AppScreen.Notifications,
-                onScreenSelected = onScreenSelected
-            )
+        ScreenItem(
+            selected = currentScreen is AppScreen.Favourites,
+            targetScreen = AppScreen.Favourites,
+            onScreenSelected = onScreenSelected
+        )
 
-            ScreenItem(
-                selected = currentScreen is AppScreen.Search,
-                targetScreen = AppScreen.Search,
-                onScreenSelected = onScreenSelected
-            )
-
-            ScreenItem(
-                selected = currentScreen is AppScreen.Favourites,
-                targetScreen = AppScreen.Favourites,
-                onScreenSelected = onScreenSelected
-            )
-
-            ScreenItem(
-                selected = currentScreen is AppScreen.Bookmarks,
-                targetScreen = AppScreen.Bookmarks,
-                onScreenSelected = onScreenSelected
-            )
-        }
+        ScreenItem(
+            selected = currentScreen is AppScreen.Bookmarks,
+            targetScreen = AppScreen.Bookmarks,
+            onScreenSelected = onScreenSelected
+        )
     }
 }
 

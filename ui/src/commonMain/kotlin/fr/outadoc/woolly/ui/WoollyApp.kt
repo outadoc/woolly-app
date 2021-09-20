@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import fr.outadoc.woolly.common.LoadState
@@ -16,7 +19,6 @@ import fr.outadoc.woolly.common.feature.theme.ThemeProvider
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import fr.outadoc.woolly.ui.feature.authrouter.AuthRouter
 import fr.outadoc.woolly.ui.mainrouter.MainRouter
-import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
 @Composable
@@ -28,8 +30,6 @@ fun WoollyApp(
     val prefs by instance<PreferenceRepository>()
     val appPrefsState by prefs.preferences.collectAsState()
     val themeProvider by instance<ThemeProvider>()
-
-    val scope = rememberCoroutineScope()
 
     when (val state = appPrefsState) {
         is LoadState.Loaded -> {
@@ -46,15 +46,7 @@ fun WoollyApp(
                     )
                 } else {
                     MainRouter(
-                        component = mainRouterComponent,
-                        preferredTheme = appPrefs.preferredTheme,
-                        onColorSchemeChanged = { colorScheme ->
-                            scope.launch {
-                                prefs.updatePreferences { current ->
-                                    current.copy(preferredTheme = colorScheme)
-                                }
-                            }
-                        }
+                        component = mainRouterComponent
                     )
                 }
             }

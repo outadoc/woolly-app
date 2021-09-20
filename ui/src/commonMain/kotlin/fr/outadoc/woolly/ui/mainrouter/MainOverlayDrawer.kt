@@ -8,10 +8,7 @@ import androidx.compose.material.DrawerState
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.MotionPhotosAuto
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.PreferredTheme
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
@@ -32,8 +28,6 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun MainOverlayDrawer(
-    preferredTheme: PreferredTheme,
-    onColorSchemeChanged: (PreferredTheme) -> Unit = {},
     currentScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit = {},
     drawerState: DrawerState? = null,
@@ -137,29 +131,6 @@ fun MainOverlayDrawer(
                 drawerState = drawerState,
                 scope = scope
             )
-        }
-
-        Column(modifier = Modifier.padding(vertical = 16.dp)) {
-            when (preferredTheme) {
-                PreferredTheme.FollowSystem ->
-                    DrawerListItem(
-                        title = { Text("Switch to light mode") },
-                        icon = { Icon(Icons.Default.MotionPhotosAuto, "Follow system") },
-                        onClick = { onColorSchemeChanged(PreferredTheme.Light) }
-                    )
-                PreferredTheme.Light ->
-                    DrawerListItem(
-                        title = { Text("Switch to dark mode") },
-                        icon = { Icon(Icons.Default.LightMode, "Light mode") },
-                        onClick = { onColorSchemeChanged(PreferredTheme.Dark) }
-                    )
-                PreferredTheme.Dark ->
-                    DrawerListItem(
-                        title = { Text("Follow system theme") },
-                        icon = { Icon(Icons.Default.DarkMode, "Dark mode") },
-                        onClick = { onColorSchemeChanged(PreferredTheme.FollowSystem) }
-                    )
-            }
         }
     }
 }

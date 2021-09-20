@@ -16,7 +16,6 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import fr.outadoc.woolly.common.PreferredTheme
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.common.WoollyDefaults
@@ -29,11 +28,7 @@ import org.kodein.di.compose.instance
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun MainRouter(
-    component: MainRouterComponent,
-    preferredTheme: PreferredTheme,
-    onColorSchemeChanged: (PreferredTheme) -> Unit
-) {
+fun MainRouter(component: MainRouterComponent) {
     val scaffoldState = rememberScaffoldState()
     val settingsSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
@@ -146,31 +141,27 @@ fun MainRouter(
         narrowDrawerContent = { drawerState ->
             Children(routerState = component.routerState) { screen ->
                 MainOverlayDrawer(
-                    scope = scope,
-                    drawerState = drawerState,
-                    preferredTheme = preferredTheme,
-                    onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = screen.configuration,
                     onScreenSelected = { target ->
                         scope.launch {
                             component.onScreenSelected(target)
                         }
-                    }
+                    },
+                    drawerState = drawerState,
+                    scope = scope
                 )
             }
         },
         wideDrawerContent = {
             Children(routerState = component.routerState) { screen ->
                 MainSideNavigation(
-                    scope = scope,
-                    preferredTheme = preferredTheme,
-                    onColorSchemeChanged = onColorSchemeChanged,
                     currentScreen = screen.configuration,
                     onScreenSelected = { target ->
                         scope.launch {
                             component.onScreenSelected(target)
                         }
-                    }
+                    },
+                    scope = scope
                 )
             }
         },

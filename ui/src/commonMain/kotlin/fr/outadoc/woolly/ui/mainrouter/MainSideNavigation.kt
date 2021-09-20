@@ -9,10 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.MotionPhotosAuto
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.PreferredTheme
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
@@ -34,8 +30,6 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun MainSideNavigation(
-    preferredTheme: PreferredTheme,
-    onColorSchemeChanged: (PreferredTheme) -> Unit = {},
     currentScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit = {},
     scope: CoroutineScope = rememberCoroutineScope()
@@ -126,25 +120,6 @@ fun MainSideNavigation(
                 selected = currentScreen is AppScreen.Bookmarks,
                 onScreenSelected = onScreenSelected
             )
-        }
-
-        Column(modifier = Modifier.padding(vertical = 16.dp)) {
-            when (preferredTheme) {
-                PreferredTheme.FollowSystem ->
-                    IconButton(onClick = { onColorSchemeChanged(PreferredTheme.Light) }) {
-                        Icon(Icons.Default.DarkMode, "Dark mode")
-                    }
-
-                PreferredTheme.Light ->
-                    IconButton(onClick = { onColorSchemeChanged(PreferredTheme.Dark) }) {
-                        Icon(Icons.Default.LightMode, "Light mode")
-                    }
-
-                PreferredTheme.Dark ->
-                    IconButton(onClick = { onColorSchemeChanged(PreferredTheme.FollowSystem) }) {
-                        Icon(Icons.Default.MotionPhotosAuto, "Follow system")
-                    }
-            }
         }
     }
 }

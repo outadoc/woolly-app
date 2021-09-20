@@ -1,6 +1,9 @@
 package fr.outadoc.woolly.ui.mainrouter
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +22,7 @@ fun ResponsiveScaffold(
     topBar: @Composable (DrawerState?) -> Unit,
     bottomBar: @Composable () -> Unit,
     narrowDrawerContent: @Composable ColumnScope.(DrawerState?) -> Unit,
-    wideDrawerContent: @Composable ColumnScope.() -> Unit,
+    wideDrawerContent: @Composable () -> Unit,
     drawerGesturesEnabled: Boolean = true,
     floatingActionButton: @Composable () -> Unit = {},
     breakpointWidthDp: Dp = 600.dp,
@@ -34,16 +37,7 @@ fun ResponsiveScaffold(
         when (disposition) {
             Disposition.Wide -> {
                 Row {
-                    Surface(
-                        modifier = Modifier
-                            .width(64.dp)
-                            .zIndex(0.0f),
-                        color = MaterialTheme.colors.background
-                    ) {
-                        Column(modifier = Modifier.fillMaxWidth()) {
-                            wideDrawerContent()
-                        }
-                    }
+                    wideDrawerContent()
 
                     Surface(
                         modifier = Modifier.zIndex(0.1f),

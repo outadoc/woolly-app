@@ -1,9 +1,7 @@
 package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,7 +15,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
@@ -28,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainSideNavigation(
     currentScreen: AppScreen,
@@ -38,11 +36,7 @@ fun MainSideNavigation(
     val accountRepository by instance<AccountRepository>()
     val account by accountRepository.currentAccount.collectAsState()
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    NavigationRail {
         val alpha: Float by animateFloatAsState(if (account == null) 0f else 1f)
 
         Column(
@@ -86,62 +80,60 @@ fun MainSideNavigation(
                 .verticalScroll(scrollState)
         ) {
             ScreenItem(
-                targetScreen = AppScreen.HomeTimeline,
                 selected = currentScreen is AppScreen.HomeTimeline,
+                targetScreen = AppScreen.HomeTimeline,
                 onScreenSelected = onScreenSelected
             )
 
             ScreenItem(
-                targetScreen = AppScreen.PublicTimeline,
                 selected = currentScreen is AppScreen.PublicTimeline,
+                targetScreen = AppScreen.PublicTimeline,
                 onScreenSelected = onScreenSelected
             )
 
             ScreenItem(
-                targetScreen = AppScreen.Notifications,
                 selected = currentScreen is AppScreen.Notifications,
+                targetScreen = AppScreen.Notifications,
                 onScreenSelected = onScreenSelected
             )
 
             ScreenItem(
-                targetScreen = AppScreen.Search,
                 selected = currentScreen is AppScreen.Search,
+                targetScreen = AppScreen.Search,
                 onScreenSelected = onScreenSelected
             )
 
             ScreenItem(
-                targetScreen = AppScreen.Favourites,
                 selected = currentScreen is AppScreen.Favourites,
+                targetScreen = AppScreen.Favourites,
                 onScreenSelected = onScreenSelected
             )
 
             ScreenItem(
-                targetScreen = AppScreen.Bookmarks,
                 selected = currentScreen is AppScreen.Bookmarks,
+                targetScreen = AppScreen.Bookmarks,
                 onScreenSelected = onScreenSelected
             )
         }
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 private fun ScreenItem(
     selected: Boolean,
     targetScreen: AppScreen,
-    onScreenSelected: (AppScreen) -> Unit,
-    selectedContentColor: Color = LocalContentColor.current,
-    unselectedContentColor: Color = selectedContentColor.copy(alpha = ContentAlpha.medium)
+    onScreenSelected: (AppScreen) -> Unit
 ) {
     val res by instance<AppScreenResources>()
-
-    IconButton(
-        modifier = Modifier.padding(4.dp),
+    NavigationRailItem(
+        icon = {
+            Icon(
+                imageVector = res.getScreenIcon(targetScreen),
+                contentDescription = res.getScreenTitle(targetScreen)
+            )
+        },
+        selected = selected,
         onClick = { onScreenSelected(targetScreen) }
-    ) {
-        Icon(
-            imageVector = res.getScreenIcon(targetScreen),
-            contentDescription = res.getScreenTitle(targetScreen),
-            tint = if (selected) selectedContentColor else unselectedContentColor
-        )
-    }
+    )
 }

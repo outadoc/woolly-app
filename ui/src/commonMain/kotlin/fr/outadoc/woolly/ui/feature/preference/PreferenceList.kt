@@ -29,7 +29,7 @@ fun PreferenceList(
 ) {
     Column(modifier = modifier) {
         Text(
-            modifier = Modifier.padding(bottom = 16.dp),
+            modifier = Modifier.padding(16.dp),
             text = "App Settings",
             style = MaterialTheme.typography.h5
         )
@@ -51,9 +51,9 @@ fun PreferenceList(
                         secondaryText = {
                             Text(
                                 text = when (settingsState.preferredTheme) {
-                                    PreferredTheme.Light -> "Always light"
-                                    PreferredTheme.Dark -> "Always dark"
                                     PreferredTheme.FollowSystem -> "Follow system theme"
+                                    PreferredTheme.Dark -> "Always dark"
+                                    PreferredTheme.Light -> "Always light"
                                 }
                             )
                         }

@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.account.component.MyAccountComponent
 import fr.outadoc.woolly.ui.feature.preference.PreferenceList
 
@@ -30,7 +29,7 @@ fun MyAccountScreen(
         sheetState = sheetState,
         sheetContent = {
             PreferenceList(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(insets),
                 settingsState = settingsState,
                 onUpdateSettingsState = component::onUpdateSettingsState
             )

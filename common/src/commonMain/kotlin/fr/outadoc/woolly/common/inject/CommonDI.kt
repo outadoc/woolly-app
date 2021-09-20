@@ -94,7 +94,7 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        MyAccountComponent(componentContext, instance())
+        MyAccountComponent(componentContext, instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->

@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
@@ -26,7 +27,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
 
-@OptIn(ExperimentalDecomposeApi::class)
+@OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun MainRouter(
     component: MainRouterComponent,
@@ -34,6 +35,7 @@ fun MainRouter(
     onColorSchemeChanged: (PreferredTheme) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
+    val settingsSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
@@ -111,6 +113,17 @@ fun MainRouter(
                                         @Composable { DrawerMenuButton(drawerState) }
                                     }
                                     else -> null
+                                },
+                                actions = {
+                                    if (currentScreen is MainContent.MyAccount) {
+                                        IconButton(
+                                            onClick = {
+                                                scope.launch { settingsSheetState.show() }
+                                            }
+                                        ) {
+                                            Icon(Icons.Default.Settings, "Settings")
+                                        }
+                                    }
                                 }
                             )
                         }
@@ -177,6 +190,7 @@ fun MainRouter(
             MainRouterChild(
                 content = child.instance,
                 insets = insets,
+                settingsSheetState = settingsSheetState,
                 onStatusClick = component::onStatusClick,
                 onAttachmentClick = component::onAttachmentClick,
                 onStatusReplyClick = component::onStatusReplyClick,

@@ -1,6 +1,10 @@
 package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
@@ -18,10 +22,12 @@ import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineScreen
 import fr.outadoc.woolly.ui.feature.search.SearchScreen
 import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainRouterChild(
     content: MainContent,
     insets: PaddingValues = PaddingValues(),
+    settingsSheetState: ModalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {},
@@ -62,6 +68,7 @@ fun MainRouterChild(
         )
         is MainContent.MyAccount -> MyAccountScreen(
             component = content.component,
+            sheetState = settingsSheetState,
             insets = insets
         )
         is MainContent.Bookmarks -> BookmarksScreen(

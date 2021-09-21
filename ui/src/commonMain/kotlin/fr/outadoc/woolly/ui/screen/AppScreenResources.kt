@@ -18,7 +18,7 @@ class AppScreenResources {
         is AppScreen.ImageViewer -> "Image"
         is AppScreen.StatusComposer -> "New status"
         is AppScreen.AccountDetails -> "Account details"
-        is AppScreen.HashtagTimeline -> "Hashtag"
+        is AppScreen.HashtagTimeline -> "#${screen.hashtag}"
     }
 
     fun getScreenIcon(screen: AppScreen) = when (screen) {

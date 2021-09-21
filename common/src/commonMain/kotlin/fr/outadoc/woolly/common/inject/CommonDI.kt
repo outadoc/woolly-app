@@ -29,6 +29,7 @@ import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
+import fr.outadoc.woolly.common.feature.tags.component.HashtagTimelineComponent
 import fr.outadoc.woolly.common.feature.theme.ThemeProvider
 import fr.outadoc.woolly.common.feature.time.TimeRepository
 import io.ktor.client.*
@@ -119,6 +120,10 @@ val CommonDI = DI {
 
     bindFactory { componentContext: ComponentContext ->
         AccountDetailsComponent(componentContext, instance())
+    }
+
+    bindFactory { componentContext: ComponentContext ->
+        HashtagTimelineComponent(componentContext, instance(), instance())
     }
 
     // Auth components

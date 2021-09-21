@@ -21,14 +21,16 @@ fun SearchScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {},
-    onAccountClick: (Account) -> Unit = {}
+    onAccountClick: (Account) -> Unit = {},
+    onHashtagClick: (String) -> Unit = {}
 ) {
     val state by component.state.collectAsState()
 
     if (state.query.isEmpty()) {
         TrendingScreen(
             trendingTags = component.trendingTags,
-            insets = insets
+            insets = insets,
+            onHashtagClick = onHashtagClick
         )
     } else {
         when (state.subScreen) {
@@ -53,7 +55,8 @@ fun SearchScreen(
             SearchSubScreen.Hashtags -> TagList(
                 insets = insets,
                 tagFlow = component.hashtagsPagingItems,
-                lazyListState = component.hashtagsListState
+                lazyListState = component.hashtagsListState,
+                onHashtagClick = onHashtagClick
             )
         }
     }

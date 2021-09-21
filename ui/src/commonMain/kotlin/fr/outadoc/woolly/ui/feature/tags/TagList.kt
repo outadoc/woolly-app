@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -27,9 +26,9 @@ fun TagList(
     modifier: Modifier = Modifier,
     insets: PaddingValues = PaddingValues(),
     tagFlow: Flow<PagingData<Tag>>,
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    onHashtagClick: (String) -> Unit = {}
 ) {
-    val uriHandler = LocalUriHandler.current
     val lazyPagingItems = tagFlow.collectAsLazyPagingItems()
 
     SwipeRefresh(
@@ -70,9 +69,7 @@ fun TagList(
                     if (tag != null) {
                         HashtagListItem(
                             tag = tag,
-                            onClick = {
-                                uriHandler.openUri(tag.url)
-                            }
+                            onClick = { onHashtagClick(tag.name) }
                         )
                     } else {
                         HashtagPlaceholder()

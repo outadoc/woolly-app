@@ -21,6 +21,7 @@ import fr.outadoc.woolly.ui.feature.notifications.NotificationsScreen
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineScreen
 import fr.outadoc.woolly.ui.feature.search.SearchScreen
 import fr.outadoc.woolly.ui.feature.statusdetails.StatusDetailsScreen
+import fr.outadoc.woolly.ui.feature.tags.HashtagTimelineScreen
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -32,7 +33,8 @@ fun MainRouterChild(
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {},
     onAccountClick: (Account) -> Unit = {},
-    onComposerDismissed: () -> Unit = {}
+    onComposerDismissed: () -> Unit = {},
+    onHashtagClick: (String) -> Unit = {}
 ) {
     when (content) {
         is MainContent.HomeTimeline -> HomeTimelineScreen(
@@ -64,7 +66,8 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onHashtagClick = onHashtagClick
         )
         is MainContent.MyAccount -> MyAccountScreen(
             component = content.component,
@@ -108,6 +111,15 @@ fun MainRouterChild(
         is MainContent.AccountDetails -> AccountDetailsScreen(
             component = content.component,
             accountId = content.configuration.accountId
+        )
+        is MainContent.HashtagTimeline -> HashtagTimelineScreen(
+            component = content.component,
+            insets = insets,
+            hashtag = content.configuration.hashtag,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
         )
     }
 }

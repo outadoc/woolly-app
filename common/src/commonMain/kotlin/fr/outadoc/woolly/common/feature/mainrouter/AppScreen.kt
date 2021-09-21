@@ -41,4 +41,7 @@ sealed class AppScreen : Parcelable {
 
     @Parcelize
     data class AccountDetails(val accountId: String) : AppScreen()
+
+    @Parcelize
+    data class HashtagTimeline(val hashtag: String) : AppScreen()
 }

@@ -186,7 +186,8 @@ fun MainRouter(component: MainRouterComponent) {
                 onAttachmentClick = component::onAttachmentClick,
                 onStatusReplyClick = component::onStatusReplyClick,
                 onAccountClick = component::onAccountClick,
-                onComposerDismissed = component::onComposerDismissed
+                onComposerDismissed = component::onComposerDismissed,
+                onHashtagClick = component::onHashtagClick
             )
         }
     }

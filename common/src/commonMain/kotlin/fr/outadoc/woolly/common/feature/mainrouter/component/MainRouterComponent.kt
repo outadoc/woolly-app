@@ -89,9 +89,19 @@ class MainRouterComponent(
         )
     }
 
+    fun onHashtagClick(hashtag: String) {
+        router.push(
+            AppScreen.HashtagTimeline(
+                hashtag = hashtag
+            )
+        )
+    }
+
     suspend fun onScreenSelected(target: AppScreen) {
         scrollToTop(target)
-        router.replaceCurrent(target)
+
+        // Pop the complete stack and add our target screen on top
+        router.navigate { it.dropLastWhile { true } + target }
     }
 
     suspend fun scrollToTop(target: AppScreen? = null) {
@@ -150,6 +160,10 @@ class MainRouterComponent(
             component = createComponent(componentContext)
         )
         is AppScreen.AccountDetails -> MainContent.AccountDetails(
+            configuration = configuration,
+            component = createComponent(componentContext)
+        )
+        is AppScreen.HashtagTimeline -> MainContent.HashtagTimeline(
             configuration = configuration,
             component = createComponent(componentContext)
         )

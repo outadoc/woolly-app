@@ -13,6 +13,7 @@ import fr.outadoc.woolly.common.feature.notifications.component.NotificationsCom
 import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
+import fr.outadoc.woolly.common.feature.tags.component.HashtagTimelineComponent
 
 sealed class MainContent {
 
@@ -72,5 +73,10 @@ sealed class MainContent {
     data class AccountDetails(
         override val configuration: AppScreen.AccountDetails,
         override val component: AccountDetailsComponent
+    ) : MainContent()
+
+    data class HashtagTimeline(
+        override val configuration: AppScreen.HashtagTimeline,
+        override val component: HashtagTimelineComponent
     ) : MainContent()
 }

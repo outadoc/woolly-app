@@ -18,6 +18,7 @@ class AppScreenResources {
         is AppScreen.ImageViewer -> "Image"
         is AppScreen.StatusComposer -> "New status"
         is AppScreen.AccountDetails -> "Account details"
+        is AppScreen.HashtagTimeline -> "Hashtag"
     }
 
     fun getScreenIcon(screen: AppScreen) = when (screen) {
@@ -32,5 +33,6 @@ class AppScreenResources {
         is AppScreen.ImageViewer -> Icons.Default.Image
         is AppScreen.StatusComposer -> Icons.Default.Edit
         is AppScreen.AccountDetails -> Icons.Default.AccountCircle
+        is AppScreen.HashtagTimeline -> Icons.Default.Tag
     }
 }

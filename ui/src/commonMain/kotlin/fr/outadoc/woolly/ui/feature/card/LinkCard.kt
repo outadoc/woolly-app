@@ -58,7 +58,7 @@ fun LinkCard(
                 }
             }
 
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = card.title,
                     style = MaterialTheme.typography.subtitle1
@@ -66,10 +66,11 @@ fun LinkCard(
 
                 if (card.description.isNotBlank()) {
                     Text(
-                        modifier = Modifier.padding(top = 8.dp),
+                        modifier = Modifier.padding(top = 4.dp),
                         text = card.description,
                         style = MaterialTheme.typography.body2,
-                        color = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
+                        color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
+                        maxLines = 3
                     )
                 }
             }

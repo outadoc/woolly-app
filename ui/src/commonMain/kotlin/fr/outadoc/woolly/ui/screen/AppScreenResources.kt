@@ -24,7 +24,7 @@ class AppScreenResources {
     fun getScreenIcon(screen: AppScreen) = when (screen) {
         AppScreen.MyAccount -> Icons.Default.AccountCircle
         AppScreen.Bookmarks -> Icons.Default.Bookmarks
-        AppScreen.Favourites -> Icons.Default.Favorite
+        AppScreen.Favourites -> Icons.Default.Star
         AppScreen.HomeTimeline -> Icons.Default.Home
         AppScreen.Notifications -> Icons.Default.Notifications
         is AppScreen.PublicTimeline -> Icons.Default.Public

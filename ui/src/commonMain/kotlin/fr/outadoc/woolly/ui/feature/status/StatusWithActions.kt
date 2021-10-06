@@ -12,6 +12,7 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.ui.feature.card.StatusCard
 
 @Composable
 fun StatusWithActions(
@@ -52,6 +53,16 @@ fun StatusWithActions(
                 media = status.mediaAttachments,
                 isSensitive = status.isSensitive,
                 onAttachmentClick = onAttachmentClick
+            )
+        }
+
+        status.card?.let { card ->
+            StatusCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                card = card,
+                onClick = { uriHandler.openUri(card.url) }
             )
         }
 

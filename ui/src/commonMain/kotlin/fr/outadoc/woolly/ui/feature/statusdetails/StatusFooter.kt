@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.ui.common.BulletSeparator
 import fr.outadoc.woolly.ui.feature.status.StatusVisibilityIcon
 
 @Composable
@@ -43,6 +44,8 @@ fun StatusFooter(
         )
 
         status.application?.let { app ->
+            BulletSeparator()
+
             Text(
                 modifier = Modifier
                     .alignByBaseline()

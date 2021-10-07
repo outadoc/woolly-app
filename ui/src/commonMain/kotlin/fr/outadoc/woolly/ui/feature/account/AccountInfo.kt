@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.formatShort
+import fr.outadoc.woolly.ui.common.BulletSeparator
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.feature.status.StatusAutomatedLabel
 import fr.outadoc.woolly.ui.richtext.RichText
@@ -94,7 +95,7 @@ fun AccountInfo(
             modifier = Modifier
                 .padding(top = 16.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(22.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
@@ -102,11 +103,15 @@ fun AccountInfo(
                 unit = "Posts"
             )
 
+            BulletSeparator()
+
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
                 number = account.followingCount.formatShort(),
                 unit = "Following"
             )
+
+            BulletSeparator()
 
             AccountStat(
                 modifier = Modifier.alignByBaseline(),

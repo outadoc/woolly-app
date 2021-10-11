@@ -1,9 +1,12 @@
 package fr.outadoc.woolly.ui.feature.account
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
@@ -16,30 +19,43 @@ fun AccountHeader(
     modifier: Modifier = Modifier,
     account: Account,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
+    headerHeight: Dp = WoollyDefaults.HeaderHeight,
     isFollowing: Boolean? = null,
     onFollowClick: (Boolean) -> Unit = {}
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
+    val uriHandler = LocalUriHandler.current
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.TopStart
+    ) {
         KamelImage(
-            modifier = Modifier.aspectRatio(4f),
+            modifier = Modifier
+                .height(headerHeight)
+                .clickable {
+                    uriHandler.openUri(account.headerUrl)
+                },
             resource = lazyPainterResource(account.headerStaticUrl),
             contentDescription = "Your profile header",
             crossfade = true,
-            contentScale = ContentScale.FillWidth,
+            contentScale = ContentScale.Crop,
             onLoading = {
-                Spacer(modifier = Modifier.aspectRatio(4f))
+                Spacer(modifier = Modifier.height(headerHeight))
+            },
+            onFailure = {
+                Spacer(modifier = Modifier.height(headerHeight))
             }
         )
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .padding(top = headerHeight - 72.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             AccountInfo(
                 modifier = Modifier
                     .padding(16.dp)
-                    .widthIn(max = maxContentWidth)
-                    .offset(y = -(80.dp)),
+                    .widthIn(max = maxContentWidth),
                 account = account,
                 isFollowing = isFollowing,
                 onFollowClick = onFollowClick

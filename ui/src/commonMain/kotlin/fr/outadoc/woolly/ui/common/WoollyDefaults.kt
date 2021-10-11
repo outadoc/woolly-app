@@ -6,4 +6,5 @@ object WoollyDefaults {
     val AppBarHeight = 64.dp
     val MaxContentWidth = 800.dp
     val AvatarSize = 48.dp
+    val HeaderHeight = 200.dp
 }

@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent
@@ -49,6 +50,7 @@ fun AccountDetailsScreen(
                     lazyListState = component.listState,
                     header = {
                         AccountHeader(
+                            modifier = Modifier.padding(bottom = 8.dp),
                             account = state.account,
                             isFollowing = state.relationship.isFollowing,
                             onFollowClick = { follow ->

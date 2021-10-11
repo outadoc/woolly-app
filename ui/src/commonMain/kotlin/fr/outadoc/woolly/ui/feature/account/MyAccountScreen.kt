@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.account.component.MyAccountComponent
 import fr.outadoc.woolly.ui.feature.preference.PreferenceList
 import fr.outadoc.woolly.ui.feature.status.StatusList
@@ -38,7 +39,7 @@ fun MyAccountScreen(
             header = {
                 state.account?.let { account ->
                     AccountHeader(
-                        modifier = Modifier.padding(insets),
+                        modifier = Modifier.padding(bottom = 8.dp),
                         account = account
                     )
                 }

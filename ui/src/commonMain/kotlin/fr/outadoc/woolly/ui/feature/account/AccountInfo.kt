@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
@@ -23,6 +24,7 @@ fun AccountInfo(
     isFollowing: Boolean? = null,
     onFollowClick: (Boolean) -> Unit = {}
 ) {
+    val uriHandler = LocalUriHandler.current
     Column(modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -32,7 +34,8 @@ fun AccountInfo(
             ProfilePicture(
                 modifier = Modifier.padding(bottom = 16.dp),
                 size = 96.dp,
-                account = account
+                account = account,
+                onClick = { uriHandler.openUri(account.avatarUrl) }
             )
 
             when (isFollowing) {

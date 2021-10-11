@@ -13,6 +13,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent
 import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent.State
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
+import fr.outadoc.woolly.ui.feature.status.StatusList
 
 @Composable
 fun AccountDetailsScreen(
@@ -42,12 +43,18 @@ fun AccountDetailsScreen(
                 )
             }
             is State.LoadedAccount -> {
-                AccountHeader(
+                StatusList(
                     modifier = Modifier.padding(insets),
-                    account = state.account,
-                    isFollowing = state.relationship.isFollowing,
-                    onFollowClick = { follow ->
-                        component.onFollowClick(follow)
+                    statusFlow = component.timelinePagingItems,
+                    lazyListState = component.listState,
+                    header = {
+                        AccountHeader(
+                            account = state.account,
+                            isFollowing = state.relationship.isFollowing,
+                            onFollowClick = { follow ->
+                                component.onFollowClick(follow)
+                            }
+                        )
                     }
                 )
             }

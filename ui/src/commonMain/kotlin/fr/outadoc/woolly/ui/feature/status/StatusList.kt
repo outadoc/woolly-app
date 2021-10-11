@@ -30,6 +30,7 @@ fun StatusList(
     insets: PaddingValues = PaddingValues(),
     statusFlow: Flow<PagingData<Status>>,
     lazyListState: LazyListState,
+    header: (@Composable () -> Unit)? = null,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
     onStatusAction: (StatusAction) -> Unit = {},
     onStatusClick: (Status) -> Unit = {},
@@ -54,6 +55,12 @@ fun StatusList(
                 state = lazyListState,
                 contentPadding = insets
             ) {
+                header?.let { header ->
+                    item("header") {
+                        header()
+                    }
+                }
+
                 when (val state = lazyPagingItems.loadState.refresh) {
                     is LoadState.Error -> item {
                         ErrorScreen(

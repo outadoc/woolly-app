@@ -1,19 +1,27 @@
 package fr.outadoc.woolly.common.feature.account.component
 
+import androidx.paging.PagingData
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Relationship
+import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getStatusesSource
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
+import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
+import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
+import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
+import fr.outadoc.woolly.common.feature.state.registerListState
+import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.getScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class AccountDetailsComponent(
     componentContext: ComponentContext,
+    statusPagingRepository: StatusPagingRepository,
     private val clientProvider: MastodonClientProvider
-) : ComponentContext by componentContext {
+) : ComponentContext by componentContext, ScrollableComponent {
 
     sealed class State {
         abstract val isLoading: Boolean
@@ -42,6 +50,11 @@ class AccountDetailsComponent(
     }
 
     private val componentScope = getScope()
+    val listState = stateKeeper.consumeListStateOrDefault()
+
+    init {
+        stateKeeper.registerListState { listState }
+    }
 
     private val _state = MutableStateFlow<State>(State.Initial())
     val state: Flow<State> = _state.asStateFlow()
@@ -54,26 +67,45 @@ class AccountDetailsComponent(
         }
     }
 
-    fun loadAccount(accountId: String) {
-        val client = clientProvider.mastodonClient.value ?: return
+    private val currentAccountIdFlow = MutableSharedFlow<String>(replay = 1)
 
+    init {
         componentScope.launch {
-            _state.value = _state.value.copy(
-                isLoading = true,
-                accountId = accountId
-            )
+            currentAccountIdFlow.collect { accountId ->
+                val client = clientProvider.mastodonClient.value ?: return@collect
 
-            val account = client.accounts.getAccount(accountId)
-            val relationship = client.accounts.getRelationships(listOf(accountId))?.firstOrNull()
-
-            _state.value =
-                if (account == null || relationship == null) {
-                    State.Error(accountId = accountId)
-                } else State.LoadedAccount(
-                    account = account,
-                    relationship = relationship
+                _state.value = _state.value.copy(
+                    isLoading = true,
+                    accountId = accountId
                 )
+
+                val account = client.accounts.getAccount(accountId)
+                val relationship =
+                    client.accounts.getRelationships(listOf(accountId))?.firstOrNull()
+
+                _state.value =
+                    if (account == null || relationship == null) {
+                        State.Error(accountId = accountId)
+                    } else State.LoadedAccount(
+                        account = account,
+                        relationship = relationship
+                    )
+            }
         }
+    }
+
+    val timelinePagingItems: Flow<PagingData<Status>> =
+        currentAccountIdFlow.flatMapLatest { accountId ->
+            statusPagingRepository.getPagingData(
+                componentScope,
+                factory = { client ->
+                    client.accounts.getStatusesSource(accountId)
+                }
+            )
+        }
+
+    fun loadAccount(accountId: String) {
+        currentAccountIdFlow.tryEmit(accountId)
     }
 
     fun refresh() {
@@ -101,5 +133,9 @@ class AccountDetailsComponent(
                 _state.value = currentState
             }
         }
+    }
+
+    override suspend fun scrollToTop(currentConfig: AppScreen?) {
+        listState.tryScrollToTop()
     }
 }

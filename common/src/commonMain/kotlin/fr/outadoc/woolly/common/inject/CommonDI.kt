@@ -95,7 +95,7 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        MyAccountComponent(componentContext, instance(), instance())
+        MyAccountComponent(componentContext, instance(), instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->
@@ -119,7 +119,7 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        AccountDetailsComponent(componentContext, instance())
+        AccountDetailsComponent(componentContext, instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->

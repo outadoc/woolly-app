@@ -16,8 +16,7 @@ import androidx.core.view.ViewCompat
  *
  * Typically you would use [rememberSystemUiController] to remember an instance of this.
  */
-internal class AndroidSystemUiController(view: View) :
-    com.google.accompanist.systemuicontroller.SystemUiController {
+internal class AndroidSystemUiController(view: View) : SystemUiController {
     private val window = view.context.findWindow()
     private val windowInsetsController = ViewCompat.getWindowInsetsController(view)
 

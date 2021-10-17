@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun WoollyTheme(
@@ -15,8 +16,7 @@ fun WoollyTheme(
     MaterialTheme(
         colors = if (isDarkMode) woollyDarkColors() else woollyLightColors(),
     ) {
-        val systemUiController =
-            com.google.accompanist.systemuicontroller.rememberSystemUiController()
+        val systemUiController = rememberSystemUiController()
 
         val baseColor =
             if (isDarkMode) MaterialTheme.colors.surface

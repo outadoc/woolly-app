@@ -7,24 +7,20 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
 import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
-import org.kodein.di.compose.instance
 
 @Composable
 fun PublicTimelineTabRow(
     currentSubScreen: PublicTimelineSubScreen,
     onCurrentSubScreenChanged: (PublicTimelineSubScreen) -> Unit,
 ) {
-    val res by instance<PublicTimelineScreenResources>()
-
-    val tabs = listOf(
-        PublicTimelineSubScreen.Local,
-        PublicTimelineSubScreen.Global
+    val tabs = mapOf(
+        PublicTimelineSubScreen.Local to "Local",
+        PublicTimelineSubScreen.Global to "Federated"
     )
 
-    TabRow(selectedTabIndex = tabs.indexOf(currentSubScreen)) {
-        tabs.forEach { screen ->
+    TabRow(selectedTabIndex = tabs.keys.indexOf(currentSubScreen)) {
+        tabs.forEach { (screen, title) ->
             Tab(
                 modifier = Modifier.height(48.dp),
                 selected = currentSubScreen == screen,
@@ -32,7 +28,7 @@ fun PublicTimelineTabRow(
                     onCurrentSubScreenChanged(screen)
                 }
             ) {
-                Text(text = res.getScreenTitle(screen))
+                Text(text = title)
             }
         }
     }

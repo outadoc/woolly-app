@@ -22,7 +22,6 @@ import fr.outadoc.woolly.common.feature.favourites.component.FavouritesComponent
 import fr.outadoc.woolly.common.feature.home.component.HomeTimelineComponent
 import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponent
 import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
-import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineScreenResources
 import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
 import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
@@ -59,7 +58,6 @@ val CommonDI = DI {
     }
 
     bindSingleton { SearchScreenResources() }
-    bindSingleton { PublicTimelineScreenResources() }
 
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
 

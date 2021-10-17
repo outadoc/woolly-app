@@ -19,6 +19,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.feature.notifications.NotificationsTopAppBar
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
 import fr.outadoc.woolly.ui.screen.AppScreenResources
@@ -82,6 +83,11 @@ fun MainRouter(component: MainRouterComponent) {
                 Children(routerState = component.routerState) { screen ->
                     when (val currentScreen = screen.instance) {
                         is MainContent.PublicTimeline -> PublicTimelineTopAppBar(
+                            component = currentScreen.component,
+                            drawerState = drawerState
+                        )
+
+                        is MainContent.Notifications -> NotificationsTopAppBar(
                             component = currentScreen.component,
                             drawerState = drawerState
                         )

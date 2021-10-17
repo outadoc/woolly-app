@@ -1,4 +1,4 @@
-package fr.outadoc.woolly.ui.feature.publictimeline
+package fr.outadoc.woolly.ui.feature.notifications
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Tab
@@ -7,16 +7,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.publictimeline.PublicTimelineSubScreen
+import fr.outadoc.woolly.common.feature.notifications.NotificationsSubScreen
 
 @Composable
-fun PublicTimelineTabRow(
-    currentSubScreen: PublicTimelineSubScreen,
-    onCurrentSubScreenChanged: (PublicTimelineSubScreen) -> Unit,
+fun NotificationsTabRow(
+    currentSubScreen: NotificationsSubScreen,
+    onCurrentSubScreenChanged: (NotificationsSubScreen) -> Unit,
 ) {
     val tabs = mapOf(
-        PublicTimelineSubScreen.Local to "Local",
-        PublicTimelineSubScreen.Global to "Federated"
+        NotificationsSubScreen.All to "All",
+        NotificationsSubScreen.MentionsOnly to "Mentions"
     )
 
     TabRow(selectedTabIndex = tabs.keys.indexOf(currentSubScreen)) {

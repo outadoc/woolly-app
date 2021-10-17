@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.common.feature.notifications.component
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.*
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Notification
@@ -27,29 +28,22 @@ class NotificationsComponent(
 
     private val componentScope = getScope()
 
-    val allListState = stateKeeper.consumeListStateOrDefault()
-    val mentionsListState = stateKeeper.consumeListStateOrDefault()
-
-    init {
-        stateKeeper.registerListState(key = "all_list_state") { allListState }
-        stateKeeper.registerListState(key = "mentions_list_state") { mentionsListState }
-    }
-
     data class State(
-        val subScreen: NotificationsSubScreen = NotificationsSubScreen.All
+        val subScreen: NotificationsSubScreen,
+        val listState: LazyListState,
+        val pagingData: Flow<PagingData<Notification>>
     )
-
-    private val _state = MutableStateFlow(State())
-    val state = _state.asStateFlow()
 
     private val allPagingSource: PagingSource<PageInfo, Notification>
         get() = clientProvider
             .latestClientOrThrow
             .notifications.getNotificationsSource()
 
-    val allPagingData: Flow<PagingData<Notification>> =
-        Pager(pagingConfig) { allPagingSource }
-            .flow.cachedIn(componentScope)
+    private val allState = State(
+        subScreen = NotificationsSubScreen.All,
+        listState = stateKeeper.consumeListStateOrDefault(),
+        pagingData = Pager(pagingConfig) { allPagingSource }.flow.cachedIn(componentScope)
+    )
 
     private val mentionsPagingSource: PagingSource<PageInfo, Notification>
         get() = clientProvider
@@ -58,19 +52,34 @@ class NotificationsComponent(
                 excludeTypes = NotificationType.values().toList() - NotificationType.Mention
             )
 
-    val mentionsPagingData: Flow<PagingData<Notification>> =
-        Pager(pagingConfig) { mentionsPagingSource }
-            .flow.cachedIn(componentScope)
+    private val mentionsState = State(
+        subScreen = NotificationsSubScreen.MentionsOnly,
+        listState = stateKeeper.consumeListStateOrDefault(),
+        pagingData = Pager(pagingConfig) { mentionsPagingSource }.flow.cachedIn(componentScope)
+    )
+
+    init {
+        stateKeeper.registerListState(key = "all_list_state") { allState.listState }
+        stateKeeper.registerListState(key = "mentions_list_state") { mentionsState.listState }
+    }
+
+    private val _state = MutableStateFlow(allState)
+    val state = _state.asStateFlow()
 
     suspend fun onSubScreenSelected(subScreen: NotificationsSubScreen) {
         val currentState = _state.value
         if (currentState.subScreen == subScreen) {
             scrollToTop()
+            return
         }
-        _state.value = currentState.copy(subScreen = subScreen)
+
+        _state.value = when (subScreen) {
+            NotificationsSubScreen.All -> allState
+            NotificationsSubScreen.MentionsOnly -> mentionsState
+        }
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {
-        allListState.tryScrollToTop()
+        state.value.listState.tryScrollToTop()
     }
 }

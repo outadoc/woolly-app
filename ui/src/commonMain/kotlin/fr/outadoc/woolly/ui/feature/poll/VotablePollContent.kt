@@ -26,16 +26,16 @@ fun VotablePollContent(
         poll.options.forEach { option ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (poll.allowsMultipleChoices) {
-                    RadioButton(
-                        selected = false,
-                        enabled = false,
-                        onClick = {}
-                    )
-                } else {
                     Checkbox(
                         checked = false,
                         enabled = false,
                         onCheckedChange = {}
+                    )
+                } else {
+                    RadioButton(
+                        selected = false,
+                        enabled = false,
+                        onClick = {}
                     )
                 }
 

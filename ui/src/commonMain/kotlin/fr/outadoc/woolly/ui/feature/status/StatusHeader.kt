@@ -47,7 +47,7 @@ fun StatusHeader(
                     visibility = status.visibility
                 )
 
-                RelativeTime(
+                PastRelativeTime(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .alignByBaseline(),

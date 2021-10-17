@@ -16,6 +16,7 @@ import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.feature.card.StatusCard
+import fr.outadoc.woolly.ui.feature.poll.Poll
 import fr.outadoc.woolly.ui.feature.status.*
 
 @Composable
@@ -56,9 +57,9 @@ fun StatusDetails(
         }
 
         status.poll?.let { poll ->
-            StatusPoll(
-                modifier = Modifier
-                    .padding(top = 16.dp)
+            Poll(
+                modifier = Modifier.padding(top = 16.dp),
+                poll = poll
             ) {
                 status.url?.let { uriHandler.openUri(it) }
             }

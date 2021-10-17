@@ -17,8 +17,8 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.ui.feature.status.PastRelativeTime
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
-import fr.outadoc.woolly.ui.feature.status.RelativeTime
 
 @Composable
 fun NotificationHeader(
@@ -54,7 +54,7 @@ fun NotificationHeader(
             }
 
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                RelativeTime(
+                PastRelativeTime(
                     time = notification.createdAt,
                     style = MaterialTheme.typography.subtitle2,
                 )

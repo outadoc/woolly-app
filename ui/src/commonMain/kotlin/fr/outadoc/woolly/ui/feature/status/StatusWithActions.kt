@@ -13,6 +13,7 @@ import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.feature.card.StatusCard
+import fr.outadoc.woolly.ui.feature.poll.Poll
 
 @Composable
 fun StatusWithActions(
@@ -37,11 +38,11 @@ fun StatusWithActions(
         }
 
         status.poll?.let { poll ->
-            StatusPoll(
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                status.url?.let { uriHandler.openUri(it) }
-            }
+            Poll(
+                poll = poll,
+                modifier = Modifier.padding(top = 16.dp),
+                onClick = { status.url?.let { uriHandler.openUri(it) } }
+            )
         }
 
         if (status.mediaAttachments.isNotEmpty()) {

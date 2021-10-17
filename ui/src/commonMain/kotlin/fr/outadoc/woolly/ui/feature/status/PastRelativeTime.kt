@@ -17,7 +17,7 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 @Composable
-fun RelativeTime(
+fun PastRelativeTime(
     modifier: Modifier = Modifier,
     time: Instant,
     style: TextStyle,

@@ -5,8 +5,7 @@ import androidx.compose.ui.graphics.Color
 /**
  * A no-op implementation, useful as the default value for [LocalSystemUiController].
  */
-internal object NoOpSystemUiController :
-    com.google.accompanist.systemuicontroller.SystemUiController {
+internal object NoOpSystemUiController : SystemUiController {
     override fun setStatusBarColor(
         color: Color,
         darkIcons: Boolean,

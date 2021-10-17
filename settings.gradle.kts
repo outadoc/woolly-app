@@ -14,5 +14,8 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include("app-android")
 include("app-desktop")
+
 include("common")
 include("ui")
+
+include("compose-ports")

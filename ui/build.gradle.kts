@@ -20,6 +20,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.common)
+                implementation(projects.composePorts)
 
                 api(compose.foundation)
                 api(compose.runtime)

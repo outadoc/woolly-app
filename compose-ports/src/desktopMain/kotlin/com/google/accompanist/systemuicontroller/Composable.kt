@@ -4,6 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 @Composable
-actual fun rememberSystemUiController(): com.google.accompanist.systemuicontroller.SystemUiController {
+actual fun rememberSystemUiController(): SystemUiController {
     return remember { NoOpSystemUiController }
 }

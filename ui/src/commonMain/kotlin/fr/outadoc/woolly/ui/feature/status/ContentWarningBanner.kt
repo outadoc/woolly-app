@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
@@ -17,12 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import fr.outadoc.mastodonk.api.entity.Emoji
+import fr.outadoc.woolly.ui.richtext.RichText
 
 @Composable
 fun ContentWarningBanner(
     modifier: Modifier = Modifier,
     contentWarning: String,
     isCollapsed: Boolean,
+    emojis: List<Emoji> = emptyList(),
     onToggle: () -> Unit
 ) {
     Card(modifier = modifier.clickable { onToggle() }) {
@@ -41,11 +43,12 @@ fun ContentWarningBanner(
                     modifier = Modifier.padding(end = 16.dp)
                 )
 
-                Text(
+                RichText(
                     modifier = Modifier.padding(end = 8.dp),
                     text = contentWarning,
                     style = MaterialTheme.typography.body2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    emojis = emojis
                 )
             }
 

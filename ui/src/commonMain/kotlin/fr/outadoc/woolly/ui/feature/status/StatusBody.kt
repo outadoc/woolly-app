@@ -24,9 +24,8 @@ fun StatusBody(
                 .fillMaxWidth(),
             contentWarning = status.contentWarningText,
             isCollapsed = isCollapsed,
-            onToggle = {
-                isCollapsed = !isCollapsed
-            }
+            onToggle = { isCollapsed = !isCollapsed },
+            emojis = status.emojis
         )
 
         AnimatedVisibility(

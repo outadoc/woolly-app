@@ -42,7 +42,7 @@ fun Poll(
             Divider(modifier = Modifier.height(1.dp))
 
             PollFooter(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(16.dp),
                 poll = poll,
                 onClickVote = if (isVotable) onClick else null
             )

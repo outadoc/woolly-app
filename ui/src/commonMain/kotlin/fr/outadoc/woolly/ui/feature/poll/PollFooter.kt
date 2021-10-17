@@ -22,7 +22,7 @@ fun PollFooter(
     onClickVote: (() -> Unit)?
 ) {
     Row(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {

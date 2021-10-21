@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemsIndexed
+import androidx.paging.compose.items
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Account
@@ -48,7 +48,7 @@ fun NotificationList(
         ) {
             LazyColumn(
                 modifier = modifier.widthIn(max = maxContentWidth),
-                state = lazyListState,
+                state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
                 contentPadding = insets
             ) {
                 when (val state = lazyPagingItems.loadState.refresh) {
@@ -70,10 +70,10 @@ fun NotificationList(
                     )
                 }
 
-                itemsIndexed(
+                items(
                     items = lazyPagingItems,
-                    key = { _, notification -> notification.notificationId }
-                ) { _, notification ->
+                    key = { notification -> notification.notificationId }
+                ) { notification ->
                     Column {
                         if (notification != null) {
                             Notification(

@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemsIndexed
+import androidx.paging.compose.items
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Account
@@ -52,7 +52,7 @@ fun StatusList(
         ) {
             LazyColumn(
                 modifier = modifier.widthIn(max = maxContentWidth),
-                state = lazyListState,
+                state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
                 contentPadding = insets
             ) {
                 header?.let { header ->
@@ -80,10 +80,10 @@ fun StatusList(
                     )
                 }
 
-                itemsIndexed(
+                items(
                     items = lazyPagingItems,
-                    key = { _, status -> status.statusId }
-                ) { _, status ->
+                    key = { status -> status.statusId }
+                ) { status ->
                     Column {
                         if (status != null) {
                             StatusOrBoost(

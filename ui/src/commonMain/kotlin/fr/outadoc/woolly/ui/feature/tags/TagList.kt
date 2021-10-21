@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemsIndexed
+import androidx.paging.compose.items
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Tag
@@ -61,10 +61,10 @@ fun TagList(
                 )
             }
 
-            itemsIndexed(
+            items(
                 items = lazyPagingItems,
-                key = { _, tag -> tag.name }
-            ) { _, tag ->
+                key = { tag -> tag.name }
+            ) { tag ->
                 Column {
                     if (tag != null) {
                         HashtagListItem(

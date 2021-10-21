@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 // Copied from androidx.paging:paging-compose:1.0.0-alpha11
 // Modified: remove dependency on Android SDK (lint, parcelable)
+// Modified: add hasRestoredItems flag to fix scroll state restoration
 
 /**
  * The class responsible for accessing the data from a [Flow] of [PagingData].
@@ -60,9 +61,6 @@ public class LazyPagingItems<T : Any> internal constructor(
 ) {
     private val mainDispatcher = Dispatchers.Main
 
-    var hasRestoredItems: Boolean = false
-        private set
-
     /**
      * Contains the latest items list snapshot collected from the [flow].
      */
@@ -74,6 +72,15 @@ public class LazyPagingItems<T : Any> internal constructor(
      * The number of items which can be accessed.
      */
     val itemCount: Int get() = itemSnapshotList.size
+
+    /**
+     * Added to fix scroll state restoration - wait for this flag to be set to true
+     * before setting your [LazyListState] on the [LazyColumn].
+     *
+     * @author Baptiste Candellier
+     */
+    var hasRestoredItems: Boolean = false
+        private set
 
     private val differCallback: DifferCallback = object : DifferCallback {
         override fun onChanged(position: Int, count: Int) {

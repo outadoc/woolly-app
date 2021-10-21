@@ -39,7 +39,7 @@ fun TagList(
     ) {
         LazyColumn(
             modifier = modifier.fillMaxSize(),
-            state = lazyListState,
+            state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
             contentPadding = insets
         ) {
             when (val state = lazyPagingItems.loadState.refresh) {

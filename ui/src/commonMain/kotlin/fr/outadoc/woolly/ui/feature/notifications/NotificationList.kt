@@ -48,7 +48,7 @@ fun NotificationList(
         ) {
             LazyColumn(
                 modifier = modifier.widthIn(max = maxContentWidth),
-                state = lazyListState,
+                state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
                 contentPadding = insets
             ) {
                 when (val state = lazyPagingItems.loadState.refresh) {

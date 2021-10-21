@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -53,7 +52,7 @@ fun StatusList(
         ) {
             LazyColumn(
                 modifier = modifier.widthIn(max = maxContentWidth),
-                state = if (lazyPagingItems.hasRestoredItems) lazyListState else rememberLazyListState(),
+                state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
                 contentPadding = insets
             ) {
                 header?.let { header ->

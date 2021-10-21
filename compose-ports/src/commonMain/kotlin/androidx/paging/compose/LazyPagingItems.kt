@@ -60,6 +60,9 @@ public class LazyPagingItems<T : Any> internal constructor(
 ) {
     private val mainDispatcher = Dispatchers.Main
 
+    var hasRestoredItems: Boolean = false
+        private set
+
     /**
      * Contains the latest items list snapshot collected from the [flow].
      */
@@ -111,6 +114,7 @@ public class LazyPagingItems<T : Any> internal constructor(
 
     private fun updateItemSnapshotList() {
         itemSnapshotList = pagingDataDiffer.snapshot()
+        hasRestoredItems = true
     }
 
     /**

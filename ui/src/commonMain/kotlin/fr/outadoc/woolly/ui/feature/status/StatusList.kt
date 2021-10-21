@@ -50,70 +50,72 @@ fun StatusList(
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center
         ) {
-            LazyColumn(
-                modifier = modifier.widthIn(max = maxContentWidth),
-                state = lazyListState,
-                contentPadding = insets
-            ) {
-                header?.let { header ->
-                    item("header") {
-                        header()
+            if (lazyPagingItems.hasRestoredItems) {
+                LazyColumn(
+                    modifier = modifier.widthIn(max = maxContentWidth),
+                    state = lazyListState,
+                    contentPadding = insets
+                ) {
+                    header?.let { header ->
+                        item("header") {
+                            header()
+                        }
                     }
-                }
 
-                when (val state = lazyPagingItems.loadState.refresh) {
-                    is LoadState.Error -> item {
-                        ErrorScreen(
-                            modifier = Modifier
-                                .fillParentMaxSize()
-                                .padding(16.dp),
-                            error = state.error,
+                    when (val state = lazyPagingItems.loadState.refresh) {
+                        is LoadState.Error -> item {
+                            ErrorScreen(
+                                modifier = Modifier
+                                    .fillParentMaxSize()
+                                    .padding(16.dp),
+                                error = state.error,
+                                onRetry = lazyPagingItems::retry
+                            )
+                        }
+                    }
+
+                    item {
+                        ListExtremityState(
+                            state = lazyPagingItems.loadState.prepend,
                             onRetry = lazyPagingItems::retry
                         )
                     }
-                }
 
-                item {
-                    ListExtremityState(
-                        state = lazyPagingItems.loadState.prepend,
-                        onRetry = lazyPagingItems::retry
-                    )
-                }
+                    items(
+                        items = lazyPagingItems,
+                        key = { status -> status.statusId }
+                    ) { status ->
+                        Column {
+                            if (status != null) {
+                                StatusOrBoost(
+                                    modifier = Modifier
+                                        .clickable { onStatusClick(status) }
+                                        .padding(
+                                            top = 16.dp,
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            bottom = 8.dp
+                                        ),
+                                    status = status,
+                                    onStatusAction = onStatusAction,
+                                    onAttachmentClick = onAttachmentClick,
+                                    onStatusReplyClick = onStatusReplyClick,
+                                    onAccountClick = onAccountClick
+                                )
+                            } else {
+                                StatusPlaceholder()
+                            }
 
-                items(
-                    items = lazyPagingItems,
-                    key = { status -> status.statusId }
-                ) { status ->
-                    Column {
-                        if (status != null) {
-                            StatusOrBoost(
-                                modifier = Modifier
-                                    .clickable { onStatusClick(status) }
-                                    .padding(
-                                        top = 16.dp,
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        bottom = 8.dp
-                                    ),
-                                status = status,
-                                onStatusAction = onStatusAction,
-                                onAttachmentClick = onAttachmentClick,
-                                onStatusReplyClick = onStatusReplyClick,
-                                onAccountClick = onAccountClick
-                            )
-                        } else {
-                            StatusPlaceholder()
+                            Divider(thickness = 1.dp)
                         }
-
-                        Divider(thickness = 1.dp)
                     }
-                }
 
-                item {
-                    ListExtremityState(
-                        state = lazyPagingItems.loadState.append,
-                        onRetry = lazyPagingItems::retry
-                    )
+                    item {
+                        ListExtremityState(
+                            state = lazyPagingItems.loadState.append,
+                            onRetry = lazyPagingItems::retry
+                        )
+                    }
                 }
             }
         }

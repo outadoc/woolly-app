@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.tags.component
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.timelines.getHashtagTimelineSource
@@ -39,12 +40,11 @@ class HashtagTimelineComponent(
     }
 
     val hashtagPagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository.getPagingData(
-            componentScope,
-            factory = { client ->
+        statusPagingRepository
+            .getPagingData { client ->
                 client.timelines.getHashtagTimelineSource(hashtag = state.value.hashtag)
             }
-        )
+            .cachedIn(componentScope)
 
     fun loadHashtag(hashtag: String) {
         _state.value = _state.value.copy(hashtag = hashtag)

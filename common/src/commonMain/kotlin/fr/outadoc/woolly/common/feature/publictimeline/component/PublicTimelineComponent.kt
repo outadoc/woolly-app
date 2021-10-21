@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.publictimeline.component
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.timelines.getPublicTimelineSource
@@ -42,20 +43,14 @@ class PublicTimelineComponent(
     }
 
     val localPagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository.getPagingData(
-            componentScope,
-            factory = { client ->
-                client.timelines.getPublicTimelineSource(onlyLocal = true)
-            }
-        )
+        statusPagingRepository
+            .getPagingData { client -> client.timelines.getPublicTimelineSource(onlyLocal = true) }
+            .cachedIn(componentScope)
 
     val globalPagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository.getPagingData(
-            componentScope,
-            factory = { client ->
-                client.timelines.getPublicTimelineSource()
-            }
-        )
+        statusPagingRepository
+            .getPagingData { client -> client.timelines.getPublicTimelineSource() }
+            .cachedIn(componentScope)
 
     fun onLocalStatusAction(action: StatusAction) {
         statusActionRepository.onStatusAction(action)

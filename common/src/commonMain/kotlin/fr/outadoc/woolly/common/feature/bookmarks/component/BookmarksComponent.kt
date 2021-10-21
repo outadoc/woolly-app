@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.bookmarks.component
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getBookmarksSource
@@ -30,12 +31,11 @@ class BookmarksComponent(
     }
 
     val bookmarksPagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository.getPagingData(
-            componentScope,
-            factory = { client ->
+        statusPagingRepository
+            .getPagingData { client ->
                 client.bookmarks.getBookmarksSource()
             }
-        )
+            .cachedIn(componentScope)
 
     fun onStatusAction(action: StatusAction) {
         statusActionRepository.onStatusAction(action)

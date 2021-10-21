@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.favourites.component
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.accounts.getFavouritesSource
@@ -30,12 +31,9 @@ class FavouritesComponent(
     }
 
     val favouritesPagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository.getPagingData(
-            componentScope,
-            factory = { client ->
-                client.favourites.getFavouritesSource()
-            }
-        )
+        statusPagingRepository
+            .getPagingData { client -> client.favourites.getFavouritesSource() }
+            .cachedIn(componentScope)
 
     fun onStatusAction(action: StatusAction) {
         statusActionRepository.onStatusAction(action)

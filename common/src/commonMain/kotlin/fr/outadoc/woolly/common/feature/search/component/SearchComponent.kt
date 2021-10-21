@@ -61,12 +61,9 @@ class SearchComponent(
     }
 
     val statusPagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository.getPagingData(
-            componentScope,
-            factory = { client ->
-                client.search.searchStatusesSource(q = state.value.query)
-            }
-        )
+        statusPagingRepository
+            .getPagingData { client -> client.search.searchStatusesSource(q = state.value.query) }
+            .cachedIn(componentScope)
 
     private var _latestAccountsPagingSource: PagingSource<PageInfo, Account>? = null
     private val accountsPagingSource: PagingSource<PageInfo, Account>

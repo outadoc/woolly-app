@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.account.component
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
@@ -53,13 +54,11 @@ class MyAccountComponent(
             .currentAccount
             .mapNotNull { account -> account?.accountId }
             .flatMapLatest { accountId ->
-                statusPagingRepository.getPagingData(
-                    componentScope,
-                    factory = { client ->
-                        client.accounts.getStatusesSource(accountId)
-                    }
-                )
+                statusPagingRepository.getPagingData { client ->
+                    client.accounts.getStatusesSource(accountId)
+                }
             }
+            .cachedIn(componentScope)
 
     val settingsState: StateFlow<SettingsState> =
         preferenceRepository

@@ -6,7 +6,6 @@ import fr.outadoc.mastodonk.api.entity.paging.PageInfo
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
@@ -28,13 +27,9 @@ class StatusPagingRepository(
             }
     }
 
-    fun getPagingData(
-        componentScope: CoroutineScope,
-        factory: (MastodonClient) -> PagingSource<PageInfo, Status>
-    ): Flow<PagingData<Status>> =
+    fun getPagingData(factory: (MastodonClient) -> PagingSource<PageInfo, Status>): Flow<PagingData<Status>> =
         Pager(pagingConfig) { getPagingSource(factory) }
             .flow
-            .cachedIn(componentScope)
             .combine(statusActionRepository.cachedStatusDeltas) { data, deltas ->
                 data.map { status ->
                     // Apply status action deltas to the statuses in this list.

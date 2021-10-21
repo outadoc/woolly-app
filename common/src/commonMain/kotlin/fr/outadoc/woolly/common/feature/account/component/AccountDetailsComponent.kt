@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.account.component
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Relationship
@@ -95,14 +96,13 @@ class AccountDetailsComponent(
     }
 
     val timelinePagingItems: Flow<PagingData<Status>> =
-        currentAccountIdFlow.flatMapLatest { accountId ->
-            statusPagingRepository.getPagingData(
-                componentScope,
-                factory = { client ->
+        currentAccountIdFlow
+            .flatMapLatest { accountId ->
+                statusPagingRepository.getPagingData { client ->
                     client.accounts.getStatusesSource(accountId)
                 }
-            )
-        }
+            }
+            .cachedIn(componentScope)
 
     fun loadAccount(accountId: String) {
         currentAccountIdFlow.tryEmit(accountId)

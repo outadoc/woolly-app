@@ -1,6 +1,7 @@
 package fr.outadoc.woolly.common.feature.home.component
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.paging.api.endpoint.timelines.getHomeTimelineSource
@@ -30,12 +31,9 @@ class HomeTimelineComponent(
     }
 
     val homePagingItems: Flow<PagingData<Status>> =
-        statusPagingRepository.getPagingData(
-            componentScope,
-            factory = { client ->
-                client.timelines.getHomeTimelineSource()
-            }
-        )
+        statusPagingRepository
+            .getPagingData { client -> client.timelines.getHomeTimelineSource() }
+            .cachedIn(componentScope)
 
     fun onStatusAction(action: StatusAction) {
         statusActionRepository.onStatusAction(action)

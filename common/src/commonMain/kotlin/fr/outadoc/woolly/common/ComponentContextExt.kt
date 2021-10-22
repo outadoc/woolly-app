@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.common
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.lifecycle.doOnDestroy
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 

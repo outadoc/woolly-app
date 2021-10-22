@@ -125,7 +125,7 @@ class SearchComponent(
     }
 
     init {
-        backPressedDispatcher.register {
+        backPressedHandler.register {
             // Handle the back button.
             // Return true to consume the event, or false to allow other consumers.
             _state.value.query.isNotEmpty().also { isNotEmpty ->

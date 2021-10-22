@@ -1,10 +1,10 @@
 package fr.outadoc.woolly.common.feature.state
 
 import androidx.compose.foundation.lazy.LazyListState
-import com.arkivanov.decompose.statekeeper.Parcelable
-import com.arkivanov.decompose.statekeeper.Parcelize
-import com.arkivanov.decompose.statekeeper.StateKeeper
-import com.arkivanov.decompose.statekeeper.consume
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
+import com.arkivanov.essenty.statekeeper.StateKeeper
+import com.arkivanov.essenty.statekeeper.consume
 
 @Parcelize
 private data class ListStateParcel(

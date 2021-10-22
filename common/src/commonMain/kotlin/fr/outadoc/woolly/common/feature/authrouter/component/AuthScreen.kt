@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.common.feature.authrouter.component
 
-import com.arkivanov.decompose.statekeeper.Parcelable
-import com.arkivanov.decompose.statekeeper.Parcelize
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
 
 sealed class AuthScreen : Parcelable {
 

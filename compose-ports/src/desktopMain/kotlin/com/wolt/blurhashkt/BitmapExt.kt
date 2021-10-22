@@ -2,9 +2,9 @@ package com.wolt.blurhashkt
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import org.jetbrains.skija.Bitmap
-import org.jetbrains.skija.ColorAlphaType
-import org.jetbrains.skija.ImageInfo
+import org.jetbrains.skia.Bitmap
+import org.jetbrains.skia.ColorAlphaType
+import org.jetbrains.skia.ImageInfo
 
 actual fun bitmapFromBuffer(buffer: IntArray, width: Int, height: Int): ImageBitmap {
     val byteArray = getBytes(width, height, buffer)

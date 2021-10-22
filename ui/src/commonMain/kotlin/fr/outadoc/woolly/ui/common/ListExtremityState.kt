@@ -1,5 +1,9 @@
 package fr.outadoc.woolly.ui.common
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,9 +17,17 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun LazyItemScope.ListExtremityState(state: LoadState, onRetry: () -> Unit) {
-    if (state !is LoadState.NotLoading) {
+fun LazyItemScope.ListExtremityState(
+    state: LoadState, onRetry: () -> Unit,
+    animationDirection: Alignment.Vertical
+) {
+    AnimatedVisibility(
+        visible = state !is LoadState.NotLoading,
+        enter = expandVertically(expandFrom = animationDirection),
+        exit = shrinkVertically(shrinkTowards = animationDirection)
+    ) {
         Column(
             modifier = Modifier
                 .fillParentMaxWidth()

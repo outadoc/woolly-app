@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -43,7 +44,7 @@ fun TagList(
             contentPadding = insets
         ) {
             when (val state = lazyPagingItems.loadState.refresh) {
-                is LoadState.Error -> item {
+                is LoadState.Error -> item(key = "error") {
                     ErrorScreen(
                         modifier = Modifier
                             .fillParentMaxSize()
@@ -54,10 +55,11 @@ fun TagList(
                 }
             }
 
-            item {
+            item(key = "prepend") {
                 ListExtremityState(
                     state = lazyPagingItems.loadState.prepend,
-                    onRetry = lazyPagingItems::retry
+                    onRetry = lazyPagingItems::retry,
+                    animationDirection = Alignment.Top
                 )
             }
 
@@ -79,10 +81,11 @@ fun TagList(
                 }
             }
 
-            item {
+            item(key = "append") {
                 ListExtremityState(
                     state = lazyPagingItems.loadState.append,
-                    onRetry = lazyPagingItems::retry
+                    onRetry = lazyPagingItems::retry,
+                    animationDirection = Alignment.Bottom
                 )
             }
         }

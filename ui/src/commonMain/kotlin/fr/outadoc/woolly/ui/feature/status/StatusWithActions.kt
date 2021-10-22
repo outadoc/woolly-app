@@ -29,28 +29,28 @@ fun StatusWithActions(
 
     Column(modifier = modifier.fillMaxWidth()) {
         StatusHeader(
-            modifier = Modifier.padding(bottom = 8.dp),
+            modifier = Modifier.padding(bottom = 4.dp),
             status = status
         )
 
         if (status.content.isNotBlank()) {
-            StatusBody(status = status)
+            StatusBody(
+                modifier = Modifier.padding(vertical = 4.dp),
+                status = status
+            )
         }
 
         status.poll?.let { poll ->
             Poll(
+                modifier = Modifier.padding(vertical = 4.dp),
                 poll = poll,
-                modifier = Modifier.padding(top = 16.dp),
                 onClick = { status.url?.let { uriHandler.openUri(it) } }
             )
         }
 
         if (status.mediaAttachments.isNotEmpty()) {
             StatusMediaGrid(
-                modifier = Modifier.padding(
-                    top = 16.dp,
-                    bottom = 8.dp
-                ),
+                modifier = Modifier.padding(vertical = 4.dp),
                 media = status.mediaAttachments,
                 isSensitive = status.isSensitive,
                 onAttachmentClick = onAttachmentClick
@@ -61,7 +61,7 @@ fun StatusWithActions(
             StatusCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 4.dp),
                 card = card,
                 onClick = { uriHandler.openUri(card.url) }
             )
@@ -69,7 +69,7 @@ fun StatusWithActions(
 
         boostedBy?.let { boostedBy ->
             StatusBoostedByLabel(
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
                 boostedBy = boostedBy,
                 onAccountClick = onAccountClick
             )

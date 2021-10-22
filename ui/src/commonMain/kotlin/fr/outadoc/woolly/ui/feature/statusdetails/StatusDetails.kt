@@ -36,21 +36,21 @@ fun StatusDetails(
     Column(modifier = modifier) {
         boostedBy?.let { boostedBy ->
             StatusBoostedByLabel(
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier.padding(bottom = 8.dp),
                 boostedBy = boostedBy,
                 onAccountClick = onAccountClick
             )
         }
 
         StatusHeader(
-            modifier = Modifier.padding(bottom = 16.dp),
+            modifier = Modifier.padding(vertical = 4.dp),
             status = status,
             onAccountClick = onAccountClick
         )
 
         if (status.content.isNotBlank()) {
             StatusBodyPlain(
-                modifier = Modifier.padding(bottom = 8.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
                 status = status,
                 style = MaterialTheme.typography.body1
             )
@@ -58,7 +58,7 @@ fun StatusDetails(
 
         status.poll?.let { poll ->
             Poll(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
                 poll = poll
             ) {
                 status.url?.let { uriHandler.openUri(it) }
@@ -67,7 +67,7 @@ fun StatusDetails(
 
         if (status.mediaAttachments.isNotEmpty()) {
             StatusMediaGrid(
-                modifier = Modifier.padding(vertical = 16.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
                 media = status.mediaAttachments,
                 isSensitive = status.isSensitive,
                 onAttachmentClick = onAttachmentClick
@@ -78,7 +78,7 @@ fun StatusDetails(
             StatusCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 4.dp),
                 card = card,
                 onClick = { uriHandler.openUri(card.url) }
             )
@@ -88,13 +88,13 @@ fun StatusDetails(
             StatusAutomatedLabel(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                    .padding(vertical = 4.dp)
             )
         }
 
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             StatusFooter(
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
                 status = status
             )
         }

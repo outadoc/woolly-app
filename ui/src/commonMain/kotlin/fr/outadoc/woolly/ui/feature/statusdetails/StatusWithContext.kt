@@ -48,12 +48,12 @@ fun StatusWithContext(
                 )
             }
 
-            item {
+            item(key = "ancestorDivider") {
                 TabRowDefaults.Divider(thickness = 1.dp)
             }
         }
 
-        item {
+        item(key = status.statusId) {
             StatusDetails(
                 modifier = Modifier.padding(16.dp),
                 statusOrBoost = status,
@@ -65,7 +65,7 @@ fun StatusWithContext(
         }
 
         if (context.descendants.isNotEmpty()) {
-            item {
+            item(key = "descendantDivider") {
                 TabRowDefaults.Divider(thickness = 1.dp)
             }
 

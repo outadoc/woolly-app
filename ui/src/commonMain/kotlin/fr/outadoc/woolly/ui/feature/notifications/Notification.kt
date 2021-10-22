@@ -45,7 +45,7 @@ fun Notification(
 
                 NotificationHeader(
                     modifier = Modifier.padding(
-                        bottom = if (notification.status != null) 16.dp else 0.dp
+                        bottom = if (notification.status != null) 4.dp else 0.dp
                     ),
                     notification = notification,
                     startPadding = startPadding,
@@ -65,7 +65,7 @@ fun Notification(
                             modifier = Modifier
                                 .padding(
                                     start = startPadding,
-                                    top = if (status.content.isNotBlank()) 16.dp else 0.dp
+                                    top = if (status.content.isNotBlank()) 8.dp else 0.dp
                                 )
                                 .width(256.dp),
                             media = status.mediaAttachments,

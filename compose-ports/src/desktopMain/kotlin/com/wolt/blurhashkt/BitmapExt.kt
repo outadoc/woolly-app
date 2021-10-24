@@ -1,7 +1,7 @@
 package com.wolt.blurhashkt
 
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.asComposeImageBitmap
 import org.jetbrains.skia.Bitmap
 import org.jetbrains.skia.ColorAlphaType
 import org.jetbrains.skia.ImageInfo
@@ -10,8 +10,8 @@ actual fun bitmapFromBuffer(buffer: IntArray, width: Int, height: Int): ImageBit
     val byteArray = getBytes(width, height, buffer)
     return Bitmap().apply {
         allocPixels(ImageInfo.makeS32(width, height, ColorAlphaType.PREMUL))
-        installPixels(imageInfo, byteArray, (width * 4).toLong())
-    }.asImageBitmap()
+        installPixels(imageInfo, byteArray, width * 4)
+    }.asComposeImageBitmap()
 }
 
 private fun getBytes(width: Int, height: Int, buffer: IntArray): ByteArray {

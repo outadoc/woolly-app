@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import com.arkivanov.decompose.DefaultComponentContext
@@ -43,7 +44,7 @@ private fun ApplicationScope.DesktopApp() = withDI(DesktopAppDI) {
         LocalUriHandler provides DesktopUriHandler()
     ) {
         val windowState = rememberWindowState(
-            size = WindowSize(width = 620.dp, height = 900.dp)
+            size = DpSize(width = 620.dp, height = 900.dp)
         )
 
         Window(

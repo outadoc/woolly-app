@@ -2,12 +2,12 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    val kotlinVersion = "1.5.30"
+    val kotlinVersion = "1.5.31"
 
     kotlin("android") version kotlinVersion apply false
     kotlin("multiplatform") version kotlinVersion apply false
     kotlin("plugin.serialization") version kotlinVersion apply false
-    id("org.jetbrains.compose") version "1.0.0-alpha4-build348" apply false
+    id("org.jetbrains.compose") version "1.0.0-beta1" apply false
 
     id("com.diffplug.spotless") version "5.14.0"
     id("com.github.ben-manes.versions") version "0.39.0"

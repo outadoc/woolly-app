@@ -27,7 +27,6 @@ kotlin {
                 api(compose.material)
                 api(compose.ui)
                 api(compose.materialIconsExtended)
-                api("androidx.compose.ui:ui-text")
 
                 api(libs.kodein)
                 api(libs.ktor.serialization)

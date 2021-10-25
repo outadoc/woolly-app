@@ -21,6 +21,8 @@ import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.common.takeBottom
+import fr.outadoc.woolly.ui.common.takeTop
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,7 +33,8 @@ fun MainOverlayDrawer(
     currentScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit = {},
     drawerState: DrawerState? = null,
-    scope: CoroutineScope = rememberCoroutineScope()
+    scope: CoroutineScope = rememberCoroutineScope(),
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     val authenticationStateConsumer by instance<AuthenticationStateConsumer>()
     val accountRepository by instance<AccountRepository>()
@@ -48,11 +51,12 @@ fun MainOverlayDrawer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(WoollyDefaults.AppBarHeight)
+                    .height(WoollyDefaults.AppBarHeight + contentPadding.calculateTopPadding())
             ) {
                 account?.let {
                     OverlayAppDrawerHeader(
                         modifier = Modifier.fillMaxSize(),
+                        contentPadding = contentPadding.takeTop(),
                         account = it
                     )
                 }
@@ -76,6 +80,7 @@ fun MainOverlayDrawer(
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(vertical = 16.dp)
+                    .padding(contentPadding.takeBottom())
                     .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.Center
             ) {

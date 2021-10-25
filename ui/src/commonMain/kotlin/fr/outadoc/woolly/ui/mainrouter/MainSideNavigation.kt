@@ -28,6 +28,7 @@ import org.kodein.di.compose.instance
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainSideNavigation(
+    modifier: Modifier = Modifier,
     currentScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit = {},
     scope: CoroutineScope = rememberCoroutineScope()
@@ -41,7 +42,7 @@ fun MainSideNavigation(
             val alpha: Float by animateFloatAsState(if (account == null) 0f else 1f)
 
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .alpha(alpha)
                     .padding(vertical = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally

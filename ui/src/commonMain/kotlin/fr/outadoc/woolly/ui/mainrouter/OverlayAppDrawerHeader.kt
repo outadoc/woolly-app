@@ -18,6 +18,7 @@ import io.kamel.image.lazyPainterResource
 @Composable
 fun OverlayAppDrawerHeader(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(),
     account: Account,
     onAvatarClick: () -> Unit = {}
 ) {
@@ -38,6 +39,7 @@ fun OverlayAppDrawerHeader(
             Row(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(contentPadding)
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

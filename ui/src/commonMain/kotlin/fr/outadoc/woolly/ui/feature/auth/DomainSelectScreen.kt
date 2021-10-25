@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.collect
 
 @Composable
 fun DomainSelectScreen(
+    modifier: Modifier = Modifier,
     component: DomainSelectComponent,
-    insets: PaddingValues = PaddingValues(),
     onDomainSelected: (String) -> Unit = {}
 ) {
     val state by component.state.collectAsState()
@@ -34,10 +34,9 @@ fun DomainSelectScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(0.7f)
-            .padding(insets)
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

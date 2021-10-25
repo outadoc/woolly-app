@@ -3,7 +3,8 @@ package fr.outadoc.woolly.ui.mainrouter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,7 +19,9 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.cros
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
-import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.common.PaddedTopAppBar
+import fr.outadoc.woolly.ui.common.takeBottom
+import fr.outadoc.woolly.ui.common.takeTop
 import fr.outadoc.woolly.ui.feature.notifications.NotificationsTopAppBar
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
@@ -29,7 +32,10 @@ import org.kodein.di.compose.instance
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun MainRouter(component: MainRouterComponent) {
+fun MainRouter(
+    component: MainRouterComponent,
+    systemInsets: PaddingValues = PaddingValues()
+) {
     val scaffoldState = rememberScaffoldState()
     val settingsSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
@@ -71,8 +77,8 @@ fun MainRouter(component: MainRouterComponent) {
     ResponsiveScaffold(
         scaffoldState = scaffoldState,
         topBar = { drawerState ->
-            Box(modifier = Modifier
-                .clickable(
+            Box(
+                modifier = Modifier.clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
                     onClick = {
@@ -83,25 +89,30 @@ fun MainRouter(component: MainRouterComponent) {
                 Children(routerState = component.routerState) { screen ->
                     when (val currentScreen = screen.instance) {
                         is MainContent.PublicTimeline -> PublicTimelineTopAppBar(
+                            contentPadding = systemInsets.takeTop(),
                             component = currentScreen.component,
                             drawerState = drawerState
                         )
 
                         is MainContent.Notifications -> NotificationsTopAppBar(
+                            contentPadding = systemInsets.takeTop(),
                             component = currentScreen.component,
                             drawerState = drawerState
                         )
 
                         is MainContent.Search -> SearchTopAppBar(
+                            contentPadding = systemInsets.takeTop(),
                             component = currentScreen.component,
                             drawerState = drawerState
                         )
 
                         else -> {
                             val res by instance<AppScreenResources>()
-                            TopAppBar(
-                                modifier = Modifier.height(WoollyDefaults.AppBarHeight),
-                                title = { Text(res.getScreenTitle(screen.configuration)) },
+                            PaddedTopAppBar(
+                                contentPadding = systemInsets.takeTop(),
+                                title = {
+                                    Text(text = res.getScreenTitle(screen.configuration))
+                                },
                                 navigationIcon = when {
                                     component.shouldDisplayBackButton.value -> {
                                         @Composable {
@@ -140,7 +151,8 @@ fun MainRouter(component: MainRouterComponent) {
                         scope.launch {
                             component.onScreenSelected(target)
                         }
-                    }
+                    },
+                    contentPadding = systemInsets.takeBottom()
                 )
             }
         },
@@ -153,6 +165,7 @@ fun MainRouter(component: MainRouterComponent) {
                             component.onScreenSelected(target)
                         }
                     },
+                    contentPadding = systemInsets,
                     drawerState = drawerState,
                     scope = scope
                 )
@@ -161,6 +174,7 @@ fun MainRouter(component: MainRouterComponent) {
         wideDrawerContent = {
             Children(routerState = component.routerState) { screen ->
                 MainSideNavigation(
+                    modifier = Modifier.padding(systemInsets),
                     currentScreen = screen.configuration,
                     onScreenSelected = { target ->
                         scope.launch {

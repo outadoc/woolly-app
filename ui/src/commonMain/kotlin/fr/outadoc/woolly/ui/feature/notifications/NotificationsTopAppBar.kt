@@ -1,11 +1,13 @@
 package fr.outadoc.woolly.ui.feature.notifications
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
@@ -16,8 +18,10 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun NotificationsTopAppBar(
+    modifier: Modifier = Modifier,
     component: NotificationsComponent,
-    drawerState: DrawerState?
+    drawerState: DrawerState?,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     val res by instance<AppScreenResources>()
     val state by component.state.collectAsState()
@@ -30,6 +34,8 @@ fun NotificationsTopAppBar(
     ) {
         Column {
             TopAppBarWithMenu(
+                modifier = modifier,
+                contentPadding = contentPadding,
                 title = { Text(text = res.getScreenTitle(AppScreen.PublicTimeline)) },
                 backgroundColor = MaterialTheme.colors.primarySurface,
                 drawerState = drawerState,

@@ -2,6 +2,7 @@ package fr.outadoc.woolly.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -25,7 +26,8 @@ import org.kodein.di.compose.instance
 fun WoollyApp(
     mainRouterComponent: MainRouterComponent,
     authRouterComponent: AuthRouterComponent,
-    onFinishedLoading: () -> Unit = {}
+    onFinishedLoading: () -> Unit = {},
+    systemInsets: PaddingValues = PaddingValues()
 ) {
     val prefs by instance<PreferenceRepository>()
     val appPrefsState by prefs.preferences.collectAsState()
@@ -42,11 +44,13 @@ fun WoollyApp(
             WoollyTheme(isDarkMode = theme == DisplayTheme.Dark) {
                 if (appPrefs.authenticationState.activeAccount == null) {
                     AuthRouter(
-                        component = authRouterComponent
+                        component = authRouterComponent,
+                        systemInsets = systemInsets
                     )
                 } else {
                     MainRouter(
-                        component = mainRouterComponent
+                        component = mainRouterComponent,
+                        systemInsets = systemInsets
                     )
                 }
             }

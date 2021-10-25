@@ -18,9 +18,9 @@ import kotlinx.coroutines.flow.collect
 
 @Composable
 fun CodeInputScreen(
+    modifier: Modifier = Modifier,
     component: CodeInputComponent,
     domain: String,
-    insets: PaddingValues = PaddingValues(),
     onSuccessfulAuthentication: (UserCredentials) -> Unit = {}
 ) {
     val state by component.state.collectAsState()
@@ -37,10 +37,9 @@ fun CodeInputScreen(
     val uriHandler = LocalUriHandler.current
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(0.7f)
-            .padding(insets)
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

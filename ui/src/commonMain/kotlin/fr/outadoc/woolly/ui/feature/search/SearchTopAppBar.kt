@@ -1,9 +1,6 @@
 package fr.outadoc.woolly.ui.feature.search
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -28,8 +25,10 @@ import org.kodein.di.compose.instance
 
 @Composable
 fun SearchTopAppBar(
+    modifier: Modifier = Modifier,
     component: SearchComponent,
-    drawerState: DrawerState?
+    drawerState: DrawerState?,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     val state by component.state.collectAsState()
 
@@ -42,6 +41,8 @@ fun SearchTopAppBar(
     ) {
         Column {
             TopAppBarWithMenu(
+                modifier = modifier,
+                contentPadding = contentPadding,
                 backgroundColor = MaterialTheme.colors.primarySurface,
                 title = {
                     ProvideTextStyle(value = textStyle) {

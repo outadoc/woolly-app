@@ -1,17 +1,27 @@
 package fr.outadoc.woolly.ui.mainrouter
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
+import fr.outadoc.woolly.ui.common.PaddedBottomNavigation
 import fr.outadoc.woolly.ui.screen.AppScreenResources
 import org.kodein.di.compose.instance
 
 @Composable
-fun MainBottomNavigation(currentScreen: AppScreen, onScreenSelected: (AppScreen) -> Unit) {
-    BottomNavigation {
+fun MainBottomNavigation(
+    modifier: Modifier = Modifier,
+    currentScreen: AppScreen,
+    onScreenSelected: (AppScreen) -> Unit,
+    contentPadding: PaddingValues = PaddingValues()
+) {
+    PaddedBottomNavigation(
+        modifier = modifier,
+        contentPadding = contentPadding
+    ) {
         Item(
             selected = currentScreen is AppScreen.HomeTimeline,
             targetScreen = AppScreen.HomeTimeline,

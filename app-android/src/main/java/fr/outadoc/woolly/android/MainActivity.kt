@@ -6,16 +6,25 @@ import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.defaultComponentContext
 import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.common.feature.theme.AndroidSystemThemeDetector
 import fr.outadoc.woolly.ui.WoollyApp
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.kodein.di.android.closestDI
 import org.kodein.di.compose.withDI
 import org.kodein.di.direct
@@ -26,10 +35,12 @@ class MainActivity : ComponentActivity() {
     private val di by closestDI()
 
     private var isReady = false
+    private val insetsFlow = MutableStateFlow(Insets.NONE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         notifyConfiguration(resources.configuration)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val componentContext = defaultComponentContext()
 
@@ -65,6 +76,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         )
+
+        ViewCompat.setOnApplyWindowInsetsListener(content) { _, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            insetsFlow.tryEmit(insets)
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -82,13 +99,24 @@ class MainActivity : ComponentActivity() {
         mainRouterComponent: MainRouterComponent,
         authRouterComponent: AuthRouterComponent
     ) = withDI {
+        val insetsPx by insetsFlow.collectAsState()
+        val insetsDp = with(LocalDensity.current) {
+            PaddingValues(
+                start = insetsPx.left.toDp(),
+                end = insetsPx.right.toDp(),
+                top = insetsPx.top.toDp(),
+                bottom = insetsPx.bottom.toDp()
+            )
+        }
+
         CompositionLocalProvider(
             LocalUriHandler provides CustomTabUriHandler(LocalContext.current),
         ) {
             WoollyApp(
                 mainRouterComponent = mainRouterComponent,
                 authRouterComponent = authRouterComponent,
-                onFinishedLoading = { isReady = true }
+                onFinishedLoading = { isReady = true },
+                systemInsets = insetsDp
             )
         }
     }

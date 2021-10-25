@@ -1,11 +1,16 @@
 package fr.outadoc.woolly.ui.mainrouter
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.*
+import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.DrawerState
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import fr.outadoc.woolly.ui.common.PaddedTopAppBar
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 
 @Composable
@@ -14,10 +19,17 @@ fun TopAppBarWithMenu(
     title: @Composable () -> Unit,
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
     drawerState: DrawerState?,
-    elevation: Dp = AppBarDefaults.TopAppBarElevation
+    elevation: Dp = AppBarDefaults.TopAppBarElevation,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
-    TopAppBar(
-        modifier = modifier.height(WoollyDefaults.AppBarHeight),
+    PaddedTopAppBar(
+        modifier = modifier
+            .height(
+                WoollyDefaults.AppBarHeight
+                        + contentPadding.calculateTopPadding()
+                        + contentPadding.calculateBottomPadding()
+            ),
+        contentPadding = contentPadding,
         title = title,
         backgroundColor = backgroundColor,
         elevation = elevation,

@@ -32,6 +32,7 @@ kotlin {
                 api(libs.kodein)
                 api(libs.ktor.serialization)
                 api(libs.kotlinx.coroutines)
+                api(libs.mokoResources)
 
                 implementation(libs.androidx.paging)
                 implementation(libs.mastodonk.core)
@@ -42,7 +43,6 @@ kotlin {
                 implementation(libs.androidx.datastore.core)
                 implementation(libs.decompose.core)
                 implementation(libs.decompose.jb)
-                implementation(libs.mokoResources)
             }
         }
 

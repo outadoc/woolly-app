@@ -24,24 +24,23 @@
 
     <string name="hashtagTimeline_title">#%1$s</string>
     <string name="hashtagTimeline_icon_cd">Hashtag</string>
+    <string name="hashtagTimeline_trendingIcon_cd">Trending</string>
+    <string name="hashtagTimeline_activity_subtitle">%1$d people talking</string>
 
     <string name="home_title">Home</string>
+
     <string name="imageViewer_title">Image</string>
+
     <string name="myAccount_title">My Profile</string>
 
-    <string name="navigation_openDrawer_cd">Open drawer menu</string>
+    <string name="navigation_composeStatus_action">Compose a new status</string>
     <string name="navigation_logout_action">Log out</string>
     <string name="navigation_logout_cd">Log out</string>
+    <string name="navigation_openDrawer_cd">Open drawer menu</string>
 
     <string name="notifications_title">Notifications</string>
     <string name="notifications_all_title">All</string>
     <string name="notifications_mentions_title">Mentions</string>
-
-    <string name="status_postedAgo_days">%1$d d</string>
-    <string name="status_postedAgo_hours">%1$d h</string>
-    <string name="status_postedAgo_minutes">%1$d m</string>
-    <string name="status_postedAgo_now">Now</string>
-    <string name="status_postedAgo_seconds">%1$d s</string>
 
     <string name="poll_chosenOption_cd">You voted for this option</string>
     <string name="poll_finalResults_label">Final results</string>
@@ -79,8 +78,24 @@
     <string name="search_accounts_title">Accounts</string>
     <string name="search_hashtags_title">Hashtags</string>
 
+    <string name="settings_title">App Settings</string>
+
+    <string name="status_mediaPreview_cd">View media source in browser</string>
+    <string name="status_postedAgo_days">%1$d d</string>
+    <string name="status_postedAgo_hours">%1$d h</string>
+    <string name="status_postedAgo_minutes">%1$d m</string>
+    <string name="status_postedAgo_now">Now</string>
+    <string name="status_postedAgo_seconds">%1$d s</string>
+    <string name="status_preview_cd">Link preview</string>
+    <string name="status_visibility_direct_cd">Direct</string>
+    <string name="status_visibility_private_cd">Followers-only</string>
+    <string name="status_visibility_public_cd">Public</string>
+    <string name="status_visibility_unlisted_cd">Unlisted</string>
+
     <string name="statusComposer_placeholder">What's on your mind?</string>
+    <string name="statusComposer_posting_title">Posting status…</string>
     <string name="statusComposer_postingAs_message">Posting as</string>
+    <string name="statusComposer_postingError_message">Error while posting status</string>
     <string name="statusComposer_replyingTo_cd">Replying to</string>
     <string name="statusComposer_replyingTo_message">In reply to %1$s</string>
     <string name="statusComposer_submit_action">Send</string>

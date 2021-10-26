@@ -19,6 +19,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.cros
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainContent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.PaddedTopAppBar
 import fr.outadoc.woolly.ui.common.takeBottom
 import fr.outadoc.woolly.ui.common.takeTop
@@ -26,6 +27,7 @@ import fr.outadoc.woolly.ui.feature.notifications.NotificationsTopAppBar
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
 import fr.outadoc.woolly.ui.screen.getTitle
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -49,11 +51,15 @@ fun MainRouter(
         }
     }
 
+    val actionMessage = stringResource(MR.strings.statusComposer_postingError_message)
+    val actionLabel = stringResource(MR.strings.all_genericError_retry_action)
+    val snackbarMessage = stringResource(MR.strings.statusComposer_posting_title)
+
     PostingStatusSnackbar(
         showPostingSnackbar = {
             scope.launch {
                 scaffoldState.snackbarHostState.showSnackbar(
-                    message = "Posting status…",
+                    message = snackbarMessage,
                     duration = SnackbarDuration.Short
                 )
             }
@@ -61,8 +67,8 @@ fun MainRouter(
         showErrorSnackbar = { onRetry: () -> Unit ->
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
-                    message = "Error while posting status",
-                    actionLabel = "Retry",
+                    message = actionMessage,
+                    actionLabel = actionLabel,
                     duration = SnackbarDuration.Indefinite
                 )
 
@@ -115,7 +121,10 @@ fun MainRouter(
                                     component.shouldDisplayBackButton.value -> {
                                         @Composable {
                                             IconButton(onClick = component::onBackPressed) {
-                                                Icon(Icons.Default.ArrowBack, "Go back")
+                                                Icon(
+                                                    Icons.Default.ArrowBack,
+                                                    contentDescription = stringResource(MR.strings.all_back_cd)
+                                                )
                                             }
                                         }
                                     }
@@ -131,7 +140,10 @@ fun MainRouter(
                                                 scope.launch { settingsSheetState.show() }
                                             }
                                         ) {
-                                            Icon(Icons.Default.Settings, "Settings")
+                                            Icon(
+                                                Icons.Default.Settings,
+                                                contentDescription = stringResource(MR.strings.settings_title)
+                                            )
                                         }
                                     }
                                 }
@@ -187,7 +199,10 @@ fun MainRouter(
             val shouldDisplay by component.shouldDisplayComposeButton.subscribeAsState()
             if (shouldDisplay) {
                 FloatingActionButton(onClick = component::onComposeStatusClicked) {
-                    Icon(Icons.Default.Edit, contentDescription = "Compose a new status")
+                    Icon(
+                        Icons.Default.Edit,
+                        contentDescription = stringResource(MR.strings.navigation_composeStatus_action)
+                    )
                 }
             }
         }

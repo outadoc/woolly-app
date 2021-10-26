@@ -11,7 +11,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import fr.outadoc.woolly.common.feature.media.ImageAttachment
 import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponent
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
+import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
@@ -24,7 +26,8 @@ fun ImageViewerScreen(
 
     PinchToZoom(
         modifier = Modifier.fillMaxSize(),
-        onLongClick = { uriHandler.openUri(image.url) }
+        onLongClick = { uriHandler.openUri(image.url) },
+        onLongClickLabel = stringResource(MR.strings.status_mediaPreview_cd)
     ) {
         KamelImage(
             modifier = Modifier.fillMaxSize(),

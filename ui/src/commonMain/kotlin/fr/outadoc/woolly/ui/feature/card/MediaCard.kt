@@ -8,7 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Card
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.BlurHashImage
+import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
@@ -29,14 +31,14 @@ fun MediaCard(
                 crossfade = true,
                 contentScale = ContentScale.FillWidth,
                 resource = lazyPainterResource(image),
-                contentDescription = "Link preview",
+                contentDescription = stringResource(MR.strings.status_preview_cd),
                 onLoading = {
                     val blurHash = card.blurHash
                     if (blurHash != null) {
                         BlurHashImage(
                             modifier = Modifier.aspectRatio(aspectRatio),
                             blurHash = blurHash,
-                            contentDescription = "Link preview"
+                            contentDescription = stringResource(MR.strings.status_preview_cd)
                         )
                     } else {
                         Row(

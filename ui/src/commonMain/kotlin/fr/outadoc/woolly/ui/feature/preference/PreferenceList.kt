@@ -17,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.PreferredTheme
 import fr.outadoc.woolly.common.feature.account.component.SettingsState
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.DropdownMenu
 import fr.outadoc.woolly.ui.common.DropdownMenuItem
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -30,7 +32,7 @@ fun PreferenceList(
     Column(modifier = modifier) {
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "App Settings",
+            text = stringResource(MR.strings.settings_title),
             style = MaterialTheme.typography.h5
         )
 

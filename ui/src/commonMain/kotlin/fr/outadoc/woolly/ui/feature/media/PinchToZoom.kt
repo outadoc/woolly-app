@@ -20,6 +20,7 @@ import kotlin.math.max
 fun PinchToZoom(
     modifier: Modifier = Modifier,
     onLongClick: () -> Unit = {},
+    onLongClickLabel: String,
     content: @Composable () -> Unit
 ) {
     var scale by remember { mutableStateOf(1f) }
@@ -34,7 +35,7 @@ fun PinchToZoom(
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = {},
                 onLongClick = onLongClick,
-                onLongClickLabel = "Open in browser",
+                onLongClickLabel = onLongClickLabel,
                 onDoubleClick = {
                     scale = if (scale == 2f) 1f else 2f
                 }

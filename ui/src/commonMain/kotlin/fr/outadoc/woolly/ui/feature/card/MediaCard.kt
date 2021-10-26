@@ -70,7 +70,7 @@ fun MediaCard(
                 card.providerName?.let { providerName ->
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
-                        text = "Source: $providerName",
+                        text = stringResource(MR.strings.status_previewSource_title, providerName),
                         style = MaterialTheme.typography.body2,
                         color = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
                     )

@@ -17,8 +17,10 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.NotificationType
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.feature.status.PastRelativeTime
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun NotificationHeader(
@@ -68,13 +70,31 @@ fun NotificationHeader(
                 top = 8.dp
             ),
             text = when (notification.type) {
-                NotificationType.Follow -> "$accountTitle follows you"
-                NotificationType.FollowRequest -> "$accountTitle would like to follow you"
-                NotificationType.Mention -> "New mention"
-                NotificationType.Boost -> "$accountTitle boosted your post"
-                NotificationType.Favourite -> "$accountTitle favourited your post"
-                NotificationType.Poll -> "A poll has ended"
-                NotificationType.Status -> "New post"
+                NotificationType.Follow -> stringResource(
+                    MR.strings.notifications_follow_title,
+                    accountTitle
+                )
+                NotificationType.FollowRequest -> stringResource(
+                    MR.strings.notifications_followRequest_title,
+                    accountTitle
+                )
+                NotificationType.Mention -> stringResource(
+                    MR.strings.notifications_mention_title
+                )
+                NotificationType.Boost -> stringResource(
+                    MR.strings.notifications_boost_title,
+                    accountTitle
+                )
+                NotificationType.Favourite -> stringResource(
+                    MR.strings.notifications_favourite_title,
+                    accountTitle
+                )
+                NotificationType.Poll -> stringResource(
+                    MR.strings.notifications_poll_title
+                )
+                NotificationType.Status -> stringResource(
+                    MR.strings.notifications_status_title
+                )
             },
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.subtitle2,

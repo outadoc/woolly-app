@@ -40,22 +40,21 @@
 
     <string name="notifications_title">Notifications</string>
     <string name="notifications_all_title">All</string>
+    <string name="notifications_boost_cd">New boost</string>
+    <string name="notifications_boost_title">%1$s boosted your post</string>
+    <string name="notifications_favourite_cd">New favourite</string>
+    <string name="notifications_favourite_title">%1$s favourited your post</string>
+    <string name="notifications_follow_cd">New follower</string>
+    <string name="notifications_follow_title">%1$s follows you</string>
+    <string name="notifications_followRequest_cd">New follow request</string>
+    <string name="notifications_followRequest_title">%1$s would like to follow you</string>
+    <string name="notifications_mention_cd">New mention</string>
+    <string name="notifications_mention_title">New mention</string>
     <string name="notifications_mentions_title">Mentions</string>
-
-    <string name="poll_chosenOption_cd">You voted for this option</string>
-    <string name="poll_finalResults_label">Final results</string>
-    <string name="poll_expirationTime_days">in %1$d d</string>
-    <string name="poll_expirationTime_expired">Expired</string>
-    <string name="poll_expirationTime_hours">in %1$d h</string>
-    <string name="poll_expirationTime_minutes">in %1$d m</string>
-    <string name="poll_expirationTime_seconds">in %1$d s</string>
-    <string name="poll_vote_action">Vote</string>
-    <string name="poll_votes_label">%1$d votes</string>
-    <string name="poll_openInBrowser_cd">Vote in browser</string>
-
-    <string name="publicTimeline_title">Public Timeline</string>
-    <string name="publicTimeline_local_title">Local</string>
-    <string name="publicTimeline_global_title">Federated</string>
+    <string name="notifications_poll_cd">Poll results are in</string>
+    <string name="notifications_poll_title">A poll has ended</string>
+    <string name="notifications_status_cd">New post</string>
+    <string name="notifications_status_title">New post</string>
 
     <string name="onboarding_title">Welcome to Woolly</string>
 
@@ -73,13 +72,45 @@
     <string name="onboardingDomain_input_placeholder">mastodon.example</string>
     <string name="onboardingDomain_submit_action">Continue</string>
 
-    <string name="search_title">Search</string>
-    <string name="search_statuses_title">Posts</string>
+    <string name="poll_chosenOption_cd">You voted for this option</string>
+    <string name="poll_finalResults_label">Final results</string>
+    <string name="poll_expirationTime_days">in %1$d d</string>
+    <string name="poll_expirationTime_expired">Expired</string>
+    <string name="poll_expirationTime_hours">in %1$d h</string>
+    <string name="poll_expirationTime_minutes">in %1$d m</string>
+    <string name="poll_expirationTime_seconds">in %1$d s</string>
+    <string name="poll_vote_action">Vote</string>
+    <string name="poll_votes_label">%1$d votes</string>
+    <string name="poll_openInBrowser_cd">Vote in browser</string>
+
+    <string name="publicTimeline_title">Public Timeline</string>
+    <string name="publicTimeline_local_title">Local</string>
+    <string name="publicTimeline_global_title">Federated</string>
+
+    <string name="profilePicture_cd">%1$s's profile picture</string>
+
     <string name="search_accounts_title">Accounts</string>
     <string name="search_hashtags_title">Hashtags</string>
+    <string name="search_input_placeholder">Search for something…</string>
+    <string name="search_input_clear_cd">Clear search</string>
+    <string name="search_statuses_title">Posts</string>
+    <string name="search_title">Search</string>
 
+    <string name="settings_currentTheme_title">Current theme</string>
+    <string name="settings_switchTheme_cd">Switch app theme</string>
+    <string name="settings_theme_dark">Always dark</string>
+    <string name="settings_theme_light">Always light</string>
+    <string name="settings_theme_system">Follow system theme</string>
     <string name="settings_title">App Settings</string>
 
+    <string name="status_automated_cd">Automated account</string>
+    <string name="status_automated_message">Automated</string>
+    <string name="status_boost_action">Boost</string>
+    <string name="status_boosted_cd">Boosted</string>
+    <string name="status_boosted_message">%1$s boosted</string>
+    <string name="status_boostUndo_action">Undo boost</string>
+    <string name="status_favourite_action">Add to favourites</string>
+    <string name="status_favouriteUndo_action">Remove from favourites</string>
     <string name="status_mediaPreview_cd">View media source in browser</string>
     <string name="status_postedAgo_days">%1$d d</string>
     <string name="status_postedAgo_hours">%1$d h</string>
@@ -87,6 +118,8 @@
     <string name="status_postedAgo_now">Now</string>
     <string name="status_postedAgo_seconds">%1$d s</string>
     <string name="status_preview_cd">Link preview</string>
+    <string name="status_previewSource_title">Source: %1$s</string>
+    <string name="status_reply_cd">Reply</string>
     <string name="status_visibility_direct_cd">Direct</string>
     <string name="status_visibility_private_cd">Followers-only</string>
     <string name="status_visibility_public_cd">Public</string>

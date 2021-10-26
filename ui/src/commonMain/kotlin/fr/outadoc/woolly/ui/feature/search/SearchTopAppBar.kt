@@ -18,9 +18,11 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.mainrouter.TopAppBarWithMenu
 import fr.outadoc.woolly.ui.screen.getIcon
 import fr.outadoc.woolly.ui.screen.getTitle
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlinx.coroutines.launch
 
 @Composable
@@ -118,11 +120,14 @@ fun SearchTextField(
                 contentDescription = AppScreen.Search.getTitle()
             )
         },
-        placeholder = { Text("Search for something…") },
+        placeholder = { Text(stringResource(MR.strings.search_input_placeholder)) },
         trailingIcon = {
             if (searchTerm.isNotEmpty()) {
                 IconButton(onClick = { onSearchTermChanged("") }) {
-                    Icon(Icons.Default.Clear, "Clear search")
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = stringResource(MR.strings.search_input_clear_cd)
+                    )
                 }
             }
         },

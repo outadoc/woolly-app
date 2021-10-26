@@ -15,6 +15,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun StatusBoostedByLabel(
@@ -29,7 +31,7 @@ fun StatusBoostedByLabel(
                     .size(24.dp)
                     .padding(end = 8.dp),
                 imageVector = Icons.Default.Repeat,
-                contentDescription = "Boosted",
+                contentDescription = stringResource(MR.strings.status_boosted_cd),
                 tint = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
             )
 
@@ -42,7 +44,10 @@ fun StatusBoostedByLabel(
 
             Text(
                 modifier = Modifier.clickable { onAccountClick(boostedBy) },
-                text = "${boostedBy.displayNameOrAcct} boosted",
+                text = stringResource(
+                    MR.strings.status_boosted_message,
+                    boostedBy.displayNameOrAcct
+                ),
                 style = MaterialTheme.typography.subtitle2,
                 maxLines = 1,
                 color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),

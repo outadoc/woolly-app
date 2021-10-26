@@ -46,16 +46,16 @@ fun PreferenceList(
                         icon = {
                             Icon(
                                 imageVector = Icons.Default.DarkMode,
-                                contentDescription = "Switch app theme"
+                                contentDescription = stringResource(MR.strings.settings_switchTheme_cd)
                             )
                         },
-                        text = { Text("Current theme") },
+                        text = { Text(stringResource(MR.strings.settings_currentTheme_title)) },
                         secondaryText = {
                             Text(
                                 text = when (settingsState.preferredTheme) {
-                                    PreferredTheme.FollowSystem -> "Follow system theme"
-                                    PreferredTheme.Dark -> "Always dark"
-                                    PreferredTheme.Light -> "Always light"
+                                    PreferredTheme.FollowSystem -> stringResource(MR.strings.settings_theme_system)
+                                    PreferredTheme.Dark -> stringResource(MR.strings.settings_theme_dark)
+                                    PreferredTheme.Light -> stringResource(MR.strings.settings_theme_light)
                                 }
                             )
                         }
@@ -71,7 +71,7 @@ fun PreferenceList(
                                 expanded = false
                             }
                         ) {
-                            Text("Follow system theme")
+                            Text(stringResource(MR.strings.settings_theme_system))
                         }
 
                         DropdownMenuItem(
@@ -80,7 +80,7 @@ fun PreferenceList(
                                 expanded = false
                             }
                         ) {
-                            Text("Always dark")
+                            Text(stringResource(MR.strings.settings_theme_dark))
                         }
 
                         DropdownMenuItem(
@@ -89,7 +89,7 @@ fun PreferenceList(
                                 expanded = false
                             }
                         ) {
-                            Text("Always light")
+                            Text(stringResource(MR.strings.settings_theme_light))
                         }
                     }
                 }

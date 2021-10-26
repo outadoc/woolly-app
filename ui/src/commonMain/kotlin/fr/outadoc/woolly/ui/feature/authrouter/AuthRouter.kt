@@ -15,10 +15,12 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.slide
 import fr.outadoc.woolly.common.feature.authrouter.component.AuthContent
 import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.PaddedTopAppBar
 import fr.outadoc.woolly.ui.common.takeTop
 import fr.outadoc.woolly.ui.feature.auth.CodeInputScreen
 import fr.outadoc.woolly.ui.feature.auth.DomainSelectScreen
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
@@ -31,11 +33,14 @@ fun AuthRouter(
             Children(routerState = component.routerState) {
                 PaddedTopAppBar(
                     contentPadding = systemInsets.takeTop(),
-                    title = { Text("Welcome to Woolly") },
+                    title = { Text(stringResource(MR.strings.onboarding_title)) },
                     navigationIcon = if (component.shouldDisplayBackButton.value) {
                         @Composable {
                             IconButton(onClick = component::onBackPressed) {
-                                Icon(Icons.Default.ArrowBack, "Go back")
+                                Icon(
+                                    Icons.Default.ArrowBack,
+                                    contentDescription = stringResource(MR.strings.all_back_cd)
+                                )
                             }
                         }
                     } else null

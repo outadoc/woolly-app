@@ -16,7 +16,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun ComposerBox(
@@ -31,7 +33,7 @@ fun ComposerBox(
             modifier = Modifier.fillMaxWidth(),
             value = message,
             onValueChange = onMessageChange,
-            placeholder = { Text("What's on your mind?") },
+            placeholder = { Text(stringResource(MR.strings.statusComposer_placeholder)) },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences
             )
@@ -57,7 +59,8 @@ fun ComposerBox(
 
                     Text(
                         buildAnnotatedString {
-                            append("Posting as ")
+                            append(stringResource(MR.strings.statusComposer_postingAs_message))
+                            append(" ")
                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append(account.displayNameOrAcct)
                             }
@@ -67,7 +70,7 @@ fun ComposerBox(
             }
 
             Button(onClick = onSubmit) {
-                Text("Send")
+                Text(stringResource(MR.strings.statusComposer_submit_action))
             }
         }
     }

@@ -2,8 +2,16 @@
 <resources>
 
     <string name="all_appName">Woolly</string>
+    <string name="all_back_cd">Go back</string>
 
+    <string name="accountDetails_header_cd">Your profile header</string>
     <string name="accountDetails_title">Account Details</string>
+    <string name="accountDetails_follow_action">Follow</string>
+    <string name="accountDetails_unfollow_action">Following</string>
+    <string name="accountDetails_postCount_title">Posts</string>
+    <string name="accountDetails_followingCount_title">Posts</string>
+    <string name="accountDetails_followerCount_title">Posts</string>
+
     <string name="bookmarks_title">Bookmarks</string>
     <string name="favourites_title">Favourites</string>
     <string name="hashtagTimeline_title">#%1$s</string>
@@ -13,12 +21,25 @@
     <string name="notifications_title">Notifications</string>
     <string name="publicTimeline_title">Public Timeline</string>
 
+    <string name="onboarding_title">Welcome to Woolly</string>
+    <string name="onboarding_codeInput_genericError_message">Error while authenticating.</string>
+    <string name="onboarding_codeInput_input_label">Authorization code</string>
+    <string name="onboarding_codeInput_renewCode_action">Get a new code</string>
+    <string name="onboarding_codeInput_submit_action">Submit</string>
+    <string name="onboarding_codeInput_title">Enter your authorization code</string>
+
     <string name="search_title">Search</string>
     <string name="search_statuses_title">Posts</string>
     <string name="search_accounts_title">Accounts</string>
     <string name="search_hashtags_title">Hashtags</string>
 
+    <string name="statusComposer_placeholder">What's on your mind?</string>
+    <string name="statusComposer_postingAs_message">Posting as</string>
+    <string name="statusComposer_replyingTo_cd">Replying to</string>
+    <string name="statusComposer_replyingTo_message">In reply to %1$s</string>
+    <string name="statusComposer_submit_action">Send</string>
     <string name="statusComposer_title">New Status</string>
+
     <string name="statusDetails_title">Status</string>
 
 </resources>

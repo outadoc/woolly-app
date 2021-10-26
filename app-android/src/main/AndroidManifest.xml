@@ -6,7 +6,7 @@
         android:name="fr.outadoc.woolly.android.WoollyApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/all_appName"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Woolly.Main">
@@ -15,7 +15,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:configChanges="uiMode"
-            android:label="@string/app_name">
+            android:label="@string/all_appName">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

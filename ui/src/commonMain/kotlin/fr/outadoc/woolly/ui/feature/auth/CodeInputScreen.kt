@@ -48,7 +48,7 @@ fun CodeInputScreen(
     ) {
         Column(modifier = Modifier.fillMaxWidth(0.7f)) {
             Text(
-                stringResource(MR.strings.onboarding_codeInput_title),
+                stringResource(MR.strings.onboardingCodeInput_title),
                 style = MaterialTheme.typography.h4
             )
 
@@ -56,7 +56,7 @@ fun CodeInputScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp),
-                label = { Text(stringResource(MR.strings.onboarding_codeInput_input_label)) },
+                label = { Text(stringResource(MR.strings.onboardingCodeInput_input_label)) },
                 value = authCode,
                 onValueChange = { value -> authCode = value },
                 keyboardActions = KeyboardActions {
@@ -78,7 +78,7 @@ fun CodeInputScreen(
                 null -> {
                 }
                 else -> Text(
-                    text = error.message ?: stringResource(MR.strings.onboarding_codeInput_genericError_message),
+                    text = error.message ?: stringResource(MR.strings.onboardingCodeInput_genericError_message),
                     modifier = Modifier.padding(top = 16.dp),
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.error
@@ -97,7 +97,7 @@ fun CodeInputScreen(
                         )
                     }
                 ) {
-                    Text(stringResource(MR.strings.onboarding_codeInput_renewCode_action))
+                    Text(stringResource(MR.strings.onboardingCodeInput_renewCode_action))
                 }
 
                 Button(
@@ -108,7 +108,7 @@ fun CodeInputScreen(
                         component.onAuthCodeReceived(domain, authCode)
                     }
                 ) {
-                    Text(stringResource(MR.strings.onboarding_codeInput_submit_action))
+                    Text(stringResource(MR.strings.onboardingCodeInput_submit_action))
                 }
             }
         }

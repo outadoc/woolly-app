@@ -7,6 +7,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlinx.coroutines.launch
 
 @Composable
@@ -21,6 +23,9 @@ fun DrawerMenuButton(drawerState: DrawerState) {
             }
         }
     ) {
-        Icon(Icons.Default.Menu, "Open drawer menu")
+        Icon(
+            Icons.Default.Menu,
+            contentDescription = stringResource(MR.strings.navigation_openDrawer_cd)
+        )
     }
 }

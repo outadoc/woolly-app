@@ -15,6 +15,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent
 import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent.Event
+import fr.outadoc.woolly.ui.strings.stringResource
+import fr.outadoc.woolly.ui.MR
 import kotlinx.coroutines.flow.collect
 
 @Composable
@@ -43,7 +45,7 @@ fun DomainSelectScreen(
     ) {
         Column(modifier = Modifier.fillMaxWidth(0.7f)) {
             Text(
-                "Choose your Mastodon instance",
+                stringResource(MR.strings.onboardingDomain_title),
                 style = MaterialTheme.typography.h4
             )
 
@@ -51,8 +53,8 @@ fun DomainSelectScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp),
-                label = { Text("Instance domain") },
-                placeholder = { Text("mastodon.example") },
+                label = { Text(stringResource(MR.strings.onboardingDomain_input_label)) },
+                placeholder = { Text(stringResource(MR.strings.onboardingDomain_input_placeholder)) },
                 value = state.domain,
                 onValueChange = { domain -> component.onDomainTextChanged(domain) },
                 keyboardActions = KeyboardActions {
@@ -74,7 +76,7 @@ fun DomainSelectScreen(
                 null -> {
                 }
                 else -> Text(
-                    text = error.message ?: "Error while fetching instance details.",
+                    text = error.message ?: stringResource(MR.strings.onboardingDomain_genericError_message),
                     modifier = Modifier.padding(top = 16.dp),
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.error
@@ -87,7 +89,7 @@ fun DomainSelectScreen(
                     .fillMaxWidth(),
                 onClick = { component.onSubmitDomain() }
             ) {
-                Text("Continue")
+                Text(stringResource(MR.strings.onboardingDomain_submit_action))
             }
         }
     }

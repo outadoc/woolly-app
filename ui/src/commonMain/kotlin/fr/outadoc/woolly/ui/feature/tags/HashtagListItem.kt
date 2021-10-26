@@ -10,6 +10,8 @@ import androidx.compose.material.icons.filled.Tag
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.Tag
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -23,7 +25,7 @@ fun HashtagListItem(
         icon = {
             Icon(
                 Icons.Default.Tag,
-                contentDescription = "Hashtag"
+                contentDescription = stringResource(MR.strings.hashtagTimeline_icon_cd)
             )
         }
     ) {

@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun ErrorScreen(
@@ -24,7 +26,7 @@ fun ErrorScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            "An error happened while loading.",
+            stringResource(MR.strings.all_genericError_title),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h5
         )
@@ -35,7 +37,7 @@ fun ErrorScreen(
             modifier = Modifier.padding(top = 16.dp),
             onClick = { onRetry() }
         ) {
-            Text("Retry")
+            Text(stringResource(MR.strings.all_genericError_retry_action))
         }
     }
 }

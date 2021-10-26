@@ -12,7 +12,12 @@
     <string name="myAccount_title">My Profile</string>
     <string name="notifications_title">Notifications</string>
     <string name="publicTimeline_title">Public Timeline</string>
+
     <string name="search_title">Search</string>
+    <string name="search_statuses_title">Posts</string>
+    <string name="search_accounts_title">Accounts</string>
+    <string name="search_hashtags_title">Hashtags</string>
+
     <string name="statusComposer_title">New Status</string>
     <string name="statusDetails_title">Status</string>
 

@@ -16,12 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.ui.mainrouter.TopAppBarWithMenu
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.instance
 
 @Composable
 fun SearchTopAppBar(
@@ -77,8 +75,6 @@ fun SearchTabRow(
     currentSubScreen: SearchSubScreen,
     onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
 ) {
-    val searchRes by instance<SearchScreenResources>()
-
     val tabs = listOf(
         SearchSubScreen.Statuses,
         SearchSubScreen.Accounts,
@@ -94,7 +90,7 @@ fun SearchTabRow(
                     onCurrentSubScreenChanged(screen)
                 }
             ) {
-                Text(text = searchRes.getScreenTitle(screen))
+                Text(text = screen.getTitle())
             }
         }
     }

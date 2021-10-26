@@ -20,7 +20,8 @@ import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
-import fr.outadoc.woolly.ui.screen.AppScreenResources
+import fr.outadoc.woolly.ui.screen.getIcon
+import fr.outadoc.woolly.ui.screen.getTitle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
@@ -123,12 +124,11 @@ private fun ScreenItem(
     targetScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit
 ) {
-    val res by instance<AppScreenResources>()
     NavigationRailItem(
         icon = {
             Icon(
-                imageVector = res.getScreenIcon(targetScreen),
-                contentDescription = res.getScreenTitle(targetScreen)
+                imageVector = targetScreen.getIcon(),
+                contentDescription = targetScreen.getTitle()
             )
         },
         selected = selected,

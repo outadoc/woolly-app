@@ -23,7 +23,8 @@ import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.takeBottom
 import fr.outadoc.woolly.ui.common.takeTop
-import fr.outadoc.woolly.ui.screen.AppScreenResources
+import fr.outadoc.woolly.ui.screen.getIcon
+import fr.outadoc.woolly.ui.screen.getTitle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
@@ -152,14 +153,12 @@ private fun ScreenItem(
     onScreenSelected: (AppScreen) -> Unit,
     drawerState: DrawerState?
 ) {
-    val res by instance<AppScreenResources>()
-
     DrawerListItem(
-        title = { Text(res.getScreenTitle(targetScreen)) },
+        title = { Text(targetScreen.getTitle()) },
         icon = {
             Icon(
-                imageVector = res.getScreenIcon(targetScreen),
-                contentDescription = res.getScreenTitle(targetScreen)
+                imageVector = targetScreen.getIcon(),
+                contentDescription = targetScreen.getTitle()
             )
         },
         onClick = {

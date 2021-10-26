@@ -25,10 +25,9 @@ import fr.outadoc.woolly.ui.common.takeTop
 import fr.outadoc.woolly.ui.feature.notifications.NotificationsTopAppBar
 import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
-import fr.outadoc.woolly.ui.screen.AppScreenResources
+import fr.outadoc.woolly.ui.screen.getTitle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.instance
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -107,11 +106,10 @@ fun MainRouter(
                         )
 
                         else -> {
-                            val res by instance<AppScreenResources>()
                             PaddedTopAppBar(
                                 contentPadding = systemInsets.takeTop(),
                                 title = {
-                                    Text(text = res.getScreenTitle(screen.configuration))
+                                    Text(text = screen.configuration.getTitle())
                                 },
                                 navigationIcon = when {
                                     component.shouldDisplayBackButton.value -> {

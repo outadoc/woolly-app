@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.ui.common.PaddedBottomNavigation
-import fr.outadoc.woolly.ui.screen.AppScreenResources
-import org.kodein.di.compose.instance
+import fr.outadoc.woolly.ui.screen.getIcon
+import fr.outadoc.woolly.ui.screen.getTitle
 
 @Composable
 fun MainBottomNavigation(
@@ -60,15 +60,14 @@ private fun RowScope.Item(
     targetScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit
 ) {
-    val res by instance<AppScreenResources>()
-    val itemTitle = res.getScreenTitle(targetScreen)
+    val itemTitle = targetScreen.getTitle()
 
     BottomNavigationItem(
         selected = selected,
         onClick = { onScreenSelected(targetScreen) },
         icon = {
             Icon(
-                imageVector = res.getScreenIcon(targetScreen),
+                imageVector = targetScreen.getIcon(),
                 contentDescription = itemTitle
             )
         }

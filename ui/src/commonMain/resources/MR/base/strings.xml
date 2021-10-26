@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+
     <string name="all_appName">Woolly</string>
+
+    <string name="accountDetails_title">Account Details</string>
+    <string name="bookmarks_title">Bookmarks</string>
+    <string name="favourites_title">Favourites</string>
+    <string name="hashtagTimeline_title">#%1$s</string>
+    <string name="home_title">Home</string>
+    <string name="imageViewer_title">Image</string>
+    <string name="myAccount_title">My Profile</string>
+    <string name="notifications_title">Notifications</string>
+    <string name="publicTimeline_title">Public Timeline</string>
+    <string name="search_title">Search</string>
+    <string name="statusComposer_title">New Status</string>
+    <string name="statusDetails_title">Status</string>
+
 </resources>

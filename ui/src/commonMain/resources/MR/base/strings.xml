@@ -87,7 +87,7 @@
     <string name="publicTimeline_local_title">Local</string>
     <string name="publicTimeline_global_title">Federated</string>
 
-    <string name="profilePicture_cd">%1$s's profile picture</string>
+    <string name="profilePicture_cd">%1$s\'s profile picture</string>
 
     <string name="search_accounts_title">Accounts</string>
     <string name="search_hashtags_title">Hashtags</string>
@@ -125,7 +125,7 @@
     <string name="status_visibility_public_cd">Public</string>
     <string name="status_visibility_unlisted_cd">Unlisted</string>
 
-    <string name="statusComposer_placeholder">What's on your mind?</string>
+    <string name="statusComposer_placeholder">What\'s on your mind?</string>
     <string name="statusComposer_posting_title">Posting status…</string>
     <string name="statusComposer_postingAs_message">Posting as</string>
     <string name="statusComposer_postingError_message">Error while posting status</string>

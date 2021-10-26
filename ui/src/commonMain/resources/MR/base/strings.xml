@@ -43,6 +43,7 @@
     <string name="status_postedAgo_now">Now</string>
     <string name="status_postedAgo_seconds">%1$d s</string>
 
+    <string name="poll_chosenOption_cd">You voted for this option</string>
     <string name="poll_finalResults_label">Final results</string>
     <string name="poll_expirationTime_days">in %1$d d</string>
     <string name="poll_expirationTime_expired">Expired</string>
@@ -54,6 +55,8 @@
     <string name="poll_openInBrowser_cd">Vote in browser</string>
 
     <string name="publicTimeline_title">Public Timeline</string>
+    <string name="publicTimeline_local_title">Local</string>
+    <string name="publicTimeline_global_title">Federated</string>
 
     <string name="onboarding_title">Welcome to Woolly</string>
 

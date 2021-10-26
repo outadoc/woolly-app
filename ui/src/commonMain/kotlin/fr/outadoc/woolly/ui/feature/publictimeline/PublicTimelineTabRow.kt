@@ -14,19 +14,19 @@ fun PublicTimelineTabRow(
     currentSubScreen: PublicTimelineSubScreen,
     onCurrentSubScreenChanged: (PublicTimelineSubScreen) -> Unit,
 ) {
-    val tabs = mapOf(
-        PublicTimelineSubScreen.Local to "Local",
-        PublicTimelineSubScreen.Global to "Federated"
+    val tabs = listOf(
+        PublicTimelineSubScreen.Local,
+        PublicTimelineSubScreen.Global
     )
 
-    TabRow(selectedTabIndex = tabs.keys.indexOf(currentSubScreen)) {
-        tabs.forEach { (screen, title) ->
+    TabRow(selectedTabIndex = tabs.indexOf(currentSubScreen)) {
+        tabs.forEach { screen ->
             Tab(
                 modifier = Modifier.height(48.dp),
                 selected = currentSubScreen == screen,
                 onClick = { onCurrentSubScreenChanged(screen) }
             ) {
-                Text(text = title)
+                Text(text = screen.getTitle())
             }
         }
     }

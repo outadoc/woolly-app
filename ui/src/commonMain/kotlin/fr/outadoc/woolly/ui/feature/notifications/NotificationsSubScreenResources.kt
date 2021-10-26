@@ -6,9 +6,7 @@ import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
-fun NotificationsSubScreen.getTitle(): String {
-    return when (this) {
-        NotificationsSubScreen.All -> stringResource(MR.strings.notifications_all_title)
-        NotificationsSubScreen.MentionsOnly -> stringResource(MR.strings.notifications_mentions_title)
-    }
+fun NotificationsSubScreen.getTitle() = when (this) {
+    NotificationsSubScreen.All -> stringResource(MR.strings.notifications_all_title)
+    NotificationsSubScreen.MentionsOnly -> stringResource(MR.strings.notifications_mentions_title)
 }

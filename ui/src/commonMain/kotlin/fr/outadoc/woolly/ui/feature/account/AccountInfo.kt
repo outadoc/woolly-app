@@ -12,10 +12,12 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
 import fr.outadoc.woolly.common.feature.status.formatShort
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.BulletSeparator
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.feature.status.StatusAutomatedLabel
 import fr.outadoc.woolly.ui.richtext.RichText
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun AccountInfo(
@@ -40,10 +42,10 @@ fun AccountInfo(
 
             when (isFollowing) {
                 true -> Button(onClick = { onFollowClick(false) }) {
-                    Text(text = "Following")
+                    Text(text = stringResource(MR.strings.accountDetails_unfollow_action))
                 }
                 false -> OutlinedButton(onClick = { onFollowClick(true) }) {
-                    Text(text = "Follow")
+                    Text(text = stringResource(MR.strings.accountDetails_follow_action))
                 }
                 null -> {
                 }
@@ -103,7 +105,7 @@ fun AccountInfo(
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
                 number = account.statusesCount.formatShort(),
-                unit = "Posts"
+                unit = stringResource(MR.strings.accountDetails_postCount_title)
             )
 
             BulletSeparator()
@@ -111,7 +113,7 @@ fun AccountInfo(
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
                 number = account.followingCount.formatShort(),
-                unit = "Following"
+                unit = stringResource(MR.strings.accountDetails_followingCount_title)
             )
 
             BulletSeparator()
@@ -119,7 +121,7 @@ fun AccountInfo(
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
                 number = account.followersCount.formatShort(),
-                unit = "Followers"
+                unit = stringResource(MR.strings.accountDetails_followerCount_title)
             )
         }
     }

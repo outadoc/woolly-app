@@ -23,7 +23,6 @@ import fr.outadoc.woolly.common.feature.home.component.HomeTimelineComponent
 import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponent
 import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
 import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
-import fr.outadoc.woolly.common.feature.search.SearchScreenResources
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
 import fr.outadoc.woolly.common.feature.status.StatusActionRepository
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
@@ -56,8 +55,6 @@ val CommonDI = DI {
             maxSize = 200
         )
     }
-
-    bindSingleton { SearchScreenResources() }
 
     bindSingleton<AuthProxyRepository> { AuthProxyRepositoryImpl(instance()) }
 

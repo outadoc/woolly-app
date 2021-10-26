@@ -13,7 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Poll
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.BulletSeparator
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun PollFooter(
@@ -29,11 +31,11 @@ fun PollFooter(
         if (onClickVote != null) {
             Button(onClick = onClickVote) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "Vote")
+                    Text(text = stringResource(MR.strings.poll_vote_action))
                     Icon(
                         modifier = Modifier.padding(start = 4.dp),
                         imageVector = Icons.Default.OpenInBrowser,
-                        contentDescription = "Vote in browser"
+                        contentDescription = stringResource(MR.strings.poll_openInBrowser_cd)
                     )
                 }
             }
@@ -42,7 +44,7 @@ fun PollFooter(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
                 modifier = Modifier.alignByBaseline(),
-                text = "${poll.votesCount} votes"
+                text = stringResource(MR.strings.poll_votes_label, poll.votesCount)
             )
 
             BulletSeparator(
@@ -55,14 +57,14 @@ fun PollFooter(
                 poll.isExpired -> {
                     Text(
                         modifier = Modifier.alignByBaseline(),
-                        text = "Final results"
+                        text = stringResource(MR.strings.poll_finalResults_label)
                     )
                 }
                 expiresAt != null -> {
                     FutureRelativeTime(
                         modifier = Modifier.alignByBaseline(),
                         time = expiresAt,
-                        expiredLabel = "Expired"
+                        expiredLabel = stringResource(MR.strings.poll_expirationTime_expired)
                     )
                 }
             }

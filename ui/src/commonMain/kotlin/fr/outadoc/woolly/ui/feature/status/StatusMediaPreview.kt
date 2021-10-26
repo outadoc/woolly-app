@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Attachment
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun StatusMediaPreview(
@@ -35,7 +37,7 @@ fun StatusMediaPreview(
         modifier = Modifier
             .clickable(
                 role = Role.Image,
-                onClickLabel = "View media source"
+                onClickLabel = stringResource(MR.strings.status_mediaPreview_cd)
             ) {
                 onAttachmentClick(media)
             },

@@ -6,7 +6,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,13 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import fr.outadoc.woolly.common.feature.search.SearchScreenResources
+import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.mainrouter.TopAppBarWithMenu
+import fr.outadoc.woolly.ui.screen.getIcon
+import fr.outadoc.woolly.ui.screen.getTitle
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.instance
 
 @Composable
 fun SearchTopAppBar(
@@ -77,8 +80,6 @@ fun SearchTabRow(
     currentSubScreen: SearchSubScreen,
     onCurrentSubScreenChanged: (SearchSubScreen) -> Unit,
 ) {
-    val searchRes by instance<SearchScreenResources>()
-
     val tabs = listOf(
         SearchSubScreen.Statuses,
         SearchSubScreen.Accounts,
@@ -94,7 +95,7 @@ fun SearchTabRow(
                     onCurrentSubScreenChanged(screen)
                 }
             ) {
-                Text(text = searchRes.getScreenTitle(screen))
+                Text(text = screen.getTitle())
             }
         }
     }
@@ -115,13 +116,25 @@ fun SearchTextField(
             .padding(bottom = 4.dp),
         singleLine = true,
         leadingIcon = {
-            Icon(Icons.Default.Search, "Search")
+            Icon(
+                AppScreen.Search.getIcon(),
+                contentDescription = AppScreen.Search.getTitle()
+            )
         },
-        placeholder = { Text("Search for something…") },
+        placeholder = {
+            Text(
+                stringResource(MR.strings.search_input_placeholder),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
         trailingIcon = {
             if (searchTerm.isNotEmpty()) {
                 IconButton(onClick = { onSearchTermChanged("") }) {
-                    Icon(Icons.Default.Clear, "Clear search")
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = stringResource(MR.strings.search_input_clear_cd)
+                    )
                 }
             }
         },

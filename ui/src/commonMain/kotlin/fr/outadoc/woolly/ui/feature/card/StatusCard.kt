@@ -6,6 +6,8 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.Card
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun StatusCard(
@@ -31,7 +33,7 @@ fun StatusCard(
             defaultIcon = {
                 Icon(
                     imageVector = Icons.Default.Link,
-                    contentDescription = "Link preview"
+                    contentDescription = stringResource(MR.strings.status_preview_cd)
                 )
             }
         )

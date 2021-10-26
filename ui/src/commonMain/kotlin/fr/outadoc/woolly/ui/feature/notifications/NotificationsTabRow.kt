@@ -14,19 +14,19 @@ fun NotificationsTabRow(
     currentSubScreen: NotificationsSubScreen,
     onCurrentSubScreenChanged: (NotificationsSubScreen) -> Unit,
 ) {
-    val tabs = mapOf(
-        NotificationsSubScreen.All to "All",
-        NotificationsSubScreen.MentionsOnly to "Mentions"
+    val tabs = listOf(
+        NotificationsSubScreen.All,
+        NotificationsSubScreen.MentionsOnly
     )
 
-    TabRow(selectedTabIndex = tabs.keys.indexOf(currentSubScreen)) {
-        tabs.forEach { (screen, title) ->
+    TabRow(selectedTabIndex = tabs.indexOf(currentSubScreen)) {
+        tabs.forEach { screen ->
             Tab(
                 modifier = Modifier.height(48.dp),
                 selected = currentSubScreen == screen,
                 onClick = { onCurrentSubScreenChanged(screen) }
             ) {
-                Text(text = title)
+                Text(text = screen.getTitle())
             }
         }
     }

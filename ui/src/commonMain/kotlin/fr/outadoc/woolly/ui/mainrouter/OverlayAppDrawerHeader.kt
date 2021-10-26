@@ -11,7 +11,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
+import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
@@ -26,7 +28,7 @@ fun OverlayAppDrawerHeader(
         KamelImage(
             modifier = Modifier.fillMaxSize(),
             resource = lazyPainterResource(account.headerStaticUrl),
-            contentDescription = "Your profile header",
+            contentDescription = stringResource(MR.strings.accountDetails_header_cd),
             crossfade = true,
             contentScale = ContentScale.Crop
         )

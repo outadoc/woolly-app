@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.compose")
     id("com.android.library")
     id("kotlin-parcelize")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 kotlin {
@@ -31,6 +32,7 @@ kotlin {
                 api(libs.kodein)
                 api(libs.ktor.serialization)
                 api(libs.kotlinx.coroutines)
+                api(libs.mokoResources)
 
                 implementation(libs.androidx.paging)
                 implementation(libs.mastodonk.core)
@@ -94,4 +96,8 @@ android {
     dependencies {
         coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "fr.outadoc.woolly.ui"
 }

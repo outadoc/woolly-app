@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun StatusAutomatedLabel(modifier: Modifier = Modifier) {
@@ -27,11 +29,11 @@ fun StatusAutomatedLabel(modifier: Modifier = Modifier) {
                 .size(20.dp)
                 .padding(end = 4.dp),
             imageVector = Icons.Default.SmartToy,
-            contentDescription = "Robot"
+            contentDescription = stringResource(MR.strings.status_automated_cd)
         )
 
         Text(
-            text = "Automated",
+            text = stringResource(MR.strings.status_automated_message),
             style = MaterialTheme.typography.subtitle2,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis

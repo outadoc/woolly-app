@@ -16,8 +16,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.WoollyTheme
+import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
@@ -29,7 +31,7 @@ fun ProfilePicture(
     size: Dp = WoollyDefaults.AvatarSize,
     onClick: () -> Unit = {}
 ) {
-    val contentDescription = "${account.displayNameOrAcct}'s profile picture"
+    val contentDescription = stringResource(MR.strings.profilePicture_cd, account.displayNameOrAcct)
 
     Surface(
         modifier = modifier.size(size),

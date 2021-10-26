@@ -20,10 +20,13 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.auth.state.AuthenticationStateConsumer
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.takeBottom
 import fr.outadoc.woolly.ui.common.takeTop
-import fr.outadoc.woolly.ui.screen.AppScreenResources
+import fr.outadoc.woolly.ui.screen.getIcon
+import fr.outadoc.woolly.ui.screen.getTitle
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.instance
@@ -63,8 +66,13 @@ fun MainOverlayDrawer(
             }
 
             DrawerListItem(
-                title = { Text("Log out") },
-                icon = { Icon(Icons.Default.Logout, "Log out") },
+                title = { Text(stringResource(MR.strings.navigation_logout_action)) },
+                icon = {
+                    Icon(
+                        Icons.Default.Logout,
+                        contentDescription = stringResource(MR.strings.navigation_logout_action)
+                    )
+                },
                 onClick = {
                     scope.launch {
                         authenticationStateConsumer.logoutAll()
@@ -152,14 +160,12 @@ private fun ScreenItem(
     onScreenSelected: (AppScreen) -> Unit,
     drawerState: DrawerState?
 ) {
-    val res by instance<AppScreenResources>()
-
     DrawerListItem(
-        title = { Text(res.getScreenTitle(targetScreen)) },
+        title = { Text(targetScreen.getTitle()) },
         icon = {
             Icon(
-                imageVector = res.getScreenIcon(targetScreen),
-                contentDescription = res.getScreenTitle(targetScreen)
+                imageVector = targetScreen.getIcon(),
+                contentDescription = targetScreen.getTitle()
             )
         },
         onClick = {

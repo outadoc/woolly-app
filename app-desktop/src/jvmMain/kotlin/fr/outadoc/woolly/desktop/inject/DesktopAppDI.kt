@@ -7,7 +7,6 @@ import fr.outadoc.woolly.common.feature.preference.PreferenceRepositoryImpl
 import fr.outadoc.woolly.common.feature.theme.DesktopSystemThemeDetector
 import fr.outadoc.woolly.common.feature.theme.SystemThemeDetector
 import fr.outadoc.woolly.common.inject.CommonDI
-import fr.outadoc.woolly.ui.screen.AppScreenResources
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -17,8 +16,6 @@ import org.kodein.di.instance
 import org.kodein.di.subDI
 
 val DesktopAppDI = subDI(CommonDI, copy = Copy.All) {
-
-    bindSingleton { AppScreenResources() }
 
     bindSingleton {
         CoroutineScope(SupervisorJob() + Dispatchers.Main)

@@ -14,7 +14,9 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import fr.outadoc.woolly.common.feature.authrouter.component.AuthRouterComponent
 import fr.outadoc.woolly.common.feature.mainrouter.component.MainRouterComponent
 import fr.outadoc.woolly.desktop.inject.DesktopAppDI
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.WoollyApp
+import fr.outadoc.woolly.ui.strings.stringResource
 import org.kodein.di.compose.LocalDI
 import org.kodein.di.compose.withDI
 import org.kodein.di.direct
@@ -48,7 +50,7 @@ private fun ApplicationScope.DesktopApp() = withDI(DesktopAppDI) {
         )
 
         Window(
-            title = "Woolly",
+            title = stringResource(MR.strings.all_appName),
             state = windowState,
             onCloseRequest = ::exitApplication
         ) {

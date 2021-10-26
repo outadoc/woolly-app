@@ -17,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.PreferredTheme
 import fr.outadoc.woolly.common.feature.account.component.SettingsState
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.DropdownMenu
 import fr.outadoc.woolly.ui.common.DropdownMenuItem
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -30,7 +32,7 @@ fun PreferenceList(
     Column(modifier = modifier) {
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "App Settings",
+            text = stringResource(MR.strings.settings_title),
             style = MaterialTheme.typography.h5
         )
 
@@ -44,16 +46,16 @@ fun PreferenceList(
                         icon = {
                             Icon(
                                 imageVector = Icons.Default.DarkMode,
-                                contentDescription = "Switch app theme"
+                                contentDescription = stringResource(MR.strings.settings_switchTheme_cd)
                             )
                         },
-                        text = { Text("Current theme") },
+                        text = { Text(stringResource(MR.strings.settings_currentTheme_title)) },
                         secondaryText = {
                             Text(
                                 text = when (settingsState.preferredTheme) {
-                                    PreferredTheme.FollowSystem -> "Follow system theme"
-                                    PreferredTheme.Dark -> "Always dark"
-                                    PreferredTheme.Light -> "Always light"
+                                    PreferredTheme.FollowSystem -> stringResource(MR.strings.settings_theme_system)
+                                    PreferredTheme.Dark -> stringResource(MR.strings.settings_theme_dark)
+                                    PreferredTheme.Light -> stringResource(MR.strings.settings_theme_light)
                                 }
                             )
                         }
@@ -69,7 +71,7 @@ fun PreferenceList(
                                 expanded = false
                             }
                         ) {
-                            Text("Follow system theme")
+                            Text(stringResource(MR.strings.settings_theme_system))
                         }
 
                         DropdownMenuItem(
@@ -78,7 +80,7 @@ fun PreferenceList(
                                 expanded = false
                             }
                         ) {
-                            Text("Always dark")
+                            Text(stringResource(MR.strings.settings_theme_dark))
                         }
 
                         DropdownMenuItem(
@@ -87,7 +89,7 @@ fun PreferenceList(
                                 expanded = false
                             }
                         ) {
-                            Text("Always light")
+                            Text(stringResource(MR.strings.settings_theme_light))
                         }
                     }
                 }

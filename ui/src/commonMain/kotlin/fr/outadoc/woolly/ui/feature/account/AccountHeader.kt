@@ -10,7 +10,9 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
@@ -35,7 +37,7 @@ fun AccountHeader(
                     uriHandler.openUri(account.headerUrl)
                 },
             resource = lazyPainterResource(account.headerStaticUrl),
-            contentDescription = "Your profile header",
+            contentDescription = stringResource(MR.strings.accountDetails_header_cd),
             crossfade = true,
             contentScale = ContentScale.Crop,
             onLoading = {

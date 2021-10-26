@@ -12,9 +12,8 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
 import fr.outadoc.woolly.ui.mainrouter.TopAppBarWithMenu
-import fr.outadoc.woolly.ui.screen.AppScreenResources
+import fr.outadoc.woolly.ui.screen.getTitle
 import kotlinx.coroutines.launch
-import org.kodein.di.compose.instance
 
 @Composable
 fun NotificationsTopAppBar(
@@ -23,9 +22,7 @@ fun NotificationsTopAppBar(
     drawerState: DrawerState?,
     contentPadding: PaddingValues = PaddingValues()
 ) {
-    val res by instance<AppScreenResources>()
     val state by component.state.collectAsState()
-
     val scope = rememberCoroutineScope()
 
     Surface(
@@ -36,7 +33,7 @@ fun NotificationsTopAppBar(
             TopAppBarWithMenu(
                 modifier = modifier,
                 contentPadding = contentPadding,
-                title = { Text(text = res.getScreenTitle(AppScreen.PublicTimeline)) },
+                title = { Text(text = AppScreen.Notifications.getTitle()) },
                 backgroundColor = MaterialTheme.colors.primarySurface,
                 drawerState = drawerState,
                 elevation = 0.dp

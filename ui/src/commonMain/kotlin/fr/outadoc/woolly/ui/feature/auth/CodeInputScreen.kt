@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent
 import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent.Event
 import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlinx.coroutines.flow.collect
 
 @Composable
@@ -46,7 +48,7 @@ fun CodeInputScreen(
     ) {
         Column(modifier = Modifier.fillMaxWidth(0.7f)) {
             Text(
-                "Enter your authorization code",
+                stringResource(MR.strings.onboardingCodeInput_title),
                 style = MaterialTheme.typography.h4
             )
 
@@ -54,7 +56,7 @@ fun CodeInputScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp),
-                label = { Text("Authorization code") },
+                label = { Text(stringResource(MR.strings.onboardingCodeInput_input_label)) },
                 value = authCode,
                 onValueChange = { value -> authCode = value },
                 keyboardActions = KeyboardActions {
@@ -76,7 +78,8 @@ fun CodeInputScreen(
                 null -> {
                 }
                 else -> Text(
-                    text = error.message ?: "Error while authenticating.",
+                    text = error.message
+                        ?: stringResource(MR.strings.onboardingCodeInput_genericError_message),
                     modifier = Modifier.padding(top = 16.dp),
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.error
@@ -88,25 +91,33 @@ fun CodeInputScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextButton(
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .weight(1f, fill = false),
                     onClick = {
                         uriHandler.openUri(
                             component.getAuthorizeUrl(domain).toString()
                         )
                     }
                 ) {
-                    Text("Get a new code")
+                    Text(
+                        stringResource(MR.strings.onboardingCodeInput_renewCode_action),
+                        maxLines = 3
+                    )
                 }
 
                 Button(
                     modifier = Modifier
-                        .padding(top = 16.dp, start = 32.dp)
-                        .fillMaxWidth(),
+                        .padding(top = 16.dp, start = 8.dp)
+                        .weight(1f, fill = true),
                     onClick = {
                         component.onAuthCodeReceived(domain, authCode)
                     }
                 ) {
-                    Text("Submit")
+                    Text(
+                        stringResource(MR.strings.onboardingCodeInput_submit_action),
+                        maxLines = 1
+                    )
                 }
             }
         }

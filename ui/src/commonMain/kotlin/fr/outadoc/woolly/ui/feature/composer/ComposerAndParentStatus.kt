@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.displayNameOrAcct
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.feature.status.StatusOrBoost
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -68,11 +70,14 @@ fun ComposerAndParentStatus(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             Icons.Default.Reply,
-                            contentDescription = "Replying to"
+                            contentDescription = stringResource(MR.strings.statusComposer_replyingTo_cd)
                         )
                         Text(
                             modifier = Modifier.padding(start = 8.dp),
-                            text = "In reply to ${inReplyToStatus?.account?.displayNameOrAcct}",
+                            text = stringResource(
+                                MR.strings.statusComposer_replyingTo_message,
+                                inReplyToStatus?.account?.displayNameOrAcct ?: ""
+                            ),
                             style = MaterialTheme.typography.subtitle2
                         )
                     }

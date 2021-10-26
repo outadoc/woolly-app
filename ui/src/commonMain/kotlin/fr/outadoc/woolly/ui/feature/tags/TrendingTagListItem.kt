@@ -10,6 +10,8 @@ import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.Tag
+import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -23,7 +25,7 @@ fun TrendingTagListItem(
         icon = {
             Icon(
                 Icons.Default.TrendingUp,
-                contentDescription = "Trending"
+                contentDescription = stringResource(MR.strings.hashtagTimeline_trendingIcon_cd)
             )
         },
         secondaryText = {
@@ -32,7 +34,12 @@ fun TrendingTagListItem(
                 ?.accountCount
 
             if (lastDayUsage != null) {
-                Text(text = "$lastDayUsage people talking")
+                Text(
+                    stringResource(
+                        MR.strings.hashtagTimeline_activity_subtitle,
+                        lastDayUsage
+                    )
+                )
             }
         }
     ) {

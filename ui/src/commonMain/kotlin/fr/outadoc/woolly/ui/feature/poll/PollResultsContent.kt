@@ -15,7 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Poll
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.richtext.RichText
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlin.math.roundToInt
 
 @Composable
@@ -60,7 +62,7 @@ fun PollResultsContent(
                                 .size(28.dp)
                                 .padding(end = 8.dp),
                             imageVector = Icons.Default.TaskAlt,
-                            contentDescription = "You voted for this option"
+                            contentDescription = stringResource(MR.strings.poll_chosenOption_cd)
                         )
                     }
 

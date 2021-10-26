@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.WoollyTheme
+import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
 fun StatusActionBar(
@@ -34,7 +36,7 @@ fun StatusActionBar(
                 modifier = Modifier.width(actionsWidth),
                 icon = Icons.Default.Reply,
                 checked = false,
-                contentDescription = "Reply",
+                contentDescription = stringResource(MR.strings.status_reply_cd),
                 counter = status.repliesCount,
                 onCheckedChange = { onStatusReplyClick(status) }
             )
@@ -44,7 +46,11 @@ fun StatusActionBar(
                 checked = status.isBoosted == true,
                 checkedColor = WoollyTheme.BoostColor,
                 icon = Icons.Default.Repeat,
-                contentDescription = if (status.isBoosted == true) "Undo boost" else "Boost",
+                contentDescription = if (status.isBoosted == true) {
+                    stringResource(MR.strings.status_boostUndo_action)
+                } else {
+                    stringResource(MR.strings.status_boost_action)
+                },
                 counter = status.boostsCount,
                 onCheckedChange = { boosted ->
                     onStatusAction(
@@ -59,7 +65,11 @@ fun StatusActionBar(
                 checked = status.isFavourited == true,
                 checkedColor = WoollyTheme.FavouriteColor,
                 icon = Icons.Default.Star,
-                contentDescription = if (status.isBoosted == true) "Remove from favourites" else "Add to favourites",
+                contentDescription = if (status.isBoosted == true) {
+                    stringResource(MR.strings.status_favouriteUndo_action)
+                } else {
+                    stringResource(MR.strings.status_favourite_action)
+                },
                 counter = status.favouritesCount,
                 onCheckedChange = { favourited ->
                     onStatusAction(

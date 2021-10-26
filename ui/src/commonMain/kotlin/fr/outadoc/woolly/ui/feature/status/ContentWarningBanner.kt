@@ -18,6 +18,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Emoji
 import fr.outadoc.woolly.ui.richtext.RichText
+import fr.outadoc.woolly.ui.strings.stringResource
+import fr.outadoc.woolly.ui.MR
 
 @Composable
 fun ContentWarningBanner(
@@ -39,7 +41,7 @@ fun ContentWarningBanner(
             ) {
                 Icon(
                     Icons.Default.Info,
-                    contentDescription = "Content warning",
+                    contentDescription = stringResource(MR.strings.contentWarning_cd),
                     modifier = Modifier.padding(end = 16.dp)
                 )
 
@@ -55,12 +57,12 @@ fun ContentWarningBanner(
             if (isCollapsed) {
                 Icon(
                     Icons.Default.ArrowDropDown,
-                    contentDescription = "Expand post"
+                    contentDescription = stringResource(MR.strings.contentWarning_expand_cd)
                 )
             } else {
                 Icon(
                     Icons.Default.ArrowDropUp,
-                    contentDescription = "Collapse post"
+                    contentDescription = stringResource(MR.strings.contentWarning_collapse_cd)
                 )
             }
         }

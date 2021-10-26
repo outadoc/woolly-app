@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent
 import fr.outadoc.woolly.common.feature.auth.component.CodeInputComponent.Event
 import fr.outadoc.woolly.common.feature.auth.state.UserCredentials
-import kotlinx.coroutines.flow.collect
 import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.strings.stringResource
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun CodeInputScreen(
@@ -78,7 +78,8 @@ fun CodeInputScreen(
                 null -> {
                 }
                 else -> Text(
-                    text = error.message ?: stringResource(MR.strings.onboardingCodeInput_genericError_message),
+                    text = error.message
+                        ?: stringResource(MR.strings.onboardingCodeInput_genericError_message),
                     modifier = Modifier.padding(top = 16.dp),
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.error
@@ -90,25 +91,33 @@ fun CodeInputScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextButton(
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .weight(1f, fill = false),
                     onClick = {
                         uriHandler.openUri(
                             component.getAuthorizeUrl(domain).toString()
                         )
                     }
                 ) {
-                    Text(stringResource(MR.strings.onboardingCodeInput_renewCode_action))
+                    Text(
+                        stringResource(MR.strings.onboardingCodeInput_renewCode_action),
+                        maxLines = 3
+                    )
                 }
 
                 Button(
                     modifier = Modifier
-                        .padding(top = 16.dp, start = 32.dp)
-                        .fillMaxWidth(),
+                        .padding(top = 16.dp, start = 8.dp)
+                        .weight(1f, fill = true),
                     onClick = {
                         component.onAuthCodeReceived(domain, authCode)
                     }
                 ) {
-                    Text(stringResource(MR.strings.onboardingCodeInput_submit_action))
+                    Text(
+                        stringResource(MR.strings.onboardingCodeInput_submit_action),
+                        maxLines = 1
+                    )
                 }
             }
         }

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.search.SearchSubScreen
@@ -120,7 +121,13 @@ fun SearchTextField(
                 contentDescription = AppScreen.Search.getTitle()
             )
         },
-        placeholder = { Text(stringResource(MR.strings.search_input_placeholder)) },
+        placeholder = {
+            Text(
+                stringResource(MR.strings.search_input_placeholder),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
         trailingIcon = {
             if (searchTerm.isNotEmpty()) {
                 IconButton(onClick = { onSearchTermChanged("") }) {

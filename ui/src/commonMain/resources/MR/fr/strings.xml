@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+    <string name="accountDetails_follow_action">S\'abonner</string>
+    <string name="accountDetails_followerCount_title">Abonné·e·s</string>
+    <string name="accountDetails_followingCount_title">Abonnements</string>
+    <string name="accountDetails_header_cd">Votre en-tête de profil</string>
+    <string name="accountDetails_postCount_title">Posts</string>
+    <string name="accountDetails_title">Détails du compte</string>
+    <string name="accountDetails_unfollow_action">Abonné·e</string>
+
+    <string name="all_appName">Woolly</string>
+    <string name="all_back_cd">Retour</string>
+    <string name="all_genericError_retry_action">Réessayer</string>
+    <string name="all_genericError_title">Une erreur est survenue lors du chargement.</string>
+
+    <string name="bookmarks_title">Marque-pages</string>
+
+    <string name="contentWarning_cd">Avertissement sur le contenu</string>
+    <string name="contentWarning_collapse_cd">Replier le post</string>
+    <string name="contentWarning_expand_cd">Dévoiler le post</string>
+
+    <string name="favourites_title">Favoris</string>
+
+    <string name="hashtagTimeline_activity_subtitle">%1$d en parlent</string>
+    <string name="hashtagTimeline_icon_cd">Hashtag</string>
+    <string name="hashtagTimeline_title">#%1$s</string>
+    <string name="hashtagTimeline_trendingIcon_cd">Tendances</string>
+
+    <string name="home_title">Accueil</string>
+
+    <string name="imageViewer_title">Image</string>
+
+    <string name="myAccount_title">Mon profil</string>
+
+    <string name="navigation_composeStatus_action">Composer un nouveau post</string>
+    <string name="navigation_logout_action">Se déconnecter</string>
+    <string name="navigation_openDrawer_cd">Ouvrir le menu latéral</string>
+    <string name="notifications_all_title">Tout</string>
+    <string name="notifications_boost_cd">Nouveau partage</string>
+    <string name="notifications_boost_title">%1$s a partagé votre post</string>
+    <string name="notifications_favourite_cd">Nouveau favori</string>
+    <string name="notifications_favourite_title">%1$s a mis votre post en favori</string>
+    <string name="notifications_followRequest_cd">Nouvelle demande d\'abonnement</string>
+    <string name="notifications_followRequest_title">%1$s souhaite s\'abonner à vos posts</string>
+    <string name="notifications_follow_cd">Nouvel·le abonné·e</string>
+    <string name="notifications_follow_title">%1$s s\'est abonné·e à vos posts</string>
+    <string name="notifications_mention_cd">Nouvelle mention</string>
+    <string name="notifications_mention_title">Nouvelle mention</string>
+    <string name="notifications_mentions_title">Mentions</string>
+    <string name="notifications_poll_cd">Les résultats du sondage sont disponibles</string>
+    <string name="notifications_poll_title">Fin du sondage</string>
+    <string name="notifications_status_cd">Nouveau post</string>
+    <string name="notifications_status_title">Nouveau post</string>
+    <string name="notifications_title">Notifications</string>
+
+    <string name="onboardingCodeInput_genericError_message">Erreur lors de l\'authentification.</string>
+    <string name="onboardingCodeInput_input_label">Code d\'autorisation</string>
+    <string name="onboardingCodeInput_renewCode_action">Demander un code</string>
+    <string name="onboardingCodeInput_submit_action">Envoyer</string>
+    <string name="onboardingCodeInput_title">Entrez votre code d\'autorisation</string>
+    <string name="onboardingDomain_genericError_message">
+        Erreur lors de la récupération des informations sur l\'instance.
+    </string>
+    <string name="onboardingDomain_input_label">Domaine de l\'instance</string>
+    <string name="onboardingDomain_input_placeholder">mastodon.example</string>
+    <string name="onboardingDomain_submit_action">Continuer</string>
+    <string name="onboardingDomain_title">Choisissez votre instance Mastodon</string>
+    <string name="onboarding_title">Bienvenue dans Woolly</string>
+
+    <string name="poll_chosenOption_cd">Vous avez voté pour cette option</string>
+    <string name="poll_expirationTime_days">dans %1$d j</string>
+    <string name="poll_expirationTime_expired">Expiré</string>
+    <string name="poll_expirationTime_hours">dans %1$d h</string>
+    <string name="poll_expirationTime_minutes">dans %1$d m</string>
+    <string name="poll_expirationTime_seconds">dans %1$d s</string>
+    <string name="poll_finalResults_label">Résultats finaux</string>
+    <string name="poll_openInBrowser_cd">Voter dans le navigateur</string>
+    <string name="poll_vote_action">Voter</string>
+    <string name="poll_votes_label">%1$d votes</string>
+
+    <string name="profilePicture_cd">Avatar de %1$s\'s</string>
+
+    <string name="publicTimeline_global_title">Fédéré</string>
+    <string name="publicTimeline_local_title">Local</string>
+    <string name="publicTimeline_title">Fil public</string>
+
+    <string name="search_accounts_title">Comptes</string>
+    <string name="search_hashtags_title">Hashtags</string>
+    <string name="search_input_clear_cd">Effacer la recherche</string>
+    <string name="search_input_placeholder">Recherchez quelque chose…</string>
+    <string name="search_statuses_title">Posts</string>
+    <string name="search_title">Recherche</string>
+
+    <string name="settings_currentTheme_title">Thème actuel</string>
+    <string name="settings_switchTheme_cd">Changer de thème</string>
+    <string name="settings_theme_dark">Toujours sombre</string>
+    <string name="settings_theme_light">Toujours clair</string>
+    <string name="settings_theme_system">Suivre le thème du système</string>
+    <string name="settings_title">Réglages de l\'app</string>
+
+    <string name="statusComposer_placeholder">Qu\'avez-vous en tête?</string>
+    <string name="statusComposer_postingAs_message">Post en tant que</string>
+    <string name="statusComposer_postingError_message">Erreur lors de la publication</string>
+    <string name="statusComposer_posting_title">Publication…</string>
+    <string name="statusComposer_replyingTo_cd">En réponse à</string>
+    <string name="statusComposer_replyingTo_message">En réponse à %1$s</string>
+    <string name="statusComposer_submit_action">Envoyer</string>
+    <string name="statusComposer_title">Nouveau post</string>
+
+    <string name="statusDetails_title">Post</string>
+
+    <string name="status_automated_cd">Compte automatisé</string>
+    <string name="status_automated_message">Automatisé</string>
+    <string name="status_boostUndo_action">Annuler le partage</string>
+    <string name="status_boost_action">Partager</string>
+    <string name="status_boosted_cd">Partagé</string>
+    <string name="status_boosted_message">%1$s a partagé</string>
+    <string name="status_favouriteUndo_action">Retirer des favoris</string>
+    <string name="status_favourite_action">Ajouter aux favoris</string>
+    <string name="status_mediaPreview_cd">Voir la source dans le navigateur</string>
+    <string name="status_postedAgo_days">%1$d j</string>
+    <string name="status_postedAgo_hours">%1$d h</string>
+    <string name="status_postedAgo_minutes">%1$d m</string>
+    <string name="status_postedAgo_now">Maintenant</string>
+    <string name="status_postedAgo_seconds">%1$d s</string>
+    <string name="status_previewSource_title">Source : %1$s</string>
+    <string name="status_preview_cd">Aperçu du lien</string>
+    <string name="status_reply_cd">Répondre</string>
+    <string name="status_visibility_direct_cd">Direct</string>
+    <string name="status_visibility_private_cd">Abonné·e·s uniquement</string>
+    <string name="status_visibility_public_cd">Publique</string>
+    <string name="status_visibility_unlisted_cd">Non-répertorié</string>
+
+</resources>

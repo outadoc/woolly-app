@@ -70,7 +70,7 @@ fun MainOverlayDrawer(
                 icon = {
                     Icon(
                         Icons.Default.Logout,
-                        contentDescription = stringResource(MR.strings.navigation_logout_cd)
+                        contentDescription = stringResource(MR.strings.navigation_logout_action)
                     )
                 },
                 onClick = {

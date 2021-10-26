@@ -78,7 +78,7 @@ fun MainSideNavigation(
                 ) {
                     Icon(
                         Icons.Default.Logout,
-                        stringResource(MR.strings.navigation_logout_cd)
+                        contentDescription = stringResource(MR.strings.navigation_logout_action)
                     )
                 }
             }

@@ -2,8 +2,8 @@
 <resources>
 
     <string name="accountDetails_follow_action">Follow</string>
-    <string name="accountDetails_followerCount_title">Posts</string>
-    <string name="accountDetails_followingCount_title">Posts</string>
+    <string name="accountDetails_followerCount_title">Followers</string>
+    <string name="accountDetails_followingCount_title">Following</string>
     <string name="accountDetails_header_cd">Your profile header</string>
     <string name="accountDetails_postCount_title">Posts</string>
     <string name="accountDetails_title">Account Details</string>
@@ -33,9 +33,8 @@
 
     <string name="myAccount_title">My Profile</string>
 
-    <string name="navigation_composeStatus_action">Compose a new status</string>
+    <string name="navigation_composeStatus_action">Compose a new post</string>
     <string name="navigation_logout_action">Log out</string>
-    <string name="navigation_logout_cd">Log out</string>
     <string name="navigation_openDrawer_cd">Open drawer menu</string>
     <string name="notifications_all_title">All</string>
     <string name="notifications_boost_cd">New boost</string>
@@ -102,12 +101,12 @@
 
     <string name="statusComposer_placeholder">What\'s on your mind?</string>
     <string name="statusComposer_postingAs_message">Posting as</string>
-    <string name="statusComposer_postingError_message">Error while posting status</string>
-    <string name="statusComposer_posting_title">Posting status…</string>
+    <string name="statusComposer_postingError_message">Error while posting</string>
+    <string name="statusComposer_posting_title">Posting…</string>
     <string name="statusComposer_replyingTo_cd">Replying to</string>
     <string name="statusComposer_replyingTo_message">In reply to %1$s</string>
     <string name="statusComposer_submit_action">Send</string>
-    <string name="statusComposer_title">New Status</string>
+    <string name="statusComposer_title">New Post</string>
 
     <string name="statusDetails_title">Post</string>
 

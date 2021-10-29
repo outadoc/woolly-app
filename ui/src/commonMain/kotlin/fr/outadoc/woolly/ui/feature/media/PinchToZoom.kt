@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import kotlin.math.max
@@ -24,8 +25,7 @@ fun PinchToZoom(
     content: @Composable () -> Unit
 ) {
     var scale by remember { mutableStateOf(1f) }
-    var translationX by remember { mutableStateOf(0f) }
-    var translationY by remember { mutableStateOf(0f) }
+    var translation by remember { mutableStateOf(Offset(0f, 0f)) }
 
     Column(
         modifier = modifier
@@ -43,8 +43,7 @@ fun PinchToZoom(
             .pointerInput(Unit) {
                 detectTransformGestures { _, pan, zoom, _ ->
                     scale = max(scale * zoom, 1f)
-                    translationX += pan.x
-                    translationY += pan.y
+                    translation += pan
                 }
             },
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,8 +54,8 @@ fun PinchToZoom(
                 .graphicsLayer(
                     scaleX = scale,
                     scaleY = scale,
-                    translationX = translationX,
-                    translationY = translationY
+                    translationX = translation.x,
+                    translationY = translation.y
                 )
         ) {
             content()

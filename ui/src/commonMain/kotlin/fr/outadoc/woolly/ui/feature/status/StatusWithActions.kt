@@ -2,7 +2,6 @@ package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -77,7 +76,7 @@ fun StatusWithActions(
 
         onStatusAction?.let {
             StatusActionBar(
-                modifier = Modifier.offset(x = (-16).dp),
+                modifier = Modifier.padding(top = 8.dp),
                 status = status,
                 onStatusAction = onStatusAction,
                 onStatusReplyClick = onStatusReplyClick

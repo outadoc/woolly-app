@@ -91,12 +91,7 @@ fun StatusList(
                             StatusOrBoost(
                                 modifier = Modifier
                                     .clickable { onStatusClick(status) }
-                                    .padding(
-                                        top = 16.dp,
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        bottom = 8.dp
-                                    ),
+                                    .padding(16.dp),
                                 status = status,
                                 onStatusAction = onStatusAction,
                                 onAttachmentClick = onAttachmentClick,

@@ -101,6 +101,7 @@ fun StatusDetails(
 
         onStatusAction?.let {
             StatusActionBar(
+                modifier = Modifier.padding(top = 8.dp),
                 status = status,
                 onStatusAction = onStatusAction,
                 onStatusReplyClick = onStatusReplyClick

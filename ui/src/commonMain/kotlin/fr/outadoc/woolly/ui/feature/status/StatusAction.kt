@@ -1,9 +1,11 @@
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,6 +15,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.status.formatShort
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun StatusAction(
     modifier: Modifier = Modifier,
@@ -32,26 +35,31 @@ fun StatusAction(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconToggleButton(
-            checked = checked,
-            onCheckedChange = onCheckedChange
+        CompositionLocalProvider(
+            LocalMinimumTouchTargetEnforcement provides false
         ) {
-            Icon(
-                icon,
-                modifier = Modifier.size(iconSize),
-                contentDescription = contentDescription,
-                tint = color
-            )
-        }
+            IconToggleButton(
+                checked = checked,
+                onCheckedChange = onCheckedChange
+            ) {
+                Icon(
+                    icon,
+                    modifier = Modifier.size(iconSize),
+                    contentDescription = contentDescription,
+                    tint = color
+                )
+            }
 
-        if (counter > 0) {
-            Text(
-                text = counter.formatShort(),
-                maxLines = 1,
-                style = MaterialTheme.typography.caption,
-                fontWeight = FontWeight.Bold,
-                color = color
-            )
+            if (counter > 0) {
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = counter.formatShort(),
+                    maxLines = 1,
+                    style = MaterialTheme.typography.caption,
+                    fontWeight = FontWeight.Bold,
+                    color = color
+                )
+            }
         }
     }
 }

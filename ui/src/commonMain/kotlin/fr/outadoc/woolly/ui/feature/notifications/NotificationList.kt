@@ -3,7 +3,7 @@ package fr.outadoc.woolly.ui.feature.notifications
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -89,7 +89,7 @@ fun NotificationList(
                             NotificationPlaceHolder()
                         }
 
-                        TabRowDefaults.Divider(thickness = 1.dp)
+                        Divider(thickness = Dp.Hairline)
                     }
                 }
 

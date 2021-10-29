@@ -5,9 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
@@ -39,17 +40,20 @@ fun StatusWithContext(
                 Status(
                     modifier = Modifier
                         .clickable { onStatusClick(status) }
-                        .padding(16.dp),
+                        .padding(
+                            top = 16.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 8.dp
+                        ),
                     status = status,
                     onStatusAction = onStatusAction,
                     onAttachmentClick = onAttachmentClick,
                     onStatusReplyClick = onStatusReplyClick,
                     onAccountClick = onAccountClick
                 )
-            }
 
-            item(key = "ancestorDivider") {
-                TabRowDefaults.Divider(thickness = 1.dp)
+                Divider(thickness = Dp.Hairline)
             }
         }
 
@@ -65,15 +69,21 @@ fun StatusWithContext(
         }
 
         if (context.descendants.isNotEmpty()) {
-            item(key = "descendantDivider") {
-                TabRowDefaults.Divider(thickness = 1.dp)
-            }
+            items(
+                context.descendants,
+                key = { it.statusId }
+            ) { status ->
+                Divider(thickness = Dp.Hairline)
 
-            items(context.descendants, key = { it.statusId }) { status ->
                 Status(
                     modifier = Modifier
                         .clickable { onStatusClick(status) }
-                        .padding(16.dp),
+                        .padding(
+                            top = 16.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 8.dp
+                        ),
                     status = status,
                     onStatusAction = onStatusAction,
                     onAttachmentClick = onAttachmentClick,

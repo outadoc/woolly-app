@@ -15,28 +15,30 @@ class AuthProxyRepositoryImpl(private val httpClient: HttpClient) : AuthProxyRep
     private val scope = "read write follow push"
 
     override fun getAuthorizeUrl(domain: String): Url {
-        return URLBuilder(baseUrl).apply {
-            encodedPath = "oauth/${domain.trim()}/authorize"
-            parameters.apply {
-                append("redirect_uri", redirectUri)
-                append("scope", scope)
-            }
-        }.build()
+        val encodedDomain = domain.trim().encodeURLPath()
+        return Url(baseUrl).copy(
+            encodedPath = "oauth/$encodedDomain/authorize",
+            parameters = parametersOf(
+                "redirect_uri" to listOf(redirectUri),
+                "scope" to listOf(scope),
+            )
+        )
     }
 
     override suspend fun getToken(domain: String, code: String): Token {
-        return withContext(Dispatchers.IO) {
-            val url = URLBuilder(baseUrl).apply {
-                encodedPath = "oauth/${domain.trim()}/token"
-            }.build()
+        val encodedDomain = domain.trim().encodeURLPath()
+        val url = Url(baseUrl).copy(
+            encodedPath = "oauth/$encodedDomain/token"
+        )
 
+        return withContext(Dispatchers.IO) {
             httpClient.post(url) {
                 body = FormDataContent(
-                    Parameters.build {
-                        append("redirect_uri", redirectUri)
-                        append("scope", scope)
-                        append("code", code)
-                    }
+                    formData = parametersOf(
+                        "redirect_uri" to listOf(redirectUri),
+                        "scope" to listOf(scope),
+                        "code" to listOf(code)
+                    )
                 )
             }
         }

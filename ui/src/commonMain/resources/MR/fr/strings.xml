@@ -99,7 +99,7 @@
     <string name="settings_theme_system">Suivre le thème du système</string>
     <string name="settings_title">Réglages de l\'app</string>
 
-    <string name="statusComposer_placeholder">Qu\'avez-vous en tête?</string>
+    <string name="statusComposer_placeholder">Qu\'avez-vous en tête ?</string>
     <string name="statusComposer_postingAs_message">Post en tant que</string>
     <string name="statusComposer_postingError_message">Erreur lors de la publication</string>
     <string name="statusComposer_posting_title">Publication…</string>

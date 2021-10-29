@@ -7,18 +7,15 @@ import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.common.feature.status.StatusDeltaConsumer
 import fr.outadoc.woolly.common.feature.status.StatusDeltaSupplier
-import fr.outadoc.woolly.common.getScope
+import fr.outadoc.woolly.common.feature.status.plus
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class StatusDetailsComponent(
     componentContext: ComponentContext,
     clientProvider: MastodonClientProvider,
-    private val statusDeltaConsumer: StatusDeltaConsumer,
+    statusDeltaConsumer: StatusDeltaConsumer,
     private val statusDeltaSupplier: StatusDeltaSupplier
 ) : ComponentContext by componentContext {
-
-    private val componentScope = getScope()
 
     sealed class State(
         open val isLoading: Boolean
@@ -67,13 +64,21 @@ class StatusDetailsComponent(
             emit(nextState)
 
         }.collect()
-    }
 
-    init {
-        componentScope.launch {
-            statusDeltaConsumer.statusDeltas
-                .onEach { refresh() }
-                .collect()
+    }.combine(statusDeltaConsumer.statusDeltas) { state, statusDeltas ->
+        when (state) {
+            is State.LoadedStatus -> state.copy(
+                status = state.status + statusDeltas[state.status.statusId],
+                context = state.context.copy(
+                    ancestors = state.context.ancestors.map { status ->
+                        status + statusDeltas[status.statusId]
+                    },
+                    descendants = state.context.descendants.map { status ->
+                        status + statusDeltas[status.statusId]
+                    }
+                )
+            )
+            else -> state
         }
     }
 

@@ -24,7 +24,9 @@ import fr.outadoc.woolly.common.feature.media.component.AttachmentViewerComponen
 import fr.outadoc.woolly.common.feature.notifications.component.NotificationsComponent
 import fr.outadoc.woolly.common.feature.publictimeline.component.PublicTimelineComponent
 import fr.outadoc.woolly.common.feature.search.component.SearchComponent
-import fr.outadoc.woolly.common.feature.status.StatusActionRepository
+import fr.outadoc.woolly.common.feature.status.StatusDeltaConsumer
+import fr.outadoc.woolly.common.feature.status.StatusDeltaRepository
+import fr.outadoc.woolly.common.feature.status.StatusDeltaSupplier
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
 import fr.outadoc.woolly.common.feature.tags.component.HashtagTimelineComponent
@@ -60,7 +62,11 @@ val CommonDI = DI {
 
     bindSingleton { AuthenticationStateRepository(instance()) }
     bindSingleton<AuthenticationStateConsumer> { instance<AuthenticationStateRepository>() }
-    bindSingleton { StatusActionRepository(instance(), instance()) }
+
+    bindSingleton { StatusDeltaRepository(instance(), instance()) }
+    bindSingleton<StatusDeltaSupplier> { instance<StatusDeltaRepository>() }
+    bindSingleton<StatusDeltaConsumer> { instance<StatusDeltaRepository>() }
+
     bindSingleton { StatusPagingRepository(instance(), instance(), instance()) }
 
     bindSingleton<MastodonClientProvider> { MastodonClientProviderImpl(instance(), instance()) }
@@ -102,7 +108,7 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        StatusDetailsComponent(componentContext, instance(), instance())
+        StatusDetailsComponent(componentContext, instance(), instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->

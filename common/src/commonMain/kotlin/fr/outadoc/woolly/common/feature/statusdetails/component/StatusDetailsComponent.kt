@@ -5,7 +5,8 @@ import fr.outadoc.mastodonk.api.entity.Context
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.status.StatusAction
-import fr.outadoc.woolly.common.feature.status.StatusActionRepository
+import fr.outadoc.woolly.common.feature.status.StatusDeltaConsumer
+import fr.outadoc.woolly.common.feature.status.StatusDeltaSupplier
 import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 class StatusDetailsComponent(
     componentContext: ComponentContext,
     clientProvider: MastodonClientProvider,
-    private val statusActionRepository: StatusActionRepository
+    private val statusDeltaConsumer: StatusDeltaConsumer,
+    private val statusDeltaSupplier: StatusDeltaSupplier
 ) : ComponentContext by componentContext {
 
     private val componentScope = getScope()
@@ -47,11 +49,12 @@ class StatusDetailsComponent(
             val nextState = if (client == null) State.Error()
             else {
                 val status = client.statuses.getStatus(statusId)
-                val context = client.statuses.getContext(status?.boostedStatus?.statusId ?: statusId)
-                    ?: Context(
-                        ancestors = emptyList(),
-                        descendants = emptyList()
-                    )
+                val context =
+                    client.statuses.getContext(status?.boostedStatus?.statusId ?: statusId)
+                        ?: Context(
+                            ancestors = emptyList(),
+                            descendants = emptyList()
+                        )
 
                 if (status == null) State.Error()
                 else State.LoadedStatus(
@@ -68,7 +71,7 @@ class StatusDetailsComponent(
 
     init {
         componentScope.launch {
-            statusActionRepository.cachedStatusDeltas
+            statusDeltaConsumer.statusDeltas
                 .onEach { refresh() }
                 .collect()
         }
@@ -93,6 +96,6 @@ class StatusDetailsComponent(
     }
 
     fun onStatusAction(action: StatusAction) {
-        statusActionRepository.onStatusAction(action)
+        statusDeltaSupplier.onStatusAction(action)
     }
 }

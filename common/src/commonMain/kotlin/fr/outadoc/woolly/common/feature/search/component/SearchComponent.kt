@@ -18,7 +18,7 @@ import fr.outadoc.woolly.common.feature.search.SearchSubScreen
 import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
 import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
-import fr.outadoc.woolly.common.feature.status.StatusActionRepository
+import fr.outadoc.woolly.common.feature.status.StatusDeltaSupplier
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ class SearchComponent(
     componentContext: ComponentContext,
     pagingConfig: PagingConfig,
     private val clientProvider: MastodonClientProvider,
-    private val statusActionRepository: StatusActionRepository,
+    private val statusDeltaSupplier: StatusDeltaSupplier,
     private val statusPagingRepository: StatusPagingRepository
 ) : ComponentContext by componentContext, ScrollableComponent {
 
@@ -105,7 +105,7 @@ class SearchComponent(
     }
 
     fun onStatusAction(action: StatusAction) {
-        statusActionRepository.onStatusAction(action)
+        statusDeltaSupplier.onStatusAction(action)
     }
 
     suspend fun onSubScreenSelected(subScreen: SearchSubScreen) {

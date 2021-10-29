@@ -3,25 +3,25 @@ package fr.outadoc.woolly.common.feature.status
 import fr.outadoc.mastodonk.api.endpoint.statuses.StatusesApi
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class StatusActionRepository(
+class StatusDeltaRepository(
     scope: CoroutineScope,
     clientProvider: MastodonClientProvider
-) {
+): StatusDeltaConsumer, StatusDeltaSupplier {
+
     private val _actionFlow = MutableSharedFlow<StatusAction>(replay = 1)
 
     private val _cachedStatusDeltas = MutableStateFlow<Map<String, StatusDelta>>(emptyMap())
-    val cachedStatusDeltas = _cachedStatusDeltas.asStateFlow()
+    override val statusDeltas = _cachedStatusDeltas.asStateFlow()
 
     init {
         scope.launch {
             clientProvider.mastodonClient
                 .filterNotNull()
                 .combine(_actionFlow) { client, action ->
-                    val originalDelta = cachedStatusDeltas.value[action.status.statusId]
+                    val originalDelta = statusDeltas.value[action.status.statusId]
                     val newDelta = (originalDelta ?: StatusDelta()).performAction(action)
                     updateDeltasWith(action.status.statusId, newDelta)
 
@@ -35,7 +35,7 @@ class StatusActionRepository(
         }
     }
 
-    fun onStatusAction(action: StatusAction) {
+    override fun onStatusAction(action: StatusAction) {
         _actionFlow.tryEmit(action)
     }
 

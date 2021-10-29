@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.combine
 class StatusPagingRepository(
     private val pagingConfig: PagingConfig,
     private val clientProvider: MastodonClientProvider,
-    private val statusActionRepository: StatusActionRepository
+    private val statusDeltaConsumer: StatusDeltaConsumer
 ) {
     private var _latestPagingSource: PagingSource<PageInfo, Status>? = null
 
@@ -35,7 +35,7 @@ class StatusPagingRepository(
         Pager(pagingConfig) { getPagingSource(factory) }
             .flow
             .cachedIn(componentScope)
-            .combine(statusActionRepository.cachedStatusDeltas) { data, deltas ->
+            .combine(statusDeltaConsumer.statusDeltas) { data, deltas ->
                 data.map { status ->
                     // Apply status action deltas to the statuses in this list.
                     // If this status is a boost, update the underlying boosted status with the cached action.

@@ -10,7 +10,7 @@ import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
 import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
 import fr.outadoc.woolly.common.feature.state.registerListState
 import fr.outadoc.woolly.common.feature.status.StatusAction
-import fr.outadoc.woolly.common.feature.status.StatusActionRepository
+import fr.outadoc.woolly.common.feature.status.StatusDeltaSupplier
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
 class HomeTimelineComponent(
     componentContext: ComponentContext,
     statusPagingRepository: StatusPagingRepository,
-    private val statusActionRepository: StatusActionRepository
+    private val statusDeltaSupplier: StatusDeltaSupplier
 ) : ComponentContext by componentContext, ScrollableComponent {
 
     private val componentScope = getScope()
@@ -38,7 +38,7 @@ class HomeTimelineComponent(
         )
 
     fun onStatusAction(action: StatusAction) {
-        statusActionRepository.onStatusAction(action)
+        statusDeltaSupplier.onStatusAction(action)
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {

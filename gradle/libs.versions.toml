@@ -1,7 +1,7 @@
 [versions]
 datastore = "1.0.0-rc01"
 decompose = "0.4.0"
-mastodonk = "0.1-alpha35"
+mastodonk = "0.1-alpha38"
 ktor = "1.6.1"
 
 [libraries]

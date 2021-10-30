@@ -37,7 +37,8 @@ fun StatusList(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {},
-    onAccountClick: (Account) -> Unit = {}
+    onAccountClick: (Account) -> Unit = {},
+    itemKey: ((Status) -> String)? = { status -> status.statusId }
 ) {
     val lazyPagingItems = statusFlow.collectAsLazyPagingItems()
 
@@ -84,7 +85,7 @@ fun StatusList(
 
                 items(
                     items = lazyPagingItems,
-                    key = { status -> status.statusId }
+                    key = itemKey
                 ) { status ->
                     Column {
                         if (status != null) {

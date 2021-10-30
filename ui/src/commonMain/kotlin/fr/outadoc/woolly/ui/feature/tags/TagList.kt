@@ -29,7 +29,8 @@ fun TagList(
     insets: PaddingValues = PaddingValues(),
     tagFlow: Flow<PagingData<Tag>>,
     lazyListState: LazyListState,
-    onHashtagClick: (String) -> Unit = {}
+    onHashtagClick: (String) -> Unit = {},
+    itemKey: ((Tag) -> String)? = { tag -> tag.name }
 ) {
     val lazyPagingItems = tagFlow.collectAsLazyPagingItems()
 
@@ -66,7 +67,7 @@ fun TagList(
 
             items(
                 items = lazyPagingItems,
-                key = { tag -> tag.name }
+                key = itemKey
             ) { tag ->
                 Column {
                     if (tag != null) {

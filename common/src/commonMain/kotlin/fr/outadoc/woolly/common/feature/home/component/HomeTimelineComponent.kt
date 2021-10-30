@@ -33,7 +33,7 @@ class HomeTimelineComponent(
         statusPagingRepository.getPagingData(
             componentScope,
             factory = { client ->
-                client.timelines.getHomeTimelineSource()
+                client.timelines.getHomeTimelineSource(onlyLocal = null)
             }
         )
 

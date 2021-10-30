@@ -5,7 +5,6 @@ import com.arkivanov.decompose.ComponentContext
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.Tag
-import fr.outadoc.mastodonk.api.entity.paging.PageInfo
 import fr.outadoc.mastodonk.paging.api.endpoint.search.searchAccountsSource
 import fr.outadoc.mastodonk.paging.api.endpoint.search.searchHashtagsSource
 import fr.outadoc.mastodonk.paging.api.endpoint.search.searchStatusesSource
@@ -68,8 +67,8 @@ class SearchComponent(
             }
         )
 
-    private var _latestAccountsPagingSource: PagingSource<PageInfo, Account>? = null
-    private val accountsPagingSource: PagingSource<PageInfo, Account>
+    private var _latestAccountsPagingSource: PagingSource<*, Account>? = null
+    private val accountsPagingSource: PagingSource<*, Account>
         get() = clientProvider
             .latestClientOrThrow
             .search.searchAccountsSource(q = state.value.query)
@@ -82,8 +81,8 @@ class SearchComponent(
             .flow
             .cachedIn(componentScope)
 
-    private var _latestHashtagsPagingSource: PagingSource<PageInfo, Tag>? = null
-    private val hashtagsPagingSource: PagingSource<PageInfo, Tag>
+    private var _latestHashtagsPagingSource: PagingSource<*, Tag>? = null
+    private val hashtagsPagingSource: PagingSource<*, Tag>
         get() = clientProvider
             .latestClientOrThrow
             .search.searchHashtagsSource(q = state.value.query)

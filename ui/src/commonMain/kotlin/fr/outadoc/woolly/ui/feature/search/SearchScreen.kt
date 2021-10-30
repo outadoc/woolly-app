@@ -42,21 +42,24 @@ fun SearchScreen(
                 onStatusClick = onStatusClick,
                 onAttachmentClick = onAttachmentClick,
                 onStatusReplyClick = onStatusReplyClick,
-                onAccountClick = onAccountClick
+                onAccountClick = onAccountClick,
+                itemKey = null
             )
 
             SearchSubScreen.Accounts -> AccountList(
                 insets = insets,
                 accountFlow = component.accountsPagingItems,
                 lazyListState = component.accountsListState,
-                onAccountClick = onAccountClick
+                onAccountClick = onAccountClick,
+                itemKey = null
             )
 
             SearchSubScreen.Hashtags -> TagList(
                 insets = insets,
                 tagFlow = component.hashtagsPagingItems,
                 lazyListState = component.hashtagsListState,
-                onHashtagClick = onHashtagClick
+                onHashtagClick = onHashtagClick,
+                itemKey = null
             )
         }
     }

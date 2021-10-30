@@ -2,7 +2,6 @@ package fr.outadoc.woolly.common.feature.status
 
 import androidx.paging.*
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.mastodonk.api.entity.paging.PageInfo
 import fr.outadoc.mastodonk.client.MastodonClient
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.client.latestClientOrThrow
@@ -15,11 +14,11 @@ class StatusPagingRepository(
     private val clientProvider: MastodonClientProvider,
     private val statusDeltaConsumer: StatusDeltaConsumer
 ) {
-    private var _latestPagingSource: PagingSource<PageInfo, Status>? = null
+    private var _latestPagingSource: PagingSource<*, Status>? = null
 
     private fun getPagingSource(
-        factory: (MastodonClient) -> PagingSource<PageInfo, Status>
-    ): PagingSource<PageInfo, Status> {
+        factory: (MastodonClient) -> PagingSource<*, Status>
+    ): PagingSource<*, Status> {
         return clientProvider
             .latestClientOrThrow
             .let(factory)
@@ -30,7 +29,7 @@ class StatusPagingRepository(
 
     fun getPagingData(
         componentScope: CoroutineScope,
-        factory: (MastodonClient) -> PagingSource<PageInfo, Status>
+        factory: (MastodonClient) -> PagingSource<*, Status>
     ): Flow<PagingData<Status>> =
         Pager(pagingConfig) { getPagingSource(factory) }
             .flow

@@ -30,7 +30,8 @@ fun AccountList(
     insets: PaddingValues = PaddingValues(),
     accountFlow: Flow<PagingData<Account>>,
     lazyListState: LazyListState,
-    onAccountClick: (Account) -> Unit = {}
+    onAccountClick: (Account) -> Unit = {},
+    itemKey: ((Account) -> String)? = { account -> account.accountId }
 ) {
     val lazyPagingItems = accountFlow.collectAsLazyPagingItems()
 
@@ -67,7 +68,7 @@ fun AccountList(
 
             items(
                 items = lazyPagingItems,
-                key = { account -> account.accountId }
+                key = itemKey
             ) { account ->
                 Column {
                     if (account != null) {

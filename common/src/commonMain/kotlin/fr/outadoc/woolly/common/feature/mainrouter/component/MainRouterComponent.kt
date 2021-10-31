@@ -10,6 +10,7 @@ import com.arkivanov.decompose.value.operator.map
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
+import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.media.toAppImage
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import org.kodein.di.DirectDI
 import org.kodein.di.factory
+import org.kodein.di.instance
 
 class MainRouterComponent(
     componentContext: ComponentContext,
@@ -34,6 +36,10 @@ class MainRouterComponent(
 
     sealed class Event {
         data class OpenUri(val uri: String) : Event()
+    }
+
+    private val accountRepository: AccountRepository by lazy {
+        directDI.instance()
     }
 
     private val _events = MutableSharedFlow<Event>()
@@ -86,11 +92,14 @@ class MainRouterComponent(
     }
 
     fun onAccountClick(account: Account) {
-        router.push(
-            AppScreen.AccountDetails(
+        val target = when (accountRepository.currentAccount.value?.accountId) {
+            account.accountId -> AppScreen.MyAccount
+            else -> AppScreen.AccountDetails(
                 accountId = account.accountId
             )
-        )
+        }
+
+        router.push(target)
     }
 
     fun onHashtagClick(hashtag: String) {

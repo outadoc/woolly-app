@@ -1,7 +1,6 @@
-package fr.outadoc.woolly.ui.common
+package fr.outadoc.woolly.ui.richtext
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -10,13 +9,17 @@ import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
 @Composable
-fun InlineEmoji(emoji: Emoji) {
+fun InlineEmoji(
+    modifier: Modifier = Modifier,
+    emoji: Emoji
+) {
     KamelImage(
+        modifier = modifier,
         resource = lazyPainterResource(emoji.staticUrl),
-        onLoading = { Box(modifier = Modifier.fillMaxSize()) },
-        onFailure = { Box(modifier = Modifier.fillMaxSize()) },
+        onLoading = { Box(modifier = modifier) },
+        onFailure = { Box(modifier = modifier) },
         contentDescription = emoji.shortCode,
         crossfade = true,
-        contentScale = ContentScale.Fit
+        contentScale = ContentScale.FillWidth
     )
 }

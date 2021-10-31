@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.ui.richtext
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.LocalTextStyle
@@ -8,15 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.em
 import fr.outadoc.mastodonk.api.entity.Emoji
 import fr.outadoc.woolly.common.richtext.HtmlParser
 import fr.outadoc.woolly.common.richtext.model.*
-import fr.outadoc.woolly.ui.common.InlineEmoji
 
 private val htmlParser = HtmlParser()
 private const val ClickableTag = "clickable"
@@ -81,17 +81,26 @@ private fun NodeText(
                     uriHandler.openUri(url)
                 }
         },
-        inlineContent = emojis.map { emoji ->
+        inlineContent = emojis.associate { emoji ->
+            val emojiSize = LocalTextStyle.current.fontSize
             emoji.shortCode to InlineTextContent(
-                Placeholder(
-                    width = 1.3.em,
-                    height = 1.3.em,
+                placeholder = Placeholder(
+                    width = emojiSize,
+                    height = emojiSize,
                     placeholderVerticalAlign = PlaceholderVerticalAlign.TextBottom
-                )
-            ) {
-                InlineEmoji(emoji)
-            }
-        }.toMap()
+                ),
+                children = {
+                    InlineEmoji(
+                        modifier = Modifier.size(
+                            with(LocalDensity.current) {
+                                emojiSize.toDp()
+                            }
+                        ),
+                        emoji = emoji
+                    )
+                }
+            )
+        }
     )
 }
 

@@ -72,7 +72,11 @@ fun MainRouterChild(
         is MainContent.MyAccount -> MyAccountScreen(
             component = content.component,
             sheetState = settingsSheetState,
-            insets = insets
+            insets = insets,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
         )
         is MainContent.Bookmarks -> BookmarksScreen(
             component = content.component,
@@ -110,7 +114,11 @@ fun MainRouterChild(
         )
         is MainContent.AccountDetails -> AccountDetailsScreen(
             component = content.component,
-            accountId = content.configuration.accountId
+            accountId = content.configuration.accountId,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick
         )
         is MainContent.HashtagTimeline -> HashtagTimelineScreen(
             component = content.component,

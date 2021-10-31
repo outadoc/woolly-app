@@ -8,6 +8,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Attachment
+import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.account.component.MyAccountComponent
 import fr.outadoc.woolly.ui.feature.preference.PreferenceList
 import fr.outadoc.woolly.ui.feature.status.StatusList
@@ -17,7 +20,11 @@ import fr.outadoc.woolly.ui.feature.status.StatusList
 fun MyAccountScreen(
     component: MyAccountComponent,
     sheetState: ModalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden),
-    insets: PaddingValues = PaddingValues()
+    insets: PaddingValues = PaddingValues(),
+    onStatusClick: (Status) -> Unit = {},
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val state by component.state.collectAsState()
     val settingsState by component.settingsState.collectAsState()
@@ -36,6 +43,13 @@ fun MyAccountScreen(
             modifier = Modifier.padding(insets),
             statusFlow = component.timelinePagingItems,
             lazyListState = component.listState,
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusAction = { action ->
+                component.onStatusAction(action)
+            },
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick,
             header = {
                 state.account?.let { account ->
                     AccountHeader(

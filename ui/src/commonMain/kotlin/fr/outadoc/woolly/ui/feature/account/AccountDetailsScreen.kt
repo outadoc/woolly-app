@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import fr.outadoc.mastodonk.api.entity.Account
+import fr.outadoc.mastodonk.api.entity.Attachment
+import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent
 import fr.outadoc.woolly.common.feature.account.component.AccountDetailsComponent.State
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
@@ -20,7 +23,11 @@ import fr.outadoc.woolly.ui.feature.status.StatusList
 fun AccountDetailsScreen(
     component: AccountDetailsComponent,
     insets: PaddingValues = PaddingValues(),
-    accountId: String
+    accountId: String,
+    onStatusClick: (Status) -> Unit = {},
+    onAttachmentClick: (Attachment) -> Unit = {},
+    onStatusReplyClick: (Status) -> Unit = {},
+    onAccountClick: (Account) -> Unit = {}
 ) {
     val state by component.state.collectAsState(State.Initial())
 
@@ -48,6 +55,13 @@ fun AccountDetailsScreen(
                     modifier = Modifier.padding(insets),
                     statusFlow = component.timelinePagingItems,
                     lazyListState = component.listState,
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick,
+                    onStatusAction = { action ->
+                        component.onStatusAction(action)
+                    },
+                    onStatusReplyClick = onStatusReplyClick,
+                    onAccountClick = onAccountClick,
                     header = {
                         AccountHeader(
                             modifier = Modifier.padding(bottom = 8.dp),

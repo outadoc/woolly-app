@@ -14,6 +14,8 @@ import fr.outadoc.woolly.common.feature.preference.AppPreferences
 import fr.outadoc.woolly.common.feature.preference.PreferenceRepository
 import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
 import fr.outadoc.woolly.common.feature.state.registerListState
+import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.common.feature.status.StatusDeltaSupplier
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.*
@@ -23,7 +25,8 @@ class MyAccountComponent(
     componentContext: ComponentContext,
     accountRepository: AccountRepository,
     statusPagingRepository: StatusPagingRepository,
-    private val preferenceRepository: PreferenceRepository
+    private val preferenceRepository: PreferenceRepository,
+    private val statusDeltaSupplier: StatusDeltaSupplier
 ) : ComponentContext by componentContext, ScrollableComponent {
 
     val componentScope = getScope()
@@ -84,6 +87,10 @@ class MyAccountComponent(
                 )
             }
         }
+    }
+
+    fun onStatusAction(action: StatusAction) {
+        statusDeltaSupplier.onStatusAction(action)
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {

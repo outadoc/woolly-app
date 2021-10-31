@@ -12,6 +12,8 @@ import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
 import fr.outadoc.woolly.common.feature.navigation.tryScrollToTop
 import fr.outadoc.woolly.common.feature.state.consumeListStateOrDefault
 import fr.outadoc.woolly.common.feature.state.registerListState
+import fr.outadoc.woolly.common.feature.status.StatusAction
+import fr.outadoc.woolly.common.feature.status.StatusDeltaSupplier
 import fr.outadoc.woolly.common.feature.status.StatusPagingRepository
 import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.*
@@ -20,7 +22,8 @@ import kotlinx.coroutines.launch
 class AccountDetailsComponent(
     componentContext: ComponentContext,
     statusPagingRepository: StatusPagingRepository,
-    private val clientProvider: MastodonClientProvider
+    private val clientProvider: MastodonClientProvider,
+    private val statusDeltaSupplier: StatusDeltaSupplier
 ) : ComponentContext by componentContext, ScrollableComponent {
 
     sealed class State {
@@ -133,6 +136,10 @@ class AccountDetailsComponent(
                 _state.value = currentState
             }
         }
+    }
+
+    fun onStatusAction(action: StatusAction) {
+        statusDeltaSupplier.onStatusAction(action)
     }
 
     override suspend fun scrollToTop(currentConfig: AppScreen?) {

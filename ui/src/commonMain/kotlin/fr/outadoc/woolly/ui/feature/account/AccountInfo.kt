@@ -52,11 +52,12 @@ fun AccountInfo(
             }
         }
 
-        Text(
+        RichText(
             text = account.displayNameOrAcct,
             style = MaterialTheme.typography.h6,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            emojis = account.emojis
         )
 
         if (account.displayName.isNotBlank()) {

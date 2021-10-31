@@ -205,7 +205,8 @@ fun MainRouter(
                     )
                 }
             }
-        }
+        },
+        drawerGesturesEnabled = true
     ) { insets ->
         Children(
             routerState = component.routerState,

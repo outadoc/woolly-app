@@ -1,6 +1,5 @@
 package fr.outadoc.woolly.ui.feature.poll
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -19,10 +18,7 @@ fun VotablePollContent(
     modifier: Modifier = Modifier,
     poll: Poll
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
+    Column(modifier = modifier) {
         poll.options.forEach { option ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (poll.allowsMultipleChoices) {

@@ -27,7 +27,8 @@ fun AccountDetailsScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {},
-    onAccountClick: (Account) -> Unit = {}
+    onAccountClick: (Account) -> Unit = {},
+    onLoadError: (Throwable, () -> Unit) -> Unit = { _, _ -> }
 ) {
     val state by component.state.collectAsState(State.Initial())
 
@@ -71,7 +72,8 @@ fun AccountDetailsScreen(
                                 component.onFollowClick(follow)
                             }
                         )
-                    }
+                    },
+                    onLoadError = onLoadError
                 )
             }
         }

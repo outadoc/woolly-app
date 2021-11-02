@@ -15,7 +15,8 @@ fun BookmarksScreen(
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {},
-    onAccountClick: (Account) -> Unit = {}
+    onAccountClick: (Account) -> Unit = {},
+    onLoadError: (Throwable, () -> Unit) -> Unit = { _, _ -> }
 ) {
     StatusList(
         insets = insets,
@@ -25,6 +26,7 @@ fun BookmarksScreen(
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick,
         onStatusReplyClick = onStatusReplyClick,
-        onAccountClick = onAccountClick
+        onAccountClick = onAccountClick,
+        onLoadError = onLoadError
     )
 }

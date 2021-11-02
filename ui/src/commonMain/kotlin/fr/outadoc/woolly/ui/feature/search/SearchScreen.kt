@@ -22,7 +22,8 @@ fun SearchScreen(
     onAttachmentClick: (Attachment) -> Unit = {},
     onStatusReplyClick: (Status) -> Unit = {},
     onAccountClick: (Account) -> Unit = {},
-    onHashtagClick: (String) -> Unit = {}
+    onHashtagClick: (String) -> Unit = {},
+    onLoadError: (Throwable, () -> Unit) -> Unit = { _, _ -> }
 ) {
     val state by component.state.collectAsState()
 
@@ -43,6 +44,7 @@ fun SearchScreen(
                 onAttachmentClick = onAttachmentClick,
                 onStatusReplyClick = onStatusReplyClick,
                 onAccountClick = onAccountClick,
+                onLoadError = onLoadError,
                 itemKey = null
             )
 
@@ -51,6 +53,7 @@ fun SearchScreen(
                 accountFlow = component.accountsPagingItems,
                 lazyListState = component.accountsListState,
                 onAccountClick = onAccountClick,
+                onLoadError = onLoadError,
                 itemKey = null
             )
 
@@ -59,6 +62,7 @@ fun SearchScreen(
                 tagFlow = component.hashtagsPagingItems,
                 lazyListState = component.hashtagsListState,
                 onHashtagClick = onHashtagClick,
+                onLoadError = onLoadError,
                 itemKey = null
             )
         }

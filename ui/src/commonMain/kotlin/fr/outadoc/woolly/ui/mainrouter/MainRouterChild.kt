@@ -34,7 +34,8 @@ fun MainRouterChild(
     onStatusReplyClick: (Status) -> Unit = {},
     onAccountClick: (Account) -> Unit = {},
     onComposerDismissed: () -> Unit = {},
-    onHashtagClick: (String) -> Unit = {}
+    onHashtagClick: (String) -> Unit = {},
+    onLoadError: (Throwable, () -> Unit) -> Unit = { _, _ -> }
 ) {
     when (content) {
         is MainContent.HomeTimeline -> HomeTimelineScreen(
@@ -43,7 +44,8 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
         is MainContent.PublicTimeline -> PublicTimelineScreen(
             component = content.component,
@@ -51,14 +53,16 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
         is MainContent.Notifications -> NotificationsScreen(
             component = content.component,
             insets = insets,
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
         is MainContent.Search -> SearchScreen(
             component = content.component,
@@ -67,7 +71,8 @@ fun MainRouterChild(
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
             onAccountClick = onAccountClick,
-            onHashtagClick = onHashtagClick
+            onHashtagClick = onHashtagClick,
+            onLoadError = onLoadError
         )
         is MainContent.MyAccount -> MyAccountScreen(
             component = content.component,
@@ -76,7 +81,8 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
         is MainContent.Bookmarks -> BookmarksScreen(
             component = content.component,
@@ -84,7 +90,8 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
         is MainContent.Favourites -> FavouritesScreen(
             component = content.component,
@@ -92,7 +99,8 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
         is MainContent.StatusDetails -> StatusDetailsScreen(
             component = content.component,
@@ -118,7 +126,8 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
         is MainContent.HashtagTimeline -> HashtagTimelineScreen(
             component = content.component,
@@ -127,7 +136,8 @@ fun MainRouterChild(
             onStatusClick = onStatusClick,
             onAttachmentClick = onAttachmentClick,
             onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick
+            onAccountClick = onAccountClick,
+            onLoadError = onLoadError
         )
     }
 }

@@ -15,7 +15,8 @@ fun NotificationsScreen(
     insets: PaddingValues = PaddingValues(),
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
-    onAccountClick: (Account) -> Unit = {}
+    onAccountClick: (Account) -> Unit = {},
+    onLoadError: (Throwable, () -> Unit) -> Unit = { _, _ -> }
 ) {
     val state by component.state.collectAsState()
     NotificationList(
@@ -24,6 +25,7 @@ fun NotificationsScreen(
         lazyListState = state.listState,
         onStatusClick = onStatusClick,
         onAttachmentClick = onAttachmentClick,
-        onAccountClick = onAccountClick
+        onAccountClick = onAccountClick,
+        onLoadError = onLoadError
     )
 }

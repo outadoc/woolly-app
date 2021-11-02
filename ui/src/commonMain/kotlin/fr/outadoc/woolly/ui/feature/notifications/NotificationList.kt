@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -19,8 +19,9 @@ import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Notification
 import fr.outadoc.mastodonk.api.entity.Status
-import fr.outadoc.woolly.ui.common.ListExtremityState
 import fr.outadoc.woolly.ui.common.WoollyDefaults
+import fr.outadoc.woolly.ui.common.errorStateForDisplay
+import fr.outadoc.woolly.ui.common.errorStateForNotification
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 import kotlinx.coroutines.flow.Flow
 
@@ -33,9 +34,16 @@ fun NotificationList(
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
     onStatusClick: (Status) -> Unit = {},
     onAttachmentClick: (Attachment) -> Unit = {},
-    onAccountClick: (Account) -> Unit = {}
+    onAccountClick: (Account) -> Unit = {},
+    onLoadError: (Throwable, () -> Unit) -> Unit = { _, _ -> }
 ) {
     val lazyPagingItems = notificationFlow.collectAsLazyPagingItems()
+
+    lazyPagingItems.errorStateForNotification?.error?.let { error ->
+        LaunchedEffect(error) {
+            onLoadError(error, lazyPagingItems::retry)
+        }
+    }
 
     SwipeRefresh(
         onRefresh = lazyPagingItems::refresh,
@@ -52,24 +60,16 @@ fun NotificationList(
                 state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
                 contentPadding = insets
             ) {
-                when (val state = lazyPagingItems.loadState.refresh) {
-                    is LoadState.Error -> item(key = "error") {
+                lazyPagingItems.errorStateForDisplay?.let { errorState ->
+                    item(key = "error") {
                         ErrorScreen(
                             modifier = Modifier
                                 .fillParentMaxSize()
                                 .padding(16.dp),
-                            error = state.error,
+                            error = errorState.error,
                             onRetry = lazyPagingItems::retry
                         )
                     }
-                }
-
-                item(key = "prepend") {
-                    ListExtremityState(
-                        state = lazyPagingItems.loadState.prepend,
-                        onRetry = lazyPagingItems::retry,
-                        animationDirection = Alignment.Top
-                    )
                 }
 
                 items(
@@ -91,14 +91,6 @@ fun NotificationList(
 
                         Divider(thickness = Dp.Hairline)
                     }
-                }
-
-                item(key = "append") {
-                    ListExtremityState(
-                        state = lazyPagingItems.loadState.append,
-                        onRetry = lazyPagingItems::retry,
-                        animationDirection = Alignment.Bottom
-                    )
                 }
             }
         }

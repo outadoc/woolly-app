@@ -51,15 +51,15 @@ fun MainRouter(
         }
     }
 
-    val actionMessage = stringResource(MR.strings.statusComposer_postingError_message)
-    val actionLabel = stringResource(MR.strings.all_genericError_retry_action)
-    val snackbarMessage = stringResource(MR.strings.statusComposer_posting_title)
+    val postingErrorActionMessage = stringResource(MR.strings.statusComposer_postingError_message)
+    val retryActionLabel = stringResource(MR.strings.all_genericError_retry_action)
+    val postingSnackbarMessage = stringResource(MR.strings.statusComposer_posting_title)
 
     PostingStatusSnackbar(
         showPostingSnackbar = {
             scope.launch {
                 scaffoldState.snackbarHostState.showSnackbar(
-                    message = snackbarMessage,
+                    message = postingSnackbarMessage,
                     duration = SnackbarDuration.Short
                 )
             }
@@ -67,8 +67,8 @@ fun MainRouter(
         showErrorSnackbar = { onRetry: () -> Unit ->
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
-                    message = actionMessage,
-                    actionLabel = actionLabel,
+                    message = postingErrorActionMessage,
+                    actionLabel = retryActionLabel,
                     duration = SnackbarDuration.Indefinite
                 )
 
@@ -212,6 +212,8 @@ fun MainRouter(
             routerState = component.routerState,
             animation = crossfadeScale()
         ) { child ->
+            val genericError = stringResource(MR.strings.all_genericError_title)
+
             MainRouterChild(
                 content = child.instance,
                 insets = insets,
@@ -221,7 +223,20 @@ fun MainRouter(
                 onStatusReplyClick = component::onStatusReplyClick,
                 onAccountClick = component::onAccountClick,
                 onComposerDismissed = component::onComposerDismissed,
-                onHashtagClick = component::onHashtagClick
+                onHashtagClick = component::onHashtagClick,
+                onLoadError = { _, onRetry ->
+                    scope.launch {
+                        val result = scaffoldState.snackbarHostState.showSnackbar(
+                            message = genericError,
+                            actionLabel = retryActionLabel,
+                            duration = SnackbarDuration.Short
+                        )
+
+                        if (result == SnackbarResult.ActionPerformed) {
+                            onRetry()
+                        }
+                    }
+                }
             )
         }
     }

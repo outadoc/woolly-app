@@ -28,7 +28,7 @@ fun ErrorScreen(
         Text(
             stringResource(MR.strings.all_genericError_title),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.h6
         )
 
         ExceptionErrorMessage(error)

@@ -32,6 +32,18 @@ fun MediaCard(
                 contentScale = ContentScale.FillWidth,
                 resource = lazyPainterResource(image),
                 contentDescription = stringResource(MR.strings.status_preview_cd),
+                onFailure = {
+                    val blurHash = card.blurHash
+                    if (blurHash != null) {
+                        BlurHashImage(
+                            modifier = Modifier.aspectRatio(aspectRatio),
+                            blurHash = blurHash,
+                            contentDescription = stringResource(MR.strings.status_preview_cd)
+                        )
+                    } else {
+                        Spacer(modifier = Modifier.aspectRatio(aspectRatio))
+                    }
+                },
                 onLoading = {
                     val blurHash = card.blurHash
                     if (blurHash != null) {

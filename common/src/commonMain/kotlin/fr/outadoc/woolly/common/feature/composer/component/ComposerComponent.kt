@@ -45,8 +45,12 @@ class ComposerComponent(
 
                 emit(currentState)
 
-                val status = repliedToId?.let { statusId ->
-                    client?.statuses?.getStatus(statusId)
+                val status = try {
+                    repliedToId?.let { statusId ->
+                        client?.statuses?.getStatus(statusId)
+                    }
+                } catch (t: Throwable) {
+                    null
                 }
 
                 currentState = currentState.copy(

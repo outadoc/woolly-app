@@ -1,19 +1,20 @@
 package fr.outadoc.woolly.common.feature.composer.component
 
 import com.arkivanov.decompose.ComponentContext
+import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.mastodonk.api.entity.request.StatusCreate
+import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.client.MastodonClientProvider
 import fr.outadoc.woolly.common.feature.composer.StatusPoster
 import fr.outadoc.woolly.common.getScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 
 class ComposerComponent(
     componentContext: ComponentContext,
     private val statusPoster: StatusPoster,
-    private val clientProvider: MastodonClientProvider
+    private val clientProvider: MastodonClientProvider,
+    private val accountRepository: AccountRepository
 ) : ComponentContext by componentContext {
 
     private val componentScope = getScope()
@@ -21,19 +22,53 @@ class ComposerComponent(
     data class State(
         val message: String = "",
         val inReplyToStatus: Status? = null,
-        val isLoading: Boolean = false
+        val currentAccount: Account? = null,
+        val isLoading: Boolean = false,
     )
 
-    private val _state = MutableStateFlow(State())
-    val state = _state.asStateFlow()
+    private val _repliedToIdFlow = MutableStateFlow<String?>(null)
+    private val _messageFlow = MutableStateFlow("")
+
+    val state = flow {
+        var currentState = State()
+
+        combine(
+            _repliedToIdFlow,
+            _messageFlow,
+            accountRepository.currentAccount,
+            clientProvider.mastodonClient
+        ) { repliedToId, message, currentAccount, client ->
+            currentState = currentState.copy(
+                currentAccount = currentAccount,
+                message = message,
+                isLoading = true
+            )
+
+            emit(currentState)
+
+            val status = repliedToId?.let { statusId -> client?.statuses?.getStatus(statusId) }
+
+            currentState = currentState.copy(
+                inReplyToStatus = status,
+                isLoading = false
+            )
+
+            emit(currentState)
+
+        }.collect()
+
+    }.stateIn(
+        componentScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = State()
+    )
 
     fun onMessageChange(message: String) {
-        _state.value = _state.value.copy(message = message)
+        _messageFlow.tryEmit(message)
     }
 
     fun onSubmit() {
-        val currentState = _state.value
-        _state.value = State()
+        val currentState = state.value
         statusPoster.enqueueStatus(
             StatusCreate(
                 status = currentState.message,
@@ -42,20 +77,7 @@ class ComposerComponent(
         )
     }
 
-    fun loadStatusRepliedTo(acct: String, statusId: String) {
-        componentScope.launch {
-            _state.value = _state.value.copy(
-                message = "@$acct ",
-                isLoading = true
-            )
-
-            val status = clientProvider.mastodonClient.value
-                ?.statuses?.getStatus(statusId)
-
-            _state.value = _state.value.copy(
-                inReplyToStatus = status,
-                isLoading = false
-            )
-        }
+    fun loadStatusRepliedTo(statusId: String) {
+        _repliedToIdFlow.tryEmit(statusId)
     }
 }

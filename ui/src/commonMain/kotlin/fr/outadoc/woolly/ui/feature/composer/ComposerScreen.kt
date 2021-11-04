@@ -4,10 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import fr.outadoc.woolly.common.feature.account.AccountRepository
 import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.composer.component.ComposerComponent
-import org.kodein.di.compose.instance
 
 @Composable
 fun ComposerScreen(
@@ -15,23 +13,19 @@ fun ComposerScreen(
     inReplyToStatusPayload: InReplyToStatusPayload?,
     onDismiss: () -> Unit = {}
 ) {
-    val accountRepository by instance<AccountRepository>()
-
-    val account by accountRepository.currentAccount.collectAsState()
-    val state by component.state.collectAsState()
-
     inReplyToStatusPayload?.let { payload ->
         LaunchedEffect(payload) {
             component.loadStatusRepliedTo(
-                acct = payload.acct,
                 statusId = payload.statusId
             )
         }
     }
 
+    val state by component.state.collectAsState()
+
     ComposerAndParentStatus(
         message = state.message,
-        account = account,
+        account = state.currentAccount,
         isLoadingParentStatus = state.isLoading,
         inReplyToStatus = state.inReplyToStatus,
         onMessageChange = { message ->

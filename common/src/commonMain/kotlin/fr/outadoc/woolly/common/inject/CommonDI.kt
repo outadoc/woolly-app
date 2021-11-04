@@ -116,7 +116,7 @@ val CommonDI = DI {
     }
 
     bindFactory { componentContext: ComponentContext ->
-        ComposerComponent(componentContext, instance(), instance())
+        ComposerComponent(componentContext, instance(), instance(), instance())
     }
 
     bindFactory { componentContext: ComponentContext ->

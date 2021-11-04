@@ -39,7 +39,8 @@ fun AccountPlaceholder(modifier: Modifier = Modifier) {
                 Text(
                     modifier = Modifier
                         .alignByBaseline()
-                        .fillMaxWidth(0.8f),
+                        .fillMaxWidth(0.8f)
+                        .placeholder(visible = true),
                     text = "Lorem Ipsum",
                     style = MaterialTheme.typography.subtitle1,
                     maxLines = 1,
@@ -48,6 +49,7 @@ fun AccountPlaceholder(modifier: Modifier = Modifier) {
             }
 
             Text(
+                modifier = Modifier.placeholder(visible = true),
                 text = "@loremipsum",
                 style = MaterialTheme.typography.subtitle2,
                 color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),

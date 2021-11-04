@@ -1,20 +1,24 @@
 package fr.outadoc.woolly.ui.feature.statusdetails
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.mastodonk.api.entity.Attachment
 import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsComponent
+import fr.outadoc.woolly.ui.common.itemPlaceholders
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
+import fr.outadoc.woolly.ui.feature.status.StatusPlaceholder
 
 @Composable
 fun StatusDetailsScreen(
@@ -39,6 +43,36 @@ fun StatusDetailsScreen(
             isRefreshing = state.isLoading
         )
     ) {
+        if (state !is StatusDetailsComponent.State.LoadedStatus && state.isLoading) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(insets)
+            ) {
+                item {
+                    Column {
+                        StatusDetailsPlaceholder(
+                            modifier = Modifier.padding(16.dp)
+                        )
+
+                        Divider(thickness = Dp.Hairline)
+                    }
+                }
+
+                itemPlaceholders {
+                    Column {
+                        StatusPlaceholder(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth()
+                        )
+
+                        Divider(thickness = Dp.Hairline)
+                    }
+                }
+            }
+        }
+
         when (val state = state) {
             is StatusDetailsComponent.State.Error -> {
                 ErrorScreen(

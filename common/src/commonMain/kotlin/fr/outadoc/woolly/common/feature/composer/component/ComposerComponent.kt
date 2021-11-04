@@ -38,19 +38,26 @@ class ComposerComponent(
             accountRepository.currentAccount,
             clientProvider.mastodonClient
         ) { repliedToId, message, currentAccount, client ->
+            if (currentState.inReplyToStatus?.statusId != repliedToId) {
+                currentState = currentState.copy(
+                    isLoading = true
+                )
+
+                emit(currentState)
+
+                val status = repliedToId?.let { statusId ->
+                    client?.statuses?.getStatus(statusId)
+                }
+
+                currentState = currentState.copy(
+                    inReplyToStatus = status,
+                    isLoading = false
+                )
+            }
+
             currentState = currentState.copy(
                 currentAccount = currentAccount,
-                message = message,
-                isLoading = true
-            )
-
-            emit(currentState)
-
-            val status = repliedToId?.let { statusId -> client?.statuses?.getStatus(statusId) }
-
-            currentState = currentState.copy(
-                inReplyToStatus = status,
-                isLoading = false
+                message = message
             )
 
             emit(currentState)

@@ -53,7 +53,7 @@ val CommonDI = DI {
     bindSingleton {
         PagingConfig(
             pageSize = 10,
-            enablePlaceholders = true,
+            enablePlaceholders = false,
             maxSize = 200
         )
     }

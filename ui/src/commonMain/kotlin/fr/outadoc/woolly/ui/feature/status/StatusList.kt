@@ -24,6 +24,7 @@ import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.errorStateForDisplay
 import fr.outadoc.woolly.ui.common.errorStateForNotification
+import fr.outadoc.woolly.ui.common.itemPlaceholders
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 import kotlinx.coroutines.flow.Flow
 
@@ -86,6 +87,18 @@ fun StatusList(
                     }
                 }
 
+                itemPlaceholders(items = lazyPagingItems) {
+                    Column {
+                        StatusPlaceholder(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth()
+                        )
+
+                        Divider(thickness = Dp.Hairline)
+                    }
+                }
+
                 items(
                     items = lazyPagingItems,
                     key = itemKey
@@ -102,8 +115,6 @@ fun StatusList(
                                 onStatusReplyClick = onStatusReplyClick,
                                 onAccountClick = onAccountClick
                             )
-                        } else {
-                            StatusPlaceholder()
                         }
 
                         Divider(thickness = Dp.Hairline)

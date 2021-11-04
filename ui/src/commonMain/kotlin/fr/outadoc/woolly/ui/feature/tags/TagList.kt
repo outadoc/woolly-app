@@ -21,6 +21,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Tag
 import fr.outadoc.woolly.ui.common.errorStateForDisplay
 import fr.outadoc.woolly.ui.common.errorStateForNotification
+import fr.outadoc.woolly.ui.common.itemPlaceholders
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 import kotlinx.coroutines.flow.Flow
 
@@ -65,6 +66,13 @@ fun TagList(
                 }
             }
 
+            itemPlaceholders(items = lazyPagingItems) {
+                Column {
+                    HashtagPlaceholder()
+                    Divider(thickness = Dp.Hairline)
+                }
+            }
+
             items(
                 items = lazyPagingItems,
                 key = itemKey
@@ -75,8 +83,6 @@ fun TagList(
                             tag = tag,
                             onClick = { onHashtagClick(tag.name) }
                         )
-                    } else {
-                        HashtagPlaceholder()
                     }
 
                     Divider(thickness = Dp.Hairline)

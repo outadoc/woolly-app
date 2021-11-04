@@ -22,7 +22,9 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.errorStateForDisplay
 import fr.outadoc.woolly.ui.common.errorStateForNotification
+import fr.outadoc.woolly.ui.common.itemPlaceholders
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
+import fr.outadoc.woolly.ui.feature.status.StatusPlaceholder
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -72,6 +74,18 @@ fun NotificationList(
                     }
                 }
 
+                itemPlaceholders(items = lazyPagingItems) {
+                    Column {
+                        StatusPlaceholder(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth()
+                        )
+
+                        Divider(thickness = Dp.Hairline)
+                    }
+                }
+
                 items(
                     items = lazyPagingItems,
                     key = { notification -> notification.notificationId }
@@ -85,8 +99,6 @@ fun NotificationList(
                                 onAttachmentClick = onAttachmentClick,
                                 onAccountClick = onAccountClick
                             )
-                        } else {
-                            NotificationPlaceHolder()
                         }
 
                         Divider(thickness = Dp.Hairline)

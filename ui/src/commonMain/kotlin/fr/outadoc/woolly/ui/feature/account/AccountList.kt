@@ -22,6 +22,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Account
 import fr.outadoc.woolly.ui.common.errorStateForDisplay
 import fr.outadoc.woolly.ui.common.errorStateForNotification
+import fr.outadoc.woolly.ui.common.itemPlaceholders
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 import kotlinx.coroutines.flow.Flow
 
@@ -66,6 +67,16 @@ fun AccountList(
                 }
             }
 
+            itemPlaceholders(items = lazyPagingItems) {
+                Column {
+                    AccountPlaceholder(
+                        modifier = Modifier.padding(16.dp)
+                    )
+
+                    Divider(thickness = Dp.Hairline)
+                }
+            }
+
             items(
                 items = lazyPagingItems,
                 key = itemKey
@@ -78,8 +89,6 @@ fun AccountList(
                                 .padding(16.dp),
                             account = account
                         )
-                    } else {
-                        AccountPlaceholder()
                     }
 
                     Divider(thickness = Dp.Hairline)

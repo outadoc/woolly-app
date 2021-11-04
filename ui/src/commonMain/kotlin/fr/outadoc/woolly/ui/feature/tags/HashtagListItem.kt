@@ -18,7 +18,7 @@ import fr.outadoc.woolly.ui.strings.stringResource
 fun HashtagListItem(
     modifier: Modifier = Modifier,
     tag: Tag,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     ListItem(
         modifier = modifier.clickable(onClick = onClick),

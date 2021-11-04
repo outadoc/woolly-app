@@ -34,7 +34,6 @@ actual fun ResponsiveScaffold(
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = @Composable { topBar(null) },
-                bottomBar = @Composable { bottomBar() },
                 drawerContent = wideDrawerContent,
                 drawerGesturesEnabled = drawerGesturesEnabled,
                 floatingActionButton = floatingActionButton,

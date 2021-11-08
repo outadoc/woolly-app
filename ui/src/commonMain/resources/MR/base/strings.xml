@@ -5,7 +5,7 @@
     <string name="accountDetails_followerCount_title">Followers</string>
     <string name="accountDetails_followingCount_title">Following</string>
     <string name="accountDetails_header_cd">Your profile header</string>
-    <string name="accountDetails_postCount_title">Posts</string>
+    <string name="accountDetails_postCount_title">Toots</string>
     <string name="accountDetails_title">Account Details</string>
     <string name="accountDetails_unfollow_action">Following</string>
 
@@ -17,8 +17,8 @@
     <string name="bookmarks_title">Bookmarks</string>
 
     <string name="contentWarning_cd">Content warning</string>
-    <string name="contentWarning_collapse_cd">Collapse post</string>
-    <string name="contentWarning_expand_cd">Expand post</string>
+    <string name="contentWarning_collapse_cd">Collapse toot</string>
+    <string name="contentWarning_expand_cd">Expand toot</string>
 
     <string name="favourites_title">Favourites</string>
 
@@ -33,14 +33,14 @@
 
     <string name="myAccount_title">My Profile</string>
 
-    <string name="navigation_composeStatus_action">Compose a new post</string>
+    <string name="navigation_composeStatus_action">Compose a new toot</string>
     <string name="navigation_logout_action">Log out</string>
     <string name="navigation_openDrawer_cd">Open drawer menu</string>
     <string name="notifications_all_title">All</string>
     <string name="notifications_boost_cd">New boost</string>
-    <string name="notifications_boost_title">%1$s boosted your post</string>
+    <string name="notifications_boost_title">%1$s boosted your toot</string>
     <string name="notifications_favourite_cd">New favourite</string>
-    <string name="notifications_favourite_title">%1$s favourited your post</string>
+    <string name="notifications_favourite_title">%1$s favourited your toot</string>
     <string name="notifications_followRequest_cd">New follow request</string>
     <string name="notifications_followRequest_title">%1$s would like to follow you</string>
     <string name="notifications_follow_cd">New follower</string>
@@ -50,8 +50,8 @@
     <string name="notifications_mentions_title">Mentions</string>
     <string name="notifications_poll_cd">Poll results are in</string>
     <string name="notifications_poll_title">A poll has ended</string>
-    <string name="notifications_status_cd">New post</string>
-    <string name="notifications_status_title">New post</string>
+    <string name="notifications_status_cd">New toot</string>
+    <string name="notifications_status_title">New toot</string>
     <string name="notifications_title">Notifications</string>
 
     <string name="onboardingCodeInput_genericError_message">Error while authenticating.</string>
@@ -89,7 +89,7 @@
     <string name="search_hashtags_title">Hashtags</string>
     <string name="search_input_clear_cd">Clear search</string>
     <string name="search_input_placeholder">Search for something…</string>
-    <string name="search_statuses_title">Posts</string>
+    <string name="search_statuses_title">Toots</string>
     <string name="search_title">Search</string>
 
     <string name="settings_currentTheme_title">Current theme</string>
@@ -100,15 +100,15 @@
     <string name="settings_title">App Settings</string>
 
     <string name="statusComposer_placeholder">What\'s on your mind?</string>
-    <string name="statusComposer_postingAs_message">Posting as</string>
+    <string name="statusComposer_postingAs_message">Send as</string>
     <string name="statusComposer_postingError_message">Error while posting</string>
-    <string name="statusComposer_posting_title">Posting…</string>
+    <string name="statusComposer_posting_title">Posting your toot…</string>
     <string name="statusComposer_replyingTo_cd">Replying to</string>
     <string name="statusComposer_replyingTo_message">In reply to %1$s</string>
-    <string name="statusComposer_submit_action">Send</string>
-    <string name="statusComposer_title">New Post</string>
+    <string name="statusComposer_submit_action">TOOT</string>
+    <string name="statusComposer_title">New Toot</string>
 
-    <string name="statusDetails_title">Post</string>
+    <string name="statusDetails_title">Toot</string>
 
     <string name="status_automated_cd">Automated account</string>
     <string name="status_automated_message">Automated</string>
@@ -126,8 +126,8 @@
     <string name="status_postedAgo_seconds">%1$d s</string>
     <string name="status_previewSource_title">Source: %1$s</string>
     <string name="status_preview_cd">Link preview</string>
-    <string name="status_reply_cd">Reply to this post</string>
-    <string name="status_share_cd">Share this post</string>
+    <string name="status_reply_cd">Reply to this toot</string>
+    <string name="status_share_cd">Share this toot</string>
     <string name="status_visibility_direct_cd">Direct</string>
     <string name="status_visibility_private_cd">Followers-only</string>
     <string name="status_visibility_public_cd">Public</string>

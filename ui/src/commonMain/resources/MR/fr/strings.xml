@@ -5,7 +5,7 @@
     <string name="accountDetails_followerCount_title">Abonné·e·s</string>
     <string name="accountDetails_followingCount_title">Abonnements</string>
     <string name="accountDetails_header_cd">Votre en-tête de profil</string>
-    <string name="accountDetails_postCount_title">Posts</string>
+    <string name="accountDetails_postCount_title">Pouets</string>
     <string name="accountDetails_title">Détails du compte</string>
     <string name="accountDetails_unfollow_action">Abonné·e</string>
 
@@ -17,8 +17,8 @@
     <string name="bookmarks_title">Marque-pages</string>
 
     <string name="contentWarning_cd">Avertissement sur le contenu</string>
-    <string name="contentWarning_collapse_cd">Replier le post</string>
-    <string name="contentWarning_expand_cd">Dévoiler le post</string>
+    <string name="contentWarning_collapse_cd">Replier le pouet</string>
+    <string name="contentWarning_expand_cd">Dévoiler le pouet</string>
 
     <string name="favourites_title">Favoris</string>
 
@@ -33,28 +33,29 @@
 
     <string name="myAccount_title">Mon profil</string>
 
-    <string name="navigation_composeStatus_action">Composer un nouveau post</string>
+    <string name="navigation_composeStatus_action">Composer un nouveau pouet</string>
     <string name="navigation_logout_action">Se déconnecter</string>
     <string name="navigation_openDrawer_cd">Ouvrir le menu latéral</string>
     <string name="notifications_all_title">Tout</string>
     <string name="notifications_boost_cd">Nouveau partage</string>
-    <string name="notifications_boost_title">%1$s a partagé votre post</string>
+    <string name="notifications_boost_title">%1$s a partagé votre pouet</string>
     <string name="notifications_favourite_cd">Nouveau favori</string>
-    <string name="notifications_favourite_title">%1$s a mis votre post en favori</string>
+    <string name="notifications_favourite_title">%1$s a mis votre pouet en favori</string>
     <string name="notifications_followRequest_cd">Nouvelle demande d\'abonnement</string>
-    <string name="notifications_followRequest_title">%1$s souhaite s\'abonner à vos posts</string>
+    <string name="notifications_followRequest_title">%1$s souhaite s\'abonner à vos pouets</string>
     <string name="notifications_follow_cd">Nouvel·le abonné·e</string>
-    <string name="notifications_follow_title">%1$s s\'est abonné·e à vos posts</string>
+    <string name="notifications_follow_title">%1$s s\'est abonné·e à vos pouets</string>
     <string name="notifications_mention_cd">Nouvelle mention</string>
     <string name="notifications_mention_title">Nouvelle mention</string>
     <string name="notifications_mentions_title">Mentions</string>
     <string name="notifications_poll_cd">Les résultats du sondage sont disponibles</string>
     <string name="notifications_poll_title">Fin du sondage</string>
-    <string name="notifications_status_cd">Nouveau post</string>
-    <string name="notifications_status_title">Nouveau post</string>
+    <string name="notifications_status_cd">Nouveau pouet</string>
+    <string name="notifications_status_title">Nouveau pouet</string>
     <string name="notifications_title">Notifications</string>
 
-    <string name="onboardingCodeInput_genericError_message">Erreur lors de l\'authentification.</string>
+    <string name="onboardingCodeInput_genericError_message">Erreur lors de l\'authentification.
+    </string>
     <string name="onboardingCodeInput_input_label">Code d\'autorisation</string>
     <string name="onboardingCodeInput_renewCode_action">Demander un code</string>
     <string name="onboardingCodeInput_submit_action">Envoyer</string>
@@ -89,7 +90,7 @@
     <string name="search_hashtags_title">Hashtags</string>
     <string name="search_input_clear_cd">Effacer la recherche</string>
     <string name="search_input_placeholder">Recherchez quelque chose…</string>
-    <string name="search_statuses_title">Posts</string>
+    <string name="search_statuses_title">Pouets</string>
     <string name="search_title">Recherche</string>
 
     <string name="settings_currentTheme_title">Thème actuel</string>
@@ -100,15 +101,15 @@
     <string name="settings_title">Réglages de l\'app</string>
 
     <string name="statusComposer_placeholder">Qu\'avez-vous en tête ?</string>
-    <string name="statusComposer_postingAs_message">Post en tant que</string>
+    <string name="statusComposer_postingAs_message">Envoi en tant que</string>
     <string name="statusComposer_postingError_message">Erreur lors de la publication</string>
-    <string name="statusComposer_posting_title">Publication…</string>
+    <string name="statusComposer_posting_title">Publication du pouet…</string>
     <string name="statusComposer_replyingTo_cd">En réponse à</string>
     <string name="statusComposer_replyingTo_message">En réponse à %1$s</string>
-    <string name="statusComposer_submit_action">Envoyer</string>
-    <string name="statusComposer_title">Nouveau post</string>
+    <string name="statusComposer_submit_action">POUET</string>
+    <string name="statusComposer_title">Nouveau pouet</string>
 
-    <string name="statusDetails_title">Post</string>
+    <string name="statusDetails_title">Pouet</string>
 
     <string name="status_automated_cd">Compte automatisé</string>
     <string name="status_automated_message">Automatisé</string>
@@ -126,8 +127,8 @@
     <string name="status_postedAgo_seconds">%1$d s</string>
     <string name="status_previewSource_title">Source : %1$s</string>
     <string name="status_preview_cd">Aperçu du lien</string>
-    <string name="status_reply_cd">Répondre à ce post</string>
-    <string name="status_share_cd">Partager ce post</string>
+    <string name="status_reply_cd">Répondre à ce pouet</string>
+    <string name="status_share_cd">Partager ce pouet</string>
     <string name="status_visibility_direct_cd">Direct</string>
     <string name="status_visibility_private_cd">Abonné·e·s uniquement</string>
     <string name="status_visibility_public_cd">Publique</string>

@@ -20,6 +20,8 @@ This project is a Mastodon client built with Jetpack Compose and Compose Desktop
 - [x] Account details
 - [x] Account timeline
 - [x] Hashtag timeline
+- [ ] Multi-account support
+- [ ] Offline cache
 - [ ] Direct messaging
 - [ ] Timeline streaming
 - [ ] Push notifications

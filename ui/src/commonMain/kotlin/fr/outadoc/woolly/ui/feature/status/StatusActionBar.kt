@@ -7,6 +7,7 @@ import androidx.compose.material.IconToggleButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import fr.outadoc.mastodonk.api.entity.Status
 import fr.outadoc.woolly.common.feature.status.StatusAction
 import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.WoollyTheme
+import fr.outadoc.woolly.ui.feature.share.ShareButton
 import fr.outadoc.woolly.ui.strings.stringResource
 
 @Composable
@@ -97,6 +99,19 @@ fun StatusActionBar(
                         } else {
                             stringResource(MR.strings.status_favourite_action)
                         }
+                    )
+                }
+            }
+
+            StatusActionColor {
+                ShareButton(
+                    modifier = Modifier.width(actionsWidth),
+                    shareUrl = status.url
+                ) {
+                    Icon(
+                        Icons.Default.Share,
+                        modifier = Modifier.size(iconSize),
+                        contentDescription = stringResource(MR.strings.status_share_cd)
                     )
                 }
             }

@@ -126,7 +126,8 @@
     <string name="status_postedAgo_seconds">%1$d s</string>
     <string name="status_previewSource_title">Source : %1$s</string>
     <string name="status_preview_cd">Aperçu du lien</string>
-    <string name="status_reply_cd">Répondre</string>
+    <string name="status_reply_cd">Répondre à ce post</string>
+    <string name="status_share_cd">Partager ce post</string>
     <string name="status_visibility_direct_cd">Direct</string>
     <string name="status_visibility_private_cd">Abonné·e·s uniquement</string>
     <string name="status_visibility_public_cd">Publique</string>

@@ -2,7 +2,10 @@ package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -25,24 +28,21 @@ fun StatusAction(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val color =
-            if (checked) checkedColor
-            else LocalContentColor.current.copy(alpha = ContentAlpha.medium)
+        StatusActionColor(checked = checked) {
+            CompositionLocalProvider(
+                LocalContentColor provides if (checked) checkedColor else LocalContentColor.current,
+            ) {
+                button()
 
-        CompositionLocalProvider(
-            LocalMinimumTouchTargetEnforcement provides false,
-            LocalContentColor provides color
-        ) {
-            button()
-
-            if (counter > 0) {
-                Text(
-                    modifier = Modifier.padding(start = 8.dp),
-                    text = counter.formatShort(),
-                    maxLines = 1,
-                    style = MaterialTheme.typography.caption,
-                    fontWeight = FontWeight.Bold
-                )
+                if (counter > 0) {
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = counter.formatShort(),
+                        maxLines = 1,
+                        style = MaterialTheme.typography.caption,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }

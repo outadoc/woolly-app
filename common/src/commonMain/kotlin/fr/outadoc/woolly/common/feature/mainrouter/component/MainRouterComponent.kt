@@ -15,8 +15,10 @@ import fr.outadoc.woolly.common.feature.composer.InReplyToStatusPayload
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen
 import fr.outadoc.woolly.common.feature.media.toAppImage
 import fr.outadoc.woolly.common.feature.navigation.ScrollableComponent
+import fr.outadoc.woolly.common.getScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import org.kodein.di.DirectDI
 import org.kodein.di.factory
 import org.kodein.di.instance
@@ -45,6 +47,8 @@ class MainRouterComponent(
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
+    private val componentScope = getScope()
+
     val shouldDisplayBackButton: Value<Boolean>
         get() = routerState.map { it.backStack.isNotEmpty() }
 
@@ -58,7 +62,9 @@ class MainRouterComponent(
                     image = attachment.toAppImage()
                 )
             )
-            else -> _events.tryEmit(Event.OpenUri(attachment.url))
+            else -> componentScope.launch {
+                _events.emit(Event.OpenUri(attachment.url))
+            }
         }
     }
 

@@ -63,11 +63,17 @@ compose.desktop {
 
             windows {
                 upgradeUuid = "22afac0d-e867-47ed-a874-875e56c58b9e"
+                menuGroup = "Woolly"
             }
 
             linux {
                 debMaintainer = "baptiste@candellier.me"
             }
+
+            modules(
+                // Include sun/misc/Unsafe in the generated package
+                "jdk.unsupported"
+            )
         }
     }
 }

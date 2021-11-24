@@ -29,6 +29,9 @@ kotlin {
                 api(compose.ui)
                 api(compose.materialIconsExtended)
 
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                api(compose.material3)
+
                 api(libs.kodein)
                 api(libs.ktor.serialization)
                 api(libs.kotlinx.coroutines)

@@ -4,8 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.DrawerState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.primarySurface
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +16,7 @@ import fr.outadoc.woolly.ui.common.WoollyDefaults
 fun TopAppBarWithMenu(
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit,
-    backgroundColor: Color = MaterialTheme.colors.primarySurface,
+    backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
     drawerState: DrawerState?,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     contentPadding: PaddingValues = PaddingValues()

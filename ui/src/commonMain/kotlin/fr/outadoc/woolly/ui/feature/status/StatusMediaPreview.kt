@@ -1,7 +1,6 @@
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
@@ -20,7 +19,7 @@ fun StatusMediaPreview(
     modifier: Modifier = Modifier,
     media: Attachment,
     isSensitive: Boolean,
-    shape: Shape = MaterialTheme.shapes.medium,
+    shape: Shape = androidx.compose.material.MaterialTheme.shapes.medium,
     onAttachmentClick: (Attachment) -> Unit = {}
 ) {
     val icon = when (media) {

@@ -2,7 +2,6 @@ package fr.outadoc.woolly.ui.feature.poll
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.Icon
@@ -40,7 +39,7 @@ fun PollResultsContent(
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(MaterialTheme.shapes.medium),
+                        .clip(androidx.compose.material.MaterialTheme.shapes.medium),
                     progress = ratio
                 )
 

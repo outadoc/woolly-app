@@ -1,7 +1,13 @@
 package fr.outadoc.woolly.ui.feature.card
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +28,7 @@ fun MediaCard(
     card: Card
 ) {
     val image = card.image ?: return
-    val aspectRatio = card.aspectRatio ?: 16 / 9f
+    val aspectRatio = card.aspectRatio ?: (16 / 9f)
 
     Card(modifier = modifier, onClick = onClick) {
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -66,14 +72,14 @@ fun MediaCard(
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = card.title,
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 if (card.description.isNotBlank()) {
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
                         text = card.description,
-                        style = MaterialTheme.typography.body2,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
                         maxLines = 3
                     )
@@ -83,7 +89,7 @@ fun MediaCard(
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
                         text = stringResource(MR.strings.status_previewSource_title, providerName),
-                        style = MaterialTheme.typography.body2,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
                     )
                 }

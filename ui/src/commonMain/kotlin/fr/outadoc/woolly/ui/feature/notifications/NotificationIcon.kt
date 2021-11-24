@@ -1,10 +1,10 @@
 package fr.outadoc.woolly.ui.feature.notifications
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.Notification
@@ -20,17 +20,17 @@ fun NotificationIcon(modifier: Modifier = Modifier, notification: Notification) 
             NotificationType.Follow -> Icon(
                 Icons.Default.PersonAdd,
                 contentDescription = stringResource(MR.strings.notifications_follow_cd),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
             NotificationType.FollowRequest -> Icon(
                 Icons.Default.PersonAdd,
                 contentDescription = stringResource(MR.strings.notifications_followRequest_cd),
-                tint = MaterialTheme.colors.secondary
+                tint = MaterialTheme.colorScheme.secondary
             )
             NotificationType.Mention -> Icon(
                 Icons.Default.Comment,
                 contentDescription = stringResource(MR.strings.notifications_mention_cd),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
             NotificationType.Boost -> Icon(
                 Icons.Default.Repeat,
@@ -45,12 +45,12 @@ fun NotificationIcon(modifier: Modifier = Modifier, notification: Notification) 
             NotificationType.Poll -> Icon(
                 Icons.Default.Poll,
                 contentDescription = stringResource(MR.strings.notifications_poll_cd),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
             NotificationType.Status -> Icon(
                 Icons.Default.Inbox,
                 contentDescription = stringResource(MR.strings.notifications_status_cd),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }

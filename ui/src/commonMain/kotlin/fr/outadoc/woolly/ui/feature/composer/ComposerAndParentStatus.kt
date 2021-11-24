@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -78,7 +78,7 @@ fun ComposerAndParentStatus(
                                 MR.strings.statusComposer_replyingTo_message,
                                 inReplyToStatus?.account?.displayNameOrAcct ?: ""
                             ),
-                            style = MaterialTheme.typography.subtitle2
+                            style = MaterialTheme.typography.titleSmall
                         )
                     }
                 }

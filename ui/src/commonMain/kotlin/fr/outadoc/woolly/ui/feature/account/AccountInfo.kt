@@ -2,7 +2,12 @@ package fr.outadoc.woolly.ui.feature.account
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,7 +59,7 @@ fun AccountInfo(
 
         RichText(
             text = account.displayNameOrAcct,
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.titleSmall,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             emojis = account.emojis
@@ -63,7 +68,7 @@ fun AccountInfo(
         if (account.displayName.isNotBlank()) {
             Text(
                 text = "@${account.acct}",
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.titleMedium,
                 color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -92,7 +97,7 @@ fun AccountInfo(
             RichText(
                 modifier = Modifier.padding(top = 16.dp),
                 text = account.bio,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyLarge,
                 emojis = account.emojis
             )
         }

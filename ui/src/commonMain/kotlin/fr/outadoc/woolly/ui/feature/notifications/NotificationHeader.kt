@@ -3,7 +3,7 @@ package fr.outadoc.woolly.ui.feature.notifications
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -58,7 +58,7 @@ fun NotificationHeader(
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 PastRelativeTime(
                     time = notification.createdAt,
-                    style = MaterialTheme.typography.subtitle2,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -97,7 +97,7 @@ fun NotificationHeader(
                 )
             },
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold
         )
     }

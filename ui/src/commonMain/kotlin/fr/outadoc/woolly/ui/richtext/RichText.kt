@@ -3,8 +3,8 @@ package fr.outadoc.woolly.ui.richtext
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -26,7 +26,7 @@ fun RichText(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = LocalTextStyle.current,
-    linkColor: Color = MaterialTheme.colors.secondary,
+    linkColor: Color = MaterialTheme.colorScheme.secondary,
     emojis: List<Emoji> = emptyList(),
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
@@ -51,7 +51,7 @@ private fun NodeText(
     modifier: Modifier = Modifier,
     textNodes: List<FlatNode>,
     style: TextStyle = LocalTextStyle.current,
-    linkColor: Color = MaterialTheme.colors.secondary,
+    linkColor: Color = MaterialTheme.colorScheme.secondary,
     uriHandler: UriHandler = LocalUriHandler.current,
     emojis: List<Emoji>,
     maxLines: Int = Int.MAX_VALUE,

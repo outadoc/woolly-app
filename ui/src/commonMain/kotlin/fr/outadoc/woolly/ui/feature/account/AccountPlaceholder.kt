@@ -2,8 +2,8 @@ package fr.outadoc.woolly.ui.feature.account
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,7 +42,7 @@ fun AccountPlaceholder(modifier: Modifier = Modifier) {
                         .fillMaxWidth(0.8f)
                         .placeholder(visible = true),
                     text = "Lorem Ipsum",
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -51,7 +51,7 @@ fun AccountPlaceholder(modifier: Modifier = Modifier) {
             Text(
                 modifier = Modifier.placeholder(visible = true),
                 text = "@loremipsum",
-                style = MaterialTheme.typography.subtitle2,
+                style = MaterialTheme.typography.titleSmall,
                 color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

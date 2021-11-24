@@ -1,7 +1,7 @@
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -51,14 +51,14 @@ fun StatusPlaceholder(modifier: Modifier = Modifier) {
                             .alignByBaseline()
                             .placeholder(visible = true),
                         text = "Lorem",
-                        style = MaterialTheme.typography.subtitle2
+                        style = MaterialTheme.typography.titleSmall
                     )
                 }
 
                 Text(
                     modifier = Modifier.placeholder(visible = true),
                     text = "@loremipsum",
-                    style = MaterialTheme.typography.subtitle2,
+                    style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

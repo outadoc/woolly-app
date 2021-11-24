@@ -3,7 +3,12 @@ package fr.outadoc.woolly.ui.feature.auth
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.TextButton
+import androidx.compose.material.TextField
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +54,7 @@ fun CodeInputScreen(
         Column(modifier = Modifier.fillMaxWidth(0.7f)) {
             Text(
                 stringResource(MR.strings.onboardingCodeInput_title),
-                style = MaterialTheme.typography.h4
+                style = MaterialTheme.typography.titleSmall
             )
 
             TextField(
@@ -81,8 +86,8 @@ fun CodeInputScreen(
                     text = error.message
                         ?: stringResource(MR.strings.onboardingCodeInput_genericError_message),
                     modifier = Modifier.padding(top = 16.dp),
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.error
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.error
                 )
             }
 

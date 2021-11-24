@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,16 +26,16 @@ fun DrawerListItem(
     Surface(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clip(MaterialTheme.shapes.small),
+            .clip(androidx.compose.material.MaterialTheme.shapes.small),
         color = if (selected) {
-            MaterialTheme.colors.primary.copy(alpha = 0.12f)
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
         } else {
             Color.Transparent
         },
         contentColor = if (selected) {
-            MaterialTheme.colors.primary
+            MaterialTheme.colorScheme.primary
         } else {
-            MaterialTheme.colors.onSurface
+            MaterialTheme.colorScheme.onSurface
         }
     ) {
         ListItem(

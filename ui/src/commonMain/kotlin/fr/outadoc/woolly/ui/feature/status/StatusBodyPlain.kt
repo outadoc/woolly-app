@@ -1,6 +1,6 @@
 package fr.outadoc.woolly.ui.feature.status
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -11,7 +11,7 @@ import fr.outadoc.woolly.ui.richtext.RichText
 fun StatusBodyPlain(
     modifier: Modifier = Modifier,
     status: Status,
-    style: TextStyle = MaterialTheme.typography.body2
+    style: TextStyle = MaterialTheme.typography.bodyMedium
 ) {
     RichText(
         modifier = modifier,

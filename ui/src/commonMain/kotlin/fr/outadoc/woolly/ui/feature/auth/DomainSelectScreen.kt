@@ -3,7 +3,11 @@ package fr.outadoc.woolly.ui.feature.auth
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.TextField
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,8 +19,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent
 import fr.outadoc.woolly.common.feature.auth.component.DomainSelectComponent.Event
-import fr.outadoc.woolly.ui.strings.stringResource
 import fr.outadoc.woolly.ui.MR
+import fr.outadoc.woolly.ui.strings.stringResource
 import kotlinx.coroutines.flow.collect
 
 @Composable
@@ -46,7 +50,7 @@ fun DomainSelectScreen(
         Column(modifier = Modifier.fillMaxWidth(0.7f)) {
             Text(
                 stringResource(MR.strings.onboardingDomain_title),
-                style = MaterialTheme.typography.h4
+                style = MaterialTheme.typography.titleSmall
             )
 
             TextField(
@@ -76,10 +80,11 @@ fun DomainSelectScreen(
                 null -> {
                 }
                 else -> Text(
-                    text = error.message ?: stringResource(MR.strings.onboardingDomain_genericError_message),
+                    text = error.message
+                        ?: stringResource(MR.strings.onboardingDomain_genericError_message),
                     modifier = Modifier.padding(top = 16.dp),
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.error
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.error
                 )
             }
 

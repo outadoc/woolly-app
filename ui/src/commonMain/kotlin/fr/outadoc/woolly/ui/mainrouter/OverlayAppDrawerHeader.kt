@@ -1,7 +1,11 @@
 package fr.outadoc.woolly.ui.mainrouter
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,7 +58,7 @@ fun OverlayAppDrawerHeader(
                 Column {
                     Text(
                         text = account.displayNameOrAcct,
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.titleMedium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -62,7 +66,7 @@ fun OverlayAppDrawerHeader(
                     if (account.displayName.isNotBlank()) {
                         Text(
                             text = "@${account.acct}",
-                            style = MaterialTheme.typography.subtitle2,
+                            style = MaterialTheme.typography.titleSmall,
                             color = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis

@@ -2,11 +2,11 @@ package fr.outadoc.woolly.ui.feature.tags
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.ListItem
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Tag
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.Tag

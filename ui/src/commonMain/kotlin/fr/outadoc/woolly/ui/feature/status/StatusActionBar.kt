@@ -1,14 +1,14 @@
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.IconToggleButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier

@@ -1,10 +1,10 @@
 package fr.outadoc.woolly.ui.feature.notifications
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.Notification

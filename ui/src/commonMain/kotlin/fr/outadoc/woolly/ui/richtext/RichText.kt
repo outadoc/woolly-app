@@ -3,8 +3,8 @@ package fr.outadoc.woolly.ui.richtext
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier

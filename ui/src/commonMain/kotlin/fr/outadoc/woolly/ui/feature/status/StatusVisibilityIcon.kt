@@ -1,11 +1,11 @@
 package fr.outadoc.woolly.ui.feature.status
 
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Public
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.mastodonk.api.entity.StatusVisibility

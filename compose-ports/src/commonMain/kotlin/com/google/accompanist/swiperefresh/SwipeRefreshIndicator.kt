@@ -28,7 +28,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -176,7 +176,7 @@ fun SwipeRefreshIndicator(
             },
         shape = shape,
         color = backgroundColor,
-        elevation = adjustedElevation
+        shadowElevation = adjustedElevation
     ) {
         val painter = remember { CircularProgressPainter() }
         painter.arcRadius = sizes.arcRadius

@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Divider
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -69,7 +69,7 @@ fun StatusList(
             ) {
                 header?.let { header ->
                     item("header") {
-                        Surface(elevation = 1.dp) {
+                        Surface(shadowElevation = 1.dp) {
                             header()
                         }
                     }

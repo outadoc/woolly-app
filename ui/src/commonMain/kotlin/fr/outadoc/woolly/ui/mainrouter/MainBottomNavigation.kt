@@ -3,7 +3,7 @@ package fr.outadoc.woolly.ui.mainrouter
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import fr.outadoc.woolly.common.feature.mainrouter.AppScreen

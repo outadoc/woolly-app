@@ -34,8 +34,8 @@ fun AuthRouter(
                 PaddedTopAppBar(
                     contentPadding = systemInsets.takeTop(),
                     title = { Text(stringResource(MR.strings.onboarding_title)) },
-                    navigationIcon = if (component.shouldDisplayBackButton.value) {
-                        @Composable {
+                    navigationIcon = {
+                        if (component.shouldDisplayBackButton.value) {
                             IconButton(onClick = component::onBackPressed) {
                                 Icon(
                                     Icons.Default.ArrowBack,
@@ -43,7 +43,7 @@ fun AuthRouter(
                                 )
                             }
                         }
-                    } else null
+                    }
                 )
             }
         }

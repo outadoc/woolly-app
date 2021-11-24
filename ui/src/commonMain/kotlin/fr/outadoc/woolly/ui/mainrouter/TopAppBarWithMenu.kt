@@ -32,8 +32,8 @@ fun TopAppBarWithMenu(
         title = title,
         backgroundColor = backgroundColor,
         elevation = elevation,
-        navigationIcon = drawerState?.let {
-            @Composable {
+        navigationIcon = {
+            drawerState?.let {
                 DrawerMenuButton(drawerState)
             }
         }

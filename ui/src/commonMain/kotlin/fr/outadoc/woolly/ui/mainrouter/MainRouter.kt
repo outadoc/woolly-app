@@ -120,21 +120,17 @@ fun MainRouter(
                                 title = {
                                     Text(text = screen.configuration.getTitle())
                                 },
-                                navigationIcon = when {
-                                    component.shouldDisplayBackButton.value -> {
-                                        @Composable {
+                                navigationIcon = {
+                                    when {
+                                        component.shouldDisplayBackButton.value ->
                                             IconButton(onClick = component::onBackPressed) {
                                                 Icon(
                                                     Icons.Default.ArrowBack,
                                                     contentDescription = stringResource(MR.strings.all_back_cd)
                                                 )
                                             }
-                                        }
+                                        drawerState != null -> DrawerMenuButton(drawerState)
                                     }
-                                    drawerState != null -> {
-                                        @Composable { DrawerMenuButton(drawerState) }
-                                    }
-                                    else -> null
                                 },
                                 actions = {
                                     if (currentScreen is MainContent.MyAccount) {

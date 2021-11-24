@@ -1,7 +1,5 @@
 package fr.outadoc.woolly.ui.common
 
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Composable
@@ -15,14 +13,14 @@ fun WoollyTheme(
     androidx.compose.material.MaterialTheme(
         colors = colorScheme.toMaterial2Colors(isDarkMode)
     ) {
-        MaterialTheme(
+        androidx.compose.material3.MaterialTheme(
             colorScheme = colorScheme,
             content = content
         )
     }
 }
 
-private fun ColorScheme.toMaterial2Colors(isDarkMode: Boolean) =
+private fun androidx.compose.material3.ColorScheme.toMaterial2Colors(isDarkMode: Boolean) =
     androidx.compose.material.Colors(
         isLight = !isDarkMode,
         primary = primary,

@@ -24,6 +24,9 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.ui)
 
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                api(compose.material3)
+
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.androidx.paging)
             }

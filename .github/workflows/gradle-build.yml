@@ -19,12 +19,20 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '16'
+        java-version: '17'
         distribution: 'temurin'
         cache: gradle
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    - name: Android Lint
+      run: ./gradlew app-android:lint
+
+    - uses: yutailang0119/action-android-lint@v1
+      with:
+        report-path: app-android/build/reports/*.xml
+        continue-on-error: false
 
     - name: Build Android app
       run: ./gradlew app-android:assembleRelease

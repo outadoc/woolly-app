@@ -32,8 +32,8 @@ jobs:
     - name: Parse Lint report
       uses: yutailang0119/action-android-lint@v1
       with:
-        report-path: app-android/build/reports/*.xml
-        continue-on-error: false
+        report-path: app-android/build/reports/lint-results*.xml
+      continue-on-error: false
 
     - name: Build Android app
       run: ./gradlew app-android:assembleRelease

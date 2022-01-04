@@ -1,4 +1,4 @@
-name: Build app
+name: Lint
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+  android-lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +23,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build Android app
-      run: ./gradlew app-android:assembleRelease
+    - name: Android Lint
+      run: ./gradlew app-android:lintRelease
 
-    - name: Build desktop app
-      run: ./gradlew app-desktop:package
+    - name: Parse Lint report
+      uses: yutailang0119/action-android-lint@v2
+      with:
+        report-path: app-android/build/reports/lint-results*.xml
+      continue-on-error: false

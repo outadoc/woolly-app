@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+  android-lint:
     runs-on: ubuntu-latest
 
     steps:

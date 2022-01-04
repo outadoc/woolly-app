@@ -27,7 +27,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Android Lint
-      run: ./gradlew app-android:lint
+      run: ./gradlew app-android:lintRelease
 
     - name: Parse Lint report
       uses: yutailang0119/action-android-lint@v2

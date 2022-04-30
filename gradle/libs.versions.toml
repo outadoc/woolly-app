@@ -3,6 +3,7 @@ datastore = "1.0.0-rc01"
 decompose = "0.4.0"
 mastodonk = "0.1-alpha38"
 ktor = "1.6.1"
+coroutines = "1.6.1"
 
 [libraries]
 appdirs = "net.harawata:appdirs:1.2.1"
@@ -25,7 +26,9 @@ jsoup = "org.jsoup:jsoup:1.13.1"
 kamel = "com.alialbaali.kamel:kamel-image:0.3.0"
 kodein = "org.kodein.di:kodein-di-framework-compose:7.6.0"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.2.1"
-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-engine-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }

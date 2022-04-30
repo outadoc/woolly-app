@@ -18,6 +18,7 @@ dependencies {
     implementation(libs.androidx.splashscreen)
     implementation(libs.decompose.core)
     implementation(libs.decompose.android)
+    implementation(libs.kotlinx.coroutines.android)
 }
 
 android {

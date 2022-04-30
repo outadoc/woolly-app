@@ -51,6 +51,7 @@ class CodeInputComponent(
                 )
                 null
             } catch (e: Throwable) {
+                e.printStackTrace()
                 e
             }
 

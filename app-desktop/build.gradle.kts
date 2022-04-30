@@ -25,6 +25,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.core)
+                implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.decompose.core)
                 implementation(libs.decompose.jb)
             }

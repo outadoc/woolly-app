@@ -2,12 +2,12 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    val kotlinVersion = "1.5.31"
+    val kotlinVersion = "1.6.10"
 
     kotlin("android") version kotlinVersion apply false
     kotlin("multiplatform") version kotlinVersion apply false
     kotlin("plugin.serialization") version kotlinVersion apply false
-    id("org.jetbrains.compose") version "1.0.0" apply false
+    id("org.jetbrains.compose") version "1.1.1" apply false
     id("dev.icerock.mobile.multiplatform-resources") version "0.17.2" apply false
 
     id("com.diffplug.spotless") version "5.14.0"
@@ -22,7 +22,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
+        classpath("com.android.tools.build:gradle:7.0.4")
     }
 }
 

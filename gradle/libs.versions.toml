@@ -1,7 +1,7 @@
 [versions]
 datastore = "1.0.0"
 decompose = "0.4.0"
-mastodonk = "0.2-alpha04"
+mastodonk = "0.2-alpha05"
 ktor = "2.3.2"
 coroutines = "1.7.2"
 paging = "3.2.0-rc01"
@@ -29,7 +29,7 @@ jsoup = "org.jsoup:jsoup:1.15.3"
 kamel = "com.alialbaali.kamel:kamel-image:0.3.0"
 kodein = "org.kodein.di:kodein-di-framework-compose:7.6.0"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
-kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

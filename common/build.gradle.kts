@@ -21,7 +21,7 @@ kotlin {
                 api(libs.ktor.contentNegociation)
                 api(libs.ktor.logging)
                 api(libs.ktor.serialization)
-                api(libs.kotlinx.coroutines)
+                api(libs.kotlinx.coroutines.core)
 
                 implementation(libs.androidx.paging.core)
                 implementation(libs.mastodonk.core)

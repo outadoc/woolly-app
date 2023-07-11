@@ -26,7 +26,7 @@ kotlin {
 
                 implementation(libs.androidx.annotation)
                 implementation(libs.androidx.paging.core)
-                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 

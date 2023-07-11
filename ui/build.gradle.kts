@@ -29,7 +29,7 @@ kotlin {
 
                 api(libs.kodein)
                 api(libs.ktor.serialization)
-                api(libs.kotlinx.coroutines)
+                api(libs.kotlinx.coroutines.core)
                 api(libs.mokoResources)
 
                 implementation(libs.androidx.paging.compose)

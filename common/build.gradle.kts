@@ -18,6 +18,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kodein)
+                api(libs.ktor.contentNegociation)
+                api(libs.ktor.logging)
                 api(libs.ktor.serialization)
                 api(libs.kotlinx.coroutines)
 

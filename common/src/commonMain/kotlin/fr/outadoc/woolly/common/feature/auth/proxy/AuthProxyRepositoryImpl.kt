@@ -1,10 +1,17 @@
 package fr.outadoc.woolly.common.feature.auth.proxy
 
 import fr.outadoc.mastodonk.api.entity.Token
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.forms.FormDataContent
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.URLBuilder
+import io.ktor.http.Url
+import io.ktor.http.encodeURLPath
+import io.ktor.http.encodedPath
+import io.ktor.http.parameters
+import io.ktor.http.parametersOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,31 +23,33 @@ class AuthProxyRepositoryImpl(private val httpClient: HttpClient) : AuthProxyRep
 
     override fun getAuthorizeUrl(domain: String): Url {
         val encodedDomain = domain.trim().encodeURLPath()
-        return Url(baseUrl).copy(
-            encodedPath = "oauth/$encodedDomain/authorize",
-            parameters = parametersOf(
-                "redirect_uri" to listOf(redirectUri),
-                "scope" to listOf(scope),
-            )
-        )
+        return URLBuilder(baseUrl).apply {
+            encodedPath = "oauth/$encodedDomain/authorize"
+            parameters {
+                append("redirect_uri", redirectUri)
+                append("scope", scope)
+            }
+        }.build()
     }
 
     override suspend fun getToken(domain: String, code: String): Token {
         val encodedDomain = domain.trim().encodeURLPath()
-        val url = Url(baseUrl).copy(
+        val url = URLBuilder(baseUrl).apply {
             encodedPath = "oauth/$encodedDomain/token"
-        )
+        }.build()
 
         return withContext(Dispatchers.IO) {
             httpClient.post(url) {
-                body = FormDataContent(
-                    formData = parametersOf(
-                        "redirect_uri" to listOf(redirectUri),
-                        "scope" to listOf(scope),
-                        "code" to listOf(code)
+                setBody(
+                    FormDataContent(
+                        formData = parametersOf(
+                            "redirect_uri" to listOf(redirectUri),
+                            "scope" to listOf(scope),
+                            "code" to listOf(code)
+                        )
                     )
                 )
-            }
+            }.body()
         }
     }
 }

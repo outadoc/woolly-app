@@ -23,6 +23,8 @@ dependencies {
 
 android {
     compileSdk = 31
+    namespace = "fr.outadoc.woolly.android"
+
     defaultConfig {
         applicationId = "fr.outadoc.woolly.android"
         minSdk = 24

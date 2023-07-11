@@ -51,6 +51,8 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     compileSdk = 31
+    namespace = "fr.outadoc.woolly.ports"
+
     defaultConfig {
         minSdk = 24
         targetSdk = 31

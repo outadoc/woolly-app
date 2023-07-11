@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -74,6 +72,8 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     compileSdk = 31
+    namespace = "fr.outadoc.woolly.ui"
+
     defaultConfig {
         minSdk = 24
         targetSdk = 31

@@ -32,7 +32,7 @@ kotlin {
                 api(libs.kotlinx.coroutines)
                 api(libs.mokoResources)
 
-                implementation(libs.androidx.paging)
+                implementation(libs.androidx.paging.compose)
                 implementation(libs.mastodonk.core)
                 implementation(libs.mastodonk.paging)
                 implementation(libs.kamel)

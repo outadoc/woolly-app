@@ -1,7 +1,14 @@
 package fr.outadoc.woolly.ui.feature.status
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Divider
@@ -14,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemKey
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Account
@@ -34,7 +41,7 @@ fun StatusList(
     insets: PaddingValues = PaddingValues(),
     statusFlow: Flow<PagingData<Status>>,
     lazyListState: LazyListState,
-    header: (@Composable () -> Unit)? = null,
+    header: @Composable() (() -> Unit)? = null,
     maxContentWidth: Dp = WoollyDefaults.MaxContentWidth,
     onStatusAction: (StatusAction) -> Unit = {},
     onStatusClick: (Status) -> Unit = {},
@@ -64,7 +71,7 @@ fun StatusList(
         ) {
             LazyColumn(
                 modifier = modifier.widthIn(max = maxContentWidth),
-                state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
+                state = lazyListState,
                 contentPadding = insets
             ) {
                 header?.let { header ->
@@ -100,9 +107,10 @@ fun StatusList(
                 }
 
                 items(
-                    items = lazyPagingItems,
-                    key = itemKey
-                ) { status ->
+                    count = lazyPagingItems.itemCount,
+                    key = lazyPagingItems.itemKey(itemKey)
+                ) { index ->
+                    val status = lazyPagingItems[index]
                     Column {
                         if (status != null) {
                             StatusOrBoost(

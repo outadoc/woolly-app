@@ -24,8 +24,9 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.ui)
 
+                implementation(libs.androidx.annotation)
+                implementation(libs.androidx.paging.core)
                 implementation(libs.kotlinx.coroutines)
-                implementation(libs.androidx.paging)
             }
         }
 

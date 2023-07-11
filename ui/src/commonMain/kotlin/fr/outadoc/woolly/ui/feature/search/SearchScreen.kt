@@ -44,8 +44,7 @@ fun SearchScreen(
                 onAttachmentClick = onAttachmentClick,
                 onStatusReplyClick = onStatusReplyClick,
                 onAccountClick = onAccountClick,
-                onLoadError = onLoadError,
-                itemKey = null
+                onLoadError = onLoadError
             )
 
             SearchSubScreen.Accounts -> AccountList(
@@ -53,8 +52,7 @@ fun SearchScreen(
                 accountFlow = component.accountsPagingItems,
                 lazyListState = component.accountsListState,
                 onAccountClick = onAccountClick,
-                onLoadError = onLoadError,
-                itemKey = null
+                onLoadError = onLoadError
             )
 
             SearchSubScreen.Hashtags -> TagList(

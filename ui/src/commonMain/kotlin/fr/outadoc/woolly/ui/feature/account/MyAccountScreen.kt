@@ -44,13 +44,6 @@ fun MyAccountScreen(
             modifier = Modifier.padding(insets),
             statusFlow = component.timelinePagingItems,
             lazyListState = component.listState,
-            onStatusClick = onStatusClick,
-            onAttachmentClick = onAttachmentClick,
-            onStatusAction = { action ->
-                component.onStatusAction(action)
-            },
-            onStatusReplyClick = onStatusReplyClick,
-            onAccountClick = onAccountClick,
             header = {
                 state.account?.let { account ->
                     AccountHeader(
@@ -59,6 +52,13 @@ fun MyAccountScreen(
                     )
                 }
             },
+            onStatusAction = { action ->
+                component.onStatusAction(action)
+            },
+            onStatusClick = onStatusClick,
+            onAttachmentClick = onAttachmentClick,
+            onStatusReplyClick = onStatusReplyClick,
+            onAccountClick = onAccountClick,
             onLoadError = onLoadError
         )
     }

@@ -4,6 +4,7 @@ decompose = "0.4.0"
 mastodonk = "0.2-alpha04"
 ktor = "2.3.2"
 coroutines = "1.7.2"
+paging = "3.2.0-rc01"
 
 [libraries]
 appdirs = "net.harawata:appdirs:1.2.1"
@@ -13,12 +14,14 @@ decompose-jb = { module = "com.arkivanov.decompose:extensions-compose-jetbrains"
 mastodonk-core = { module = "fr.outadoc.mastodonk:mastodonk-core", version.ref = "mastodonk" }
 mastodonk-paging = { module = "fr.outadoc.mastodonk:mastodonk-paging", version.ref = "mastodonk" }
 androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
+androidx-annotation = "androidx.annotation:annotation:1.6.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
 androidx-browser = "androidx.browser:browser:1.5.0"
 androidx-core = "androidx.core:core-ktx:1.10.1"
 androidx-datastore-android = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-datastore-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
-androidx-paging = "androidx.paging:paging-common:3.1.0-alpha02"
+androidx-paging-core = { module = "androidx.paging:paging-common", version.ref = "paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 androidx-preference = "androidx.preference:preference-ktx:1.2.0"
 androidx-splashscreen = "androidx.core:core-splashscreen:1.0.1"
 junit = "junit:junit:4.13.2"

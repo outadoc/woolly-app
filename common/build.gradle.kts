@@ -31,6 +31,7 @@ kotlin {
                 implementation(libs.decompose.core)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -46,6 +47,7 @@ kotlin {
                 implementation(libs.appdirs)
             }
         }
+
         val jvmTest by creating {
             dependsOn(commonTest)
             dependencies {
@@ -62,7 +64,8 @@ kotlin {
                 api(libs.androidx.preference)
             }
         }
-        val androidTest by getting {
+
+        val androidUnitTest by getting {
             dependsOn(jvmTest)
         }
 
@@ -72,6 +75,7 @@ kotlin {
                 implementation(libs.systemthemedetector)
             }
         }
+
         val desktopTest by getting {
             dependsOn(jvmTest)
         }

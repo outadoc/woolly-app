@@ -43,14 +43,15 @@ fun AccountDetailsScreen(
             isRefreshing = state.isLoading
         )
     ) {
-        when (val state = state) {
+        when (val currentState = state) {
             is State.Error -> {
                 ErrorScreen(
                     modifier = Modifier.fillMaxSize(),
-                    error = state.exception,
+                    error = currentState.exception,
                     onRetry = component::refresh
                 )
             }
+
             is State.LoadedAccount -> {
                 StatusList(
                     modifier = Modifier.padding(insets),
@@ -66,8 +67,8 @@ fun AccountDetailsScreen(
                     header = {
                         AccountHeader(
                             modifier = Modifier.padding(bottom = 8.dp),
-                            account = state.account,
-                            isFollowing = state.relationship.isFollowing,
+                            account = currentState.account,
+                            isFollowing = currentState.relationship.isFollowing,
                             onFollowClick = { follow ->
                                 component.onFollowClick(follow)
                             }
@@ -76,6 +77,8 @@ fun AccountDetailsScreen(
                     onLoadError = onLoadError
                 )
             }
+
+            is State.Initial -> {}
         }
     }
 }

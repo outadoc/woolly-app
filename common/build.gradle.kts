@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.serialization")
     id("com.android.library")
     id("kotlin-parcelize")
+    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -22,6 +23,8 @@ kotlin {
                 api(libs.ktor.logging)
                 api(libs.ktor.serialization)
                 api(libs.kotlinx.coroutines.core)
+
+                implementation(compose.foundation)
 
                 implementation(libs.androidx.paging.core)
                 implementation(libs.mastodonk.core)

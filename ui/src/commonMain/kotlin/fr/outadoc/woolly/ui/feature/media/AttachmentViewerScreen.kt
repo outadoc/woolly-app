@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.ui.feature.media
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +16,7 @@ import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.feature.error.ErrorScreen
 import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
+import io.kamel.image.asyncPainterResource
 
 @Composable
 fun ImageViewerScreen(
@@ -31,10 +32,10 @@ fun ImageViewerScreen(
     ) {
         KamelImage(
             modifier = Modifier.fillMaxSize(),
-            resource = lazyPainterResource(image.url),
+            resource = asyncPainterResource(image.url),
             contentDescription = image.contentDescription,
             contentScale = ContentScale.Fit,
-            crossfade = true,
+            animationSpec = tween(),
             onLoading = {
                 Column(
                     modifier = Modifier.fillMaxSize(),

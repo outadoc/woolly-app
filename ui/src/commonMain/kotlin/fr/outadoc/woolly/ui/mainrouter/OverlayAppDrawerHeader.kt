@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.ui.mainrouter
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -15,7 +16,7 @@ import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.feature.status.ProfilePicture
 import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
+import io.kamel.image.asyncPainterResource
 
 @Composable
 fun OverlayAppDrawerHeader(
@@ -27,9 +28,9 @@ fun OverlayAppDrawerHeader(
     Box(modifier = modifier) {
         KamelImage(
             modifier = Modifier.fillMaxSize(),
-            resource = lazyPainterResource(account.headerStaticUrl),
+            resource = asyncPainterResource(account.headerStaticUrl),
             contentDescription = stringResource(MR.strings.accountDetails_header_cd),
-            crossfade = true,
+            animationSpec = tween(),
             contentScale = ContentScale.Crop
         )
 

@@ -9,7 +9,6 @@ pluginManagement {
 
 rootProject.name = "woolly-app"
 
-enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include("app-android")

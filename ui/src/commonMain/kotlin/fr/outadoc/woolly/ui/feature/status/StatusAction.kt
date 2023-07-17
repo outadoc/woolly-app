@@ -37,7 +37,7 @@ fun StatusAction(
                 if (counter > 0) {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
-                        text = counter.formatShort(),
+                        text = counter.formatShort(forceEnglishLocale = false),
                         maxLines = 1,
                         style = MaterialTheme.typography.caption,
                         fontWeight = FontWeight.Bold

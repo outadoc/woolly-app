@@ -105,7 +105,7 @@ fun AccountInfo(
         ) {
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
-                number = account.statusesCount.formatShort(),
+                number = account.statusesCount.formatShort(forceEnglishLocale = false),
                 unit = stringResource(MR.strings.accountDetails_postCount_title)
             )
 
@@ -113,7 +113,7 @@ fun AccountInfo(
 
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
-                number = account.followingCount.formatShort(),
+                number = account.followingCount.formatShort(forceEnglishLocale = false),
                 unit = stringResource(MR.strings.accountDetails_followingCount_title)
             )
 
@@ -121,7 +121,7 @@ fun AccountInfo(
 
             AccountStat(
                 modifier = Modifier.alignByBaseline(),
-                number = account.followersCount.formatShort(),
+                number = account.followersCount.formatShort(forceEnglishLocale = false),
                 unit = stringResource(MR.strings.accountDetails_followerCount_title)
             )
         }

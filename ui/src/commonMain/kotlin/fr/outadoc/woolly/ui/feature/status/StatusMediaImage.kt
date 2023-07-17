@@ -1,11 +1,12 @@
 package fr.outadoc.woolly.ui.feature.status
 
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import fr.outadoc.woolly.ui.common.BlurHashImage
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
+import io.kamel.image.asyncPainterResource
 
 @Composable
 fun StatusMediaImage(
@@ -18,7 +19,7 @@ fun StatusMediaImage(
     if (!isSensitive) {
         KamelImage(
             modifier = modifier,
-            resource = lazyPainterResource(previewUrl),
+            resource = asyncPainterResource(previewUrl),
             onLoading = {
                 BlurHashImage(
                     modifier = modifier,
@@ -34,7 +35,7 @@ fun StatusMediaImage(
                 )
             },
             contentDescription = contentDescription,
-            crossfade = true,
+            animationSpec = tween(),
             contentScale = ContentScale.Crop
         )
     } else {

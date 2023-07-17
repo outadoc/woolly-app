@@ -1,6 +1,10 @@
 package fr.outadoc.woolly.ui.feature.statusdetails
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
@@ -73,20 +77,21 @@ fun StatusDetailsScreen(
             }
         }
 
-        when (val state = state) {
+        when (val currentState = state) {
             is StatusDetailsComponent.State.Error -> {
                 ErrorScreen(
                     modifier = Modifier.fillMaxSize(),
                     onRetry = component::refresh
                 )
             }
+
             is StatusDetailsComponent.State.LoadedStatus -> {
                 StatusWithContext(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(insets),
-                    status = state.status,
-                    context = state.context,
+                    status = currentState.status,
+                    context = currentState.context,
                     onStatusClick = onStatusClick,
                     onAttachmentClick = onAttachmentClick,
                     onStatusAction = { action ->
@@ -96,6 +101,8 @@ fun StatusDetailsScreen(
                     onAccountClick = onAccountClick
                 )
             }
+
+            is StatusDetailsComponent.State.Initial -> {}
         }
     }
 }

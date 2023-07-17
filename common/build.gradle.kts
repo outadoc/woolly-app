@@ -3,14 +3,23 @@ plugins {
     kotlin("plugin.serialization")
     id("com.android.library")
     id("kotlin-parcelize")
+    id("org.jetbrains.compose")
 }
 
 kotlin {
-    android()
+    android {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+    }
 
     jvm("desktop") {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions {
+                jvmTarget = "17"
+            }
         }
     }
 
@@ -18,10 +27,14 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kodein)
+                api(libs.ktor.contentNegociation)
+                api(libs.ktor.logging)
                 api(libs.ktor.serialization)
-                api(libs.kotlinx.coroutines)
+                api(libs.kotlinx.coroutines.core)
 
-                implementation(libs.androidx.paging)
+                implementation(compose.foundation)
+
+                implementation(libs.androidx.paging.core)
                 implementation(libs.mastodonk.core)
                 implementation(libs.mastodonk.paging)
                 implementation(libs.kamel)
@@ -31,6 +44,7 @@ kotlin {
                 implementation(libs.decompose.core)
             }
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -46,6 +60,7 @@ kotlin {
                 implementation(libs.appdirs)
             }
         }
+
         val jvmTest by creating {
             dependsOn(commonTest)
             dependencies {
@@ -62,7 +77,8 @@ kotlin {
                 api(libs.androidx.preference)
             }
         }
-        val androidTest by getting {
+
+        val androidUnitTest by getting {
             dependsOn(jvmTest)
         }
 
@@ -72,6 +88,7 @@ kotlin {
                 implementation(libs.systemthemedetector)
             }
         }
+
         val desktopTest by getting {
             dependsOn(jvmTest)
         }
@@ -81,17 +98,19 @@ kotlin {
 android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
-    compileSdk = 31
+    compileSdk = 33
+    namespace = "fr.outadoc.woolly.common"
+
     defaultConfig {
         minSdk = 24
-        targetSdk = 31
     }
 
     buildFeatures {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-rc01"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }

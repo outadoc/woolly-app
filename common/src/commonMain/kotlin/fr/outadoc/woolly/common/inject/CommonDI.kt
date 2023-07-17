@@ -32,9 +32,13 @@ import fr.outadoc.woolly.common.feature.statusdetails.component.StatusDetailsCom
 import fr.outadoc.woolly.common.feature.tags.component.HashtagTimelineComponent
 import fr.outadoc.woolly.common.feature.theme.ThemeProvider
 import fr.outadoc.woolly.common.feature.time.TimeRepository
-import io.ktor.client.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.serialization.kotlinx.json.json
 import org.kodein.di.DI
 import org.kodein.di.bindFactory
 import org.kodein.di.bindSingleton
@@ -44,8 +48,13 @@ val CommonDI = DI {
 
     bindSingleton {
         HttpClient {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer()
+            install(ContentNegotiation) {
+                json()
+            }
+
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.ALL
             }
         }
     }

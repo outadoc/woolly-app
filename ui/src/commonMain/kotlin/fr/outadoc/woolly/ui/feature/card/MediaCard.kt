@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.ui.feature.card
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,7 +13,7 @@ import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.common.BlurHashImage
 import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
+import io.kamel.image.asyncPainterResource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -28,9 +29,9 @@ fun MediaCard(
         Column(modifier = Modifier.fillMaxWidth()) {
             KamelImage(
                 modifier = Modifier.aspectRatio(aspectRatio),
-                crossfade = true,
+                animationSpec = tween(),
                 contentScale = ContentScale.FillWidth,
-                resource = lazyPainterResource(image),
+                resource = asyncPainterResource(image),
                 contentDescription = stringResource(MR.strings.status_preview_cd),
                 onFailure = {
                     val blurHash = card.blurHash

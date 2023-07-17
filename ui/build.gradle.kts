@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -9,11 +7,19 @@ plugins {
 }
 
 kotlin {
-    android()
+    android {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+    }
 
     jvm("desktop") {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions {
+                jvmTarget = "17"
+            }
         }
     }
 
@@ -31,10 +37,9 @@ kotlin {
 
                 api(libs.kodein)
                 api(libs.ktor.serialization)
-                api(libs.kotlinx.coroutines)
+                api(libs.kotlinx.coroutines.core)
                 api(libs.mokoResources)
 
-                implementation(libs.androidx.paging)
                 implementation(libs.mastodonk.core)
                 implementation(libs.mastodonk.paging)
                 implementation(libs.kamel)
@@ -73,10 +78,11 @@ kotlin {
 android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
-    compileSdk = 31
+    compileSdk = 33
+    namespace = "fr.outadoc.woolly.ui"
+
     defaultConfig {
         minSdk = 24
-        targetSdk = 31
     }
 
     buildFeatures {
@@ -84,17 +90,13 @@ android {
     }
 
     compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-rc01"
     }
 
     dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+        coreLibraryDesugaring(libs.desugar)
     }
 }
 

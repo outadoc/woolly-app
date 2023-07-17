@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemKey
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Tag
@@ -51,7 +51,7 @@ fun TagList(
     ) {
         LazyColumn(
             modifier = modifier.fillMaxSize(),
-            state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
+            state = lazyListState,
             contentPadding = insets
         ) {
             lazyPagingItems.errorStateForDisplay?.let { errorState ->
@@ -74,9 +74,10 @@ fun TagList(
             }
 
             items(
-                items = lazyPagingItems,
-                key = itemKey
-            ) { tag ->
+                count = lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey(itemKey)
+            ) { index ->
+                val tag = lazyPagingItems[index]
                 Column {
                     if (tag != null) {
                         HashtagListItem(

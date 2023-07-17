@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemKey
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import fr.outadoc.mastodonk.api.entity.Account
@@ -52,7 +52,7 @@ fun AccountList(
     ) {
         LazyColumn(
             modifier = modifier.fillMaxSize(),
-            state = if (lazyPagingItems.hasRestoredItems) lazyListState else LazyListState(),
+            state = lazyListState,
             contentPadding = insets
         ) {
             lazyPagingItems.errorStateForDisplay?.let { errorState ->
@@ -78,9 +78,10 @@ fun AccountList(
             }
 
             items(
-                items = lazyPagingItems,
-                key = itemKey
-            ) { account ->
+                count = lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey(itemKey),
+            ) { index ->
+                val account = lazyPagingItems[index]
                 Column {
                     if (account != null) {
                         Account(

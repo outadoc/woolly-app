@@ -1,4 +1,3 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -9,19 +8,21 @@ plugins {
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions {
+                jvmTarget = "17"
+            }
         }
     }
 
     sourceSets {
-        val commonMain by getting {
+        named("commonMain") {
             dependencies {
                 implementation(projects.common)
                 implementation(projects.ui)
             }
         }
 
-        val jvmMain by getting {
+        named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.core)
@@ -30,7 +31,8 @@ kotlin {
                 implementation(libs.decompose.jb)
             }
         }
-        val jvmTest by getting
+
+        named("jvmTest")
     }
 }
 
@@ -76,5 +78,12 @@ compose.desktop {
                 "jdk.unsupported"
             )
         }
+    }
+}
+
+// Exclude kotlinx-coroutines-android from the build
+configurations {
+    all {
+        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-android")
     }
 }

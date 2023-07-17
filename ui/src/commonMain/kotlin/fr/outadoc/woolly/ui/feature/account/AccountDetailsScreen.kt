@@ -43,39 +43,42 @@ fun AccountDetailsScreen(
             isRefreshing = state.isLoading
         )
     ) {
-        when (val state = state) {
+        when (val currentState = state) {
             is State.Error -> {
                 ErrorScreen(
                     modifier = Modifier.fillMaxSize(),
-                    error = state.exception,
+                    error = currentState.exception,
                     onRetry = component::refresh
                 )
             }
+
             is State.LoadedAccount -> {
                 StatusList(
                     modifier = Modifier.padding(insets),
                     statusFlow = component.timelinePagingItems,
                     lazyListState = component.listState,
-                    onStatusClick = onStatusClick,
-                    onAttachmentClick = onAttachmentClick,
-                    onStatusAction = { action ->
-                        component.onStatusAction(action)
-                    },
-                    onStatusReplyClick = onStatusReplyClick,
-                    onAccountClick = onAccountClick,
                     header = {
                         AccountHeader(
                             modifier = Modifier.padding(bottom = 8.dp),
-                            account = state.account,
-                            isFollowing = state.relationship.isFollowing,
+                            account = currentState.account,
+                            isFollowing = currentState.relationship.isFollowing,
                             onFollowClick = { follow ->
                                 component.onFollowClick(follow)
                             }
                         )
                     },
+                    onStatusAction = { action ->
+                        component.onStatusAction(action)
+                    },
+                    onStatusClick = onStatusClick,
+                    onAttachmentClick = onAttachmentClick,
+                    onStatusReplyClick = onStatusReplyClick,
+                    onAccountClick = onAccountClick,
                     onLoadError = onLoadError
                 )
             }
+
+            is State.Initial -> {}
         }
     }
 }

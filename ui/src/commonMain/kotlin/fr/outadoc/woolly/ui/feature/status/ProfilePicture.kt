@@ -1,5 +1,6 @@
 package fr.outadoc.woolly.ui.feature.status
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ExperimentalMaterialApi
@@ -21,7 +22,7 @@ import fr.outadoc.woolly.ui.common.WoollyDefaults
 import fr.outadoc.woolly.ui.common.WoollyTheme
 import fr.outadoc.woolly.ui.strings.stringResource
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
+import io.kamel.image.asyncPainterResource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -42,10 +43,10 @@ fun ProfilePicture(
             modifier = Modifier
                 .size(size)
                 .clickable { onClick() },
-            resource = lazyPainterResource(account.avatarStaticUrl),
+            resource = asyncPainterResource(account.avatarStaticUrl),
             contentDescription = contentDescription,
             contentScale = ContentScale.FillWidth,
-            crossfade = true,
+            animationSpec = tween(),
             onLoading = {
                 Icon(
                     modifier = Modifier

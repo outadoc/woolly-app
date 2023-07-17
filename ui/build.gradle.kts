@@ -40,7 +40,6 @@ kotlin {
                 api(libs.kotlinx.coroutines.core)
                 api(libs.mokoResources)
 
-                implementation(libs.androidx.paging.compose)
                 implementation(libs.mastodonk.core)
                 implementation(libs.mastodonk.paging)
                 implementation(libs.kamel)

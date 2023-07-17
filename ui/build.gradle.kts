@@ -97,7 +97,7 @@ android {
     }
 
     dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+        coreLibraryDesugaring(libs.desugar)
     }
 }
 

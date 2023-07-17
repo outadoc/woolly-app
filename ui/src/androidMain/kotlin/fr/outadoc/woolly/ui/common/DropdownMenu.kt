@@ -16,7 +16,7 @@ actual fun InternalDropdownMenu(
     offset: DpOffset,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    androidx.compose.material.DropdownMenu(
+    androidx.compose.material3.DropdownMenu(
         modifier = modifier,
         expanded = expanded,
         onDismissRequest = onDismissRequest,
@@ -28,18 +28,18 @@ actual fun InternalDropdownMenu(
 @Composable
 actual fun InternalDropdownMenuItem(
     modifier: Modifier,
+    text: @Composable () -> Unit,
     onClick: () -> Unit,
     enabled: Boolean,
     contentPadding: PaddingValues,
-    interactionSource: MutableInteractionSource,
-    content: @Composable (RowScope.() -> Unit)
+    interactionSource: MutableInteractionSource
 ) {
-    androidx.compose.material.DropdownMenuItem(
+    androidx.compose.material3.DropdownMenuItem(
         modifier = modifier,
         onClick = onClick,
         enabled = enabled,
         contentPadding = contentPadding,
         interactionSource = interactionSource,
-        content = content
+        text = text
     )
 }

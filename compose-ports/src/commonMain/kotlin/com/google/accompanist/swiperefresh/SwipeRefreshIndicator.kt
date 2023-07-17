@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.google.accompanist.swiperefresh
 
 import androidx.compose.animation.Crossfade
@@ -100,6 +102,13 @@ private val LargeSizes = SwipeRefreshIndicatorSizes(
  * @param largeIndication Whether the indicator should be 'large' or not. Defaults to false.
  * @param elevation The size of the shadow below the indicator.
  */
+@Deprecated(
+    """
+     accompanist/swiperefresh is deprecated.
+     The androidx.compose equivalent of SwipeRefreshIndicator() is PullRefreshIndicator().
+     For more migration information, please visit https://google.github.io/accompanist/swiperefresh/#migration
+    """
+)
 @Composable
 fun SwipeRefreshIndicator(
     state: SwipeRefreshState,
@@ -115,11 +124,6 @@ fun SwipeRefreshIndicator(
     largeIndication: Boolean = false,
     elevation: Dp = 6.dp,
 ) {
-    val adjustedElevation = when {
-        state.isRefreshing -> elevation
-        state.indicatorOffset > 0.5f -> elevation
-        else -> 0.dp
-    }
     val sizes = if (largeIndication) LargeSizes else DefaultSizes
 
     val indicatorRefreshTrigger = with(LocalDensity.current) { refreshTriggerDistance.toPx() }
@@ -135,14 +139,12 @@ fun SwipeRefreshIndicator(
 
     var offset by remember { mutableStateOf(0f) }
 
-    // If the user is currently swiping, we use the 'slingshot' offset directly
     if (state.isSwipeInProgress) {
+        // If the user is currently swiping, we use the 'slingshot' offset directly
         offset = slingshot.offset.toFloat()
-    }
-
-    LaunchedEffect(state.isSwipeInProgress, state.isRefreshing) {
+    } else {
         // If there's no swipe currently in progress, animate to the correct resting position
-        if (!state.isSwipeInProgress) {
+        LaunchedEffect(state.isRefreshing) {
             animate(
                 initialValue = offset,
                 targetValue = when {
@@ -153,6 +155,12 @@ fun SwipeRefreshIndicator(
                 offset = value
             }
         }
+    }
+
+    val adjustedElevation = when {
+        state.isRefreshing -> elevation
+        offset > 0.5f -> elevation
+        else -> 0.dp
     }
 
     Surface(

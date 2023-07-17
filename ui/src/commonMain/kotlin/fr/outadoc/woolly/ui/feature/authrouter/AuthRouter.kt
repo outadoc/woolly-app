@@ -2,12 +2,13 @@ package fr.outadoc.woolly.ui.feature.authrouter
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -22,7 +23,7 @@ import fr.outadoc.woolly.ui.feature.auth.CodeInputScreen
 import fr.outadoc.woolly.ui.feature.auth.DomainSelectScreen
 import fr.outadoc.woolly.ui.strings.stringResource
 
-@OptIn(ExperimentalDecomposeApi::class)
+@OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AuthRouter(
     component: AuthRouterComponent,
@@ -34,8 +35,8 @@ fun AuthRouter(
                 PaddedTopAppBar(
                     contentPadding = systemInsets.takeTop(),
                     title = { Text(stringResource(MR.strings.onboarding_title)) },
-                    navigationIcon = if (component.shouldDisplayBackButton.value) {
-                        @Composable {
+                    navigationIcon = {
+                        if (component.shouldDisplayBackButton.value) {
                             IconButton(onClick = component::onBackPressed) {
                                 Icon(
                                     Icons.Default.ArrowBack,
@@ -43,7 +44,7 @@ fun AuthRouter(
                                 )
                             }
                         }
-                    } else null
+                    }
                 )
             }
         }
@@ -60,6 +61,7 @@ fun AuthRouter(
                         onDomainSelected = component::onDomainSelected
                     )
                 }
+
                 is AuthContent.CodeInput -> {
                     CodeInputScreen(
                         modifier = Modifier.padding(insets),

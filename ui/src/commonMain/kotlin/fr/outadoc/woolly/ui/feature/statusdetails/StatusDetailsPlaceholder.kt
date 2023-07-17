@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material3.placeholder
 import fr.outadoc.woolly.ui.common.BulletSeparator
 import fr.outadoc.woolly.ui.feature.account.AccountPlaceholder
 

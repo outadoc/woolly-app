@@ -14,16 +14,36 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
 package com.google.accompanist.placeholder
 
-import androidx.compose.animation.core.*
-import androidx.compose.runtime.*
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.InfiniteRepeatableSpec
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Transition
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.toRect
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.node.Ref
@@ -33,6 +53,13 @@ import androidx.compose.ui.unit.LayoutDirection
 /**
  * Contains default values used by [Modifier.placeholder] and [PlaceholderHighlight].
  */
+@Deprecated(
+    """
+accompanist/placeholder is deprecated and the API is no longer maintained. 
+We recommend forking the implementation and customising it to your needs. 
+For more information please visit https://google.github.io/accompanist/placeholder
+"""
+)
 object PlaceholderDefaults {
     /**
      * The default [InfiniteRepeatableSpec] to use for [fade].
@@ -83,6 +110,13 @@ object PlaceholderDefaults {
  * @param contentFadeTransitionSpec The transition spec to use when fading the content
  * on/off screen. The boolean parameter defined for the transition is [visible].
  */
+@Deprecated(
+    """
+accompanist/placeholder is deprecated and the API is no longer maintained. 
+We recommend forking the implementation and customising it to your needs. 
+For more information please visit https://google.github.io/accompanist/placeholder
+"""
+)
 fun Modifier.placeholder(
     visible: Boolean,
     color: Color,
@@ -159,7 +193,7 @@ fun Modifier.placeholder(
                 // the alpha applied
                 paint.alpha = placeholderAlpha
                 withLayer(paint) {
-                    drawPlaceholder(
+                    lastOutline.value = drawPlaceholder(
                         shape = shape,
                         color = color,
                         highlight = highlight,
@@ -171,7 +205,7 @@ fun Modifier.placeholder(
                 }
             } else if (placeholderAlpha >= 0.99f) {
                 // If the placeholder alpha is > 99%, draw it with no alpha
-                drawPlaceholder(
+                lastOutline.value = drawPlaceholder(
                     shape = shape,
                     color = color,
                     highlight = highlight,

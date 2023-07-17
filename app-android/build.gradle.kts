@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.decompose.core)
     implementation(libs.decompose.android)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.material.components)
 }
 
 android {

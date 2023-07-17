@@ -8,7 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Tag
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material3.placeholder
 import fr.outadoc.woolly.ui.MR
 import fr.outadoc.woolly.ui.strings.stringResource
 

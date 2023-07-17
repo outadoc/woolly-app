@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 The Android Open Source Project
+ * Copyright 2022 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.google.accompanist.placeholder.material
+@file:Suppress("DEPRECATION")
+package com.google.accompanist.placeholder.material3
 
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.spring
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.contentColorFor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -36,14 +37,21 @@ import com.google.accompanist.placeholder.placeholder
  * Returns the value used as the the `color` parameter value on [Modifier.placeholder].
  *
  * @param backgroundColor The current background color of the layout. Defaults to
- * `MaterialTheme.colors.surface`.
+ * `MaterialTheme.colorScheme.surface`.
  * @param contentColor The content color to be used on top of [backgroundColor].
  * @param contentAlpha The alpha component to set on [contentColor] when compositing the color
  * on top of [backgroundColor]. Defaults to `0.1f`.
  */
+@Deprecated(
+    """
+accompanist/placeholder is deprecated and the API is no longer maintained. 
+We recommend forking the implementation and customising it to your needs. 
+For more information please visit https://google.github.io/accompanist/placeholder
+"""
+)
 @Composable
 fun PlaceholderDefaults.color(
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = contentColorFor(backgroundColor),
     contentAlpha: Float = 0.1f,
 ): Color = contentColor.copy(contentAlpha).compositeOver(backgroundColor)
@@ -53,12 +61,19 @@ fun PlaceholderDefaults.color(
  * [PlaceholderHighlight.Companion.fade].
  *
  * @param backgroundColor The current background color of the layout. Defaults to
- * `MaterialTheme.colors.surface`.
+ * `MaterialTheme.colorScheme.surface`.
  * @param alpha The alpha component to set on [backgroundColor]. Defaults to `0.3f`.
  */
+@Deprecated(
+    """
+accompanist/placeholder is deprecated and the API is no longer maintained. 
+We recommend forking the implementation and customising it to your needs. 
+For more information please visit https://google.github.io/accompanist/placeholder
+"""
+)
 @Composable
 fun PlaceholderDefaults.fadeHighlightColor(
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     alpha: Float = 0.3f,
 ): Color = backgroundColor.copy(alpha = alpha)
 
@@ -67,12 +82,19 @@ fun PlaceholderDefaults.fadeHighlightColor(
  * [PlaceholderHighlight.Companion.shimmer].
  *
  * @param backgroundColor The current background color of the layout. Defaults to
- * `MaterialTheme.colors.surface`.
+ * `MaterialTheme.colorScheme.inverseSurface`.
  * @param alpha The alpha component to set on [backgroundColor]. Defaults to `0.75f`.
  */
+@Deprecated(
+    """
+accompanist/placeholder is deprecated and the API is no longer maintained. 
+We recommend forking the implementation and customising it to your needs. 
+For more information please visit https://google.github.io/accompanist/placeholder
+"""
+)
 @Composable
 fun PlaceholderDefaults.shimmerHighlightColor(
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.inverseSurface,
     alpha: Float = 0.75f,
 ): Color {
     return backgroundColor.copy(alpha = alpha)
@@ -108,6 +130,13 @@ fun PlaceholderDefaults.shimmerHighlightColor(
  * @param contentFadeTransitionSpec The transition spec to use when fading the content
  * on/off screen. The boolean parameter defined for the transition is [visible].
  */
+@Deprecated(
+    """
+accompanist/placeholder is deprecated and the API is no longer maintained. 
+We recommend forking the implementation and customising it to your needs. 
+For more information please visit https://google.github.io/accompanist/placeholder
+"""
+)
 fun Modifier.placeholder(
     visible: Boolean,
     color: Color = Color.Unspecified,

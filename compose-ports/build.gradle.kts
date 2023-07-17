@@ -28,6 +28,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.runtime)
                 implementation(compose.material)
+                implementation(compose.material3)
                 implementation(compose.ui)
 
                 implementation(libs.androidx.annotation)

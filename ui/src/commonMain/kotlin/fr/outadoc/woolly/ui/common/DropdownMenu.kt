@@ -5,8 +5,7 @@ package fr.outadoc.woolly.ui.common
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.MenuDefaults
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -46,7 +45,7 @@ fun DropdownMenuItem(
     enabled: Boolean = true,
     contentPadding: PaddingValues = MenuDefaults.DropdownMenuItemContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable (RowScope.() -> Unit)
+    content: @Composable () -> Unit
 ) {
     InternalDropdownMenuItem(
         modifier = modifier,
@@ -54,16 +53,16 @@ fun DropdownMenuItem(
         enabled = enabled,
         contentPadding = contentPadding,
         interactionSource = interactionSource,
-        content = content
+        text = content
     )
 }
 
 @Composable
 expect fun InternalDropdownMenuItem(
     modifier: Modifier,
+    text: @Composable () -> Unit,
     onClick: () -> Unit,
     enabled: Boolean,
     contentPadding: PaddingValues,
     interactionSource: MutableInteractionSource,
-    content: @Composable (RowScope.() -> Unit)
 )

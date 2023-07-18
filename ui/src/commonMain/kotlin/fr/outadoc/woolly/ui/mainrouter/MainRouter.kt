@@ -10,7 +10,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -30,17 +34,17 @@ import fr.outadoc.woolly.ui.feature.publictimeline.PublicTimelineTopAppBar
 import fr.outadoc.woolly.ui.feature.search.SearchTopAppBar
 import fr.outadoc.woolly.ui.screen.getTitle
 import fr.outadoc.woolly.ui.strings.stringResource
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun MainRouter(
     component: MainRouterComponent,
-    systemInsets: PaddingValues = PaddingValues()
+    systemInsets: PaddingValues = PaddingValues(),
+    onToggleDrawer: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
-    val settingsSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+    val settingsSheetState =  rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
@@ -82,8 +86,7 @@ fun MainRouter(
     )
 
     ResponsiveScaffold(
-        scaffoldState = scaffoldState,
-        topBar = { drawerState ->
+        topBar = {
             Box(
                 modifier = Modifier.clickable(
                     interactionSource = remember { MutableInteractionSource() },
@@ -98,19 +101,18 @@ fun MainRouter(
                         is MainContent.PublicTimeline -> PublicTimelineTopAppBar(
                             contentPadding = systemInsets.takeTop(),
                             component = currentScreen.component,
-                            drawerState = drawerState
                         )
 
                         is MainContent.Notifications -> NotificationsTopAppBar(
                             contentPadding = systemInsets.takeTop(),
                             component = currentScreen.component,
-                            drawerState = drawerState
+                            onClickNavigationIcon = onToggleDrawer
                         )
 
                         is MainContent.Search -> SearchTopAppBar(
                             contentPadding = systemInsets.takeTop(),
                             component = currentScreen.component,
-                            drawerState = drawerState
+                            onClickNavigationIcon = onToggleDrawer
                         )
 
                         else -> {
@@ -119,9 +121,9 @@ fun MainRouter(
                                 title = {
                                     Text(text = screen.configuration.getTitle())
                                 },
-                                navigationIcon = when {
-                                    component.shouldDisplayBackButton.value -> {
-                                        @Composable {
+                                navigationIcon = {
+                                    when {
+                                        component.shouldDisplayBackButton.value -> {
                                             IconButton(onClick = component::onBackPressed) {
                                                 Icon(
                                                     Icons.Default.ArrowBack,
@@ -129,11 +131,13 @@ fun MainRouter(
                                                 )
                                             }
                                         }
+
+                                        else -> {
+                                            DrawerMenuButton(
+                                                onClick = onToggleDrawer,
+                                            )
+                                        }
                                     }
-                                    drawerState != null -> {
-                                        @Composable { DrawerMenuButton(drawerState) }
-                                    }
-                                    else -> null
                                 },
                                 actions = {
                                     if (currentScreen is MainContent.MyAccount) {
@@ -168,17 +172,17 @@ fun MainRouter(
                 )
             }
         },
-        narrowDrawerContent = { drawerState ->
+        narrowDrawerContent = {
             Children(routerState = component.routerState) { screen ->
                 MainOverlayDrawer(
                     currentScreen = screen.configuration,
                     onScreenSelected = { target ->
                         scope.launch {
+                            onToggleDrawer()
                             component.onScreenSelected(target)
                         }
                     },
                     contentPadding = systemInsets,
-                    drawerState = drawerState,
                     scope = scope
                 )
             }

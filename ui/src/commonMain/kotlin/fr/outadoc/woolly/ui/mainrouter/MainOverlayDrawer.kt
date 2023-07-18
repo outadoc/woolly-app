@@ -35,7 +35,6 @@ import org.kodein.di.compose.instance
 fun MainOverlayDrawer(
     currentScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit = {},
-    drawerState: DrawerState? = null,
     scope: CoroutineScope = rememberCoroutineScope(),
     contentPadding: PaddingValues = PaddingValues()
 ) {
@@ -96,7 +95,6 @@ fun MainOverlayDrawer(
                     targetScreen = AppScreen.HomeTimeline,
                     selected = currentScreen is AppScreen.HomeTimeline,
                     onScreenSelected = onScreenSelected,
-                    drawerState = drawerState,
                     scope = scope
                 )
 
@@ -104,7 +102,6 @@ fun MainOverlayDrawer(
                     targetScreen = AppScreen.PublicTimeline,
                     selected = currentScreen is AppScreen.PublicTimeline,
                     onScreenSelected = onScreenSelected,
-                    drawerState = drawerState,
                     scope = scope
                 )
 
@@ -112,7 +109,6 @@ fun MainOverlayDrawer(
                     targetScreen = AppScreen.Notifications,
                     selected = currentScreen is AppScreen.Notifications,
                     onScreenSelected = onScreenSelected,
-                    drawerState = drawerState,
                     scope = scope
                 )
 
@@ -120,7 +116,6 @@ fun MainOverlayDrawer(
                     targetScreen = AppScreen.Search,
                     selected = currentScreen is AppScreen.Search,
                     onScreenSelected = onScreenSelected,
-                    drawerState = drawerState,
                     scope = scope
                 )
 
@@ -128,7 +123,6 @@ fun MainOverlayDrawer(
                     targetScreen = AppScreen.Favourites,
                     selected = currentScreen is AppScreen.Favourites,
                     onScreenSelected = onScreenSelected,
-                    drawerState = drawerState,
                     scope = scope
                 )
 
@@ -136,7 +130,6 @@ fun MainOverlayDrawer(
                     targetScreen = AppScreen.Bookmarks,
                     selected = currentScreen is AppScreen.Bookmarks,
                     onScreenSelected = onScreenSelected,
-                    drawerState = drawerState,
                     scope = scope
                 )
 
@@ -144,7 +137,6 @@ fun MainOverlayDrawer(
                     targetScreen = AppScreen.MyAccount,
                     selected = currentScreen is AppScreen.MyAccount,
                     onScreenSelected = onScreenSelected,
-                    drawerState = drawerState,
                     scope = scope
                 )
             }
@@ -158,7 +150,6 @@ private fun ScreenItem(
     selected: Boolean,
     targetScreen: AppScreen,
     onScreenSelected: (AppScreen) -> Unit,
-    drawerState: DrawerState?
 ) {
     DrawerListItem(
         title = { Text(targetScreen.getTitle()) },
@@ -169,7 +160,6 @@ private fun ScreenItem(
             )
         },
         onClick = {
-            scope.launch { drawerState?.close() }
             onScreenSelected(targetScreen)
         },
         selected = selected

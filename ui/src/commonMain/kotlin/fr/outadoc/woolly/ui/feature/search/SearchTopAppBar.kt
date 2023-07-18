@@ -6,6 +6,19 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,8 +43,8 @@ import kotlinx.coroutines.launch
 fun SearchTopAppBar(
     modifier: Modifier = Modifier,
     component: SearchComponent,
-    drawerState: DrawerState?,
-    contentPadding: PaddingValues = PaddingValues()
+    contentPadding: PaddingValues = PaddingValues(),
+    onClickNavigationIcon: () -> Unit,
 ) {
     val state by component.state.collectAsState()
 
@@ -39,14 +52,13 @@ fun SearchTopAppBar(
     val scope = rememberCoroutineScope()
 
     Surface(
-        color = MaterialTheme.colors.primarySurface,
-        elevation = AppBarDefaults.TopAppBarElevation
+        color = MaterialTheme.colorScheme.surface,
     ) {
         Column {
             TopAppBarWithMenu(
                 modifier = modifier,
                 contentPadding = contentPadding,
-                backgroundColor = MaterialTheme.colors.primarySurface,
+                backgroundColor = MaterialTheme.colorScheme.surface,
                 title = {
                     ProvideTextStyle(value = textStyle) {
                         SearchTextField(
@@ -57,8 +69,7 @@ fun SearchTopAppBar(
                         )
                     }
                 },
-                drawerState = drawerState,
-                elevation = 0.dp
+                onClickNavigationIcon = onClickNavigationIcon
             )
 
             if (state.query.isNotEmpty()) {
@@ -101,6 +112,7 @@ fun SearchTabRow(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTextField(
     searchTerm: String,
@@ -146,9 +158,7 @@ fun SearchTextField(
         ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             cursorColor = LocalContentColor.current,
-            leadingIconColor = LocalContentColor.current,
             placeholderColor = LocalContentColor.current,
-            trailingIconColor = LocalContentColor.current,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent
         )
